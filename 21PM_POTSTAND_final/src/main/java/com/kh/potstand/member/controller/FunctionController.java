@@ -62,7 +62,12 @@ public class FunctionController {
 	//qna 내용 확인
 	@RequestMapping("/qna/qnaContent.do/{qnaNo}")
 	public ModelAndView qnaSelectOne(ModelAndView mv, @PathVariable int qnaNo){
-		mv.addObject("qna", service.qnaSelectOne(qnaNo));
+		Qna q = service.qnaSelectOne(qnaNo);
+		//Status N이면 답변없는데 가져온거니까 그냥 null 넣어줌
+		if(q.getQnaStatus().equals("N")) {
+			q.setAnswer(null);
+		}
+		mv.addObject("qna", q);
 		mv.setViewName("qna/qnaContent");
 		return mv;
 	}
@@ -72,7 +77,7 @@ public class FunctionController {
 	public ModelAndView qnaWrite(ModelAndView mv, HttpSession session){
 		Member m = (Member)session.getAttribute("loginMember");
 		if(m!=null) {
-			mv.setViewName("qna/qnaContent");
+			mv.setViewName("qna/qnaWrite");
 		}else {
 			mv.addObject("msg","로그인이 필요한 서비스입니다.");
 			mv.addObject("loc","/notice/noticeSelectList.do");
