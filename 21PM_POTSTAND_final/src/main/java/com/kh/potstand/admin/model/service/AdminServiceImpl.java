@@ -7,11 +7,11 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.dh.spring3.admin.model.dao.AdminDao;
-import com.dh.spring3.admin.model.vo.Faq;
-import com.dh.spring3.admin.model.vo.Member;
-import com.dh.spring3.admin.model.vo.Notice;
-import com.dh.spring3.admin.model.vo.Qna;
+import com.kh.potstand.admin.model.dao.AdminDao;
+import com.kh.potstand.admin.model.vo.Faq;
+import com.kh.potstand.admin.model.vo.Notice;
+import com.kh.potstand.admin.model.vo.Qna;
+import com.kh.potstand.member.model.vo.Member;
 
 @Service
 public class AdminServiceImpl implements AdminService {
