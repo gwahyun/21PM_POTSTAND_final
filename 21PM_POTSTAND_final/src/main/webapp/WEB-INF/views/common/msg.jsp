@@ -8,9 +8,8 @@
 </head>
 <body>
 	<script>
-		alert("${msg}");
-		location.assign("<%=request.getContextPath()%>${loc}");
+		alert('${msg}');
+		location.replace('${pageContext.request.contextPath}${loc}');
 	</script>
-
 </body>
 </html>
