@@ -1,8 +1,13 @@
 package com.kh.potstand.member.model.dao;
 
-import org.springframework.stereotype.Repository;
+import java.util.Map;
 
-@Repository
-public class MemberDao {
+import org.apache.ibatis.session.SqlSession;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import com.kh.potstand.member.model.vo.Member;
+
+public interface MemberDao {
+
+	Member selectMember(SqlSession session,@RequestParam Map param);
 }
