@@ -13,9 +13,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.potstand.admin.model.service.AdminService;
 import com.kh.potstand.admin.model.vo.Faq;
+import com.kh.potstand.admin.model.vo.Member;
 import com.kh.potstand.admin.model.vo.Notice;
 import com.kh.potstand.admin.model.vo.Qna;
-import com.kh.potstand.member.model.vo.Member;
 
 @Controller
 public class AdminController {

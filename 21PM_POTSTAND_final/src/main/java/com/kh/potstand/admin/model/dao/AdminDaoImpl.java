@@ -7,9 +7,9 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.kh.potstand.admin.model.vo.Faq;
+import com.kh.potstand.admin.model.vo.Member;
 import com.kh.potstand.admin.model.vo.Notice;
 import com.kh.potstand.admin.model.vo.Qna;
-import com.kh.potstand.member.model.vo.Member;
 
 @Repository
 public class AdminDaoImpl implements AdminDao {

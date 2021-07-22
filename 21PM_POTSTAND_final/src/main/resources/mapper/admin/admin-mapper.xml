@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="admin">
+ 
+ 	
+ 
+ 	<!-- 회원관리  -->
+ 	<select id="memberSelectCount" resultType="int">
+ 		select count(*) from member where member_sort = 'N'
+ 	</select>
+ 
+ 	<select id="memberSelect" resultMap="memberMap">
+ 		select * from member m
+		    join address a on m.member_id = a.member_id 
+		    where member_sort = 'N'
+ 	</select>
+ 	
+ 	<resultMap id="memberMap" type="com.kh.potstand.admin.model.vo.Member">
+ 		<id property="memberId" column="member_id"></id>
+ 		<result property="memberPwd" column="member_pwd"/>
+ 		<result property="memberName" column="member_name"/>
+ 		<result property="memberBirth" column="member_birth"/>
+ 		<result property="memberGender" column="member_gender"/>
+ 		<result property="memberEmail" column="member_email"/>
+ 		<result property="memberPhone" column="member_phone"/>
+ 		<result property="enrollDate" column="enroll_Date"/>
+ 		<result property="memberDate" column="member_date"/>
+ 		<result property="memberSort" column="member_sort"/>
+ 		<collection property="address" resultMap="addressMap"/>
+ 	</resultMap>
+ 	
+ 	<resultMap id="addressMap" type="com.kh.potstand.admin.model.vo.Address">
+ 		<id property="addrNo" column="addr_no"/>
+ 		<result property="memberId" column="member_id"/>
+ 		<result property="postNo" column="post_No"/>
+ 		<result property="roadAddr" column="road_Addr"/>
+ 		<result property="oldAddr" column="old_Addr"/>
+ 		<result property="detailAddr" column="detail_Addr"/>
+ 		<result property="defaultAddr" column="default_Addr"/>
+ 	</resultMap>
+ 	
+ 	<delete id="memberDelete">
+ 		delete from member where member_id = #{memberId}
+ 	</delete>
+ 	
+ 	<!-- 공지사항 -->
+ 	<select id="noticeSelect" resultMap="noticeMap">
+ 		select * from notice
+ 	</select>
+ 	
+ 	<resultMap id="noticeMap" type="com.kh.potstand.admin.model.vo.Notice">
+ 		<id property="noticeNo" column="notice_no"/>
+ 		<result property="memberId" column="member_id"/>
+ 		<result property="noticeContent" column="notice_content"/>
+ 		<result property="noticeDate" column="notice_date"/>
+ 		<result property="noticeTitle" column="notice_title"/>
+ 		<result property="noticeView" column="notice_view"/>
+ 	</resultMap>
+ 
+ 	<insert id="noticeInsert">
+ 		insert into notice values(SEQ_NOTICE.NEXTVAL,#{memberId},#{noticeContent},sysdate,#{noticeTitle},0)
+ 	</insert>
+ 	
+ 	<select id="noticeUpdate" resultMap="noticeMap">
+ 		select * from notice where notice_no = #{no}
+ 	</select>
+ 	
+ 	<update id="noticeUpdateEnd">
+ 		update notice set notice_title = #{noticeTitle} , notice_content = #{noticeContent} where notice_no = #{noticeNo}
+ 	</update>
+ 	
+ 	<delete id="noticeDelte">
+ 		delete from notice where notice_no = #{no}
+ 	</delete>
+ 	
+ 	<!-- FAQ -->
+ 	<select id="faqSelect" resultMap="faqMap">
+ 		select * from faq
+ 	</select>
+ 	
+ 	<resultMap id="faqMap" type="com.kh.potstand.admin.model.vo.Faq">
+ 		<id property="faqNo" column="faq_no"/>
+ 		<result property="faqTitle" column="faq_title"/>
+ 		<result property="faqContent" column="faq_content"/>
+ 	</resultMap>
+ 	
+ 	<insert id="faqInsert">
+ 		insert into faq values(seq_faq.nextval,#{faqTitle},#{faqContent})
+ 	</insert>
+ 	
+ 	<select id="faqUpdate" resultMap="faqMap">
+ 		select * from faq where faq_no = #{no}
+ 	</select>
+ 
+ 	<update id="faqUpdateEnd">
+ 		update faq set faq_title = #{faqTitle} , faq_content = #{faqContent} where faq_no = #{faqNo}
+ 	</update>
+ 	
+ 	<delete id="faqDelete">
+ 		delete from faq where faq_no = #{no}
+ 	</delete>
+ 	
+ 	<!-- QNA -->
+ 	
+ 	<select id="qnaSelectList" resultMap="qnaMap">
+ 		select * from qna 
+ 	</select>
+ 	
+ 	<resultMap id="qnaMap" type="com.kh.potstand.admin.model.vo.Qna">
+ 		<id column="qna_no" property="qnaNo"/>
+ 		<result column="member_id" property="memberId"/>
+ 		<result column="qna_sort" property="qnaSort"/>
+ 		<result column="qna_title" property="qnaTitle"/>
+ 		<result column="qna_content" property="qnaContent"/>
+ 		<result column="qna_date" property="qnaDate"/>
+ 		<result column="qna_status" property="qnaStatus"/>
+ 	</resultMap>
+ 	
+ 	<insert id="qnaInsert">
+ 		insert into qna values(seq_qna.nextval,#{memberId},#{qnaSort},#{qnaTitle},#{qnaContent},default,'N')
+ 	</insert>
+</mapper>
