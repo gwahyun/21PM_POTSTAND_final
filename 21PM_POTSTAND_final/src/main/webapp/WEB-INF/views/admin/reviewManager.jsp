@@ -54,39 +54,28 @@
                                     <th style="width: 4%;">상품정보</th>
                                     <th style="width: 4%;">삭제</th>
                                 </tr>
-                                </tr>
                             </thead>
                             <tbody>
-                            
+                           	<c:forEach items="${list }" var="r">
                                 <tr>
-                                    <td>121</td>
-                                    <td>10219</td>
-                                    <td style="text-align: left;">개쓰레기책</td>
+                                    <td>${r.reviewNo }</td>
+                                    <td>${r.bookCode }</td>
+                                    <td style="text-align: left;">${r.reviewContent }</td>
                                     <td>
                                         
-                                        user01
+                                        ${r.memberId }
                                     </td>
                                     <td>
-                                        <span style="display: none;">1</span>
-                                        
-                                        
-                                            <img src="/bookin/image/star_on.png">
-                                        
-                                        
-                                            <img src="/bookin/image/star_off.png">
-                                        
-                                            <img src="/bookin/image/star_off.png">
-                                        
-                                            <img src="/bookin/image/star_off.png">
-                                        
-                                            <img src="/bookin/image/star_off.png">
-                                        
+                                        		<!--  <span style="display: none;"> <img src="/bookin/image/star_off.png"></span> -->
+                                        	<c:forEach begin="1" end="${r.point }" varStatus="vs">
+															<img src="/bookin/image/star_off.png">    	
+                                        	</c:forEach>
                                     </td>
-                                    <td>2021-07-14</td>
+                                    <td>${r.reviewDate }</td>
                                     <td><a class="update-btn" href="/bookin/book/bookDetail.jsp?no=10219">상품정보 이동</a></td>
-                                    <td><a class="update-btn" href="/bookin/book/bookDetail.jsp?no=10219" style="background-color: #FF5A5A;;">삭제</a></td>
+                                    <td><button class="update-btn" onclick="reviewDelete(${r.reviewNo});" style="background-color: #FF5A5A;;">삭제</button></td>
                                 </tr>
-                            
+                            </c:forEach>
                                
                             
                             </tbody>
@@ -115,7 +104,13 @@
             
         </div>
 </section>
-		
+		<script>
+			function reviewDelete(no){
+				if(confirm('정말 삭제하시겠습니까?')){
+					location.assign('${path}/admin/reviewDelete?no='+no);
+				}
+			}
+		</script>
 </body>
 </html>
 

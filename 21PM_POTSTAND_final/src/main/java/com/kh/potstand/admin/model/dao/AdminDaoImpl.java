@@ -10,6 +10,7 @@ import com.kh.potstand.admin.model.vo.Faq;
 import com.kh.potstand.admin.model.vo.Member;
 import com.kh.potstand.admin.model.vo.Notice;
 import com.kh.potstand.admin.model.vo.Qna;
+import com.kh.potstand.admin.model.vo.Review;
 
 @Repository
 public class AdminDaoImpl implements AdminDao {
@@ -119,6 +120,18 @@ public class AdminDaoImpl implements AdminDao {
 	public int qnaDelete(SqlSessionTemplate session, int no) {
 		// TODO Auto-generated method stub
 		return session.delete("admin.qnaDelete", no);
+	}
+
+	@Override
+	public List<Review> reviewManager(SqlSessionTemplate session) {
+		// TODO Auto-generated method stub
+		return session.selectList("admin.reviewManager");
+	}
+
+	@Override
+	public int reviewDelete(SqlSessionTemplate session, int no) {
+		// TODO Auto-generated method stub
+		return session.delete("admin.reviewDelete", no);
 	}
 
 }

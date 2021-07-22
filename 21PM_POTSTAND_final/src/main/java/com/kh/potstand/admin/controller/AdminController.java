@@ -16,6 +16,7 @@ import com.kh.potstand.admin.model.vo.Faq;
 import com.kh.potstand.admin.model.vo.Member;
 import com.kh.potstand.admin.model.vo.Notice;
 import com.kh.potstand.admin.model.vo.Qna;
+import com.kh.potstand.admin.model.vo.Review;
 
 @Controller
 public class AdminController {
@@ -99,10 +100,21 @@ public class AdminController {
 	
 	@RequestMapping("/admin/reviewManager")
 	public ModelAndView reviewManager(ModelAndView mv) {
-		
+		List<Review> list = service.reviewManager();
+		mv.addObject("list", list);
 		mv.setViewName("admin/reviewManager");
 		return mv;
 	}
+	
+	@RequestMapping("/admin/reviewDelete")
+	public ModelAndView reviewDelete(ModelAndView mv,int no) {
+		int result = service.reviewDelete(no);
+		mv.addObject("msg", result>0?"삭제 되었습니다!":"삭제 실패하였습니다!");
+		mv.addObject("loc","/admin/reviewManager");
+		mv.setViewName("common/msg");
+		return mv;
+	}
+
 
 	@RequestMapping("/admin/noticeInsert")
 	public ModelAndView noticeInsert(ModelAndView mv) {

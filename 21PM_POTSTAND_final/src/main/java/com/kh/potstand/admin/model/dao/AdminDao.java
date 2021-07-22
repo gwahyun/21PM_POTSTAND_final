@@ -9,6 +9,7 @@ import com.kh.potstand.admin.model.vo.Faq;
 import com.kh.potstand.admin.model.vo.Member;
 import com.kh.potstand.admin.model.vo.Notice;
 import com.kh.potstand.admin.model.vo.Qna;
+import com.kh.potstand.admin.model.vo.Review;
 
 public interface AdminDao {
 
@@ -47,4 +48,8 @@ public interface AdminDao {
 	int qnaAnswer(SqlSessionTemplate session, Map param);
 
 	int qnaDelete(SqlSessionTemplate session, int no);
+
+	List<Review> reviewManager(SqlSessionTemplate session);
+
+	int reviewDelete(SqlSessionTemplate session, int no);
 }

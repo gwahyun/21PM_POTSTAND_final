@@ -12,6 +12,7 @@ import com.kh.potstand.admin.model.vo.Faq;
 import com.kh.potstand.admin.model.vo.Member;
 import com.kh.potstand.admin.model.vo.Notice;
 import com.kh.potstand.admin.model.vo.Qna;
+import com.kh.potstand.admin.model.vo.Review;
 
 @Service
 public class AdminServiceImpl implements AdminService {
@@ -123,6 +124,18 @@ public class AdminServiceImpl implements AdminService {
 	public int qnaDelete(int no) {
 		// TODO Auto-generated method stub
 		return dao.qnaDelete(session,no);
+	}
+
+	@Override
+	public List<Review> reviewManager() {
+		// TODO Auto-generated method stub
+		return dao.reviewManager(session);
+	}
+
+	@Override
+	public int reviewDelete(int no) {
+		// TODO Auto-generated method stub
+		return dao.reviewDelete(session,no);
 	}
 
 
