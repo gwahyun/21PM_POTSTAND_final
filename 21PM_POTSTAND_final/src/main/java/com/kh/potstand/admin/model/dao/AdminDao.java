@@ -1,8 +1,44 @@
 package com.kh.potstand.admin.model.dao;
 
-import org.springframework.stereotype.Repository;
+import java.util.List;
+import java.util.Map;
 
-@Repository
-public class AdminDao {
+import org.mybatis.spring.SqlSessionTemplate;
 
+import com.dh.spring3.admin.model.vo.Faq;
+import com.dh.spring3.admin.model.vo.Member;
+import com.dh.spring3.admin.model.vo.Notice;
+import com.dh.spring3.admin.model.vo.Qna;
+
+public interface AdminDao {
+
+	List<Member> memberSelect(SqlSessionTemplate session);
+
+	int memeberSelectCount(SqlSessionTemplate session);
+
+	int memberDelete(SqlSessionTemplate session, String memberId);
+
+	List<Notice> noticeSelect(SqlSessionTemplate session);
+
+	int noticeInsert(SqlSessionTemplate session, Map param);
+
+	Notice noticeUpdate(SqlSessionTemplate session, int no);
+
+	int noticeUpdateEnd(SqlSessionTemplate session, Map param);
+
+	int noticeDelete(SqlSessionTemplate session, int no);
+
+	List<Faq> faqSelect(SqlSessionTemplate session);
+
+	int faqInsert(SqlSessionTemplate session, Map param);
+
+	Faq faqUpdate(SqlSessionTemplate session, int no);
+
+	int faqUpdateEnd(SqlSessionTemplate session, Map param);
+
+	int faqDelete(SqlSessionTemplate session, int no);
+
+	List<Qna> qnaSelectList(SqlSessionTemplate session);
+
+	int qnaInsert(SqlSessionTemplate session, Map param);
 }
