@@ -8,6 +8,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 import com.kh.potstand.admin.model.vo.Notice;
+import com.kh.potstand.admin.model.vo.Qna;
 import com.kh.potstand.member.model.vo.Member;
 
 @Repository
@@ -26,15 +27,39 @@ public class MemberDaoImpl implements MemberDao{
 	@Override
 	public List<Notice> noticeSelectList(SqlSession session, int cPage, int numPerPage) {
 		RowBounds row = new RowBounds((cPage-1)*numPerPage, numPerPage);
-		return session.selectList("notice.noticeSelectList",null, row);
+		return session.selectList("function.noticeSelectList",null, row);
 	}
 
 
 	//notice Content 호출
 	@Override
 	public Notice noticeSelectOne(SqlSession session, int noticeNo) {
-		return session.selectOne("notice.noticeSelectOne",noticeNo);
+		return session.selectOne("function.noticeSelectOne",noticeNo);
 	}
+
+
+	//내 문의내역 호출
+	@Override
+	public List<Qna> qnaSelectList(SqlSession session, String memberId, int cPage, int numPerPage) {
+		RowBounds row = new RowBounds((cPage-1)*numPerPage, numPerPage);
+		return session.selectList("function.qnaSelectList",memberId, row);
+	}
+
+
+	//내 문의내역 내용 조회
+	@Override
+	public Qna qnaSelectOne(SqlSession session, int qnaNo) {
+		return session.selectOne("function.qnaSelectOne",qnaNo);
+	}
+
+
+	//1:1문의 작성
+	@Override
+	public int qnaInsert(SqlSession session, Qna q) {
+		return session.insert("function.qnaInsert", q);
+	}
+	
+	
 	
 	
 }

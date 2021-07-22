@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="notice">
+<mapper namespace="function">
 	<resultMap type="notice" id="noticeMap">
 		<id column="NOTICE_NO" property="noticeNo"/>
 		<result column="MEMBER_ID" property="memberId"/>
@@ -9,8 +9,31 @@
 		<result column="NOTICE_TITLE" property="noticeTitle"/>
 		<result column="NOTICE_VIEW" property="noticeView"/>		
 	</resultMap>
+	<resultMap type="qna" id="qnaMap">
+		<id column="QNA_NO" property="qnaNo"/>
+		<result column="MEMBER_ID" property="memberId"/>
+		<result column="QNA_CONTENT" property="qnaContent"/>
+		<result column="QNA_DATE" property="qnaDate"/>
+		<result column="QNA_TITLE" property="qnaTitle"/>
+		<result column="QNA_STATUS" property="qnaStatus"/>
+		<result column="QNA_SORT" property="qnaSort"/>		
+	</resultMap>
+	
+	
 	
 	<select id="noticeSelectList" resultMap="noticeMap">
 		SELECT * FROM NOTICE ORDER BY NOTICE_DATE DESC
 	</select>
+	<select id="noticeSelectOne" resultMap="noticeMap">
+		SELECT * FROM NOTICE WHERE NOTICE_NO=#{noticeNo}
+	</select>
+	<select id="qnaSelectList" resultMap="qnaMap">
+		SELECT * FROM QNA WHERE MEMBER_ID=#{memberId} ORDER BY QNA_DATE DESC
+	</select>
+	<select id="qnaSelectOne" resultMap="qnaMap">
+		SELECT * FROM QNA WHERE QNA_NO=#{qnaNo}
+	</select>
+	<insert id="qnaInsert">
+		 INSERT INTO QNA VALUES(SEQ_QNA.NEXTVAL, #{memberId}, #{qnaSort}, #{qnaTitle}, #{qnaContent}, DEFAULT, DEFAULT);
+	</insert>
 </mapper>
