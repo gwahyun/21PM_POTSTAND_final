@@ -7,7 +7,7 @@
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<title>회원가입</title>
+	<title>회원가입-PotStand</title>
 	<link href="${path}/resources/static/tailwind.css" type="text/css" rel="stylesheet"/>
 	<script src="<%=request.getContextPath()%>/resources/js/jquery-3.6.0.min.js"></script>
 	<script language="javascript">
@@ -101,7 +101,7 @@
                 <div class="content-center flex justify-between">
                 	<label class="text-sm font-bold text-gray-700 tracking-wide">주소</label>
                 	<div>   		
-                    	<input type="checkbox" id="baseAddress" name="defaultAddr" value="y" class="h-4 w-4 bg-indigo-500 
+                    	<input type="checkbox" id="baseAddress" name="defaultAddr" value="Y" class="h-4 w-4 bg-indigo-500 
                         focus:ring-indigo-400 border-gray-300 rounded"/> 기본배송지로 등록
                 	</div>
                 </div>
@@ -112,7 +112,7 @@
 						focus:border-indigo-500" type="text" id="zipNo" name="postNo" readonly required> <!-- 우편번호 -->
 						<input class="w-1/3 text-xs bg-red-500 text-gray-100 p-2 rounded-full tracking-wide font-semibold 
 						focus:outline-none focus:shadow-outline hover:bg-red-600 shadow-lg cursor-pointer transition 
-						ease-in duration-300" type="button"  value="주소검색" onclick="goPopup();" required>
+						ease-in duration-300" type="button"  value="주소검색" onclick="goPopup();" style="width: 48%;" required>
 					</div>
 					<div>
 				        <input class="w-full content-center text-base py-2 border-b border-gray-300 focus:outline-none 
@@ -199,6 +199,7 @@
     		fn_memberEnroll_checkPw($(e.target));
     		if($("#password").val()==$("#checkPw").val()){
 				pwResult=true;		
+				$("#checkPw").next().children().text("");
 			}else{
 				pwResult=false;
 				if($("#checkPw").val()!=''){

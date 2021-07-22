@@ -11,8 +11,12 @@ import com.kh.potstand.member.model.vo.Member;
 
 public interface MemberService {
 
-	Member selectMember(@RequestParam Map param);
+	//로그인
+	Member memberSelect(@RequestParam Map param);
 	
+	//회원가입
+	int insertMember(Member m) throws Exception;
+
 	//notice List 호출 (공지사항 페이지)
 	List<Notice> noticeSelectList(int cPage, int numPerPage);
 	
@@ -27,4 +31,5 @@ public interface MemberService {
 	
 	//1:1문의 작성
 	int qnaInsert(Qna q);
+
 }
