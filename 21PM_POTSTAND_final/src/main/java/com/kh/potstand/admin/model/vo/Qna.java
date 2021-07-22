@@ -1,8 +1,6 @@
 package com.kh.potstand.admin.model.vo;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -20,5 +18,6 @@ public class Qna {
 	private String qnaContent;
 	private Date qnaDate;
 	private String qnaStatus;
+	private Answer answer;
 
 }

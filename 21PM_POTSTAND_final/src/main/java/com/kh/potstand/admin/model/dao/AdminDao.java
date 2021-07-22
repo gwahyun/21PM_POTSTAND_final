@@ -41,4 +41,10 @@ public interface AdminDao {
 	List<Qna> qnaSelectList(SqlSessionTemplate session);
 
 	int qnaInsert(SqlSessionTemplate session, Map param);
+
+	Qna qnaSelectOne(SqlSessionTemplate session, int no);
+
+	int qnaAnswer(SqlSessionTemplate session, Map param);
+
+	int qnaDelete(SqlSessionTemplate session, int no);
 }

@@ -39,4 +39,11 @@ public interface AdminService {
 	List<Qna> qnaSelectList();
 
 	int qnaInsert(Map param);
+
+	Qna qnaSelectOne(int no);
+
+	int qnaAnswer(Map param);
+
+	int qnaDelete(int no);
+
 }

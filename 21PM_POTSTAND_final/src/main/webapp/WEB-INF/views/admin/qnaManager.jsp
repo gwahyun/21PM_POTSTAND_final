@@ -58,8 +58,15 @@
                                                                         
                                             </span>
                                         </td>
-                                        <td><a id="10" class="update-btn" onclick="">답변</a></td>
-                                        <td><a class="update-btn" style="background-color: #FF5A5A;" href="#">삭제</a></td>
+                                        <c:choose>
+                                        	<c:when test="${q.qnaStatus == 'N' }">
+		                                        <td><a class="update-btn" onclick="qnaManager(${q.qnaNo});" href="#">답변</a></td>
+                                        	</c:when>
+                                        	<c:otherwise>
+                                        		<td><a class="update-btn" style="background-color: blue">완료</a></td>
+                                        	</c:otherwise>
+                                        </c:choose>
+                                        <td><button class="update-btn" onclick="deleteCheck(${q.qnaNo});" style="background-color: #FF5A5A;">삭제</></button></td>
                                     </tr>
                                     </c:forEach>
                                     
@@ -79,6 +86,21 @@
                 </div>
             </div>
 </section>
+	<script>
+		function deleteCheck(no){
+			alert(no);
+			if(confirm('정말 삭제하시겠습니까?')){
+				location.assign('${path}/admin/qnaDelete?no='+no);				
+			}
+		}
+	
+		function qnaManager(no){
+			const status="width=600px,height=400px";
+        	const title="duplicateId";
+        	const url="${path}/admin/qnaReply?no="+no;
+        	open(url,title,status);
+		}
+	</script>
 		
 </body>
 </html>

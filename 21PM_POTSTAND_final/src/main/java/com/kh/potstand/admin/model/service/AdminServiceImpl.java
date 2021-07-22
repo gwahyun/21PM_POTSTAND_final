@@ -107,4 +107,23 @@ public class AdminServiceImpl implements AdminService {
 		return dao.qnaInsert(session,param);
 	}
 
+	@Override
+	public Qna qnaSelectOne(int no) {
+		// TODO Auto-generated method stub
+		return dao.qnaSelectOne(session,no);
+	}
+
+	@Override
+	public int qnaAnswer(Map param) {
+		// TODO Auto-generated method stub
+		return dao.qnaAnswer(session,param);
+	}
+
+	@Override
+	public int qnaDelete(int no) {
+		// TODO Auto-generated method stub
+		return dao.qnaDelete(session,no);
+	}
+
+
 }

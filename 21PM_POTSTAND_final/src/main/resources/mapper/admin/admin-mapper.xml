@@ -106,6 +106,10 @@
  		select * from qna 
  	</select>
  	
+ 	<select id="qnaSelectOne" resultMap="qnaMap">
+ 		select * from qna where qna_no = #{no}
+ 	</select>
+ 	
  	<resultMap id="qnaMap" type="com.kh.potstand.admin.model.vo.Qna">
  		<id column="qna_no" property="qnaNo"/>
  		<result column="member_id" property="memberId"/>
@@ -119,4 +123,18 @@
  	<insert id="qnaInsert">
  		insert into qna values(seq_qna.nextval,#{memberId},#{qnaSort},#{qnaTitle},#{qnaContent},default,'N')
  	</insert>
+ 	
+ 	<insert id="qnaAnswer">
+ 		insert into answer values(seq_answer.nextval,#{qnaNo},#{memberId},#{answerContent},default)
+ 	</insert>
+ 	
+ 	<update id="qnaStatusUpdate">
+ 		update qna
+ 			set qna_status = 'Y'
+ 				where qna_no = #{qnaNo}
+ 	</update>
+ 	
+ 	<delete id="qnaDelete">
+ 		delete from qna where qna_no = #{no}
+ 	</delete>
 </mapper>

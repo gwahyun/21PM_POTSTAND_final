@@ -59,6 +59,23 @@ public class AdminController {
 		return mv;
 	}
 	
+	@RequestMapping("/admin/qnaReply")
+	public ModelAndView qnaReply(ModelAndView mv,int no) {
+		Qna q = service.qnaSelectOne(no);
+		mv.addObject("q", q);
+		mv.setViewName("admin/qnaReply");
+		return mv;
+	}
+	
+	@RequestMapping("/admin/qnaAnswer")
+	public String qnaAnswer(ModelAndView mv,@RequestParam Map param,int qnaNo) {
+		param.put("memberId", "admin");
+		int result = service.qnaAnswer(param);
+		return result>0?"true":"false";
+	}
+	
+	
+	
 	@RequestMapping("/admin/qnaInsert")
 	public ModelAndView qnaInsert(ModelAndView mv,@RequestParam Map param,HttpSession session) {
 		/* Member m = (Member)session.getAttribute("loginMember");
@@ -71,6 +88,14 @@ public class AdminController {
 		return mv;
 	}
 	
+	@RequestMapping("/admin/qnaDelete")
+	public ModelAndView qnaDelete(ModelAndView mv,int no) {
+		int result = service.qnaDelete(no);
+		mv.addObject("msg", result>0?"삭제 되었습니다!":"삭제 실패하였습니다!");
+		mv.addObject("loc","/admin/qnaManager");
+		mv.setViewName("common/msg");
+		return mv;
+	}
 	
 	@RequestMapping("/admin/reviewManager")
 	public ModelAndView reviewManager(ModelAndView mv) {

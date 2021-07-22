@@ -102,4 +102,23 @@ public class AdminDaoImpl implements AdminDao {
 		return session.insert("admin.qnaInsert", param);
 	}
 
+	@Override
+	public Qna qnaSelectOne(SqlSessionTemplate session, int no) {
+		// TODO Auto-generated method stub
+		return session.selectOne("admin.qnaSelectOne", no);
+	}
+
+	@Override
+	public int qnaAnswer(SqlSessionTemplate session, Map param) {
+		// TODO Auto-generated method stub
+		int result = session.insert("admin.qnaAnswer", param);
+		return result>0?session.update("admin.qnaStatusUpdate", param):0;
+	}
+
+	@Override
+	public int qnaDelete(SqlSessionTemplate session, int no) {
+		// TODO Auto-generated method stub
+		return session.delete("admin.qnaDelete", no);
+	}
+
 }
