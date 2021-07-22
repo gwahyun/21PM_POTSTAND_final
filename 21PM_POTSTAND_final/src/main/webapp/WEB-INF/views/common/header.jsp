@@ -53,7 +53,7 @@
           		<c:if test="${loginMember!=null}">
           		 <div class="flex content-center">
           <div>
-            <span class="text-red-500 font-bold">김가현</span> 회원님 어서오세요
+            <span class="text-red-500 font-bold"><c:out value="${loginMember.memberName}"></c:out></span> 회원님 어서오세요
           </div>
           <div class="relative">
             <!-- Dropdown toggle button -->
