@@ -188,7 +188,7 @@
 	        <nav class="md:mr-auto flex flex-wrap items-center text-base">
 	          <a href="#" class="mr-5 hover:text-gray-900">HOME</a>
 	          <a href="#" class="mr-5 hover:text-gray-900">BOOK</a>
-	          <a href="#" class="mr-5 hover:text-gray-900">EVENT</a>
+	          <a href="${path }/event/eventList.do" class="mr-5 hover:text-gray-900">EVENT</a>
 	        </nav>
       	</div>
 	</header>
