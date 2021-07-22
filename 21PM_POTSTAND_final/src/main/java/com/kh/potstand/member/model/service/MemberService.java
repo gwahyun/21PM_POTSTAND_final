@@ -4,9 +4,12 @@ import java.util.Map;
 
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.kh.potstand.member.model.vo.Address;
 import com.kh.potstand.member.model.vo.Member;
 
 public interface MemberService {
 
-	Member selectMember(@RequestParam Map param);
+	Member memberSelect(@RequestParam Map param);
+	
+	int insertMember(Member m) throws Exception;
 }

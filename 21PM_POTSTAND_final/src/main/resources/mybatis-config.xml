@@ -3,5 +3,6 @@
 <configuration>
 	<typeAliases>
 		<typeAlias alias="member" type="com.kh.potstand.member.model.vo.Member"/>
+		<typeAlias alias="address" type="com.kh.potstand.member.model.vo.Address"/>
 	</typeAliases>
 </configuration>
