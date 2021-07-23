@@ -8,11 +8,19 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.kh.potstand.admin.model.vo.Notice;
 import com.kh.potstand.admin.model.vo.Qna;
+import com.kh.potstand.member.model.vo.Address;
 import com.kh.potstand.member.model.vo.Member;
 
 public interface MemberDao {
 
-	Member selectMember(SqlSession session,@RequestParam Map param);
+	//로그인
+	Member memberSelect(SqlSession session,@RequestParam Map param);
+	
+	//회원가입 -> 개인정보
+	int memberInsert(SqlSession session,Member m);
+	
+	//회원가입 -> 주소
+	int addressInsert(SqlSession session,Address a);
 
 	//notice List 호출 (공지사항 페이지)
 	List<Notice> noticeSelectList(SqlSession session, int cPage, int numPerPage);
@@ -28,4 +36,5 @@ public interface MemberDao {
 	
 	//1:1 문의 작성
 	int qnaInsert(SqlSession session, Qna q);
+
 }

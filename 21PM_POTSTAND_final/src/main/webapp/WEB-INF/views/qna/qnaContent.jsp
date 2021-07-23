@@ -34,7 +34,7 @@
 	        <c:when test="${empty qna.answer}">
 		        <div class="myqna-answer flex my-10">
 		            <div class="answer-name bg-green-100 border border-gray-300 border-solid w-2/12 ">
-		                관리자
+		                삭제예정
 		            </div>
 		            <div class="answer-content bg-green-100 border border-gray-300 border-solid w-8/12">
 		                안녕하세요 고객님 팟스탠드입니다.<br>

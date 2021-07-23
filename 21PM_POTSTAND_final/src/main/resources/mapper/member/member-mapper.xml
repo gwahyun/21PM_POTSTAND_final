@@ -11,10 +11,30 @@
 		<result column="member_email" property="memberEmail"/>
 		<result column="member_phone" property="memberPhone"/>
 		<result column="enroll_date" property="enrollDate"/>
-		<result column="member_sort" property="memberSort"/>		
+		<result column="member_sort" property="memberSort"/>	
+		<collection property="addresses" ofType="address">
+			<id column="addr_no" property="addrNo"/>
+			<result column="member_id" property="memberId"/>
+			<result column="post_no" property="postNo"/>
+			<result column="road_addr" property="roadAddr"/>
+			<result column="old_addr" property="oldAddr"/>
+			<result column="detail_addr" property="detailAddr"/>
+			<result column="default_addr" property="defaultAddr"/>
+		</collection>	
 	</resultMap>
 	
-	<select id="selectMember" resultMap="memberMap">
-		SELECT * FROM MEMBER WHERE MEMBER_ID=#{userId} AND MEMBER_PWD=#{password}
+	
+	<select id="memberSelect" resultMap="memberMap">
+		SELECT * FROM MEMBER WHERE MEMBER_ID=#{memberId}
 	</select>
+	
+	<insert id="memberInsert">
+		INSERT INTO MEMBER VALUES(#{memberId},#{memberPwd},#{memberName},#{memberBirth},#{memberGender},#{memberEmail}
+		,#{memberPhone},default,default)
+	</insert>
+	
+	<insert id="addressInsert">
+		INSERT INTO ADDRESS VALUES(SEQ_ADDRESS.NEXTVAL,#{memberId},#{postNo},#{roadAddr},#{oldAddr},#{detailAddr}
+		,#{defaultAddr})
+	</insert>
 </mapper>

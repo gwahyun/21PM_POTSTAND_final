@@ -1,6 +1,7 @@
 package com.kh.potstand.member.model.vo;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 import lombok.Data;
@@ -17,5 +18,5 @@ public class Member {
 	private String memberPhone;
 	private Date enrollDate;
 	private String memberSort;
-	private List<Address> address;
+	private List<Address> addresses=new ArrayList<Address>();
 }
