@@ -3,5 +3,8 @@
 <configuration>
 	<typeAliases>
 		<typeAlias alias="member" type="com.kh.potstand.member.model.vo.Member"/>
+		<typeAlias alias="address" type="com.kh.potstand.member.model.vo.Address"/>
+		<typeAlias alias="notice" type="com.kh.potstand.admin.model.vo.Notice"/>
+		<typeAlias alias="qna" type="com.kh.potstand.admin.model.vo.Qna"/>
 	</typeAliases>
 </configuration>

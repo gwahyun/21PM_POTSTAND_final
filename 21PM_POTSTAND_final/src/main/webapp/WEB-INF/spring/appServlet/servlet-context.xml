@@ -34,4 +34,8 @@
 		</beans:property>
 	</beans:bean>
 	
+	<!-- 양방향 암호화의 서비스 클래스 빈 등록 --> 
+	<beans:bean id="AES256Util" class="com.kh.potstand.common.AES256Util"/>
+
+	
 </beans:beans>
