@@ -1,56 +1,97 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link type="text/css" href="../css/qnaWrite.css" rel="stylesheet"/>
-</head>
-<body>
-    <header>
-        <div class="temp_header1">
-            <div><h1>Books</h1></div>
-            <div><input type="text"/></div>
-            <div><button>회원가입</button></div>
-            <div><button>로그인</button></div>
-        </div>
-        <div class="temp_header2">
-            <nav>
-                <ul>
-                    <li>이벤트</li>
-                    <li>좋아요</li>
-                    <li>장바구니</li>
-                    <li>주문배송</li>
-                </ul>
-            </nav>
-        </div>
-    </header>
+<%@page language="java" contentType="text/html; charset=UTF-8"  
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<c:set var="path" value="${pageContext.request.contextPath}"/>
+<script
+  src="https://code.jquery.com/jquery-3.6.0.min.js"
+  integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+  crossorigin="anonymous"></script>
+<jsp:include page="/WEB-INF/views/common/header.jsp"/>
+   <link
+      rel="stylesheet"
+      href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css"
+    />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.48.4/codemirror.css">
+<link rel="stylesheet" href="https://uicdn.toast.com/editor/2.0.0/toastui-editor.min.css">
     <!------------------------------------------------------------------------------------------------------------------------------------------------------------->
-    <section>
-        <div><h1>공지사항</h1></div>
-        <div class="nav-container">
-            <div id="notice-nav" class="nav">공지사항</div>
-            <div id="qna-nav" class="nav">1:1문의하기</div>
-            <div id="myqna-nav" class="nav">내 질문</div>
+<section class="mx-80">
+        <div><h1 class="text-4xl font-bold m-5 text-center">1:1문의하기</h1></div>
+        <div class="nav-container flex">
+            <div id="notice-nav" class="text-center bg-gray-400 border-0 py-1 px-3 focus:outline-none hover:bg-blue-400 
+	          		text-white rounded text-base mt-4 md:mt-0 cursor-pointer font-bold w-4/12"><a href="${path}/notice/noticeSelectList.do">공지사항</a></div>
+            <div id="qna-nav" class="text-center bg-blue-500 border-0 py-1 px-3 focus:outline-none hover:bg-blue-400 
+	          		text-white rounded text-base mt-4 md:mt-0 cursor-pointer font-bold w-4/12">1:1문의하기</div>
+            <div id="myqna-nav" class="text-center bg-gray-400 border-0 py-1 px-3 focus:outline-none hover:bg-blue-400 
+	          		text-white rounded text-base mt-4 md:mt-0 cursor-pointer font-bold w-4/12"><a href="${path}/qna/myQnaList.do">내 문의내역</a></div>
         </div>
         <div class="qna-container">
-            <div class="qna-title">
-                <span>제목</span><input type="textarea">
-            </div>
-            <div class="qna-content">
-                <span>내용</span><input type="textarea">
-            </div>
-            <div class="list-btn">
-                등록하기
-            </div>
-            <div class="list-btn">
-                목록으로
-            </div>
+        	<form id="qnaWriteEnd" method="post" action="${path}/qna/qnaWriteEnd.do" enctype="multipart/form-data">
+	            <div class="qna-title flex m-8">
+	            	<label class="text-2xl">분류</label>
+	            	<select name="qnaSort" class="mx-5 border-solid border border-gray-300 w-1/12">
+	                	<option value="상품문의">상품문의</option>
+	                	<option value="교환">교환</option>
+	                	<option value="반품">반품</option>
+	                </select>
+	                <label class="text-2xl mx-4">제목</label><input type="text" name="qnaTitle" 
+	                class="border-solid border border-gray-300 w-9/12" required>
+	            </div>
+	            <div class="qna-content  flex m-8">
+	                 <label class="text-2xl">내용</label><div id="editor" class="ml-5 border-solid border border-gray-300 w-11/12"></div>
+	                 <input type="hidden" name="qnaContent" id="qnaContent">
+	                 <input type="hidden" name="memberId" id="memberId" value="${loginMember.memberId}">
+	            </div>
+	            <div class="btn-area flex justify-center">
+	                <button type="button" class="inline-flex items-center bg-gray-300 border border-solid border-gray-400 py-3 px-5 m-3 focus:outline-none hover:bg-red-200 
+	          		hover:text-white rounded text-base mt-4 md:mt-0" onclick="qnaInsert();">
+	            		등록하기
+          			</button>
+	                <button type="button" class="inline-flex items-center bg-gray-300 border border-solid border-gray-400 py-3 px-5 m-3 focus:outline-none hover:bg-red-200 
+	          		hover:text-white rounded text-base mt-4 md:mt-0" 
+	          		onclick="location.assign('${pageContext.request.contextPath}/notice/noticeSelectList.do');">
+	            		돌아가기
+          			</button>
+	            </div>
+	        </form>
         </div>
         
     </section>
     <!------------------------------------------------------------------------------------------------------------------------------------------------------------->
-    <footer></footer>
+     <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
+     <script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
+    <script>
+      const editor = new toastui.Editor({
+        el: document.querySelector("#editor"),
+        previewStyle: "vertical",
+        initialEditType: "wysiwyg",
+        height: "500px",
+      });
+      
+      function ToView() {
+        viewer.setMarkdown(editor.getMarkdown());
+      }
+      
+      function exgetMarkdown() {
+        const text = editor.getMarkdown();
+        console.log(text);
+      }
+      
+      function ex() {
+        viewer.setMarkdown("# 안녕하세요");
+      }
+      
+      function qnaInsert(){
+    	  const text = editor.getMarkdown();
+    	  $("#qnaContent").attr("value",text);
+    	  console.log($("#qnaContent").attr("value"));
+    	  if(text!=""){
+    	  	$("#qnaWriteEnd").submit();
+    	  }else{
+    		  alert("내용을 입력해주세요");
+    		  focus(editor);
+    	  }
+      }
+    </script>
 </body>
 </html>
