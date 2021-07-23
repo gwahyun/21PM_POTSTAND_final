@@ -65,7 +65,8 @@
                     <div class="text-sm flex flex-col">
                         <a href="javascript:void(0)" id="searchId" class="font-medium text-red-500 
                         hover:text-red-500">아이디 찾기</a>
-                        <a href="#" class="font-medium text-red-500 hover:text-red-500">비밀번호 재설정</a>
+                        <a href="javascript:void(0)" id="searchPwd" class="font-medium text-red-500 
+                        hover:text-red-500">비밀번호 재설정</a>
                     </div>
                 </div>
                 <div>
@@ -85,23 +86,48 @@
                     transition ease-in duration-300">회원가입</a>
                 </p>
             </form>
-            <div class="modal__background fixed inset-0 hidden">
+            <div id="idmodal" class="modal__background fixed inset-0 hidden">
 				<div class="modal__box flex flex-col justify-center absolute bg-white items-center">
 					<form class="w-full flex flex-col justify-center items-center" action="${path }/member/memberSearchId.do" method="post">
 			            <div class="w-1/2 relative flex flex-col m-4">  
 			            	<label class="text-lg font-bold text-gray-700 tracking-wide">아이디 찾기</label>
 			            	<input class="w-full text-base py-2 border-b border-gray-300 focus:outline-none focus:border-indigo-500" 
-			            	type="text" name="memberEmail" placeholder="이메일주소" required/>
+			            	type="text" name="memberEmail" placeholder="이메일주소 입력" required/>
 			            </div>
 						<div class="w-1/2 relative flex flex-col">
 			                <button type="submit" class="w-full flex justify-center bg-red-500 text-gray-100 p-4 rounded-full 
 			                tracking-wide font-semibold focus:outline-none focus:shadow-outline hover:bg-red-600 shadow-lg 
 			                cursor-pointer transition ease-in duration-300 m-1">
-			                	아이디찾기
+			                	아이디 찾기
 			                </button>
 			                <button type="button" class="w-full flex justify-center bg-white text-gray-500 p-4 rounded-full 
 			                tracking-wide font-semibold focus:outline-none focus:shadow-outline hover:bg-red-600 shadow-lg 
-			                cursor-pointer transition ease-in duration-300 m-1" id="modalClose">
+			                cursor-pointer transition ease-in duration-300 m-1" id="idmodalClose">
+			                	나가기
+			            	</button>
+			        	</div>   
+			    	</form>
+				</div>
+			</div>
+			<div id="pwdmodal" class="modal__background fixed inset-0 hidden">
+				<div class="modal__box flex flex-col justify-center absolute bg-white items-center">
+					<form class="w-full flex flex-col justify-center items-center" action="${path }/member/memberResetPwd.do" method="post">
+			            <div class="w-1/2 relative flex flex-col m-4">  
+			            	<label class="text-lg font-bold text-gray-700 tracking-wide">비밀번호 재설정</label>
+			            	<input class="w-full text-base py-2 border-b border-gray-300 focus:outline-none focus:border-indigo-500" 
+			            	type="text" name="memberId" placeholder="아이디 입력" required/>
+			            	<input class="w-full text-base py-2 border-b border-gray-300 focus:outline-none focus:border-indigo-500" 
+			            	type="text" name="memberEmail" placeholder="이메일주소 입력" required/>
+			            </div>
+						<div class="w-1/2 relative flex flex-col">
+			                <button type="submit" class="w-full flex justify-center bg-red-500 text-gray-100 p-4 rounded-full 
+			                tracking-wide font-semibold focus:outline-none focus:shadow-outline hover:bg-red-600 shadow-lg 
+			                cursor-pointer transition ease-in duration-300 m-1">
+			                	비밀번호 재설정
+			                </button>
+			                <button type="button" class="w-full flex justify-center bg-white text-gray-500 p-4 rounded-full 
+			                tracking-wide font-semibold focus:outline-none focus:shadow-outline hover:bg-red-600 shadow-lg 
+			                cursor-pointer transition ease-in duration-300 m-1" id="pwdmodalClose">
 			                	나가기
 			            	</button>
 			        	</div>   
@@ -136,10 +162,17 @@
 	
 	//아이디찾기 모달창 이벤트
 	$("#searchId").click(e=>{
-			$(".modal__background").fadeIn();
+			$("#idmodal").fadeIn();
 	});
-	$("#modalClose").click(e=>{
-		$(".modal__background").fadeOut();
+	$("#idmodalClose").click(e=>{
+		$("#idmodal").fadeOut();
+	});
+	//비밀번호찾기 모달창 이벤트
+	$("#searchPwd").click(e=>{
+			$("#pwdmodal").fadeIn();
+	});
+	$("#pwdmodalClose").click(e=>{
+		$("#pwdmodal").fadeOut();
 	});
 	
 </script>

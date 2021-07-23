@@ -40,6 +40,12 @@ public class MemberDaoImpl implements MemberDao{
 		// TODO Auto-generated method stub
 		return session.selectOne("member.memberSearchIdSelect", memberEmail);
 	}
+	
+	//비밀번호재설정
+	@Override
+	public int memberResetPwd(SqlSession session, Member m) {
+		return session.update("member.memberResetPwd", m);
+	}
 
 	//notice List 호출 (공지사항 페이지)
 	@Override
@@ -76,6 +82,8 @@ public class MemberDaoImpl implements MemberDao{
 	public int qnaInsert(SqlSession session, Qna q) {
 		return session.insert("function.qnaInsert", q);
 	}
+
+	
 
 	
 

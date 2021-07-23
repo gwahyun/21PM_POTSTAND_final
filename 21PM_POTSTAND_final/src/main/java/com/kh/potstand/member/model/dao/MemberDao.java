@@ -24,7 +24,10 @@ public interface MemberDao {
 	
 	//아이디찾기
 	Member memberSearchIdSelect(SqlSession session,String memberEmail);
-
+	
+	//비밀번호 재설정
+	int memberResetPwd(SqlSession session, Member m);
+	
 	//notice List 호출 (공지사항 페이지)
 	List<Notice> noticeSelectList(SqlSession session, int cPage, int numPerPage);
 	
