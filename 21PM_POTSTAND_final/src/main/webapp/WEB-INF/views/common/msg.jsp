@@ -8,7 +8,6 @@
 </head>
 <body>
 	<script>
-		왜이래
 		alert('${msg}');
 		location.replace('${pageContext.request.contextPath}${loc}');
 	</script>

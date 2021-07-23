@@ -87,7 +87,7 @@
             </form>
             <div class="modal__background fixed inset-0 hidden">
 				<div class="modal__box flex flex-col justify-center absolute bg-white items-center">
-					<form class="w-1/2" action="${path }/member/memberSearchId.do" method="post">
+					<form class="w-full flex flex-col justify-center items-center" action="${path }/member/memberSearchId.do" method="post">
 			            <div class="w-1/2 relative flex flex-col m-4">  
 			            	<label class="text-lg font-bold text-gray-700 tracking-wide">아이디 찾기</label>
 			            	<input class="w-full text-base py-2 border-b border-gray-300 focus:outline-none focus:border-indigo-500" 
