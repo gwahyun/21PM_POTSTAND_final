@@ -1,5 +1,7 @@
 package com.kh.potstand.member.controller;
 
+import java.util.Map;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -92,7 +94,9 @@ public class FunctionController {
 
 	//1:1문의 작성
 	@RequestMapping("/qna/qnaWriteEnd.do")
-	public ModelAndView qnaInsert(Qna q, ModelAndView mv){
+	public ModelAndView qnaInsert(Qna q, Map param, ModelAndView mv){
+		log.debug(q.toString());
+		log.debug(param.toString());
 		int result=service.qnaInsert(q);
 		mv.addObject("msg",result>0?"1:1문의 접수 완료":"작성 실패");
 		mv.addObject("loc","/qna/myQnaList.do");

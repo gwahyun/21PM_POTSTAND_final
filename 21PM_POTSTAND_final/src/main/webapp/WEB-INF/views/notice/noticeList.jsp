@@ -9,7 +9,7 @@
   crossorigin="anonymous"></script>
 <jsp:include page="/WEB-INF/views/common/header.jsp"/>
     <!------------------------------------------------------------------------------------------------------------------------------------------------------------->
-    <section class="mx-80 items-center">
+    <section class="mx-80">
         <div><h1 class="text-4xl font-bold m-5 text-center">공지사항</h1></div>
         <div class="nav-container flex">
             <div id="notice-nav" class="text-center bg-blue-500 border-0 py-1 px-3 focus:outline-none hover:bg-blue-400 
@@ -34,8 +34,8 @@
                     조회수
                 </div>
             </div>
-            <c:forEach var="n" items="${noticeList}">
-	            <div class="notice-list-body">
+            <div class="notice-list-body">
+            	<c:forEach var="n" items="${noticeList}">
 	                <div class="notice-obj flex">
 	                    <div class="notice-no border-solid border-gray-400 border w-1/12 text-center">
 	                    	<c:out value="${n.noticeNo}"/>
@@ -55,7 +55,7 @@
         </div>
         
         
-    	<div class="pageBar w-full flex item-center my-5">${pageBar}</div>
+    	<div class="pageBar flex my-5">${pageBar}</div>
 	    
     </section>
     <jsp:include page="/WEB-INF/views/common/footer.jsp"/>

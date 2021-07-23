@@ -48,9 +48,7 @@
 		SELECT COUNT(*) FROM QNA WHERE MEMBER_ID=#{memberId}
 	</select>
 	
-	
-	
 	<insert id="qnaInsert">
-		 INSERT INTO QNA VALUES(SEQ_QNA.NEXTVAL, #{memberId}, #{qnaSort}, #{qnaTitle}, #{qnaContent}, DEFAULT, DEFAULT);
+		 INSERT INTO QNA VALUES(SEQ_QNA.NEXTVAL, #{memberId}, #{qnaSort}, #{qnaTitle}, #{qnaContent}, DEFAULT, DEFAULT)
 	</insert>
 </mapper>

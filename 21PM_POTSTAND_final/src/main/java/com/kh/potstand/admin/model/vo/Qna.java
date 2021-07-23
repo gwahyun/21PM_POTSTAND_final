@@ -1,9 +1,6 @@
 package com.kh.potstand.admin.model.vo;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
+import java.sql.Date;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

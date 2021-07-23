@@ -10,7 +10,7 @@ public class PageFactory {
 		int pageEnd = pageNo+pageBarSize-1;		
 		
 		
-		String pageBar="<ul class='flex'>";
+		String pageBar="<ul class='flex w-full justify-center'>";
 		//이전
 		if(pageNo==1) {
 			pageBar+="<li class='mr-1'>"

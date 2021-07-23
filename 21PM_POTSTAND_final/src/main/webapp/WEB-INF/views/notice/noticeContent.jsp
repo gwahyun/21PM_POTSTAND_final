@@ -13,7 +13,7 @@
         <div><h1 class="text-4xl font-bold m-5 text-center">공지사항</h1></div>
         <div class="nav-container flex">
             <div id="notice-nav" class="text-center bg-blue-500 border-0 py-1 px-3 focus:outline-none hover:bg-blue-400 
-	          		text-white rounded text-base mt-4 md:mt-0 cursor-pointer font-bold w-4/12 text-">공지사항</div>
+	          		text-white rounded text-base mt-4 md:mt-0 cursor-pointer font-bold w-4/12 ">공지사항</div>
             <div id="qna-nav" class="text-center bg-gray-400 border-0 py-1 px-3 focus:outline-none hover:bg-blue-400 
 	          		text-white rounded text-base mt-4 md:mt-0 cursor-pointer font-bold w-4/12"><a href="${path}/qna/qnaWrite.do">1:1문의하기</a></div>
             <div id="myqna-nav" class="text-center bg-gray-400 border-0 py-1 px-3 focus:outline-none hover:bg-blue-400 
