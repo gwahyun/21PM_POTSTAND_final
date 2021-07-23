@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="event">
+
+	<resultMap type="event" id="eventMap">
+		<id column="event_no" property="eventNo"/>
+		<result column="event_title" property="eventTitle"/>
+		<result column="event_info" property="eventInfo"/>
+		<result column="event_start" property="eventStart"/>
+		<result column="event_end" property="eventEnd"/>
+		<result column="end_check" property="endCheck"/>
+	</resultMap>
+
+	<select id="selectEventList" resultMap="eventMap">
+		SELECT * FROM EVENT
+	</select>
+	<select id="selectEventPost" resultMap="eventMap">
+		select * from event where event_no = #{no}
+	</select>
+</mapper>

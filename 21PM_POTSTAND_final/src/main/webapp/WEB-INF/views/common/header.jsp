@@ -16,7 +16,7 @@
     <header class="text-gray-600 body-font">
 		<div class="container mx-auto flex flex-wrap justify-between  p-5 flex-col md:flex-row items-center">
 			<div class="flex">
-          		<a class="flex title-font font-medium items-center text-gray-900 mb-4 md:mb-0">
+          		<a href="${path}" class="flex title-font font-medium items-center text-gray-900 mb-4 md:mb-0">
 	           	<img src="${pageContext.request.contextPath}/resources/img/potstand_logo.svg" alt="" class="fill-current 
 	           	text-red-500 w-12"/>
 				<span class="ml-3 text-xl">POTSTAND</span>
@@ -194,9 +194,9 @@
       	</div>
 		<div class="container flex flex-start p-5 mx-auto">
 	        <nav class="md:mr-auto flex flex-wrap items-center text-base">
-	          <a href="#" class="mr-5 hover:text-gray-900">HOME</a>
+	          <a href="${path}" class="mr-5 hover:text-gray-900">HOME</a>
 	          <a href="#" class="mr-5 hover:text-gray-900">BOOK</a>
-	          <a href="${path }/event/eventList.do" class="mr-5 hover:text-gray-900">EVENT</a>
+	          <a href="${path }/event/eventlist.do" class="mr-5 hover:text-gray-900">EVENT</a>
 	        </nav>
       	</div>
 	</header>
