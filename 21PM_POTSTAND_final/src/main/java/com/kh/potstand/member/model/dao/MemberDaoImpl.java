@@ -70,6 +70,20 @@ public class MemberDaoImpl implements MemberDao{
 	public int qnaInsert(SqlSession session, Qna q) {
 		return session.insert("function.qnaInsert", q);
 	}
+	
+	//notice count : totalData용
+	@Override
+	public int noticeSelectCount(SqlSession session) {
+		return session.selectOne("function.noticeSelectCount");
+	}
+
+	//qna count : totalData용
+	@Override
+	public int qnaSelectCount(SqlSession session, String memberId) {
+		return session.selectOne("function.qnaSelectCount", memberId);
+	}
+	
+	
 
 	
 }

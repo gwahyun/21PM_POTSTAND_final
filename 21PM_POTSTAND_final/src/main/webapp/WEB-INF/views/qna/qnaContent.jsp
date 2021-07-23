@@ -10,43 +10,65 @@
 <jsp:include page="/WEB-INF/views/common/header.jsp"/>
     <!------------------------------------------------------------------------------------------------------------------------------------------------------------->
     <section class="mx-80">
-        <div><h1 class="text-4xl font-bold m-5 text-center">공지사항</h1></div>
+        <div><h1 class="text-4xl font-bold m-5 text-center">내 문의내역</h1></div>
         <div class="nav-container flex">
             <div id="notice-nav" class="text-center bg-gray-400 border-0 py-1 px-3 focus:outline-none hover:bg-blue-400 
-	          		text-white rounded text-base mt-4 md:mt-0 cursor-pointer font-bold w-4/12 text-"><a href="${path}/notice/noticeList.do">공지사항</a></div>
+	          		text-white rounded text-base mt-4 md:mt-0 cursor-pointer font-bold w-4/12 text-"><a href="${path}/notice/noticeSelectList.do">공지사항</a></div>
             <div id="qna-nav" class="text-center bg-gray-400 border-0 py-1 px-3 focus:outline-none hover:bg-blue-400 
 	          		text-white rounded text-base mt-4 md:mt-0 cursor-pointer font-bold w-4/12"><a href="${path}/qna/qnaWrite.do">1:1문의하기</a></div>
             <div id="myqna-nav" class="text-center bg-blue-500 border-0 py-1 px-3 focus:outline-none hover:bg-blue-400 
-	          		text-white rounded text-base mt-4 md:mt-0 cursor-pointer font-bold w-4/12">내 질문</div>
+	          		text-white rounded text-base mt-4 md:mt-0 cursor-pointer font-bold w-4/12">내 문의내역</div>
         </div>
         <div class="myqna-container">
-            <div class="myqna-title flex">
-               <h1>환불해주세요</h1>
-               <h3>분류 : 환불</h3>
-               <h3>진상</h3>
-               <h3>2021-07-21 19:38</h3>
+            <div class="myqna-title flex mt-10 pb-2 border-solid border-b border-gray-300 items-baseline">
+               <h1 class="text-2xl w-6/12 "><c:out value="${qna.qnaTitle}"/></h1>
+               <h3 class="text-base w-2/12 ">분류 : <c:out value="${qna.qnaSort}"/></h3>
+               <h3 class="text-base w-2/12 "><c:out value="${qna.memberId}"/></h3>
+               <h3 class="text-base w-2/12 "><fmt:formatDate pattern="yy/MM/dd" value="${qna.qnaDate}"/></h3>
             </div>
-            <div class="myqna-content">
-                환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 환불'해줘' 
-            </div>
-        </div>
-        <div class="myqna-answer flex">
-            <div class="answer-name">
-                관리자
-            </div>
-            <div class="answer-content">
-                안녕하세요 고객님 팟스탠드입니다.<br>
-                어차피 냄비받침으로 사신건데 평생 냄비 안쓸거 아니면 그냥 잘 쓰시기 바랍니다<br>
-                감사합니다 :)
-                
-            </div>
-            <div class="answer-date">
-                2021-07-21
+            <div class="myqna-content border-solid border-b  border-gray-300 my-5 h-2/5">
+                <c:out value="${qna.qnaContent}"/> 
             </div>
         </div>
-        <div class="list-btn">
-            목록으로
-        </div>
+        <c:choose>
+	        <c:when test="${empty qna.answer}">
+		        <div class="myqna-answer flex my-10">
+		            <div class="answer-name bg-green-100 border border-gray-300 border-solid w-2/12 ">
+		                삭제예정
+		            </div>
+		            <div class="answer-content bg-green-100 border border-gray-300 border-solid w-8/12">
+		                안녕하세요 고객님 팟스탠드입니다.<br>
+		                어차피 냄비받침으로 사신건데 평생 냄비 안쓸거 아니면 그냥 잘 쓰시기 바랍니다<br>
+		                감사합니다 :)
+		                
+		            </div>
+		            <div class="answer-date bg-green-100 border border-gray-300 border-solid w-2/12">
+		                2021-07-21
+		            </div>
+		        </div>
+		    </c:when>
+	        <c:otherwise>
+		        <div class="myqna-answer flex my-10 h-20">
+		            <div class="answer-name bg-green-100 border border-gray-300 border-solid w-2/12 text-center align-middle">
+		                <c:out value="${qna.answer.adminId}"/>
+		                
+		            </div>
+		            <div class="answer-content bg-green-100 border border-gray-300 border-solid w-8/12 p-3">
+		                <c:out value="${qna.answer.answerContent}"/>
+		            </div>
+		            <div class="answer-date bg-green-100 border border-gray-300 border-solid w-2/12 text-center align-middle">
+		                <fmt:formatDate pattern="yy/MM/dd" value="${qna.answer.answerDate}"/>
+		            </div>
+		        </div>
+	        </c:otherwise>
+        </c:choose>
+        <button class=" inline-flex items-center bg-gray-200 border-0 py-1 px-3 focus:outline-none hover:bg-red-400 
+	          		hover:text-white rounded text-base mt-4 md:mt-0" onclick="location.assign('${path}/notice/noticeSelectList.do');">
+	            목록으로
+	            <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4 ml-1" viewBox="0 0 24 24">
+	            	<path d="M5 12h14M12 5l7 7-7 7"></path>
+	            </svg>
+          	</button>
     </section>
     <!------------------------------------------------------------------------------------------------------------------------------------------------------------->
     <jsp:include page="/WEB-INF/views/common/footer.jsp"/>

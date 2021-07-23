@@ -16,7 +16,15 @@
 		<result column="QNA_DATE" property="qnaDate"/>
 		<result column="QNA_TITLE" property="qnaTitle"/>
 		<result column="QNA_STATUS" property="qnaStatus"/>
-		<result column="QNA_SORT" property="qnaSort"/>		
+		<result column="QNA_SORT" property="qnaSort"/>
+		<association property="answer" resultMap="answerJoin"/>		
+	</resultMap>
+	<resultMap type="answer" id="answerJoin">
+		<id column="ANSWER_NO" property="answerNo"/>
+		<result column="QNA_NO" property="qnaNo"/>
+		<result column="ADMIN_ID" property="adminId"/>
+		<result column="ANSWER_CONTENT" property="answerContent"/>
+		<result column="ANSWER_DATE" property="answerDate"/>		
 	</resultMap>
 	
 	
@@ -27,12 +35,21 @@
 	<select id="noticeSelectOne" resultMap="noticeMap">
 		SELECT * FROM NOTICE WHERE NOTICE_NO=#{noticeNo}
 	</select>
+	<select id="noticeSelectCount" resultType="_int">
+		SELECT COUNT(*) FROM NOTICE
+	</select>
 	<select id="qnaSelectList" resultMap="qnaMap">
 		SELECT * FROM QNA WHERE MEMBER_ID=#{memberId} ORDER BY QNA_DATE DESC
 	</select>
 	<select id="qnaSelectOne" resultMap="qnaMap">
-		SELECT * FROM QNA WHERE QNA_NO=#{qnaNo}
+		SELECT * FROM QNA LEFT JOIN ANSWER USING (QNA_NO) WHERE QNA_NO=#{qnaNo}
 	</select>
+	<select id="qnaSelectCount" resultType="_int">
+		SELECT COUNT(*) FROM QNA WHERE MEMBER_ID=#{memberId}
+	</select>
+	
+	
+	
 	<insert id="qnaInsert">
 		 INSERT INTO QNA VALUES(SEQ_QNA.NEXTVAL, #{memberId}, #{qnaSort}, #{qnaTitle}, #{qnaContent}, DEFAULT, DEFAULT);
 	</insert>
