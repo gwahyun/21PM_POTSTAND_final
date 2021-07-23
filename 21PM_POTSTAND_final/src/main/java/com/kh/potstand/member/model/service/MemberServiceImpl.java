@@ -33,7 +33,7 @@ public class MemberServiceImpl implements MemberService{
 	//회원가입
 	@Override
 	@Transactional
-	public int insertMember(Member m) throws Exception{
+	public int memberInsert(Member m) throws Exception{
 		// TODO Auto-generated method stub	
 		try {
 			int result=dao.memberInsert(session,m);
@@ -49,6 +49,12 @@ public class MemberServiceImpl implements MemberService{
 			throw new Exception("회원가입에 실패하였습니다.");
 		}
 		return 1;
+	}
+	
+	//아이디찾기
+	@Override
+	public Member memberSearchIdSelect(String memberEmail){
+		return dao.memberSearchIdSelect(session, memberEmail);
 	}
 	
 

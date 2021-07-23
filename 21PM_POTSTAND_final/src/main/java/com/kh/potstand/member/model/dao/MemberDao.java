@@ -21,6 +21,9 @@ public interface MemberDao {
 	
 	//회원가입 -> 주소
 	int addressInsert(SqlSession session,Address a);
+	
+	//아이디찾기
+	Member memberSearchIdSelect(SqlSession session,String memberEmail);
 
 	//notice List 호출 (공지사항 페이지)
 	List<Notice> noticeSelectList(SqlSession session, int cPage, int numPerPage);

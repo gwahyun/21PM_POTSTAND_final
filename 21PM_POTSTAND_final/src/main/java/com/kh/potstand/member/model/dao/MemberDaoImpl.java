@@ -34,6 +34,12 @@ public class MemberDaoImpl implements MemberDao{
 		return session.insert("member.addressInsert", a);
 	}
 	
+	//아이디찾기
+	@Override
+	public Member memberSearchIdSelect(SqlSession session, String memberEmail) {
+		// TODO Auto-generated method stub
+		return session.selectOne("member.memberSearchIdSelect", memberEmail);
+	}
 
 	//notice List 호출 (공지사항 페이지)
 	@Override
@@ -70,6 +76,8 @@ public class MemberDaoImpl implements MemberDao{
 	public int qnaInsert(SqlSession session, Qna q) {
 		return session.insert("function.qnaInsert", q);
 	}
+
+	
 
 	
 }

@@ -16,6 +16,17 @@
     <title>로그인-PotStand</title>
     <link href="${path}/resources/static/tailwind.css" type="text/css" rel="stylesheet"/>
     <script src="${path}/resources/js/jquery-3.6.0.min.js"></script>
+   	<style>
+		.modal__background{
+			  background: rgba(0, 0, 0, 0.8);
+		}
+		.modal__box{
+			top: calc(38vh - 100px); left: calc(45vw - 200px);
+			border-radius: 10px;
+			width: 600px;
+			height: 400px;
+		}
+	</style>
 </head>
 <body>
     <div class="relative min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
@@ -52,14 +63,15 @@
                         <label for="remember_me" class="ml-2 block text-sm text-gray-900">아이디 저장</label>
                     </div>
                     <div class="text-sm flex flex-col">
-                        <a href="${path}/member/memberSearchId.do" class="font-medium text-red-500 hover:text-red-500">아이디 찾기</a>
+                        <a href="javascript:void(0)" id="searchId" class="font-medium text-red-500 
+                        hover:text-red-500">아이디 찾기</a>
                         <a href="#" class="font-medium text-red-500 hover:text-red-500">비밀번호 재설정</a>
                     </div>
                 </div>
                 <div>
                     <button type="button" class="w-full flex justify-center bg-red-500 text-gray-100 p-4 rounded-full 
                     tracking-wide font-semibold focus:outline-none focus:shadow-outline hover:bg-red-600 shadow-lg 
-                    cursor-pointer transition ease-in duration-300" onclick="fn_loginPage_login();">
+                    cursor-pointer transition ease-in duration-300" onclick="fn_memberLogin_login();">
                     	Login
                     </button>
                 </div>
@@ -73,13 +85,36 @@
                     transition ease-in duration-300">회원가입</a>
                 </p>
             </form>
+            <div class="modal__background fixed inset-0 hidden">
+				<div class="modal__box flex flex-col justify-center absolute bg-white items-center">
+					<form class="w-1/2" action="${path }/member/memberSearchId.do" method="post">
+			            <div class="w-1/2 relative flex flex-col m-4">  
+			            	<label class="text-lg font-bold text-gray-700 tracking-wide">아이디 찾기</label>
+			            	<input class="w-full text-base py-2 border-b border-gray-300 focus:outline-none focus:border-indigo-500" 
+			            	type="text" name="memberEmail" placeholder="이메일주소" required/>
+			            </div>
+						<div class="w-1/2 relative flex flex-col">
+			                <button type="submit" class="w-full flex justify-center bg-red-500 text-gray-100 p-4 rounded-full 
+			                tracking-wide font-semibold focus:outline-none focus:shadow-outline hover:bg-red-600 shadow-lg 
+			                cursor-pointer transition ease-in duration-300 m-1">
+			                	아이디찾기
+			                </button>
+			                <button type="button" class="w-full flex justify-center bg-white text-gray-500 p-4 rounded-full 
+			                tracking-wide font-semibold focus:outline-none focus:shadow-outline hover:bg-red-600 shadow-lg 
+			                cursor-pointer transition ease-in duration-300 m-1" id="modalClose">
+			                	나가기
+			            	</button>
+			        	</div>   
+			    	</form>
+				</div>
+			</div>
         </div>
     </div>
 </body>
 <script>
 	const errMsg="! 아이디 또는 비밀번호를 확인해주세요.";
 	//ajax를 이용하여 로그인을 눌렀을때 계정이 틀리면 err메세지출력하는 함수
-	function fn_loginPage_login(){ 
+	function fn_memberLogin_login(){ 
 		$("#errMsg").text(''); //errMsg창을 비워주고 시작
 		$.ajax({
 			url:"${path}/member/memberLoginEnd.do",
@@ -98,5 +133,14 @@
 			}
 		});
 	}
+	
+	//아이디찾기 모달창 이벤트
+	$("#searchId").click(e=>{
+			$(".modal__background").fadeIn();
+	});
+	$("#modalClose").click(e=>{
+		$(".modal__background").fadeOut();
+	});
+	
 </script>
 </html>
