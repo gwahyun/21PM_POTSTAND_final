@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.potstand.admin.model.vo.Qna;
+import com.kh.potstand.common.PageFactory;
 import com.kh.potstand.member.model.service.MemberService;
 import com.kh.potstand.member.model.vo.Member;
 
@@ -27,8 +28,9 @@ public class FunctionController {
 	public ModelAndView noticeSelectList(ModelAndView mv, 
 			@RequestParam(value="cPage", defaultValue="1")int cPage, 
 			@RequestParam(value="numPerPage", defaultValue="10")int numPerPage){
-		
+		int totalData = service.noticeSelectCount();
 		mv.addObject("noticeList", service.noticeSelectList(cPage, numPerPage));
+		mv.addObject("pageBar",PageFactory.getPageBar(totalData, cPage, numPerPage, 5, "noticeSelectList.do"));
 		mv.setViewName("notice/noticeList");
 		return mv;
 	}
@@ -48,8 +50,10 @@ public class FunctionController {
 			@RequestParam(value="cPage", defaultValue="1")int cPage, 
 			@RequestParam(value="numPerPage", defaultValue="10")int numPerPage){
 		Member m = (Member)session.getAttribute("loginMember");
+		int totalData = service.qnaSelectCount(m.getMemberId());
 		if(m!=null) {
 			mv.addObject("myQnaList", service.qnaSelectList(m.getMemberId(), cPage, numPerPage));
+			mv.addObject("pageBar",PageFactory.getPageBar(totalData, cPage, numPerPage, 5, "myqnaList.do"));
 			mv.setViewName("qna/myqnaList");
 		}else {
 			mv.addObject("msg","로그인이 필요한 서비스입니다.");

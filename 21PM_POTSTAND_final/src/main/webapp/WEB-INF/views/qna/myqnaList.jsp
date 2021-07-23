@@ -59,7 +59,7 @@
             </c:forEach>
             </div>
         </div>
-        <div class="pageBar"> &lt; 1 2 3 4 5 &gt;</div>
+        <div class="pageBar flex items-center my-3">${pageBar}</div>
     </section>
     <!------------------------------------------------------------------------------------------------------------------------------------------------------------->
     <jsp:include page="/WEB-INF/views/common/footer.jsp"/>

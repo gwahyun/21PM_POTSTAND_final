@@ -9,7 +9,7 @@
   crossorigin="anonymous"></script>
 <jsp:include page="/WEB-INF/views/common/header.jsp"/>
     <!------------------------------------------------------------------------------------------------------------------------------------------------------------->
-    <section class="mx-80">
+    <section class="mx-80 items-center">
         <div><h1 class="text-4xl font-bold m-5 text-center">공지사항</h1></div>
         <div class="nav-container flex">
             <div id="notice-nav" class="text-center bg-blue-500 border-0 py-1 px-3 focus:outline-none hover:bg-blue-400 
@@ -53,7 +53,10 @@
             </c:forEach> 
             </div>
         </div>
-        <div class="pageBar my-5 text-center"> &lt; 1 2 3 4 5 &gt;</div>
+        
+        
+    	<div class="pageBar w-full flex item-center my-5">${pageBar}</div>
+	    
     </section>
     <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
 </body>
