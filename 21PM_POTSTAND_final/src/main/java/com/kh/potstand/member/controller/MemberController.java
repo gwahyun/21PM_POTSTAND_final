@@ -5,11 +5,15 @@ import java.security.GeneralSecurityException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Map;
 
+import javax.mail.internet.MimeMessage;
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -38,6 +42,10 @@ public class MemberController {
 	//양방향암호화
 	@Autowired
 	private AES256Util aes;
+	
+	//메일보내기
+	@Autowired
+	private JavaMailSender mailSender;
 	
 	//로그인페이지 불러오는 매소드
 	@RequestMapping("/member/memberLogin.do")
@@ -112,7 +120,7 @@ public class MemberController {
 		
 		String msg="회원가입에 성공하였습니다!";
 		try {
-			service.insertMember(m);
+			service.memberInsert(m);
 		}catch(Exception e) {
 			msg=e.getMessage();
 		}
@@ -125,9 +133,81 @@ public class MemberController {
 	}
 	
 	//아이디찾기
-	@RequestMapping("memberSerachId.do")
-	public ModelAndView memberSearchId(String searchId, ModelAndView mv) {
+	@RequestMapping("/member/memberSearchId.do")
+	public ModelAndView memberSearchId(String memberEmail, ModelAndView  mv) throws NoSuchAlgorithmException, 
+	UnsupportedEncodingException, GeneralSecurityException {
+		memberEmail=aes.encrypt(memberEmail);
+		Member m=service.memberSearchIdSelect(memberEmail);
+		String msg="";
+		if(m!=null) { //찾은 아이디가있으면
+			String content="고객님의 아이디는 "+m.getMemberId()+"입니다."; //진짜 ID
+			
+			//ID를 *로 가리기
+			String memberId=m.getMemberId().substring(0,2);
+			for(int i=0; i<m.getMemberId().length()-2; i++) {
+				memberId+="*";
+			}
+			
+			//아이디 메일로 보내기
+			try {
+				MimeMessage message = mailSender.createMimeMessage();
+				MimeMessageHelper messageHelper = new MimeMessageHelper(message,true, "UTF-8");
+
+				messageHelper.setFrom("audrhkd1220@naver.com"); // 보내는사람 생략하면 정상작동을 안함
+				messageHelper.setTo(memberEmail); // 받는사람 이메일
+				messageHelper.setSubject("PotStand 아이디찾기 결과"); // 메일제목은 생략이 가능하다
+				messageHelper.setText(content); // 메일 내용
+
+				mailSender.send(message);
+			} catch (Exception e) {
+				log.debug("{}",e);
+			}
+			
+			msg="회원님의 아이디는 다음과 같습니다. \\n"+memberId+"\\n 전체아이디는 입력하신 메일 주소로 보내드렸습니다.";		
+		}else {
+			msg="해당 이메일로 가입된 아이디가 존재하지 않습니다.";
+		}
+
+		mv.addObject("msg", msg);
+		mv.addObject("loc","/member/memberLogin.do");
+		mv.setViewName("common/msg");
 		
 		return mv;
 	}
+	
+	//비밀번호 재설정
+	@RequestMapping("/member/memberResetPwd.do")
+	public ModelAndView memberResetPwd(Member m, ModelAndView mv) throws NoSuchAlgorithmException, 
+	UnsupportedEncodingException, GeneralSecurityException {
+		m.setMemberEmail(aes.encrypt(m.getMemberEmail()));	
+		String msg="";
+		Member resetM=null;
+		try {
+			resetM=service.memberResetPwd(m);
+		}catch(Exception e) {
+			msg=e.getMessage();
+		}		
+		if(resetM!=null) { //해당아이디가있고 임시비밀번호로 변경했을경우		
+			//임시비밀번호 메일로 보내기
+			try {
+				MimeMessage message = mailSender.createMimeMessage();
+				MimeMessageHelper messageHelper = new MimeMessageHelper(message,true, "UTF-8");
+
+				messageHelper.setFrom("audrhkd1220@naver.com"); // 보내는사람 생략하면 정상작동을 안함
+				messageHelper.setTo(aes.decrypt(resetM.getMemberEmail())); // 받는사람 이메일
+				messageHelper.setSubject("PotStand 비밀번호 재설정"); // 메일제목은 생략이 가능하다
+				messageHelper.setText("임시비밀번호입니다. 로그인 후 변경해주세요. \n"+resetM.getMemberPwd()); // 메일 내용
+				mailSender.send(message);
+			} catch (Exception e) {
+				log.debug("{}",e);
+			}	
+			msg="가입하신 이메일로 임시비밀번호가 발급되었습니다.";
+		}
+		
+		mv.addObject("msg", msg);
+		mv.addObject("loc","/member/memberLogin.do");
+		mv.setViewName("common/msg");
+		return mv;
+	}
+
 }
