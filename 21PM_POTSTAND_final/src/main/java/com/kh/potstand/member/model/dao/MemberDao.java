@@ -34,6 +34,10 @@ public interface MemberDao {
 	//notice Content 호출
 	Notice noticeSelectOne(SqlSession session, int noticeNo);
 	
+	//notice Count (totalData용)
+	int noticeSelectCount(SqlSession session);
+	
+	
 	//내 Qna 내역 확인
 	List<Qna> qnaSelectList(SqlSession session, String memberId, int cPage, int numPerPage);
 		
@@ -42,5 +46,7 @@ public interface MemberDao {
 	
 	//1:1 문의 작성
 	int qnaInsert(SqlSession session, Qna q);
-
+	
+	//qna Count (totalData용)
+	int qnaSelectCount(SqlSession session, String memberId);
 }

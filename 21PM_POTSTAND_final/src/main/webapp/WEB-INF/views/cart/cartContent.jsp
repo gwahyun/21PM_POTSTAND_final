@@ -1,31 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link type="text/css" href="../css/cartContent.css" rel="stylesheet"/>
-</head>
-<body>
-    <header>
-        <div class="temp_header1">
-            <div><h1>Books</h1></div>
-            <div><input type="text"/></div>
-            <div><button>회원가입</button></div>
-            <div><button>로그인</button></div>
-        </div>
-        <div class="temp_header2">
-            <nav>
-                <ul>
-                    <li>이벤트</li>
-                    <li>좋아요</li>
-                    <li>장바구니</li>
-                    <li>주문배송</li>
-                </ul>
-            </nav>
-        </div>
-    </header>
+<%@page language="java" contentType="text/html; charset=UTF-8"  
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<c:set var="path" value="${pageContext.request.contextPath}"/>
+<script
+  src="https://code.jquery.com/jquery-3.6.0.min.js"
+  integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+  crossorigin="anonymous"></script>
+<jsp:include page="/WEB-INF/views/common/header.jsp"/>
     <!------------------------------------------------------------------------------------------------------------------------------------------------------------->
     <section>
         <div><h1>장바구니</h1></div>
@@ -131,6 +113,6 @@
         </div>
     </section>
     <!------------------------------------------------------------------------------------------------------------------------------------------------------------->
-    <footer></footer>
+ <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
 </body>
 </html>

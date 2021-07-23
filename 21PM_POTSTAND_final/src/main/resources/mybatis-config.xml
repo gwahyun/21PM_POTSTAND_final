@@ -6,5 +6,7 @@
 		<typeAlias alias="address" type="com.kh.potstand.member.model.vo.Address"/>
 		<typeAlias alias="notice" type="com.kh.potstand.admin.model.vo.Notice"/>
 		<typeAlias alias="qna" type="com.kh.potstand.admin.model.vo.Qna"/>
+		<typeAlias alias="event" type="com.kh.potstand.event.model.vo.Event"/>
+		<typeAlias alias="answer" type="com.kh.potstand.admin.model.vo.Answer"/>
 	</typeAliases>
 </configuration>

@@ -101,6 +101,8 @@ public class MemberServiceImpl implements MemberService{
 	}
 	
 
+	
+	
 	//notice List 호출 (공지사항 페이지)
 	@Override
 	public List<Notice> noticeSelectList(int cPage, int numPerPage) {
@@ -131,6 +133,18 @@ public class MemberServiceImpl implements MemberService{
 		return dao.qnaInsert(session, q);
 	}
 
+	
+	//notice count : totalData용
+	@Override
+	public int noticeSelectCount() {
+		return dao.noticeSelectCount(session);
+	}
+
+	//qna count : totalData용
+	@Override
+	public int qnaSelectCount(String memberId) {
+		return dao.qnaSelectCount(session, memberId);
+	}
 	
 	
 	

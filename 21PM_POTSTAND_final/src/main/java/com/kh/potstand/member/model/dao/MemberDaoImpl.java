@@ -12,6 +12,8 @@ import com.kh.potstand.admin.model.vo.Qna;
 import com.kh.potstand.member.model.vo.Address;
 import com.kh.potstand.member.model.vo.Member;
 
+import lombok.extern.slf4j.Slf4j;
+@Slf4j
 @Repository
 public class MemberDaoImpl implements MemberDao{
 
@@ -80,8 +82,23 @@ public class MemberDaoImpl implements MemberDao{
 	//1:1문의 작성
 	@Override
 	public int qnaInsert(SqlSession session, Qna q) {
+		log.debug(q.toString());
 		return session.insert("function.qnaInsert", q);
 	}
+	
+	//notice count : totalData용
+	@Override
+	public int noticeSelectCount(SqlSession session) {
+		return session.selectOne("function.noticeSelectCount");
+	}
+
+	//qna count : totalData용
+	@Override
+	public int qnaSelectCount(SqlSession session, String memberId) {
+		return session.selectOne("function.qnaSelectCount", memberId);
+	}
+	
+	
 
 	
 

@@ -1,7 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     <footer class="text-gray-600 body-font">
-    <button class=" inline-flex items-center bg-gray-100 border-0 py-1 px-3 focus:outline-none hover:bg-red-400 
+		<div class=" container px-5 py-24 mx-auto flex md:items-center lg:items-start md:flex-row md:flex-nowrap 
+		flex-wrap flex-col">
+	        <div class="w-64 flex-shrink-0 md:mx-0 mx-auto text-center md:text-left">
+	           <button class=" inline-flex items-center bg-gray-100 border-0 py-1 px-3 focus:outline-none hover:bg-red-400 
 	          		hover:text-white rounded text-base mt-4 md:mt-0" onclick="location.assign('${pageContext.request.contextPath}/notice/noticeSelectList.do');">
 	            		고객센터
 	            		<svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
@@ -9,20 +12,6 @@
 	              			<path d="M5 12h14M12 5l7 7-7 7"></path>
 	            		</svg>
           		</button>
-		<div class=" container px-5 py-24 mx-auto flex md:items-center lg:items-start md:flex-row md:flex-nowrap 
-		flex-wrap flex-col">
-	        <div class="w-64 flex-shrink-0 md:mx-0 mx-auto text-center md:text-left">
-	          	<a class=" flex title-font font-medium items-center md:justify-start justify-center text-gray-900">
-		            <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" 
-		            stroke-linejoin="round" stroke-width="2" class="w-10 h-10 text-white p-2 bg-red-500 rounded-full" 
-		            viewBox="0 0 24 24">
-		              	<path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
-		            </svg>
-		            <span class="ml-3 text-xl">Tailblocks</span>
-	          	</a>
-	          	<p class="mt-2 text-sm text-gray-500">
-	            	Air plant banjo lyft occupy retro adaptogen indego
-	          	</p>
 			</div>
 	        <div class="flex-grow flex flex-wrap md:pl-20 -mb-10 md:mt-0 mt-10 md:text-left text-center">
 	          	<div class="lg:w-1/4 md:w-1/2 w-full px-4">
@@ -98,9 +87,9 @@
       	<div class="bg-gray-100">
         	<div class=" container mx-auto py-4 px-5 flex flex-wrap flex-col sm:flex-row">
           		<p class="text-gray-500 text-sm text-center sm:text-left">
-            		© 2020 Tailblocks —
+            		© 2021 getJob()—
             		<a href="https://twitter.com/knyttneve" rel="noopener noreferrer" class="text-gray-600 ml-1" 
-            		target="_blank">@knyttneve</a>
+            		target="_blank">@김가현 장우영 정우석 유동현</a>
           		</p>
           		<span class=" inline-flex sm:ml-auto sm:mt-0 mt-2 justify-center sm:justify-start">
             		<a class="text-gray-500">
