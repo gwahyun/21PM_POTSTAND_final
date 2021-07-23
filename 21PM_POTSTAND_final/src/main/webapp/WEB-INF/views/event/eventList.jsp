@@ -36,16 +36,6 @@
                 src="https://www.changbi.com/wp-content/uploads/2015/07/20150724_083711.gif"
                 alt="content"
               />
-              <h3
-                class="
-                  tracking-widest
-                  text-red-500 text-xs
-                  font-medium
-                  title-font
-                "
-              >
-                새학기 할인!
-              </h3>
               <h2 class="text-lg text-gray-900 font-medium title-font">
 				<c:out value="${e.eventTitle}"/>
               </h2>
