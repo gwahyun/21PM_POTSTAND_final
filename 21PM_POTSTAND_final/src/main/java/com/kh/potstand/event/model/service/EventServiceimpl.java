@@ -21,4 +21,10 @@ public class EventServiceimpl implements EventService {
 		return dao.selectEventList(session);
 	}
 
+	@Override
+	public Event selectEventPost(int no) {
+		// TODO Auto-generated method stub
+		return dao.selectEventPost(session, no);
+	}
+
 }

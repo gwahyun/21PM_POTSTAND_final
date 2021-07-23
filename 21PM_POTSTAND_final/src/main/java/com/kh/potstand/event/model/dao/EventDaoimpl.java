@@ -15,6 +15,11 @@ public class EventDaoimpl implements EventDao {
 		return session.selectList("selectEventList");
 	}
 
+	@Override
+	public Event selectEventPost(SqlSession session, int no) {
+		return session.selectOne("selectEventPost",no);
+	}
+
 
 
 }

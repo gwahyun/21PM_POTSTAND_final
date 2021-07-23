@@ -9,4 +9,5 @@ import com.kh.potstand.event.model.vo.Event;
 public interface EventService {
 
 	public List<Event> selectEventList();
+	public Event selectEventPost(int no);
 }
