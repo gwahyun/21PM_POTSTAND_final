@@ -103,4 +103,12 @@ public class FunctionController {
 		mv.setViewName("common/msg");
 		return mv;
 	}
+	
+	//장바구니 이동
+	@RequestMapping("/member/cartList.do")
+	public ModelAndView cartSelectList(ModelAndView mv, HttpSession session){
+		Member m = (Member)session.getAttribute("loginMember");
+		
+		return mv;
+	}
 }
