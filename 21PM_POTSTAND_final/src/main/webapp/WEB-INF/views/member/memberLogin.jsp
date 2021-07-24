@@ -3,10 +3,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="path" value="${pageContext.request.contextPath }"/> 
 
-<c:if test="${empty cookie.c }">
+<c:if test="${not empty cookie.saveId.value }">
 	<c:set value="checked" var="checked"/>
 </c:if>
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -16,6 +15,8 @@
     <title>로그인-PotStand</title>
     <link href="${path}/resources/static/tailwind.css" type="text/css" rel="stylesheet"/>
     <script src="${path}/resources/js/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript" src="https://static.nid.naver.com/js/naverLogin_implicit-1.0.3.js" charset="utf-8"></script>
+  	<script type="text/javascript" src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
    	<style>
 		.modal__background{
 			  background: rgba(0, 0, 0, 0.8);
@@ -162,14 +163,14 @@
 	
 	//아이디찾기 모달창 이벤트
 	$("#searchId").click(e=>{
-			$("#idmodal").fadeIn();
+		$("#idmodal").fadeIn();
 	});
 	$("#idmodalClose").click(e=>{
 		$("#idmodal").fadeOut();
 	});
 	//비밀번호찾기 모달창 이벤트
 	$("#searchPwd").click(e=>{
-			$("#pwdmodal").fadeIn();
+		$("#pwdmodal").fadeIn();
 	});
 	$("#pwdmodalClose").click(e=>{
 		$("#pwdmodal").fadeOut();

@@ -3,6 +3,8 @@ package com.kh.potstand.member.controller;
 import java.io.UnsupportedEncodingException;
 import java.security.GeneralSecurityException;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import javax.mail.internet.MimeMessage;
@@ -55,7 +57,8 @@ public class MemberController {
 	//로그인 계정확인 매소드
 	@RequestMapping("/member/memberLoginEnd.do")
 	@ResponseBody
-	public Member memberLoginEnd(@RequestParam Map param, HttpSession session, HttpServletResponse response) {
+	public Member memberLoginEnd(@RequestParam Map param, HttpSession session, HttpServletResponse response) throws NoSuchAlgorithmException,
+	UnsupportedEncodingException, GeneralSecurityException {
 		//아이디저장 체크후 쿠키 저장
 		String idCheck=(String)param.get("saveId");	
 		if(idCheck.equals("true")) {
@@ -72,6 +75,22 @@ public class MemberController {
 		
 		if(m!=null) {
 			if(pwEncoder.matches((String)param.get("memberPwd"), m.getMemberPwd())) {
+				//암호화한정보 다시 복호화
+				m.setMemberEmail(aes.decrypt(m.getMemberEmail()));
+				m.setMemberPhone(aes.decrypt(m.getMemberPhone()));
+				log.debug("{}",m.getAddresses());
+				if(m.getAddresses()!=null) {
+					List<Address> list=new ArrayList<Address>();
+					for(Address a : m.getAddresses()) {
+						a.setPostNo(aes.decrypt(a.getPostNo()));
+						a.setRoadAddr(aes.decrypt(a.getRoadAddr()));
+						a.setOldAddr(aes.decrypt(a.getOldAddr()));
+						a.setDetailAddr(aes.decrypt(a.getDetailAddr()));
+						list.add(a);
+					}
+					m.setAddresses(list);
+				}
+
 				//해당 계정이 잇으면 session생성
 				session.setAttribute("loginMember", m);
 				return m;
@@ -224,4 +243,9 @@ public class MemberController {
 		return service.memberSearchIdSelect(aes.encrypt(memberEmail));
 	}
 
+	//마이페이지 전환
+	@RequestMapping("/member/memberMypage.do")
+	public String memberMypage() {
+		return "member/memberMypage";
+	}
 }
