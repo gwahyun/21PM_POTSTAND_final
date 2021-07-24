@@ -1,5 +1,6 @@
 package com.kh.potstand.member.controller;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
@@ -15,6 +16,7 @@ import com.kh.potstand.admin.model.vo.Qna;
 import com.kh.potstand.common.PageFactory;
 import com.kh.potstand.member.model.service.MemberService;
 import com.kh.potstand.member.model.vo.Member;
+import com.kh.potstand.order.model.vo.Cart;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -86,7 +88,7 @@ public class FunctionController {
 			mv.setViewName("qna/qnaWrite");
 		}else {
 			mv.addObject("msg","로그인이 필요한 서비스입니다.");
-			mv.addObject("loc","/notice/noticeSelectList.do");
+			mv.addObject("loc","/member/memberLogin.do");
 			mv.setViewName("common/msg");
 		}
 		return mv;
@@ -95,20 +97,28 @@ public class FunctionController {
 	//1:1문의 작성
 	@RequestMapping("/qna/qnaWriteEnd.do")
 	public ModelAndView qnaInsert(Qna q, Map param, ModelAndView mv){
-		log.debug(q.toString());
-		log.debug(param.toString());
+		//되긴 했는데 내용 공유 핋요 (server 설정 다 수정해야됨 + 용량 커지면 속도 개느림)
 		int result=service.qnaInsert(q);
 		mv.addObject("msg",result>0?"1:1문의 접수 완료":"작성 실패");
 		mv.addObject("loc","/qna/myQnaList.do");
 		mv.setViewName("common/msg");
-		return mv;
+		return null;
 	}
 	
 	//장바구니 이동
 	@RequestMapping("/member/cartList.do")
 	public ModelAndView cartSelectList(ModelAndView mv, HttpSession session){
-		Member m = (Member)session.getAttribute("loginMember");
-		
-		return mv;
+		try {
+			//String memberId =((Member)(session.getAttribute("loginMember"))).getMemberId();
+			//List<Cart> cartList = service.cartSelectList(memberId);
+			//mv.addObject("cartList", cartList);
+			mv.setViewName("cart/cartList");
+		}catch(Exception e) {
+			mv.addObject("msg","로그인이 필요한 서비스입니다.");
+			mv.addObject("loc","/member/memberLogin.do");
+			mv.setViewName("common/msg");
+		}finally {
+			return mv;
+		}
 	}
 }

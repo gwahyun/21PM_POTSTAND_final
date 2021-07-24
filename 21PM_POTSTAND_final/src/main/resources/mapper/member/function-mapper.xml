@@ -32,21 +32,28 @@
 	<select id="noticeSelectList" resultMap="noticeMap">
 		SELECT * FROM NOTICE ORDER BY NOTICE_DATE DESC
 	</select>
+	
 	<select id="noticeSelectOne" resultMap="noticeMap">
 		SELECT * FROM NOTICE WHERE NOTICE_NO=#{noticeNo}
 	</select>
+	
 	<select id="noticeSelectCount" resultType="_int">
 		SELECT COUNT(*) FROM NOTICE
 	</select>
+	
 	<select id="qnaSelectList" resultMap="qnaMap">
 		SELECT * FROM QNA WHERE MEMBER_ID=#{memberId} ORDER BY QNA_DATE DESC
 	</select>
+	
 	<select id="qnaSelectOne" resultMap="qnaMap">
 		SELECT * FROM QNA LEFT JOIN ANSWER USING (QNA_NO) WHERE QNA_NO=#{qnaNo}
 	</select>
+	
 	<select id="qnaSelectCount" resultType="_int">
 		SELECT COUNT(*) FROM QNA WHERE MEMBER_ID=#{memberId}
 	</select>
+	
+
 	
 	<insert id="qnaInsert">
 		 INSERT INTO QNA VALUES(SEQ_QNA.NEXTVAL, #{memberId}, #{qnaSort}, #{qnaTitle}, #{qnaContent}, DEFAULT, DEFAULT)

@@ -60,16 +60,14 @@ public class MemberController {
 			c.setMaxAge(0);
 			response.addCookie(c);
 		}
-		
 		Member m=service.memberSelect(param);
-		
 		if(m!=null) {
 			if(pwEncoder.matches((String)param.get("memberPwd"), m.getMemberPwd())) {
 				//해당 계정이 잇으면 session생성
 				session.setAttribute("loginMember", m);
 				return m;
 			}		
-		}		
+		}
 		return null;
 	}
 	

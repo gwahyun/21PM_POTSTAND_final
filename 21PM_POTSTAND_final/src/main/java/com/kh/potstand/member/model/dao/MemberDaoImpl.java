@@ -11,6 +11,7 @@ import com.kh.potstand.admin.model.vo.Notice;
 import com.kh.potstand.admin.model.vo.Qna;
 import com.kh.potstand.member.model.vo.Address;
 import com.kh.potstand.member.model.vo.Member;
+import com.kh.potstand.order.model.vo.Cart;
 
 import lombok.extern.slf4j.Slf4j;
 @Slf4j
@@ -84,6 +85,12 @@ public class MemberDaoImpl implements MemberDao{
 	@Override
 	public int qnaSelectCount(SqlSession session, String memberId) {
 		return session.selectOne("function.qnaSelectCount", memberId);
+	}
+	
+	//cart 조회
+	@Override
+	public List<Cart> cartSelectList(SqlSession session, String memberId) {
+		return session.selectList("function.cartSelectList", memberId);
 	}
 	
 	

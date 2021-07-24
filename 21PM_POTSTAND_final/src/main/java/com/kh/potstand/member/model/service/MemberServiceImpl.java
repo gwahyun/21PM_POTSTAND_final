@@ -13,6 +13,7 @@ import com.kh.potstand.admin.model.vo.Qna;
 import com.kh.potstand.member.model.dao.MemberDao;
 import com.kh.potstand.member.model.vo.Address;
 import com.kh.potstand.member.model.vo.Member;
+import com.kh.potstand.order.model.vo.Cart;
 
 @Service
 public class MemberServiceImpl implements MemberService{
@@ -94,6 +95,12 @@ public class MemberServiceImpl implements MemberService{
 	@Override
 	public int qnaSelectCount(String memberId) {
 		return dao.qnaSelectCount(session, memberId);
+	}
+	
+	//카트 조회
+	@Override
+	public List<Cart> cartSelectList(String memberId) {
+		return dao.cartSelectList(session, memberId);
 	}
 	
 	

@@ -10,6 +10,7 @@ import com.kh.potstand.admin.model.vo.Notice;
 import com.kh.potstand.admin.model.vo.Qna;
 import com.kh.potstand.member.model.vo.Address;
 import com.kh.potstand.member.model.vo.Member;
+import com.kh.potstand.order.model.vo.Cart;
 
 public interface MemberDao {
 
@@ -43,4 +44,7 @@ public interface MemberDao {
 	
 	//qna Count (totalData용)
 	int qnaSelectCount(SqlSession session, String memberId);
+	
+	//Cart 조회
+	List<Cart> cartSelectList(SqlSession session, String memberId);
 }
