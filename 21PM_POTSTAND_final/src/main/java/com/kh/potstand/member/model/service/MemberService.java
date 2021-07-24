@@ -18,7 +18,7 @@ public interface MemberService {
 	//회원가입
 	int memberInsert(Member m) throws Exception;
 	
-	//아이디찾기
+	//이메일로 아이디찾기
 	Member memberSearchIdSelect(String memberEmail);
 	
 	//비밀번호 재설정

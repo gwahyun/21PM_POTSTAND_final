@@ -22,7 +22,7 @@ public interface MemberDao {
 	//회원가입 -> 주소
 	int addressInsert(SqlSession session,Address a);
 	
-	//아이디찾기
+	//이메일로 아이디찾기
 	Member memberSearchIdSelect(SqlSession session,String memberEmail);
 	
 	//비밀번호 재설정

@@ -7,7 +7,6 @@ import java.util.Map;
 
 import javax.mail.internet.MimeMessage;
 import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
@@ -208,6 +207,21 @@ public class MemberController {
 		mv.addObject("loc","/member/memberLogin.do");
 		mv.setViewName("common/msg");
 		return mv;
+	}
+	
+	//중복아이디 체크
+	@RequestMapping("/member/memberCheckId.do")
+	@ResponseBody
+	public Member memberCheckId(@RequestParam Map param) {
+		return service.memberSelect(param);
+	}
+		
+	//증복이메일 체크
+	@RequestMapping("/member/memberCheckEmail.do")
+	@ResponseBody
+	public Member memberCheckEmail(String memberEmail) throws NoSuchAlgorithmException, UnsupportedEncodingException, 
+	GeneralSecurityException {
+		return service.memberSearchIdSelect(aes.encrypt(memberEmail));
 	}
 
 }
