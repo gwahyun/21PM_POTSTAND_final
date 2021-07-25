@@ -23,6 +23,9 @@ public interface MemberService {
 	
 	//비밀번호 재설정
 	Member memberResetPwd(Member m) throws Exception;
+	
+	//회원탈퇴
+	int memberDelete(@RequestParam Map param) throws Exception;
 
 	//notice List 호출 (공지사항 페이지)
 	List<Notice> noticeSelectList(int cPage, int numPerPage);

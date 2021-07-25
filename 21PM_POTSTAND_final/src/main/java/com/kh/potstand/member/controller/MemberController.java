@@ -258,14 +258,49 @@ public class MemberController {
 	
 	//회원정보수정 페이지전환
 	@RequestMapping("/member/memberUpdate.do")
-	public String memberUpdate(String memberPwd, HttpSession session, Model model) {
-		Member m=(Member)session.getAttribute("loginMember");
-		if(pwEncoder.matches(memberPwd,m.getMemberPwd())) {
+	public String memberUpdate(@RequestParam Map param, Model model) {
+		Member m=service.memberSelect(param);
+		if(pwEncoder.matches((String)param.get("memberPwd"),m.getMemberPwd())) {
 			return "member/memberUpdate";
 		}else {
 			model.addAttribute("msg", "비밀번호를 틀렸습니다. 다시 시도해주세요");
 			model.addAttribute("loc", "/member/memberMypage.do");
 			return "common/msg";
 		}	
+	}
+	
+	//회원탈퇴 페이지전환
+	@RequestMapping("/member/memberDelete.do")
+	public String memberDelete() {
+		return "member/memberDelete";
+	}
+	
+	//회원탈퇴
+	@RequestMapping("/member/memberDeleteEnd.do")
+	public String memberDeleteEnd(@RequestParam Map param, HttpSession session, Model model) {
+		Member m=service.memberSelect(param);
+		String msg="";
+		String loc="";
+		if(pwEncoder.matches((String)param.get("memberPwd"),m.getMemberPwd())) {
+			int result=0;		
+			try {
+				result=service.memberDelete(param);
+			}catch(Exception e) {
+				msg=e.getMessage();
+			}
+			if(result>0) {
+				session.invalidate();
+				msg="회원탈퇴에 성공하였습니다. 이용해주셔서 감사합니다.";
+				loc="/";	
+			}else {
+				loc="/member/memberMypage.do";
+			}				
+		}else {
+			msg="비밀번호를 틀렸습니다. 다시 시도해주세요";
+			loc="/member/memberMypage.do";
+		}	
+		model.addAttribute("msg", msg);
+		model.addAttribute("loc", loc);
+		return "common/msg";
 	}
 }

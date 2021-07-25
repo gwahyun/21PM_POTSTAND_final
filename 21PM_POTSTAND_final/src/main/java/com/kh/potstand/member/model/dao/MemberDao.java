@@ -28,6 +28,12 @@ public interface MemberDao {
 	//비밀번호 재설정
 	int memberResetPwd(SqlSession session, Member m);
 	
+	//회원 주소삭제
+	int memberAddrDelete(SqlSession session, @RequestParam Map param);
+	
+	//회원탈퇴
+	int memberDelete(SqlSession session, @RequestParam Map param);
+	
 	//notice List 호출 (공지사항 페이지)
 	List<Notice> noticeSelectList(SqlSession session, int cPage, int numPerPage);
 	

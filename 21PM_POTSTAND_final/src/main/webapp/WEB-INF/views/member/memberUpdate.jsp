@@ -39,80 +39,96 @@
 		                <table class="w-full">
 		                    <tbody class="w-full">
 		                        <tr class="h-16 p-2">
-		                            <th class="w-1/4 border-r-2">아이디</th>
+		                            <th class="w-1/4 border-r-2 text-right pr-3 bg-red-100">아이디</th>
 		                            <td class="px-3">
 		                            	<h4>${loginMember.memberId }</h4>
 		                            	<input type="hidden" name="userId" value="${loginMember.memberId }">
 		                            </td>
 		                        </tr>
 		                        <tr class="h-10 p-1">
-		                            <th class="w-1/4 border-r-2">비밀번호</th>
+		                            <th class="w-1/4 border-r-2 text-right pr-3 bg-red-100"">비밀번호</th>
 		                            <td class="px-3">
-		                            	<input type="password" name="password" placeholder="현재 비밀번호">
+		                            	<input type="password" name="password" placeholder="현재 비밀번호"
+		                            	class="border-2 w-1/3">
 		                            </td>         
 		                        </tr>
 		                        <tr class="h-10 p-1">
-		                            <th class="w-1/4 border-r-2"></th>
+		                            <th class="w-1/4 border-r-2 text-right pr-3 bg-red-100""></th>
 		                            <td class="px-3">
-		                            	<input type="password" name="newpw" placeholder="새 비밀번호">
+		                            	<input type="password" name="newpw" placeholder="새 비밀번호"
+		                            	class="border-2 w-1/3">
 		                            </td>
 		                        </tr>
 		                        <tr class="h-10 p-1">
-		                            <th class="w-1/4 border-r-2"></th>
+		                            <th class="w-1/4 border-r-2 text-right pr-3 bg-red-100""></th>
 		                            <td class="px-3">
-		                            	<input type="password" name="newpw2" placeholder="새 비밀번호 확인">
+		                            	<input type="password" name="newpw2" placeholder="새 비밀번호 확인"
+		                            	class="border-2 w-1/3">
 		                            </td>
 		                        </tr>
 		                        <tr class="h-16 p-2">
-		                            <th class="w-1/4 border-r-2">이메일</th>
+		                            <th class="w-1/4 border-r-2 text-right pr-3 bg-red-100"">이메일</th>
 		                            <td class="px-3">
 		                            	<h4>${loginMember.memberEmail }</h4>
 		                            	<input type="hidden" name="email" value="${loginMember.memberEmail }">
 		                            </td>    
 		                        </tr>
 		                        <tr class="h-16 p-2">
-		                            <th class="w-1/4 border-r-2">휴대전화</th>
-		                            <td class="px-3"><input type="tel" name="phone"></td>    
-		                        </tr>
-		                        <tr class="h-16 p-2">
-		                            <th class="w-1/4 border-r-2">생년월일</th>
-		                            <td class="px-3"><input type="text" name="birth"></td>    
-		                        </tr>
-		                        <tr class="h-16 p-2">
-		                            <th class="w-1/4 border-r-2">성별</th>
+		                            <th class="w-1/4 border-r-2 text-right pr-3 bg-red-100"">휴대전화</th>
 		                            <td class="px-3">
-		                                <input type="radio" name="gender" value="male">남
-		                                <input type="radio" name="gender" value="female">여
+		                            	<input type="tel" name="phone" class="border-2 w-1/3" value="${loginMember.memberPhone }">
+		                            </td>    
+		                        </tr>
+		                        <tr class="h-16 p-2">
+		                            <th class="w-1/4 border-r-2 text-right pr-3 bg-red-100"">생년월일</th>
+		                            <td class="px-3">
+		                            	<input type="date" name="birth" class="border-2 w-1/3" value="${loginMember.memberBirth }">
+		                            </td>    
+		                        </tr>
+		                        <tr class="h-16 p-2">
+		                            <th class="w-1/4 border-r-2 text-right pr-3 bg-red-100"">성별</th>
+		                            <td class="px-3">
+		                            	<label for="gender-m">남성</label>
+				                        <input id="gender-m" name="memberGender" type="radio" value="m" class="h-4 w-4 
+				                        bg-indigo-500 focus:ring-indigo-400 border-gray-300 rounded" required/>
+				                        <label for="gender-f">여성</label>
+				                        <input id="gender-f" name="memberGender" type="radio" value="f" class="h-4 w-4 
+				                        bg-indigo-500 focus:ring-indigo-400 border-gray-300 rounded" required/>
 		                            </td>
 		                        </tr>
 		                        <tr class="h-16 p-2">
-		                            <th class="w-1/4 border-r-2">주소</th>              
+		                            <th class="w-1/4 border-r-2 text-right pr-3 bg-red-100"">주소</th>              
 		                            <td class="px-3"><input type="checkbox" name="baseAddress" value="y">기본 배송지로 설정</td>
 		                        </tr>
-		                        <tr class="h-16 p-2">
-		                            <th class="w-1/4 border-r-2"></th>
+		                        <tr class="h-10 p-1">
+		                            <th class="w-1/4 border-r-2 text-right pr-3 bg-red-100""></th>
 		                            <td class="px-3">
 		                                <input type="hidden" id="confmKey" name="confmKey" value="" >
-		                                <input type="text" id="zipNo" name="zipNo" readonly style="width:100px"> <!-- 우편번호 -->
+		                                <input type="text" id="zipNo" name="zipNo" readonly class="border-2" style="width:100px"> <!-- 우편번호 -->
 		                                <input type="button"  value="주소검색" onclick="goPopup();">
 		                            </td> 
 		                        </tr>
-		                        <tr class="h-16 p-2">
-		                            <th class="w-1/4 border-r-2"></th>
-		                            <td class="px-3"><input type="text" id="roadAddrPart1" style="width:85%"></td> <!-- 도로명주소 -->
+		                        <tr class="h-10 p-1">
+		                            <th class="w-1/4 border-r-2 text-right pr-3 bg-red-100""></th>
+		                            <td class="px-3"><input type="text" id="roadAddrPart1" class="border-2" style="width:85%"></td> <!-- 도로명주소 -->
 		                        </tr>
-		                        <tr class="h-16 p-2">
-		                            <th class="w-1/4 border-r-2"></th>
+		                        <tr class="h-10 p-1">
+		                            <th class="w-1/4 border-r-2 text-right pr-3 bg-red-100""></th>
 		                            <td class="px-3">
-		                                <input type="text" id="addrDetail" style="width:40%" value=""> <!-- 상세주소 -->
-		                                <input type="text" id="roadAddrPart2"  style="width:40%" value=""> <!-- 상세주소2 -->
+		                                <input type="text" id="addrDetail" class="border-2" style="width:40%" value=""> <!-- 상세주소 -->
+		                                <input type="text" id="roadAddrPart2" class="border-2" style="width:40%" value=""> <!-- 상세주소2 -->
 		                            </td>
 		                        </tr>
 		                    </tbody>   
 		                </table>
-		                <div class="h-16 p-2 flex justify-center">
-		                    <button type="button" onclick="" style="width: 150px;">회원탈퇴</button>
-		                    <button type="submit" style="width: 150px;">수정</button>            
+		                <div class="h-16 w-full p-2 flex justify-center">
+		                    <button type="button" onclick="location.replace('${path}/member/memberDelete.do')" class="border 
+		                    w-1/6 bg-white text-black rounded-full tracking-wide font-semibold focus:outline-none 
+		                    focus:shadow-outline hover:bg-red-500 hover:text-white shadow-lg cursor-pointer transition 
+		                    ease-in duration-300">회원탈퇴</button>
+		                    <button type="submit" class="border w-1/6 bg-red-500 text-gray-100 rounded-full tracking-wide 
+        					font-semibold focus:outline-none focus:shadow-outline hover:bg-red-600 shadow-lg cursor-pointer 
+        					transition ease-in duration-300">수정</button>            
 		                </div>
 		            </form>
                 </div>
