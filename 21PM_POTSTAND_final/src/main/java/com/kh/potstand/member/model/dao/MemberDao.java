@@ -23,11 +23,17 @@ public interface MemberDao {
 	//회원가입 -> 주소
 	int addressInsert(SqlSession session,Address a);
 	
-	//아이디찾기
+	//이메일로 아이디찾기
 	Member memberSearchIdSelect(SqlSession session,String memberEmail);
 	
 	//비밀번호 재설정
 	int memberResetPwd(SqlSession session, Member m);
+	
+	//회원 주소삭제
+	int memberAddrDelete(SqlSession session, @RequestParam Map param);
+	
+	//회원탈퇴
+	int memberDelete(SqlSession session, @RequestParam Map param);
 	
 	//notice List 호출 (공지사항 페이지)
 	List<Notice> noticeSelectList(SqlSession session, int cPage, int numPerPage);
@@ -47,6 +53,7 @@ public interface MemberDao {
 	
 	//1:1 문의 작성
 	int qnaInsert(SqlSession session, Qna q);
+
 	
 	//qna Count (totalData용)
 	int qnaSelectCount(SqlSession session, String memberId);

@@ -8,10 +8,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kh.potstand.admin.model.dao.AdminDao;
+import com.kh.potstand.admin.model.vo.Address;
+import com.kh.potstand.admin.model.vo.Event;
 import com.kh.potstand.admin.model.vo.Faq;
 import com.kh.potstand.admin.model.vo.Member;
 import com.kh.potstand.admin.model.vo.Notice;
 import com.kh.potstand.admin.model.vo.Qna;
+import com.kh.potstand.admin.model.vo.Review;
 
 @Service
 public class AdminServiceImpl implements AdminService {
@@ -23,8 +26,8 @@ public class AdminServiceImpl implements AdminService {
 	private SqlSessionTemplate session;
 	
 	@Override
-	public List<Member> memberSelect() {
-		return dao.memberSelect(session);
+	public List<Member> memberSelect(int cPage,int numPerpage) {
+		return dao.memberSelect(session,cPage,numPerpage);
 	}
 
 	@Override
@@ -39,8 +42,8 @@ public class AdminServiceImpl implements AdminService {
 	}
 
 	@Override
-	public List<Notice> noticeSelect() {
-		return dao.noticeSelect(session);
+	public List<Notice> noticeSelect(int cPage,int numPerpage) {
+		return dao.noticeSelect(session,cPage,numPerpage);
 	}
 
 	@Override
@@ -66,9 +69,9 @@ public class AdminServiceImpl implements AdminService {
 	}
 
 	@Override
-	public List<Faq> faqSelect() {
+	public List<Faq> faqSelect(int cPage,int numPerpage) {
 		// TODO Auto-generated method stub
-		return dao.faqSelect(session);
+		return dao.faqSelect(session,cPage,numPerpage);
 	}
 
 	@Override
@@ -96,9 +99,9 @@ public class AdminServiceImpl implements AdminService {
 	}
 
 	@Override
-	public List<Qna> qnaSelectList() {
+	public List<Qna> qnaSelectList(int cPage,int numPerpage) {
 		// TODO Auto-generated method stub
-		return dao.qnaSelectList(session);
+		return dao.qnaSelectList(session,cPage,numPerpage);
 	}
 
 	@Override
@@ -106,5 +109,137 @@ public class AdminServiceImpl implements AdminService {
 		// TODO Auto-generated method stub
 		return dao.qnaInsert(session,param);
 	}
+
+	@Override
+	public Qna qnaSelectOne(int no) {
+		// TODO Auto-generated method stub
+		return dao.qnaSelectOne(session,no);
+	}
+
+	@Override
+	public int qnaAnswer(Map param) {
+		// TODO Auto-generated method stub
+		return dao.qnaAnswer(session,param);
+	}
+
+	@Override
+	public int qnaDelete(int no) {
+		// TODO Auto-generated method stub
+		return dao.qnaDelete(session,no);
+	}
+
+	@Override
+	public List<Review> reviewManager(int cPage,int numPerpage) {
+		// TODO Auto-generated method stub
+		return dao.reviewManager(session,cPage,numPerpage);
+	}
+
+	@Override
+	public int reviewDelete(int no) {
+		// TODO Auto-generated method stub
+		return dao.reviewDelete(session,no);
+	}
+
+	@Override
+	public List<Address> memberAddressList() {
+		// TODO Auto-generated method stub
+		return dao.memberAddressList(session);
+	}
+
+	@Override
+	public List<Qna> qnaSelectListNo(int cPage,int numPerpage) {
+		// TODO Auto-generated method stub
+		return dao.qnaSelectListNo(session,cPage,numPerpage);
+	}
+
+	@Override
+	public int newReview() {
+		// TODO Auto-generated method stub
+		return dao.newReview(session);
+	}
+
+	@Override
+	public int answerNo() {
+		// TODO Auto-generated method stub
+		return dao.answerNo(session);
+	}
+
+	@Override
+	public int eventInsertEnd(Map param) {
+		// TODO Auto-generated method stub
+		return dao.eventInsertEnd(session,param);
+	}
+
+	@Override
+	public List<Event> eventSelect(int cPage,int numPerpage) {
+		// TODO Auto-generated method stub
+		return dao.eventSelect(session,cPage,numPerpage);
+	}
+
+	@Override
+	public Event eventSelectOne(int no) {
+		// TODO Auto-generated method stub
+		return dao.eventSelectOne(session,no);
+	}
+
+	/*
+	 * @Override public int eventEnd(int no) { // TODO Auto-generated method stub
+	 * return dao.eventEnd(session,no); }
+	 */
+
+	@Override
+	public int eventEndUpdate() {
+		// TODO Auto-generated method stub
+		return dao.eventEndUpdate(session);
+	}
+
+	@Override
+	public int eventUpdateEnd(Map param) {
+		// TODO Auto-generated method stub
+		return dao.eventUpdateEnd(session,param);
+	}
+
+	@Override
+	public int eventDelete(int no) {
+		// TODO Auto-generated method stub
+		return dao.eventDelete(session,no);
+	}
+
+	@Override
+	public int eventSelectCount() {
+		// TODO Auto-generated method stub
+		return dao.eventSelectCount(session);
+	}
+
+	@Override
+	public int faqSelectCount() {
+		// TODO Auto-generated method stub
+		return dao.faqSelectCount(session);
+	}
+
+	@Override
+	public int noticeSelectCount() {
+		// TODO Auto-generated method stub
+		return dao.noticeSelectCount(session);
+	}
+
+	@Override
+	public int reviewManagerCount() {
+		// TODO Auto-generated method stub
+		return dao.reviewManagerCount(session);
+	}
+
+	@Override
+	public int qnaManagerCount() {
+		// TODO Auto-generated method stub
+		return dao.qnaManagerCount(session);
+	}
+
+	@Override
+	public int qnaManagerNoCount() {
+		// TODO Auto-generated method stub
+		return dao.qnaManagerNoCount(session);
+	}
+
 
 }

@@ -14,7 +14,7 @@
                         </div>
                     </div>
                 </div>
-                <form action="" method="get">
+                <form action="${path }/dd" method="get">
                 
                 <div class="admin-content_area">
                     <div class="admin-content">
@@ -70,18 +70,131 @@
                 <button class="submit-btn">검색</button>
                 </form>
                 
-                <div class="admin-content_area" style="margin-top: 45px;">
-                    <div class="admin-content">
-                        <div class="admin-content_title">
-                            상품목록 (총 0 개)
-                        </div>
-                        <div class="search-table">
-                        
-                        <span class="no_Data">데이터가 없습니다</span>
-                        
-                        </div>
-                    </div>
-                </div>
+            <div class="admin-content_area" style="margin-top: 45px;">
+			<div class="admin-content">
+				<div class="admin-content_title">
+					상품목록 (총 ${count } 개)
+				</div>
+				<div class="search-table">
+				
+				
+				
+				<form method="post" action="/bookin/purchase/purchaseUpdate.kh">
+					<table class="table table-border table-hover table-striped purchase-table">
+						<thead>
+							<tr>
+								<th style="width:3%"><input class="all_cb" type="checkbox"></th>
+								<th style="width:5%">주문번호</th>
+								<th style="width:5%">상품번호</th>
+								<th style="width:5%">수량</th>
+								<th style="width:8%">주문상태</th>
+								<th style="width:15%">주문일</th>
+								<th style="width:10%">수령인</th>
+								<th style="width:15%">배송지</th>
+								<th style="width:10%">연락처</th>
+								<th style="width:10%">정가</th>
+								<th style="width:10%">판매가</th>
+							</tr>
+						</thead>
+						
+						<tbody>
+						
+						<tr>
+							
+							
+							<td><input type="checkbox" value="3" name="purchaseNo"></td>
+							
+							<td class="tr03">
+							
+							3
+							
+							
+							</td>
+							
+							
+							<td>
+							
+							10019
+							
+							
+							</td>
+							
+							
+							<td>
+							
+							1
+							
+							
+							</td>
+							
+							
+							<td>
+							
+							배송중
+							
+							
+							</td>
+							
+							
+							<td>
+							
+							2021-06-02 22:28:42
+							
+							
+							</td>
+							
+							
+							<td>
+							
+							asdasd
+							
+							
+							</td>
+							
+							
+							<td>
+							
+							asdasd
+							
+							
+							</td>
+							
+							
+							<td>
+							
+							01011111111
+							
+							
+							</td>
+							
+							
+							<td>
+							
+							5900
+							
+							
+							</td>
+							
+							
+							<td>
+							
+							5310
+							
+							
+							</td>
+							
+						</tr>
+						
+						
+						</tbody>
+					</table>
+					<button type="submit" class="confirmOrder s-btn" name="confirmOrder" value="true">주문확인</button> 
+					<button type="submit" class="delivery s-btn" name="delivery" value="true">출고</button>
+				</form>
+	
+				</div>
+			</div>
+		</div>
             </section>
         <script>
             window.onpageshow = function(event){

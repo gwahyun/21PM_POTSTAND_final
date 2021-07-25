@@ -3,20 +3,24 @@ package com.kh.potstand.admin.model.dao;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.kh.potstand.admin.model.vo.Address;
+import com.kh.potstand.admin.model.vo.Event;
 import com.kh.potstand.admin.model.vo.Faq;
 import com.kh.potstand.admin.model.vo.Member;
 import com.kh.potstand.admin.model.vo.Notice;
 import com.kh.potstand.admin.model.vo.Qna;
+import com.kh.potstand.admin.model.vo.Review;
 
 @Repository
 public class AdminDaoImpl implements AdminDao {
 
 	@Override
-	public List<Member> memberSelect(SqlSessionTemplate session) {
-		return session.selectList("admin.memberSelect");
+	public List<Member> memberSelect(SqlSessionTemplate session,int cPage,int numPerpage) {
+		return session.selectList("admin.memberSelect",null,new RowBounds((cPage-1)*numPerpage, numPerpage));
 	}
 
 	@Override
@@ -32,8 +36,9 @@ public class AdminDaoImpl implements AdminDao {
 	}
 
 	@Override
-	public List<Notice> noticeSelect(SqlSessionTemplate session) {
-		return session.selectList("admin.noticeSelect");
+	public List<Notice> noticeSelect(SqlSessionTemplate session,int cPage,int numPerpage) {
+		return session.selectList("admin.noticeSelect",null,new RowBounds((cPage-1)*numPerpage, numPerpage)
+);
 	}
 
 	@Override
@@ -61,9 +66,9 @@ public class AdminDaoImpl implements AdminDao {
 	}
 
 	@Override
-	public List<Faq> faqSelect(SqlSessionTemplate session) {
+	public List<Faq> faqSelect(SqlSessionTemplate session,int cPage,int numPerpage) {
 		// TODO Auto-generated method stub
-		return session.selectList("admin.faqSelect");
+		return session.selectList("admin.faqSelect",null,new RowBounds((cPage-1)*numPerpage, numPerpage));
 	}
 
 	@Override
@@ -91,15 +96,149 @@ public class AdminDaoImpl implements AdminDao {
 	}
 
 	@Override
-	public List<Qna> qnaSelectList(SqlSessionTemplate session) {
+	public List<Qna> qnaSelectList(SqlSessionTemplate session,int cPage,int numPerpage) {
 		// TODO Auto-generated method stub
-		return session.selectList("admin.qnaSelectList");
+		return session.selectList("admin.qnaSelectList",null,new RowBounds((cPage-1)*numPerpage, numPerpage));
 	}
 
 	@Override
 	public int qnaInsert(SqlSessionTemplate session, Map param) {
 		// TODO Auto-generated method stub
 		return session.insert("admin.qnaInsert", param);
+	}
+
+	@Override
+	public Qna qnaSelectOne(SqlSessionTemplate session, int no) {
+		// TODO Auto-generated method stub
+		return session.selectOne("admin.qnaSelectOne", no);
+	}
+
+	@Override
+	public int qnaAnswer(SqlSessionTemplate session, Map param) {
+		// TODO Auto-generated method stub
+		int result = session.insert("admin.qnaAnswer", param);
+		return result>0?session.update("admin.qnaStatusUpdate", param):0;
+	}
+
+	@Override
+	public int qnaDelete(SqlSessionTemplate session, int no) {
+		// TODO Auto-generated method stub
+		return session.delete("admin.qnaDelete", no);
+	}
+
+	@Override
+	public List<Review> reviewManager(SqlSessionTemplate session,int cPage,int numPerpage) {
+		// TODO Auto-generated method stub
+		return session.selectList("admin.reviewManager",null,new RowBounds((cPage-1)*numPerpage, numPerpage));
+	}
+
+	@Override
+	public int reviewDelete(SqlSessionTemplate session, int no) {
+		// TODO Auto-generated method stub
+		return session.delete("admin.reviewDelete", no);
+	}
+
+	@Override
+	public List<Address> memberAddressList(SqlSessionTemplate session) {
+		// TODO Auto-generated method stub
+		return session.selectList("admin.memberAddressList");
+	}
+
+	@Override
+	public List<Qna> qnaSelectListNo(SqlSessionTemplate session,int cPage,int numPerpage) {
+		// TODO Auto-generated method stub
+		return session.selectList("admin.qnaSelectListNo",null,new RowBounds((cPage-1)*numPerpage, numPerpage));
+	}
+
+	@Override
+	public int newReview(SqlSessionTemplate session) {
+		// TODO Auto-generated method stub
+		return session.selectOne("admin.newReview");
+	}
+
+	@Override
+	public int answerNo(SqlSessionTemplate session) {
+		// TODO Auto-generated method stub
+		return session.selectOne("admin.answerNo");
+	}
+
+	@Override
+	public int eventInsertEnd(SqlSessionTemplate session, Map param) {
+		// TODO Auto-generated method stub
+		return session.insert("admin.eventInsertEnd", param);
+	}
+
+	@Override
+	public List<Event> eventSelect(SqlSessionTemplate session,int cPage,int numPerpage) {
+		// TODO Auto-generated method stub
+		return session.selectList("admin.eventSelect",null,new RowBounds((cPage-1)*numPerpage, numPerpage));
+	}
+
+	@Override
+	public Event eventSelectOne(SqlSessionTemplate session, int no) {
+		// TODO Auto-generated method stub
+		return session.selectOne("admin.eventSelectOne",no);
+	}
+
+	/*
+	 * @Override public int eventEnd(SqlSessionTemplate session, int no) { // TODO
+	 * Auto-generated method stub return session.update("admin.eventEnd", no); }
+	 */
+
+	@Override
+	public int eventEndUpdate(SqlSessionTemplate session) {
+		// TODO Auto-generated method stub
+		return session.update("admin.eventEndUpdate");
+	}
+
+	@Override
+	public int eventUpdateEnd(SqlSessionTemplate session, Map param) {
+		// TODO Auto-generated method stub
+		return session.update("admin.eventUpdateEnd", param);
+	}
+
+	@Override
+	public int eventDelete(SqlSessionTemplate session, int no) {
+		// TODO Auto-generated method stub
+		return session.delete("admin.eventDelete", no);
+	}
+
+	@Override
+	public int eventSelectCount(SqlSessionTemplate session) {
+		// TODO Auto-generated method stub
+		return session.selectOne("admin.eventSelectCount");
+	}
+
+	@Override
+	public int faqSelectCount(SqlSessionTemplate session) {
+		// TODO Auto-generated method stub
+		return session.selectOne("admin.faqSelectCount");
+	}
+
+	@Override
+	public int noticeSelectCount(SqlSessionTemplate session) {
+		// TODO Auto-generated method stub
+		return session.selectOne("admin.noticeSelectCount");
+	}
+
+	@Override
+	public int reviewManagerCount(SqlSessionTemplate session) {
+		// TODO Auto-generated method stub
+		return session.selectOne("admin.reviewManagerCount");
+	}
+
+
+	@Override
+	public int qnaManagerCount(SqlSessionTemplate session) {
+		// TODO Auto-generated method stub
+		return session.selectOne("admin.qnaManagerCount");
+	}
+
+
+	@Override
+	public int qnaManagerNoCount(SqlSessionTemplate session) {
+		// TODO Auto-generated method stub
+		return session.selectOne("admin.qnaManagerNoCount");
 	}
 
 }

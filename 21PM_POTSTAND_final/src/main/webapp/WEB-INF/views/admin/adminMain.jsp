@@ -24,8 +24,8 @@
                         문의/리뷰
                     </div>
                     <div class="admin-content-itmes">
-                    <div><span>신규 리뷰</span><a href="/bookin/admin/review.jsp">0 건</a></div>
-                    <div><span>미답변 문의</span><a href="/bookin/admin/qnaReply.jsp?type=noreply">0 건</a></div>
+                    <div><span>신규 리뷰</span><a href="${path }/admin/reviewManager">${newReview } 건</a></div>
+                    <div><span>미답변 문의</span><a href="${path }/admin/qnaManagerNo">${answerNo } 건</a></div>
                     </div>
                 </div>
                 

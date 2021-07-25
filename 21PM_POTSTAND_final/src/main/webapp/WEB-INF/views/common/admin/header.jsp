@@ -16,10 +16,11 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 <!-- Latest compiled JavaScript -->
 <script src="${path }/resources/js/jquery-3.6.0.min.js"></script>
+<link href="${path}/resources/static/tailwind.css" type="text/css" rel="stylesheet"/>
 </head>
     <body >
         <aside>
-            <div class="admin-logo"><a href="${path }/admin/adminMain">BOOKin</a></div>
+            <div class="admin-logo"><a href="${path }/admin/adminMain">Potstand</a></div>
             <ul>
                 <li class="admin-aside-top_menu"><span class="admin-aside-top_text">상품</span>
                     <ul class="admin-aside-side_menus">

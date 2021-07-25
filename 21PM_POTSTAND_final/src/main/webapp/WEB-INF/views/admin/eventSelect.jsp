@@ -5,7 +5,11 @@
 <c:set var="path" value="${pageContext.request.contextPath }"/>
 <!DOCTYPE html>
 <jsp:include page="/WEB-INF/views/common/admin/header.jsp"/>
-        
+        <script
+	src="https://code.jquery.com/jquery-3.6.0.min.js"
+	integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+	crossorigin="anonymous"></script>
+<section>
 <section>
 <div class="admin-content_area">
             <div class="admin-content">
@@ -23,49 +27,50 @@
                                         <th style="width: 1%;">번호</th>
                                        
                                         <th style="width: 3%">제목</th>
-                                        <th style="width: 1%;">작성자</th>
-                                        <th style="width: 1%;">등록일자</th>
-                                        <th style="width: 1%;">조회수</th>
+                                        <th style="width: 1%;">이벤트시작</th>
+                                        <th style="width: 1%;">이벤트종료</th>
+                                        <th style="width: 1%;">이벤트상태</th>
                                         <th style="width: 1%;">수정</th>
                                         <th style="width: 1%;">삭제</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                
+                                	<c:forEach items="${list }" var="e" varStatus="vs">
                                     <tr>
-                                        <td>6</td>
-                                       
-                                        <td style="text-align: left;">이벤트~</td>
+                                        <td>${e.eventNo }</td>
+                                        <td style="text-align: left;">${e.eventTitle }</td>
+                                        <td><fmt:formatDate value="${e.eventStart }" pattern="yyyy년MM월dd일"/> </td>
+                                        <td><fmt:formatDate value="${e.eventEnd }" pattern="yyyy년MM월dd일"/> </td>
                                         <td>
-                                        
-                                        admin
+                                         <c:choose>
+                                         	<c:when test="${e.endCheck == 'N'}">
+                                         		진행중
+                                         	</c:when>
+                                         	<c:otherwise>
+                                         		종료
+                                         	</c:otherwise>
+                                         </c:choose>
+                                       
+                                       <%--  <c:choose>
+                                        	<c:when test="${e.endCheck == 'N'}">
+                                        		<button class="ch${vs.count }" value="${e.eventNo }">진행중</button>
+                                        	</c:when>
+                                        	<c:otherwise>
+                                        		종료
+                                        	</c:otherwise>
+                                        </c:choose> --%>
+                                       	
                                         </td>
-                                        <td>2021-06-11</td>
-                                        <td>17</td>
-                                        <td><a class="update-btn" href="#">수정</a></td>
-                                        <td><a class="update-btn" style="background-color: #FF5A5A;" href="#">삭제</a></td>
+                                        <td><a class="update-btn" href="${path }/admin/eventUpdate?no=${e.eventNo }">수정</a></td>
+                                        <td><button onclick="eventDelete(${e.eventNo})"class="update-btn" style="background-color: #FF5A5A;" >삭제</button></td>
                                     </tr>
-                                
-                                  
-                                
+                                </c:forEach>
                                 </tbody>
                             </table>
                         </div>
                     </div>
                     <!-- 페이지 네비게이션 자리 -->
-                    <div class="pagination">
-                    
-                        
-                        
-                        
-                            
-                                <a class="on">1</a>
-                            
-                        
-                        
-                        
-                        
-                    </div>
+                     <div class="pageBar flex my-5">${pageBar}</div>
                         
                     <form class="page-form" action="notice.jsp" method="post">
                         <input type="hidden" name="pageNo">
@@ -74,6 +79,26 @@
                 
             </div>
 </section>
+	<script>
+	/* $("td>button").click(e=>{
+		if(confirm('종료시키겠습니까?')){
+			let no = $(e.target).val();					
+			$.get("${path}/admin/eventEnd?no="+no,data=>{
+				if(data==1){
+					$(e.target).parent().html("종료");
+					$(e.target).remove();
+				}
+			})
+		}
+	}) */
+	
+	const eventDelete=(no)=>{
+		if(confirm('삭제 하시겠습니까?')){
+			location.assign('${path}/admin/eventDelete?no='+no);
+			
+		}
+	}
+	</script>
 		
 </body>
 </html>

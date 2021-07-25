@@ -3,11 +3,12 @@ package com.kh.potstand.member.controller;
 import java.io.UnsupportedEncodingException;
 import java.security.GeneralSecurityException;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import javax.mail.internet.MimeMessage;
 import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
@@ -16,6 +17,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -56,7 +58,8 @@ public class MemberController {
 	//로그인 계정확인 매소드
 	@RequestMapping("/member/memberLoginEnd.do")
 	@ResponseBody
-	public Member memberLoginEnd(@RequestParam Map param, HttpSession session, HttpServletResponse response) {
+	public Member memberLoginEnd(@RequestParam Map param, HttpSession session, HttpServletResponse response) throws NoSuchAlgorithmException,
+	UnsupportedEncodingException, GeneralSecurityException {
 		//아이디저장 체크후 쿠키 저장
 		String idCheck=(String)param.get("saveId");	
 		if(idCheck.equals("true")) {
@@ -71,6 +74,22 @@ public class MemberController {
 		Member m=service.memberSelect(param);
 		if(m!=null) {
 			if(pwEncoder.matches((String)param.get("memberPwd"), m.getMemberPwd())) {
+				//암호화한정보 다시 복호화
+				m.setMemberEmail(aes.decrypt(m.getMemberEmail()));
+				m.setMemberPhone(aes.decrypt(m.getMemberPhone()));
+				log.debug("{}",m.getAddresses());
+				if(m.getAddresses()!=null) {
+					List<Address> list=new ArrayList<Address>();
+					for(Address a : m.getAddresses()) {
+						a.setPostNo(aes.decrypt(a.getPostNo()));
+						a.setRoadAddr(aes.decrypt(a.getRoadAddr()));
+						a.setOldAddr(aes.decrypt(a.getOldAddr()));
+						a.setDetailAddr(aes.decrypt(a.getDetailAddr()));
+						list.add(a);
+					}
+					m.setAddresses(list);
+				}
+
 				//해당 계정이 잇으면 session생성
 				session.setAttribute("loginMember", m);
 				return m;
@@ -207,5 +226,79 @@ public class MemberController {
 		mv.setViewName("common/msg");
 		return mv;
 	}
+	
+	//중복아이디 체크
+	@RequestMapping("/member/memberCheckId.do")
+	@ResponseBody
+	public Member memberCheckId(@RequestParam Map param) {
+		return service.memberSelect(param);
+	}
+		
+	//증복이메일 체크
+	@RequestMapping("/member/memberCheckEmail.do")
+	@ResponseBody
+	public Member memberCheckEmail(String memberEmail) throws NoSuchAlgorithmException, UnsupportedEncodingException, 
+	GeneralSecurityException {
+		return service.memberSearchIdSelect(aes.encrypt(memberEmail));
+	}
 
+	//마이페이지 전환
+	@RequestMapping("/member/memberMypage.do")
+	public String memberMypage() {
+		return "member/memberMypage";
+	}
+	
+	//회원정보수정 비밀번호확인페이지 전환
+	@RequestMapping("/member/memberCheckPwd.do")
+	public String memberCheckPwd() {
+		return "member/memberCheckPwd";
+	}
+	
+	//회원정보수정 페이지전환
+	@RequestMapping("/member/memberUpdate.do")
+	public String memberUpdate(@RequestParam Map param, Model model) {
+		Member m=service.memberSelect(param);
+		if(pwEncoder.matches((String)param.get("memberPwd"),m.getMemberPwd())) {
+			return "member/memberUpdate";
+		}else {
+			model.addAttribute("msg", "비밀번호를 틀렸습니다. 다시 시도해주세요");
+			model.addAttribute("loc", "/member/memberMypage.do");
+			return "common/msg";
+		}	
+	}
+	
+	//회원탈퇴 페이지전환
+	@RequestMapping("/member/memberDelete.do")
+	public String memberDelete() {
+		return "member/memberDelete";
+	}
+	
+	//회원탈퇴
+	@RequestMapping("/member/memberDeleteEnd.do")
+	public String memberDeleteEnd(@RequestParam Map param, HttpSession session, Model model) {
+		Member m=service.memberSelect(param);
+		String msg="";
+		String loc="";
+		if(pwEncoder.matches((String)param.get("memberPwd"),m.getMemberPwd())) {
+			int result=0;		
+			try {
+				result=service.memberDelete(param);
+			}catch(Exception e) {
+				msg=e.getMessage();
+			}
+			if(result>0) {
+				session.invalidate();
+				msg="회원탈퇴에 성공하였습니다. 이용해주셔서 감사합니다.";
+				loc="/";	
+			}else {
+				loc="/member/memberMypage.do";
+			}				
+		}else {
+			msg="비밀번호를 틀렸습니다. 다시 시도해주세요";
+			loc="/member/memberMypage.do";
+		}	
+		model.addAttribute("msg", msg);
+		model.addAttribute("loc", loc);
+		return "common/msg";
+	}
 }

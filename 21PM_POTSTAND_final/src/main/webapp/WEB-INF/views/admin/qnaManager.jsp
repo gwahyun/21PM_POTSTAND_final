@@ -6,19 +6,20 @@
 <!DOCTYPE html>
 <jsp:include page="/WEB-INF/views/common/admin/header.jsp"/>
         
+<script
+	src="https://code.jquery.com/jquery-3.6.0.min.js"
+	integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+	crossorigin="anonymous"></script>
+<section>
 <section>
  <div class="admin-content_area">
             <div class="admin-content ">
                 <div class="admin-content_title a_bth">QnA 문의
     
-                
-                <a class="noreply">미답변</a>
-                <a class="all on">전체</a>
+                <button class="update-btn" style="background-color:gray"onclick="location.assign('${path}/admin/qnaManagerNo')">미답변</button>
+                <button class="update-btn" onclick="location.assign('${path}/admin/qnaManager')">전체</button>
                 
                 </div>
-                <form class="rsform" action="" method="get">
-                    <input type="hidden" value="all" name="type">
-                </form>
             </div>
         </div>
             <div class="admin-content_area">
@@ -49,7 +50,7 @@
                                         
                                         ${q.memberId }
                                         </td>
-                                        <td>${q.qnaDate }</td>
+                                        <td><fmt:formatDate value="${q.qnaDate }" pattern="yyyy년MM월dd일"/></td>
                                         <td>
                                             <span class="contents-info" oninput="contentsInfo();">							
                                                 <!-- 댓글 개수 0보다 클 경우 답변완료 -->
@@ -58,8 +59,15 @@
                                                                         
                                             </span>
                                         </td>
-                                        <td><a id="10" class="update-btn" onclick="">답변</a></td>
-                                        <td><a class="update-btn" style="background-color: #FF5A5A;" href="#">삭제</a></td>
+                                        <c:choose>
+                                        	<c:when test="${q.qnaStatus == 'N' }">
+		                                        <td><a class="update-btn" onclick="qnaManager(${q.qnaNo});" href="#">답변</a></td>
+                                        	</c:when>
+                                        	<c:otherwise>
+                                        		<td><a class="update-btn" style="background-color: blue">완료</a></td>
+                                        	</c:otherwise>
+                                        </c:choose>
+                                        <td><button class="update-btn" onclick="deleteCheck(${q.qnaNo});" style="background-color: #FF5A5A;">삭제</></button></td>
                                     </tr>
                                     </c:forEach>
                                     
@@ -70,15 +78,31 @@
                         </div>
                     </div>
                     <!-- 페이지 네비게이션 자리 -->
-                    <div class="pagination">
-                            <a class="on">1</a>
-                    </div>
+                    <div class="pageBar flex my-5">${pageBar}</div>
                     <form class="page-form" action="qnaReply.jsp" method="post">
                         <input type="hidden" name="pageNo">
                     </form>
                 </div>
             </div>
 </section>
+	<script>
+		function deleteCheck(no){
+			if(confirm('정말 삭제하시겠습니까?')){
+				location.assign('${path}/admin/qnaDelete?no='+no);				
+			}
+		}
+	
+		function qnaManager(no){
+			const status="width=600px,height=400px";
+        	const title="duplicateId";
+        	const url="${path}/admin/qnaReply?no="+no;
+        	open(url,title,status);
+		}
+	
+		
+	
+</script>
+
 		
 </body>
 </html>

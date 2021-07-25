@@ -18,11 +18,14 @@ public interface MemberService {
 	//회원가입
 	int memberInsert(Member m) throws Exception;
 	
-	//아이디찾기
+	//이메일로 아이디찾기
 	Member memberSearchIdSelect(String memberEmail);
 	
 	//비밀번호 재설정
 	Member memberResetPwd(Member m) throws Exception;
+	
+	//회원탈퇴
+	int memberDelete(@RequestParam Map param) throws Exception;
 
 	//notice List 호출 (공지사항 페이지)
 	List<Notice> noticeSelectList(int cPage, int numPerPage);
@@ -41,6 +44,7 @@ public interface MemberService {
 	
 	//1:1문의 작성
 	int qnaInsert(Qna q);
+
 	
 	//qna Count (totalData용)
 	int qnaSelectCount(String memberId);
