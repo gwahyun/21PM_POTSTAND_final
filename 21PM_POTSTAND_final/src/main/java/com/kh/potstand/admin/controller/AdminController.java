@@ -1,5 +1,6 @@
 package com.kh.potstand.admin.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -10,10 +11,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.potstand.admin.model.service.AdminService;
+import com.kh.potstand.admin.model.vo.Address;
 import com.kh.potstand.admin.model.vo.Event;
 import com.kh.potstand.admin.model.vo.Faq;
 import com.kh.potstand.admin.model.vo.Member;
@@ -348,8 +349,18 @@ public ModelAndView eventInsertEnd(ModelAndView mv,@RequestParam Map param) {
 		int totalData = service.memberSelectCount();
 		mv.addObject("pageBar", PageFactory.getPageBar(totalData, cPage, numPerpage,5,"memberSelect"));
 		List<Member> list = service.memberSelect(cPage,numPerpage);
+		
 		for(Member m : list) {
 			try {
+	               List<Address> ad=new ArrayList<Address>();
+		               for(Address a : m.getAddress()) {
+		                  a.setPostNo(aes.decrypt(a.getPostNo()));
+		                  a.setRoadAddr(aes.decrypt(a.getRoadAddr()));
+		                  a.setOldAddr(aes.decrypt(a.getOldAddr()));
+		                  a.setDetailAddr(aes.decrypt(a.getDetailAddr()));
+		                  ad.add(a);
+		               }
+		               m.setAddress(ad);
 				m.setMemberEmail(aes.decrypt(m.getMemberEmail()));
 				m.setMemberPhone(aes.decrypt(m.getMemberPhone()));
 			}catch(Exception e) {

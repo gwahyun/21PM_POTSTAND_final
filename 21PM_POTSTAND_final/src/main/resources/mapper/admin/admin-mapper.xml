@@ -12,7 +12,7 @@
  	<select id="memberSelect" resultMap="memberMap">
  		select * from member m
 		    join address a on m.member_id = a.member_id 
-		    where member_sort = 'N'
+		    where member_sort = 'N' 
             order by m.enroll_date desc
  	</select>
  	
@@ -201,6 +201,7 @@
  	
  	<select id="eventSelect" resultMap="eventMap">
  		select * from event
+ 		order by end_check asc
  	</select>
  	
  	<select id="eventSelectCount" resultType="_int">
