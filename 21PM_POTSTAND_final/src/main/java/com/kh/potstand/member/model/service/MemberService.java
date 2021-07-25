@@ -44,6 +44,7 @@ public interface MemberService {
 	
 	//1:1문의 작성
 	int qnaInsert(Qna q);
+
 	
 	//qna Count (totalData용)
 	int qnaSelectCount(String memberId);

@@ -12,7 +12,18 @@
  	<select id="memberSelect" resultMap="memberMap">
  		select * from member m
 		    join address a on m.member_id = a.member_id 
-		    where member_sort = 'N'
+		    where member_sort = 'N' 
+            order by m.enroll_date desc
+ 	</select>
+ 	
+ 	<select id="newReview" resultType="int">
+ 		select count(*) from review
+   		 where review_date > sysdate -3
+ 	</select>
+ 	
+ 	<select id="answerNo" resultType="int">
+ 		select count(*) from qna
+  		  where qna_status = 'N'
  	</select>
  	
  	<resultMap id="memberMap" type="com.kh.potstand.admin.model.vo.Member">
@@ -43,9 +54,20 @@
  		delete from member where member_id = #{memberId}
  	</delete>
  	
+ 	<!-- 주소관리 -->
+ 	<select id="memberAddressList" resultMap="addressMap">
+ 		select * from address 
+ 	</select>
+ 	
+ 	
  	<!-- 공지사항 -->
  	<select id="noticeSelect" resultMap="noticeMap">
  		select * from notice
+		order by notice_date desc
+ 	</select>
+ 	
+ 	<select id="noticeSelectCount" resultType="int">
+ 		select count(*) from notice
  	</select>
  	
  	<resultMap id="noticeMap" type="com.kh.potstand.admin.model.vo.Notice">
@@ -78,6 +100,10 @@
  		select * from faq
  	</select>
  	
+ 	<select id="faqSelectCount" resultType="int">
+ 		select count(*) from faq
+ 	</select>
+ 	
  	<resultMap id="faqMap" type="com.kh.potstand.admin.model.vo.Faq">
  		<id property="faqNo" column="faq_no"/>
  		<result property="faqTitle" column="faq_title"/>
@@ -103,7 +129,23 @@
  	<!-- QNA -->
  	
  	<select id="qnaSelectList" resultMap="qnaMap">
- 		select * from qna 
+ 		select * from qna order by qna_date desc
+ 	</select>
+ 	
+ 	<select id="qnaManagerCount" resultType="int">
+ 		select count(*) from qna
+ 	</select>
+ 	
+ 	<select id="qnaManagerNoCount" resultType="int">
+ 		select count(*) from qna where qna_status = 'N' order by qna_date desc
+ 	</select>
+ 	
+ 	<select id="qnaSelectListNo" resultMap="qnaMap">
+ 		select * from qna where qna_status = 'N'
+ 	</select>
+ 	
+ 	<select id="qnaSelectOne" resultMap="qnaMap">
+ 		select * from qna where qna_no = #{no}
  	</select>
  	
  	<resultMap id="qnaMap" type="com.kh.potstand.admin.model.vo.Qna">
@@ -119,4 +161,88 @@
  	<insert id="qnaInsert">
  		insert into qna values(seq_qna.nextval,#{memberId},#{qnaSort},#{qnaTitle},#{qnaContent},default,'N')
  	</insert>
+ 	
+ 	<insert id="qnaAnswer">
+ 		insert into answer values(seq_answer.nextval,#{qnaNo},#{memberId},#{answerContent},default)
+ 	</insert>
+ 	
+ 	<update id="qnaStatusUpdate">
+ 		update qna
+ 			set qna_status = 'Y'
+ 				where qna_no = #{qnaNo}
+ 	</update>
+ 	
+ 	<delete id="qnaDelete">
+ 		delete from qna where qna_no = #{no}
+ 	</delete>
+ 	
+ 	<!-- review  -->
+ 	<select id="reviewManager" resultMap="reviewMap">
+ 		select * from review order by review_date desc
+ 	</select>
+ 	
+ 	<select id="reviewManagerCount" resultType="int">
+ 		select count(*) from review
+ 	</select>
+ 	
+ 	<resultMap type="com.kh.potstand.admin.model.vo.Review" id="reviewMap">
+ 		<id column="review_no" property="reviewNo"/>
+ 		<result column="book_code" property="bookCode"/>
+ 		<result column="member_id" property="memberId"/>
+ 		<result column="review_content" property="reviewContent"/>
+ 		<result column="review_date" property="reviewDate"/>
+ 	</resultMap>
+ 	
+ 	<delete id="reviewDelete">
+ 		delete from review where review_no = #{no}
+ 	</delete>
+ 	
+ 	<!-- event -->
+ 	
+ 	<select id="eventSelect" resultMap="eventMap">
+ 		select * from event
+ 		order by end_check asc
+ 	</select>
+ 	
+ 	<select id="eventSelectCount" resultType="_int">
+ 		select count(*) from event
+ 	</select>
+ 	
+ 	<select id="eventSelectOne" resultMap="eventMap">
+ 		select * from event where event_no = #{no}
+ 	</select>
+ 	
+ 	<resultMap id="eventMap" type="com.kh.potstand.admin.model.vo.Event">
+ 		<id column="event_no" property="eventNo"/>
+ 		<result column="event_title" property="eventTitle"/>
+ 		<result column="EVENT_INFO" property="eventInfo"/>
+ 		<result column="EVENT_START" property="eventStart"/>
+ 		<result column="EVENT_END" property="eventEnd"/>
+ 		<result column="END_CHECK" property="endCheck"/>
+ 	</resultMap>
+ 	
+ 	<insert id="eventInsertEnd">
+ 		insert into event values(seq_event.nextval,#{eventTitle},#{eventInfo},sysdate,#{eventEnd},default)
+ 	</insert>
+ 	
+ <!-- 	<update id="eventEnd">
+ 		update event set end_check ='Y' where event_no = #{no}
+ 	</update> -->
+ 	
+ 	<update id="eventEndUpdate">
+ 		update event
+    		set end_check = 'Y'
+      			  where sysdate >= event_end
+ 	</update>
+ 	
+ 	<update id="eventUpdateEnd">
+ 	update event
+   	 set event_title =#{eventTitle} , event_info = #{eventInfo} ,event_end = #{eventEnd}
+    	    where event_no = #{eventNo}
+ 	</update>
+ 	
+ 	<delete id="eventDelete">
+ 		delete from event where event_no = #{no}
+ 	</delete>
+ 	
 </mapper>

@@ -52,6 +52,7 @@ public interface MemberDao {
 	
 	//1:1 문의 작성
 	int qnaInsert(SqlSession session, Qna q);
+
 	
 	//qna Count (totalData용)
 	int qnaSelectCount(SqlSession session, String memberId);
