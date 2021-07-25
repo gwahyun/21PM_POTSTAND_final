@@ -16,7 +16,13 @@ public interface MemberService {
 	Member memberSelect(@RequestParam Map param);
 	
 	//회원가입
-	int insertMember(Member m) throws Exception;
+	int memberInsert(Member m) throws Exception;
+	
+	//아이디찾기
+	Member memberSearchIdSelect(String memberEmail);
+	
+	//비밀번호 재설정
+	Member memberResetPwd(Member m) throws Exception;
 
 	//notice List 호출 (공지사항 페이지)
 	List<Notice> noticeSelectList(int cPage, int numPerPage);

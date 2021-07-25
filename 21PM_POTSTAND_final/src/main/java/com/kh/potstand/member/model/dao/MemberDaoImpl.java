@@ -37,6 +37,18 @@ public class MemberDaoImpl implements MemberDao{
 		return session.insert("member.addressInsert", a);
 	}
 	
+	//아이디찾기
+	@Override
+	public Member memberSearchIdSelect(SqlSession session, String memberEmail) {
+		// TODO Auto-generated method stub
+		return session.selectOne("member.memberSearchIdSelect", memberEmail);
+	}
+	
+	//비밀번호재설정
+	@Override
+	public int memberResetPwd(SqlSession session, Member m) {
+		return session.update("member.memberResetPwd", m);
+	}
 
 	//notice List 호출 (공지사항 페이지)
 	@Override
@@ -93,6 +105,10 @@ public class MemberDaoImpl implements MemberDao{
 		return session.selectList("function.cartSelectList", memberId);
 	}
 	
+	
+
+	
+
 	
 
 	
