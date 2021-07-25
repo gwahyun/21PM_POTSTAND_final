@@ -1,4 +1,6 @@
-package com.kh.potstand.order.model.vo;
+package com.kh.potstand.book.model.vo;
+
+import org.apache.ibatis.type.Alias;
 
 import lombok.Data;
 

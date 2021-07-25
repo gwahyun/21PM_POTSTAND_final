@@ -109,14 +109,13 @@ public class FunctionController {
 	@RequestMapping("/member/cartList.do")
 	public ModelAndView cartSelectList(ModelAndView mv, HttpSession session){
 		try {
-			//String memberId =((Member)(session.getAttribute("loginMember"))).getMemberId();
-			//List<Cart> cartList = service.cartSelectList(memberId);
-			//mv.addObject("cartList", cartList);
+			String memberId =((Member)(session.getAttribute("loginMember"))).getMemberId();
+			List<Cart> cartList = service.cartSelectList(memberId);
+			log.debug(cartList.toString());
+			mv.addObject("cartList", cartList);
 			mv.setViewName("cart/cartList");
 		}catch(Exception e) {
-			mv.addObject("msg","로그인이 필요한 서비스입니다.");
-			mv.addObject("loc","/member/memberLogin.do");
-			mv.setViewName("common/msg");
+			e.printStackTrace();
 		}finally {
 			return mv;
 		}
