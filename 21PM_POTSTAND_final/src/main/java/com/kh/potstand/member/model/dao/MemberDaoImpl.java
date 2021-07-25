@@ -12,6 +12,8 @@ import com.kh.potstand.admin.model.vo.Qna;
 import com.kh.potstand.member.model.vo.Address;
 import com.kh.potstand.member.model.vo.Member;
 
+import lombok.extern.slf4j.Slf4j;
+@Slf4j
 @Repository
 public class MemberDaoImpl implements MemberDao{
 
@@ -34,6 +36,18 @@ public class MemberDaoImpl implements MemberDao{
 		return session.insert("member.addressInsert", a);
 	}
 	
+	//아이디찾기
+	@Override
+	public Member memberSearchIdSelect(SqlSession session, String memberEmail) {
+		// TODO Auto-generated method stub
+		return session.selectOne("member.memberSearchIdSelect", memberEmail);
+	}
+	
+	//비밀번호재설정
+	@Override
+	public int memberResetPwd(SqlSession session, Member m) {
+		return session.update("member.memberResetPwd", m);
+	}
 
 	//notice List 호출 (공지사항 페이지)
 	@Override
@@ -68,8 +82,27 @@ public class MemberDaoImpl implements MemberDao{
 	//1:1문의 작성
 	@Override
 	public int qnaInsert(SqlSession session, Qna q) {
+		log.debug(q.toString());
 		return session.insert("function.qnaInsert", q);
 	}
+	
+	//notice count : totalData용
+	@Override
+	public int noticeSelectCount(SqlSession session) {
+		return session.selectOne("function.noticeSelectCount");
+	}
+
+	//qna count : totalData용
+	@Override
+	public int qnaSelectCount(SqlSession session, String memberId) {
+		return session.selectOne("function.qnaSelectCount", memberId);
+	}
+	
+	
+
+	
+
+	
 
 	
 }

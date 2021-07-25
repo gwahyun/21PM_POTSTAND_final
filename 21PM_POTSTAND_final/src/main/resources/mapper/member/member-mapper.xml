@@ -37,4 +37,12 @@
 		INSERT INTO ADDRESS VALUES(SEQ_ADDRESS.NEXTVAL,#{memberId},#{postNo},#{roadAddr},#{oldAddr},#{detailAddr}
 		,#{defaultAddr})
 	</insert>
+	
+	<select id="memberSearchIdSelect" resultMap="memberMap">
+		SELECT * FROM MEMBER WHERE MEMBER_EMAIL=#{memberEmail}
+	</select>
+	
+	<update id="memberResetPwd">
+		UPDATE MEMBER SET MEMBER_PWD=#{memberPwd} WHERE MEMBER_ID=#{memberId}
+	</update>
 </mapper>

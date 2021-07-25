@@ -3,6 +3,7 @@ package com.kh.potstand.member.model.service;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.session.SqlSession;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.kh.potstand.admin.model.vo.Notice;
@@ -15,13 +16,22 @@ public interface MemberService {
 	Member memberSelect(@RequestParam Map param);
 	
 	//회원가입
-	int insertMember(Member m) throws Exception;
+	int memberInsert(Member m) throws Exception;
+	
+	//아이디찾기
+	Member memberSearchIdSelect(String memberEmail);
+	
+	//비밀번호 재설정
+	Member memberResetPwd(Member m) throws Exception;
 
 	//notice List 호출 (공지사항 페이지)
 	List<Notice> noticeSelectList(int cPage, int numPerPage);
 	
 	//notice Content 호출
 	Notice noticeSelectOne(int noticeNo);
+	
+	//notice Count (totalData용)
+	int noticeSelectCount();
 	
 	//내 문의 리스트 호출
 	List<Qna> qnaSelectList(String memberId, int cPage, int numPerPage);
@@ -32,4 +42,7 @@ public interface MemberService {
 	//1:1문의 작성
 	int qnaInsert(Qna q);
 
+	
+	//qna Count (totalData용)
+	int qnaSelectCount(String memberId);
 }

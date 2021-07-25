@@ -17,7 +17,7 @@
             <div id="qna-nav" class="text-center bg-gray-400 border-0 py-1 px-3 focus:outline-none hover:bg-blue-400 
 	          		text-white rounded text-base mt-4 md:mt-0 cursor-pointer font-bold w-4/12"><a href="${path}/qna/qnaWrite.do">1:1문의하기</a></div>
             <div id="myqna-nav" class="text-center bg-gray-400 border-0 py-1 px-3 focus:outline-none hover:bg-blue-400 
-	          		text-white rounded text-base mt-4 md:mt-0 cursor-pointer font-bold w-4/12"><a href="${path}/qna/myQnaList.do">내 질문</a></div>
+	          		text-white rounded text-base mt-4 md:mt-0 cursor-pointer font-bold w-4/12"><a href="${path}/qna/myQnaList.do">내 문의내역</a></div>
         </div>
         <div class="notice-list my-10">
             <div class="notice-list-head flex w-full bg-gray-300">
@@ -34,8 +34,8 @@
                     조회수
                 </div>
             </div>
-            <c:forEach var="n" items="${noticeList}">
-	            <div class="notice-list-body">
+            <div class="notice-list-body">
+            	<c:forEach var="n" items="${noticeList}">
 	                <div class="notice-obj flex">
 	                    <div class="notice-no border-solid border-gray-400 border w-1/12 text-center">
 	                    	<c:out value="${n.noticeNo}"/>
@@ -53,7 +53,10 @@
             </c:forEach> 
             </div>
         </div>
-        <div class="pageBar my-5 text-center"> &lt; 1 2 3 4 5 &gt;</div>
+        
+        
+    	<div class="pageBar flex my-5">${pageBar}</div>
+	    
     </section>
     <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
 </body>

@@ -1,5 +1,7 @@
 package com.kh.potstand.member.controller;
 
+import java.util.Map;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.potstand.admin.model.vo.Qna;
+import com.kh.potstand.common.PageFactory;
 import com.kh.potstand.member.model.service.MemberService;
 import com.kh.potstand.member.model.vo.Member;
 
@@ -27,8 +30,9 @@ public class FunctionController {
 	public ModelAndView noticeSelectList(ModelAndView mv, 
 			@RequestParam(value="cPage", defaultValue="1")int cPage, 
 			@RequestParam(value="numPerPage", defaultValue="10")int numPerPage){
-		
+		int totalData = service.noticeSelectCount();
 		mv.addObject("noticeList", service.noticeSelectList(cPage, numPerPage));
+		mv.addObject("pageBar",PageFactory.getPageBar(totalData, cPage, numPerPage, 5, "noticeSelectList.do"));
 		mv.setViewName("notice/noticeList");
 		return mv;
 	}
@@ -48,8 +52,10 @@ public class FunctionController {
 			@RequestParam(value="cPage", defaultValue="1")int cPage, 
 			@RequestParam(value="numPerPage", defaultValue="10")int numPerPage){
 		Member m = (Member)session.getAttribute("loginMember");
+		int totalData = service.qnaSelectCount(m.getMemberId());
 		if(m!=null) {
 			mv.addObject("myQnaList", service.qnaSelectList(m.getMemberId(), cPage, numPerPage));
+			mv.addObject("pageBar",PageFactory.getPageBar(totalData, cPage, numPerPage, 5, "myqnaList.do"));
 			mv.setViewName("qna/myqnaList");
 		}else {
 			mv.addObject("msg","로그인이 필요한 서비스입니다.");
@@ -62,7 +68,12 @@ public class FunctionController {
 	//qna 내용 확인
 	@RequestMapping("/qna/qnaContent.do/{qnaNo}")
 	public ModelAndView qnaSelectOne(ModelAndView mv, @PathVariable int qnaNo){
-		mv.addObject("qna", service.qnaSelectOne(qnaNo));
+		Qna q = service.qnaSelectOne(qnaNo);
+		//Status N이면 답변없는데 가져온거니까 그냥 null 넣어줌
+		if(q.getQnaStatus().equals("N")) {
+			q.setAnswer(null);
+		}
+		mv.addObject("qna", q);
 		mv.setViewName("qna/qnaContent");
 		return mv;
 	}
@@ -72,7 +83,7 @@ public class FunctionController {
 	public ModelAndView qnaWrite(ModelAndView mv, HttpSession session){
 		Member m = (Member)session.getAttribute("loginMember");
 		if(m!=null) {
-			mv.setViewName("qna/qnaContent");
+			mv.setViewName("qna/qnaWrite");
 		}else {
 			mv.addObject("msg","로그인이 필요한 서비스입니다.");
 			mv.addObject("loc","/notice/noticeSelectList.do");
@@ -83,7 +94,9 @@ public class FunctionController {
 
 	//1:1문의 작성
 	@RequestMapping("/qna/qnaWriteEnd.do")
-	public ModelAndView qnaInsert(Qna q, ModelAndView mv){
+	public ModelAndView qnaInsert(Qna q, Map param, ModelAndView mv){
+		log.debug(q.toString());
+		log.debug(param.toString());
 		int result=service.qnaInsert(q);
 		mv.addObject("msg",result>0?"1:1문의 접수 완료":"작성 실패");
 		mv.addObject("loc","/qna/myQnaList.do");

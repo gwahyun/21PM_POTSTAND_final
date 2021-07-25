@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,7 +15,10 @@ import com.kh.potstand.member.model.dao.MemberDao;
 import com.kh.potstand.member.model.vo.Address;
 import com.kh.potstand.member.model.vo.Member;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Service
+@Slf4j
 public class MemberServiceImpl implements MemberService{
 
 	@Autowired
@@ -22,6 +26,10 @@ public class MemberServiceImpl implements MemberService{
 	
 	@Autowired
 	private SqlSession session;
+	
+	//단방향암호화
+	@Autowired
+	private BCryptPasswordEncoder pwEncoder;
 	
 	//로그인 -> 멤버찾기
 	@Override
@@ -33,7 +41,7 @@ public class MemberServiceImpl implements MemberService{
 	//회원가입
 	@Override
 	@Transactional
-	public int insertMember(Member m) throws Exception{
+	public int memberInsert(Member m) throws Exception{
 		// TODO Auto-generated method stub	
 		try {
 			int result=dao.memberInsert(session,m);
@@ -51,7 +59,50 @@ public class MemberServiceImpl implements MemberService{
 		return 1;
 	}
 	
+	//아이디찾기
+	@Override
+	public Member memberSearchIdSelect(String memberEmail){
+		return dao.memberSearchIdSelect(session, memberEmail);
+	}
+	
+	//비밀번호 재설정
+	@Override
+	@Transactional
+	public Member memberResetPwd(Member m) throws Exception {
+		try {
+			Member searchM=dao.memberSearchIdSelect(session, m.getMemberEmail());
+			if(searchM!=null && searchM.getMemberId().equals(m.getMemberId())) {
+				//임시비밀번호 발급
+				char[] charSet = new char[] { 
+						'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 
+						'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 
+						'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 
+						'U', 'V', 'W', 'X', 'Y', 'Z' 
+				};
+				String temporaryPw="";
+				int index=0;
+				for(int i=0; i<8; i++) {
+					index=(int)(charSet.length*Math.random());
+					temporaryPw+=charSet[index];
+				}
+				searchM.setMemberPwd(pwEncoder.encode(temporaryPw));
+				int result=dao.memberResetPwd(session,searchM);
+				searchM.setMemberPwd(temporaryPw);
+				if(result>0) {
+					return searchM;
+				}
+			}else {
+				throw new Exception("해당 정보로 가입된 아이디가 존재하지 않습니다.");
+			}
+		}catch(RuntimeException e){
+			throw new Exception("비밀번호 재설정에 실패하였습니다. 관리자에게 문의하세요.");
+		}
+		return null;
+	}
+	
 
+	
+	
 	//notice List 호출 (공지사항 페이지)
 	@Override
 	public List<Notice> noticeSelectList(int cPage, int numPerPage) {
@@ -80,6 +131,19 @@ public class MemberServiceImpl implements MemberService{
 	@Override
 	public int qnaInsert(Qna q) {
 		return dao.qnaInsert(session, q);
+	}
+
+	
+	//notice count : totalData용
+	@Override
+	public int noticeSelectCount() {
+		return dao.noticeSelectCount(session);
+	}
+
+	//qna count : totalData용
+	@Override
+	public int qnaSelectCount(String memberId) {
+		return dao.qnaSelectCount(session, memberId);
 	}
 	
 	
