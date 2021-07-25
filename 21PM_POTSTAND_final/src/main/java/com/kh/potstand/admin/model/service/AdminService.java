@@ -13,13 +13,13 @@ import com.kh.potstand.admin.model.vo.Review;
 
 public interface AdminService {
 
-	List<Member> memberSelect();
+	List<Member> memberSelect(int cPage, int numPerpage);
 
 	int memberSelectCount();
 
 	int memberDelete(String memberId);
 
-	List<Notice> noticeSelect();
+	List<Notice> noticeSelect(int cPage, int numPerpage);
 
 	int noticeInsert(Map param);
 
@@ -29,7 +29,7 @@ public interface AdminService {
 
 	int noticeDelete(int no);
 
-	List<Faq> faqSelect();
+	List<Faq> faqSelect(int cPage, int numPerpage);
 
 	int faqInsert(Map param);
 
@@ -39,9 +39,9 @@ public interface AdminService {
 
 	int faqDelete(int no);
 
-	List<Qna> qnaSelectList();
+	List<Qna> qnaSelectList(int cPage, int numPerpage);
 
-	List<Qna> qnaSelectListNo();
+	List<Qna> qnaSelectListNo(int cPage, int numPerpage);
 	
 	int qnaInsert(Map param);
 
@@ -51,7 +51,7 @@ public interface AdminService {
 
 	int qnaDelete(int no);
 
-	List<Review> reviewManager();
+	List<Review> reviewManager(int cPage, int numPerpage);
 
 	int reviewDelete(int no);
 
@@ -63,7 +63,7 @@ public interface AdminService {
 
 	int eventInsertEnd(Map param);
 
-	List<Event> eventSelect();
+	List<Event> eventSelect(int cPage, int numPerpage);
 
 	Event eventSelectOne(int no);
 
@@ -74,6 +74,18 @@ public interface AdminService {
 	int eventUpdateEnd(Map param);
 
 	int eventDelete(int no);
+
+	int eventSelectCount();
+
+	int faqSelectCount();
+
+	int noticeSelectCount();
+
+	int reviewManagerCount();
+
+	int qnaManagerCount();
+
+	int qnaManagerNoCount();
 
 
 

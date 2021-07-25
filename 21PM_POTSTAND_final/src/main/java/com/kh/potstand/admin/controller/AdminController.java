@@ -21,6 +21,7 @@ import com.kh.potstand.admin.model.vo.Notice;
 import com.kh.potstand.admin.model.vo.Qna;
 import com.kh.potstand.admin.model.vo.Review;
 import com.kh.potstand.common.AES256Util;
+import com.kh.potstand.common.PageFactory;
 
 @Controller
 public class AdminController {
@@ -67,16 +68,26 @@ public class AdminController {
 	}
 	
 	@RequestMapping("/admin/qnaManager")
-	public ModelAndView qnaManager(ModelAndView mv) {
-		List<Qna> list = service.qnaSelectList();
+	public ModelAndView qnaManager(
+			@RequestParam(value ="cPage",defaultValue="1") int cPage,
+			@RequestParam(value="numPerpage",defaultValue="10") int numPerpage,
+			ModelAndView mv) {
+		int totalData = service.qnaManagerCount();
+		mv.addObject("pageBar", PageFactory.getPageBar(totalData, cPage, numPerpage,5,"qnaManager"));
+		List<Qna> list = service.qnaSelectList(cPage,numPerpage);
 		mv.addObject("list", list);
 		mv.setViewName("admin/qnaManager");
 		return mv;
 	}
 	
 	@RequestMapping("/admin/qnaManagerNo")
-	public ModelAndView qnaManagerNo(ModelAndView mv) {
-		List<Qna> list = service.qnaSelectListNo();
+	public ModelAndView qnaManagerNo(
+			@RequestParam(value ="cPage",defaultValue="1") int cPage,
+			@RequestParam(value="numPerpage",defaultValue="10") int numPerpage,
+			ModelAndView mv) {
+		int totalData = service.qnaManagerNoCount();
+		mv.addObject("pageBar", PageFactory.getPageBar(totalData, cPage, numPerpage,5,"qnaManagerNo"));
+		List<Qna> list = service.qnaSelectListNo(cPage,numPerpage);
 		mv.addObject("list", list);
 		mv.setViewName("admin/qnaManager");
 		return mv;
@@ -121,8 +132,13 @@ public class AdminController {
 	}
 	
 	@RequestMapping("/admin/reviewManager")
-	public ModelAndView reviewManager(ModelAndView mv) {
-		List<Review> list = service.reviewManager();
+	public ModelAndView reviewManager(
+			@RequestParam(value ="cPage",defaultValue="1") int cPage,
+			@RequestParam(value="numPerpage",defaultValue="10") int numPerpage,
+			ModelAndView mv) {
+		int totalData = service.reviewManagerCount();
+		List<Review> list = service.reviewManager(cPage,numPerpage);
+		mv.addObject("pageBar", PageFactory.getPageBar(totalData, cPage, numPerpage,5,"reviewManager"));
 		mv.addObject("list", list);
 		mv.setViewName("admin/reviewManager");
 		return mv;
@@ -178,8 +194,13 @@ public class AdminController {
 	}
 	
 	@RequestMapping("/admin/noticeSelect")
-	public ModelAndView noticeSelect(ModelAndView mv) {
-		List<Notice> list = service.noticeSelect();
+	public ModelAndView noticeSelect(
+			@RequestParam(value ="cPage",defaultValue="1") int cPage,
+			@RequestParam(value="numPerpage",defaultValue="10") int numPerpage,
+			ModelAndView mv) {
+		int totalData = service.noticeSelectCount();
+		List<Notice> list = service.noticeSelect(cPage,numPerpage);
+		mv.addObject("pageBar", PageFactory.getPageBar(totalData, cPage, numPerpage,5,"noticeSelect"));
 		mv.addObject("list", list);
 		mv.setViewName("admin/noticeSelect");
 		return mv;
@@ -210,8 +231,13 @@ public class AdminController {
 	}
 	
 	@RequestMapping("/admin/faqSelect")
-	public ModelAndView faqSelect(ModelAndView mv) {
-		List<Faq> list = service.faqSelect();
+	public ModelAndView faqSelect(
+			@RequestParam(value ="cPage",defaultValue="1") int cPage,
+			@RequestParam(value="numPerpage",defaultValue="10") int numPerpage,
+			ModelAndView mv) {
+		int totalData = service.faqSelectCount();
+		List<Faq> list = service.faqSelect(cPage,numPerpage);
+		mv.addObject("pageBar", PageFactory.getPageBar(totalData, cPage, numPerpage,5,"faqSelect"));
 		mv.addObject("list", list);
 		mv.setViewName("admin/faqSelect");
 		return mv;
@@ -269,10 +295,14 @@ public ModelAndView eventInsertEnd(ModelAndView mv,@RequestParam Map param) {
 		return mv;
 	}
 	@RequestMapping("/admin/eventSelect")
-	public ModelAndView eventSelect(ModelAndView mv) {
+	public ModelAndView eventSelect(
+			@RequestParam(value ="cPage",defaultValue="1") int cPage,
+			@RequestParam(value="numPerpage",defaultValue="10") int numPerpage,
+			ModelAndView mv) {
+		int totalData = service.eventSelectCount();
 		int result = service.eventEndUpdate();
-		List<Event> list = service.eventSelect();
-		
+		List<Event> list = service.eventSelect(cPage,numPerpage);
+		mv.addObject("pageBar", PageFactory.getPageBar(totalData, cPage, numPerpage,5,"eventSelect"));
 		mv.addObject("list", list);
 		mv.setViewName("admin/eventSelect");
 		return mv;
@@ -311,9 +341,13 @@ public ModelAndView eventInsertEnd(ModelAndView mv,@RequestParam Map param) {
 	}
 	
 	@RequestMapping("/admin/memberSelect")
-	public ModelAndView memberSelect(ModelAndView mv) {
-		
-		List<Member> list = service.memberSelect();
+	public ModelAndView memberSelect(
+			@RequestParam(value ="cPage",defaultValue="1") int cPage,
+			@RequestParam(value="numPerpage",defaultValue="10") int numPerpage,
+			ModelAndView mv) {
+		int totalData = service.memberSelectCount();
+		mv.addObject("pageBar", PageFactory.getPageBar(totalData, cPage, numPerpage,5,"memberSelect"));
+		List<Member> list = service.memberSelect(cPage,numPerpage);
 		for(Member m : list) {
 			try {
 				m.setMemberEmail(aes.decrypt(m.getMemberEmail()));

@@ -6,6 +6,11 @@
 <!DOCTYPE html>
 <jsp:include page="/WEB-INF/views/common/admin/header.jsp"/>
         
+<script
+	src="https://code.jquery.com/jquery-3.6.0.min.js"
+	integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+	crossorigin="anonymous"></script>
+<section>
 <section>
  <div class="admin-content_area">
             <div class="admin-content ">
@@ -73,9 +78,7 @@
                         </div>
                     </div>
                     <!-- 페이지 네비게이션 자리 -->
-                    <div class="pagination">
-                            <a class="on">1</a>
-                    </div>
+                    <div class="pageBar flex my-5">${pageBar}</div>
                     <form class="page-form" action="qnaReply.jsp" method="post">
                         <input type="hidden" name="pageNo">
                     </form>
@@ -84,7 +87,6 @@
 </section>
 	<script>
 		function deleteCheck(no){
-			alert(no);
 			if(confirm('정말 삭제하시겠습니까?')){
 				location.assign('${path}/admin/qnaDelete?no='+no);				
 			}

@@ -13,6 +13,7 @@
  		select * from member m
 		    join address a on m.member_id = a.member_id 
 		    where member_sort = 'N'
+            order by m.enroll_date desc
  	</select>
  	
  	<select id="newReview" resultType="int">
@@ -62,6 +63,11 @@
  	<!-- 공지사항 -->
  	<select id="noticeSelect" resultMap="noticeMap">
  		select * from notice
+		order by notice_date desc
+ 	</select>
+ 	
+ 	<select id="noticeSelectCount" resultType="int">
+ 		select count(*) from notice
  	</select>
  	
  	<resultMap id="noticeMap" type="com.kh.potstand.admin.model.vo.Notice">
@@ -94,6 +100,10 @@
  		select * from faq
  	</select>
  	
+ 	<select id="faqSelectCount" resultType="int">
+ 		select count(*) from faq
+ 	</select>
+ 	
  	<resultMap id="faqMap" type="com.kh.potstand.admin.model.vo.Faq">
  		<id property="faqNo" column="faq_no"/>
  		<result property="faqTitle" column="faq_title"/>
@@ -119,7 +129,15 @@
  	<!-- QNA -->
  	
  	<select id="qnaSelectList" resultMap="qnaMap">
- 		select * from qna 
+ 		select * from qna order by qna_date desc
+ 	</select>
+ 	
+ 	<select id="qnaManagerCount" resultType="int">
+ 		select count(*) from qna
+ 	</select>
+ 	
+ 	<select id="qnaManagerNoCount" resultType="int">
+ 		select count(*) from qna where qna_status = 'N' order by qna_date desc
  	</select>
  	
  	<select id="qnaSelectListNo" resultMap="qnaMap">
@@ -160,7 +178,11 @@
  	
  	<!-- review  -->
  	<select id="reviewManager" resultMap="reviewMap">
- 		select * from review
+ 		select * from review order by review_date desc
+ 	</select>
+ 	
+ 	<select id="reviewManagerCount" resultType="int">
+ 		select count(*) from review
  	</select>
  	
  	<resultMap type="com.kh.potstand.admin.model.vo.Review" id="reviewMap">
@@ -179,6 +201,10 @@
  	
  	<select id="eventSelect" resultMap="eventMap">
  		select * from event
+ 	</select>
+ 	
+ 	<select id="eventSelectCount" resultType="_int">
+ 		select count(*) from event
  	</select>
  	
  	<select id="eventSelectOne" resultMap="eventMap">

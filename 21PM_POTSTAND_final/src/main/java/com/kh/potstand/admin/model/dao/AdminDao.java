@@ -15,13 +15,13 @@ import com.kh.potstand.admin.model.vo.Review;
 
 public interface AdminDao {
 
-	List<Member> memberSelect(SqlSessionTemplate session);
+	List<Member> memberSelect(SqlSessionTemplate session, int cPage, int numPerpage);
 
 	int memeberSelectCount(SqlSessionTemplate session);
 
 	int memberDelete(SqlSessionTemplate session, String memberId);
 
-	List<Notice> noticeSelect(SqlSessionTemplate session);
+	List<Notice> noticeSelect(SqlSessionTemplate session, int cPage, int numPerpage);
 
 	int noticeInsert(SqlSessionTemplate session, Map param);
 
@@ -31,7 +31,7 @@ public interface AdminDao {
 
 	int noticeDelete(SqlSessionTemplate session, int no);
 
-	List<Faq> faqSelect(SqlSessionTemplate session);
+	List<Faq> faqSelect(SqlSessionTemplate session, int cPage, int numPerpage);
 
 	int faqInsert(SqlSessionTemplate session, Map param);
 
@@ -41,7 +41,7 @@ public interface AdminDao {
 
 	int faqDelete(SqlSessionTemplate session, int no);
 
-	List<Qna> qnaSelectList(SqlSessionTemplate session);
+	List<Qna> qnaSelectList(SqlSessionTemplate session,int cPage,int numPerpage);
 
 	int qnaInsert(SqlSessionTemplate session, Map param);
 
@@ -51,13 +51,13 @@ public interface AdminDao {
 
 	int qnaDelete(SqlSessionTemplate session, int no);
 
-	List<Review> reviewManager(SqlSessionTemplate session);
+	List<Review> reviewManager(SqlSessionTemplate session, int cPage, int numPerpage);
 
 	int reviewDelete(SqlSessionTemplate session, int no);
 
 	List<Address> memberAddressList(SqlSessionTemplate session);
 
-	List<Qna> qnaSelectListNo(SqlSessionTemplate session);
+	List<Qna> qnaSelectListNo(SqlSessionTemplate session, int cPage, int numPerpage);
 
 	int newReview(SqlSessionTemplate session);
 
@@ -65,7 +65,7 @@ public interface AdminDao {
 
 	int eventInsertEnd(SqlSessionTemplate session, Map param);
 
-	List<Event> eventSelect(SqlSessionTemplate session);
+	List<Event> eventSelect(SqlSessionTemplate session, int cPage, int numPerpage);
 
 	Event eventSelectOne(SqlSessionTemplate session, int no);
 
@@ -76,4 +76,16 @@ public interface AdminDao {
 	int eventUpdateEnd(SqlSessionTemplate session, Map param);
 
 	int eventDelete(SqlSessionTemplate session, int no);
+
+	int eventSelectCount(SqlSessionTemplate session);
+
+	int faqSelectCount(SqlSessionTemplate session);
+
+	int noticeSelectCount(SqlSessionTemplate session);
+
+	int reviewManagerCount(SqlSessionTemplate session);
+
+	int qnaManagerCount(SqlSessionTemplate session);
+
+	int qnaManagerNoCount(SqlSessionTemplate session);
 }

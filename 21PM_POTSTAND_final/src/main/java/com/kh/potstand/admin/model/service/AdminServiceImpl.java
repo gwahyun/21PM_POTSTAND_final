@@ -26,8 +26,8 @@ public class AdminServiceImpl implements AdminService {
 	private SqlSessionTemplate session;
 	
 	@Override
-	public List<Member> memberSelect() {
-		return dao.memberSelect(session);
+	public List<Member> memberSelect(int cPage,int numPerpage) {
+		return dao.memberSelect(session,cPage,numPerpage);
 	}
 
 	@Override
@@ -42,8 +42,8 @@ public class AdminServiceImpl implements AdminService {
 	}
 
 	@Override
-	public List<Notice> noticeSelect() {
-		return dao.noticeSelect(session);
+	public List<Notice> noticeSelect(int cPage,int numPerpage) {
+		return dao.noticeSelect(session,cPage,numPerpage);
 	}
 
 	@Override
@@ -69,9 +69,9 @@ public class AdminServiceImpl implements AdminService {
 	}
 
 	@Override
-	public List<Faq> faqSelect() {
+	public List<Faq> faqSelect(int cPage,int numPerpage) {
 		// TODO Auto-generated method stub
-		return dao.faqSelect(session);
+		return dao.faqSelect(session,cPage,numPerpage);
 	}
 
 	@Override
@@ -99,9 +99,9 @@ public class AdminServiceImpl implements AdminService {
 	}
 
 	@Override
-	public List<Qna> qnaSelectList() {
+	public List<Qna> qnaSelectList(int cPage,int numPerpage) {
 		// TODO Auto-generated method stub
-		return dao.qnaSelectList(session);
+		return dao.qnaSelectList(session,cPage,numPerpage);
 	}
 
 	@Override
@@ -129,9 +129,9 @@ public class AdminServiceImpl implements AdminService {
 	}
 
 	@Override
-	public List<Review> reviewManager() {
+	public List<Review> reviewManager(int cPage,int numPerpage) {
 		// TODO Auto-generated method stub
-		return dao.reviewManager(session);
+		return dao.reviewManager(session,cPage,numPerpage);
 	}
 
 	@Override
@@ -147,9 +147,9 @@ public class AdminServiceImpl implements AdminService {
 	}
 
 	@Override
-	public List<Qna> qnaSelectListNo() {
+	public List<Qna> qnaSelectListNo(int cPage,int numPerpage) {
 		// TODO Auto-generated method stub
-		return dao.qnaSelectListNo(session);
+		return dao.qnaSelectListNo(session,cPage,numPerpage);
 	}
 
 	@Override
@@ -171,9 +171,9 @@ public class AdminServiceImpl implements AdminService {
 	}
 
 	@Override
-	public List<Event> eventSelect() {
+	public List<Event> eventSelect(int cPage,int numPerpage) {
 		// TODO Auto-generated method stub
-		return dao.eventSelect(session);
+		return dao.eventSelect(session,cPage,numPerpage);
 	}
 
 	@Override
@@ -203,6 +203,42 @@ public class AdminServiceImpl implements AdminService {
 	public int eventDelete(int no) {
 		// TODO Auto-generated method stub
 		return dao.eventDelete(session,no);
+	}
+
+	@Override
+	public int eventSelectCount() {
+		// TODO Auto-generated method stub
+		return dao.eventSelectCount(session);
+	}
+
+	@Override
+	public int faqSelectCount() {
+		// TODO Auto-generated method stub
+		return dao.faqSelectCount(session);
+	}
+
+	@Override
+	public int noticeSelectCount() {
+		// TODO Auto-generated method stub
+		return dao.noticeSelectCount(session);
+	}
+
+	@Override
+	public int reviewManagerCount() {
+		// TODO Auto-generated method stub
+		return dao.reviewManagerCount(session);
+	}
+
+	@Override
+	public int qnaManagerCount() {
+		// TODO Auto-generated method stub
+		return dao.qnaManagerCount(session);
+	}
+
+	@Override
+	public int qnaManagerNoCount() {
+		// TODO Auto-generated method stub
+		return dao.qnaManagerNoCount(session);
 	}
 
 
