@@ -11,14 +11,10 @@
             <div class="admin-content ">
                 <div class="admin-content_title a_bth">QnA 문의
     
-                
-                <a class="noreply">미답변</a>
-                <a class="all on">전체</a>
+                <button class="update-btn" style="background-color:gray"onclick="location.assign('${path}/admin/qnaManagerNo')">미답변</button>
+                <button class="update-btn" onclick="location.assign('${path}/admin/qnaManager')">전체</button>
                 
                 </div>
-                <form class="rsform" action="" method="get">
-                    <input type="hidden" value="all" name="type">
-                </form>
             </div>
         </div>
             <div class="admin-content_area">
@@ -49,7 +45,7 @@
                                         
                                         ${q.memberId }
                                         </td>
-                                        <td>${q.qnaDate }</td>
+                                        <td><fmt:formatDate value="${q.qnaDate }" pattern="yyyy년MM월dd일"/></td>
                                         <td>
                                             <span class="contents-info" oninput="contentsInfo();">							
                                                 <!-- 댓글 개수 0보다 클 경우 답변완료 -->
@@ -100,7 +96,11 @@
         	const url="${path}/admin/qnaReply?no="+no;
         	open(url,title,status);
 		}
-	</script>
+	
+		
+	
+</script>
+
 		
 </body>
 </html>

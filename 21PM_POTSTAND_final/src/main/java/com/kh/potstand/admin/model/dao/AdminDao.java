@@ -5,6 +5,8 @@ import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 
+import com.kh.potstand.admin.model.vo.Address;
+import com.kh.potstand.admin.model.vo.Event;
 import com.kh.potstand.admin.model.vo.Faq;
 import com.kh.potstand.admin.model.vo.Member;
 import com.kh.potstand.admin.model.vo.Notice;
@@ -52,4 +54,26 @@ public interface AdminDao {
 	List<Review> reviewManager(SqlSessionTemplate session);
 
 	int reviewDelete(SqlSessionTemplate session, int no);
+
+	List<Address> memberAddressList(SqlSessionTemplate session);
+
+	List<Qna> qnaSelectListNo(SqlSessionTemplate session);
+
+	int newReview(SqlSessionTemplate session);
+
+	int answerNo(SqlSessionTemplate session);
+
+	int eventInsertEnd(SqlSessionTemplate session, Map param);
+
+	List<Event> eventSelect(SqlSessionTemplate session);
+
+	Event eventSelectOne(SqlSessionTemplate session, int no);
+
+	//int eventEnd(SqlSessionTemplate session, int no);
+
+	int eventEndUpdate(SqlSessionTemplate session);
+
+	int eventUpdateEnd(SqlSessionTemplate session, Map param);
+
+	int eventDelete(SqlSessionTemplate session, int no);
 }

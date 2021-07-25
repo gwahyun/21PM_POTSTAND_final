@@ -6,27 +6,41 @@ import java.util.Map;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.potstand.admin.model.service.AdminService;
+import com.kh.potstand.admin.model.vo.Event;
 import com.kh.potstand.admin.model.vo.Faq;
 import com.kh.potstand.admin.model.vo.Member;
 import com.kh.potstand.admin.model.vo.Notice;
 import com.kh.potstand.admin.model.vo.Qna;
 import com.kh.potstand.admin.model.vo.Review;
+import com.kh.potstand.common.AES256Util;
 
 @Controller
 public class AdminController {
+	
+	
+	//단방향암호화
+	@Autowired
+	private BCryptPasswordEncoder pwEncoder;
+	
+	//양방향암호화
+	@Autowired
+	private AES256Util aes;
 	
 	@Autowired
 	private AdminService service;
 
 	@RequestMapping("/admin/adminMain")
 	public ModelAndView adminMain(ModelAndView mv) {
-		
+		mv.addObject("answerNo", service.answerNo());
+		mv.addObject("newReview", service.newReview());
 		mv.setViewName("admin/adminMain");
 		return mv;
 	}
@@ -55,6 +69,14 @@ public class AdminController {
 	@RequestMapping("/admin/qnaManager")
 	public ModelAndView qnaManager(ModelAndView mv) {
 		List<Qna> list = service.qnaSelectList();
+		mv.addObject("list", list);
+		mv.setViewName("admin/qnaManager");
+		return mv;
+	}
+	
+	@RequestMapping("/admin/qnaManagerNo")
+	public ModelAndView qnaManagerNo(ModelAndView mv) {
+		List<Qna> list = service.qnaSelectListNo();
 		mv.addObject("list", list);
 		mv.setViewName("admin/qnaManager");
 		return mv;
@@ -228,10 +250,56 @@ public class AdminController {
 		return mv;
 	}
 	
+	@RequestMapping("/admin/eventInsertEnd")
+public ModelAndView eventInsertEnd(ModelAndView mv,@RequestParam Map param) {
+		
+		int result = service.eventInsertEnd(param);
+		mv.addObject("msg", result>0?"등록성공":"등록실패");
+		mv.addObject("loc", "/admin/eventSelect");
+		mv.setViewName("common/msg");
+		return mv;
+	}
+	
+
+	@RequestMapping("/admin/eventUpdate")
+	public ModelAndView eventUpdate(ModelAndView mv,int no) {
+		Event e = service.eventSelectOne(no);
+		mv.addObject("e", e);
+		mv.setViewName("admin/eventUpdate");
+		return mv;
+	}
 	@RequestMapping("/admin/eventSelect")
 	public ModelAndView eventSelect(ModelAndView mv) {
+		int result = service.eventEndUpdate();
+		List<Event> list = service.eventSelect();
 		
+		mv.addObject("list", list);
 		mv.setViewName("admin/eventSelect");
+		return mv;
+	}
+	
+	/*
+	 * @RequestMapping("/admin/eventEnd")
+	 * 
+	 * @ResponseBody public int eventEnd(int no) { int result =
+	 * service.eventEnd(no); return result; }
+	 */
+	
+	@RequestMapping("/admin/eventUpdateEnd")
+	public ModelAndView eventUpdateEnd(ModelAndView mv,@RequestParam Map param) {
+		int result = service.eventUpdateEnd(param);
+		mv.addObject("msg", result>0?"수정성공":"수정실패");
+		mv.addObject("loc", "/admin/eventSelect");
+		mv.setViewName("common/msg");
+		return mv;
+	}
+	
+	@RequestMapping("/admin/eventDelete")
+	public ModelAndView eventDelete(ModelAndView mv,int no) {
+		int result = service.eventDelete(no);
+		mv.addObject("msg", result>0?"삭제성공":"삭제실패");
+		mv.addObject("loc", "/admin/eventSelect");
+		mv.setViewName("common/msg");
 		return mv;
 	}
 	
@@ -246,6 +314,13 @@ public class AdminController {
 	public ModelAndView memberSelect(ModelAndView mv) {
 		
 		List<Member> list = service.memberSelect();
+		for(Member m : list) {
+			try {
+				m.setMemberEmail(aes.decrypt(m.getMemberEmail()));
+				m.setMemberPhone(aes.decrypt(m.getMemberPhone()));
+			}catch(Exception e) {
+			}
+		}
 		mv.addObject("count", service.memberSelectCount()); 
 		mv.addObject("list", list);
 		mv.setViewName("admin/memberSelect");

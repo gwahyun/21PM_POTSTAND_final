@@ -27,7 +27,7 @@
 			<td><fmt:formatDate value="${q.qnaDate }" pattern="yyyy년MM월dd일"/></td>
 		</tr>
 	</table>
-	<div style=" pointer-events: none;" id="editor" style="width: 800px">${q.qnaContent }</div>
+	<div style=" pointer-events: none;" id="editor" style="width: 800px"></div>
 	<div id="viewer"></div>
 	 <!-- onsubmit="fn_btn();" -->
 		<input type="hidden" name="qnaNo" value="${q.qnaNo }">
@@ -64,17 +64,13 @@
 			opener.location.assign("${path}/admin/qnaManager");
 			window.close();
 		}
-	      const editor = new toastui.Editor({
-	          el: document.querySelector("#editor"),
-	          previewStyle: "vertical",
-	          initialEditType: "wysiwyg",
-	          height: "400px",
-	        });
-	        const viewer = toastui.Editor.factory({
-	          el: document.querySelector("#viewer"),
-	          viewer: true,
-	          height: "400px",
-	        });
+		const editor = new toastui.Editor({
+	        el: document.querySelector("#editor"),
+	        previewStyle: "vertical",
+	        initialEditType: "wysiwyg",
+	        height: "500px",
+	      });
+	        editor.setMarkdown('${q.qnaContent }');
 
 	</script>
 </body>

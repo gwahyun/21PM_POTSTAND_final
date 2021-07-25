@@ -6,6 +6,8 @@ import java.util.Map;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.kh.potstand.admin.model.vo.Address;
+import com.kh.potstand.admin.model.vo.Event;
 import com.kh.potstand.admin.model.vo.Faq;
 import com.kh.potstand.admin.model.vo.Member;
 import com.kh.potstand.admin.model.vo.Notice;
@@ -132,6 +134,71 @@ public class AdminDaoImpl implements AdminDao {
 	public int reviewDelete(SqlSessionTemplate session, int no) {
 		// TODO Auto-generated method stub
 		return session.delete("admin.reviewDelete", no);
+	}
+
+	@Override
+	public List<Address> memberAddressList(SqlSessionTemplate session) {
+		// TODO Auto-generated method stub
+		return session.selectList("admin.memberAddressList");
+	}
+
+	@Override
+	public List<Qna> qnaSelectListNo(SqlSessionTemplate session) {
+		// TODO Auto-generated method stub
+		return session.selectList("admin.qnaSelectListNo");
+	}
+
+	@Override
+	public int newReview(SqlSessionTemplate session) {
+		// TODO Auto-generated method stub
+		return session.selectOne("admin.newReview");
+	}
+
+	@Override
+	public int answerNo(SqlSessionTemplate session) {
+		// TODO Auto-generated method stub
+		return session.selectOne("admin.answerNo");
+	}
+
+	@Override
+	public int eventInsertEnd(SqlSessionTemplate session, Map param) {
+		// TODO Auto-generated method stub
+		return session.insert("admin.eventInsertEnd", param);
+	}
+
+	@Override
+	public List<Event> eventSelect(SqlSessionTemplate session) {
+		// TODO Auto-generated method stub
+		return session.selectList("admin.eventSelect");
+	}
+
+	@Override
+	public Event eventSelectOne(SqlSessionTemplate session, int no) {
+		// TODO Auto-generated method stub
+		return session.selectOne("admin.eventSelectOne",no);
+	}
+
+	/*
+	 * @Override public int eventEnd(SqlSessionTemplate session, int no) { // TODO
+	 * Auto-generated method stub return session.update("admin.eventEnd", no); }
+	 */
+
+	@Override
+	public int eventEndUpdate(SqlSessionTemplate session) {
+		// TODO Auto-generated method stub
+		return session.update("admin.eventEndUpdate");
+	}
+
+	@Override
+	public int eventUpdateEnd(SqlSessionTemplate session, Map param) {
+		// TODO Auto-generated method stub
+		return session.update("admin.eventUpdateEnd", param);
+	}
+
+	@Override
+	public int eventDelete(SqlSessionTemplate session, int no) {
+		// TODO Auto-generated method stub
+		return session.delete("admin.eventDelete", no);
 	}
 
 }

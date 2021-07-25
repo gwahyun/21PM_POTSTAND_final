@@ -15,6 +15,16 @@
 		    where member_sort = 'N'
  	</select>
  	
+ 	<select id="newReview" resultType="int">
+ 		select count(*) from review
+   		 where review_date > sysdate -3
+ 	</select>
+ 	
+ 	<select id="answerNo" resultType="int">
+ 		select count(*) from qna
+  		  where qna_status = 'N'
+ 	</select>
+ 	
  	<resultMap id="memberMap" type="com.kh.potstand.admin.model.vo.Member">
  		<id property="memberId" column="member_id"></id>
  		<result property="memberPwd" column="member_pwd"/>
@@ -42,6 +52,12 @@
  	<delete id="memberDelete">
  		delete from member where member_id = #{memberId}
  	</delete>
+ 	
+ 	<!-- 주소관리 -->
+ 	<select id="memberAddressList" resultMap="addressMap">
+ 		select * from address 
+ 	</select>
+ 	
  	
  	<!-- 공지사항 -->
  	<select id="noticeSelect" resultMap="noticeMap">
@@ -106,6 +122,10 @@
  		select * from qna 
  	</select>
  	
+ 	<select id="qnaSelectListNo" resultMap="qnaMap">
+ 		select * from qna where qna_status = 'N'
+ 	</select>
+ 	
  	<select id="qnaSelectOne" resultMap="qnaMap">
  		select * from qna where qna_no = #{no}
  	</select>
@@ -154,4 +174,48 @@
  	<delete id="reviewDelete">
  		delete from review where review_no = #{no}
  	</delete>
+ 	
+ 	<!-- event -->
+ 	
+ 	<select id="eventSelect" resultMap="eventMap">
+ 		select * from event
+ 	</select>
+ 	
+ 	<select id="eventSelectOne" resultMap="eventMap">
+ 		select * from event where event_no = #{no}
+ 	</select>
+ 	
+ 	<resultMap id="eventMap" type="com.kh.potstand.admin.model.vo.Event">
+ 		<id column="event_no" property="eventNo"/>
+ 		<result column="event_title" property="eventTitle"/>
+ 		<result column="EVENT_INFO" property="eventInfo"/>
+ 		<result column="EVENT_START" property="eventStart"/>
+ 		<result column="EVENT_END" property="eventEnd"/>
+ 		<result column="END_CHECK" property="endCheck"/>
+ 	</resultMap>
+ 	
+ 	<insert id="eventInsertEnd">
+ 		insert into event values(seq_event.nextval,#{eventTitle},#{eventInfo},sysdate,#{eventEnd},default)
+ 	</insert>
+ 	
+ <!-- 	<update id="eventEnd">
+ 		update event set end_check ='Y' where event_no = #{no}
+ 	</update> -->
+ 	
+ 	<update id="eventEndUpdate">
+ 		update event
+    		set end_check = 'Y'
+      			  where sysdate >= event_end
+ 	</update>
+ 	
+ 	<update id="eventUpdateEnd">
+ 	update event
+   	 set event_title =#{eventTitle} , event_info = #{eventInfo} ,event_end = #{eventEnd}
+    	    where event_no = #{eventNo}
+ 	</update>
+ 	
+ 	<delete id="eventDelete">
+ 		delete from event where event_no = #{no}
+ 	</delete>
+ 	
 </mapper>

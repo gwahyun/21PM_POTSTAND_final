@@ -16,15 +16,25 @@
 				</div>
 			</div>
 		</div>
-		<form action="${path }/admin/eventInsertEnd" method="post" onsubmit="return exgetMarkdown();">
-			
+		<form action="${path }/admin/eventUpdateEnd" method="post" onsubmit="return exgetMarkdown();">
+			<div class="admin-content_area">
+				<div class="admin-content">
+					<div class="admin-content_title">
+						<span>번호</span>
+					</div>
+					<div class="admin-input_text">
+					<input type="number" name="eventNo" value="${e.eventNo }" readonly="readonly">					
+					</div>
+				</div>
+			</div>
+		
 			<div class="admin-content_area">
 				<div class="admin-content">
 					<div class="admin-content_title">
 						<span>제목</span>
 					</div>
 					<div class="admin-input_text">
-					<input type="text" name="eventTitle" placeholder="제목을 입력하세요." required="">
+					<input type="text" value="${e.eventTitle }" name="eventTitle" placeholder="제목을 입력하세요." required="">
 					</div>
 				</div>
 			</div>
@@ -32,20 +42,19 @@
 			<div class="admin-content_area">
 				<div class="admin-content">
 					<div class="admin-content_title">
-						<span>이벤트 종료일</span>
+						<span>이벤트 기간</span>
 					</div>
 					<div class="admin-search">
-					<input type="date" name="eventEnd" class="date2" required="required">
+					<input type="date" value="${e.eventEnd }" name="eventEnd" class="date2" required="required">
+					 	
 				</div>
 				</div>
 			</div>
 			
-			
-			
 			<div class="admin-content_area">
 				<div class="admin-content">
 					<div class="admin-content_title">
-						<span>내용</span>
+						<span>수정할 내용</span>
 					</div>
 					<input name="eventInfo" type="hidden">
 					<div class="admin-input_text">
@@ -53,12 +62,12 @@
 					</div>
 				</div>
 			</div>
-          	
 			
+         		
 			<button class="submit-btn">등록</button>
 		</form>
 </section>
-		  <script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
+<script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
 <script>
       const editor = new toastui.Editor({
         el: document.querySelector("#editor"),
@@ -66,19 +75,11 @@
         initialEditType: "wysiwyg",
         height: "500px",
       });
-      const viewer = toastui.Editor.factory({
-        el: document.querySelector("#viewer"),
-        viewer: true,
-        height: "500px",
-      });
-      function ToView() {
-        viewer.setMarkdown(editor.getMarkdown());
-      }
+        editor.setMarkdown('${e.eventInfo}');
+      
       function exgetMarkdown() {
     	  $("input[type=hidden]").val(editor.getMarkdown());
         const text = editor.getMarkdown();
-        const hi = $(".hi").val();
-        const h = $(".h").val();
         
     	  if(text.length==0){
     	  alert("빈칸 없이 입력해 주세요.");
@@ -97,4 +98,3 @@
     </script>
 </body>
 </html>
-

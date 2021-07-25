@@ -19,7 +19,7 @@
 </head>
     <body >
         <aside>
-            <div class="admin-logo"><a href="${path }/admin/adminMain">BOOKin</a></div>
+            <div class="admin-logo"><a href="${path }/admin/adminMain">Potstand</a></div>
             <ul>
                 <li class="admin-aside-top_menu"><span class="admin-aside-top_text">상품</span>
                     <ul class="admin-aside-side_menus">

@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kh.potstand.admin.model.dao.AdminDao;
+import com.kh.potstand.admin.model.vo.Address;
+import com.kh.potstand.admin.model.vo.Event;
 import com.kh.potstand.admin.model.vo.Faq;
 import com.kh.potstand.admin.model.vo.Member;
 import com.kh.potstand.admin.model.vo.Notice;
@@ -136,6 +138,71 @@ public class AdminServiceImpl implements AdminService {
 	public int reviewDelete(int no) {
 		// TODO Auto-generated method stub
 		return dao.reviewDelete(session,no);
+	}
+
+	@Override
+	public List<Address> memberAddressList() {
+		// TODO Auto-generated method stub
+		return dao.memberAddressList(session);
+	}
+
+	@Override
+	public List<Qna> qnaSelectListNo() {
+		// TODO Auto-generated method stub
+		return dao.qnaSelectListNo(session);
+	}
+
+	@Override
+	public int newReview() {
+		// TODO Auto-generated method stub
+		return dao.newReview(session);
+	}
+
+	@Override
+	public int answerNo() {
+		// TODO Auto-generated method stub
+		return dao.answerNo(session);
+	}
+
+	@Override
+	public int eventInsertEnd(Map param) {
+		// TODO Auto-generated method stub
+		return dao.eventInsertEnd(session,param);
+	}
+
+	@Override
+	public List<Event> eventSelect() {
+		// TODO Auto-generated method stub
+		return dao.eventSelect(session);
+	}
+
+	@Override
+	public Event eventSelectOne(int no) {
+		// TODO Auto-generated method stub
+		return dao.eventSelectOne(session,no);
+	}
+
+	/*
+	 * @Override public int eventEnd(int no) { // TODO Auto-generated method stub
+	 * return dao.eventEnd(session,no); }
+	 */
+
+	@Override
+	public int eventEndUpdate() {
+		// TODO Auto-generated method stub
+		return dao.eventEndUpdate(session);
+	}
+
+	@Override
+	public int eventUpdateEnd(Map param) {
+		// TODO Auto-generated method stub
+		return dao.eventUpdateEnd(session,param);
+	}
+
+	@Override
+	public int eventDelete(int no) {
+		// TODO Auto-generated method stub
+		return dao.eventDelete(session,no);
 	}
 
 
