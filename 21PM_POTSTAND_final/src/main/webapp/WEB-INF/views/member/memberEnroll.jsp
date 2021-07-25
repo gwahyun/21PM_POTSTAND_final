@@ -9,7 +9,7 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>회원가입-PotStand</title>
 	<link href="${path}/resources/static/tailwind.css" type="text/css" rel="stylesheet"/>
-	<script src="<%=request.getContextPath()%>/resources/js/jquery-3.6.0.min.js"></script>
+	<script src="${path }/resources/js/jquery-3.6.0.min.js"></script>
 	<script language="javascript">
 		// opener관련 오류가 발생하는 경우 아래 주석을 해지하고, 사용자의 도메인정보를 입력합니다. ("팝업API 호출 소스"도 동일하게 적용시켜야 합니다.)
 		//document.domain = "abc.go.kr";
@@ -43,7 +43,6 @@
             onsubmit="return enrollSubmit();">
                 <input type="hidden" name="remember" value="true" />
                 <div class="relative">
-                   
                     <label class="text-sm font-bold text-gray-700 tracking-wide">아이디</label>
                     <input class=" w-full text-base py-2 border-b border-gray-300 focus:outline-none focus:border-indigo-500" 
                     type="text" id="userId" name="memberId" placeholder="Enter your ID" required/>
@@ -242,7 +241,6 @@
     		if(idResult){
     			idResult=fn_memberEnroll_memberCheckId($(e.target));
     		}
-    		console.log(idResult);
     	});
     	$("#password").focus(function(){ //포커싱 되었을때 메세지 지우기
     		$("#password").next().children().text("");
@@ -275,8 +273,9 @@
     		$("#email").next().children().text("");
     	});
     	$("#email").blur(function(e){ //포커싱 아웃되었을때 이메일 중복확인
-    		emailResult=fn_memberEnroll_memberCheckEmail($(e.target));
-    		console.log(emailResult);
+    		if($(e.target).val().trim()!=""){
+    			emailResult=fn_memberEnroll_memberCheckEmail($(e.target));
+    		}
     	});
     	
     	//회원가입 버튼 클릭시

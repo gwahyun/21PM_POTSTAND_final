@@ -17,6 +17,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -247,5 +248,24 @@ public class MemberController {
 	@RequestMapping("/member/memberMypage.do")
 	public String memberMypage() {
 		return "member/memberMypage";
+	}
+	
+	//회원정보수정 비밀번호확인페이지 전환
+	@RequestMapping("/member/memberCheckPwd.do")
+	public String memberCheckPwd() {
+		return "member/memberCheckPwd";
+	}
+	
+	//회원정보수정 페이지전환
+	@RequestMapping("/member/memberUpdate.do")
+	public String memberUpdate(String memberPwd, HttpSession session, Model model) {
+		Member m=(Member)session.getAttribute("loginMember");
+		if(pwEncoder.matches(memberPwd,m.getMemberPwd())) {
+			return "member/memberUpdate";
+		}else {
+			model.addAttribute("msg", "비밀번호를 틀렸습니다. 다시 시도해주세요");
+			model.addAttribute("loc", "/member/memberMypage.do");
+			return "common/msg";
+		}	
 	}
 }
