@@ -245,4 +245,54 @@
  		delete from event where event_no = #{no}
  	</delete>
  	
+ 	<select id="productSelectList" resultMap="bookMap">
+ 		select * from book
+ 		where 1=1
+ 		<if test="bookNo != null and bookNo != '' ">
+ 			and book_code like '%'||#{bookNo}||'%' 
+ 		</if>
+ 		<if test="bookTitle != null and bookTitle != '' ">
+ 			and book_title like '%'||#{bookTitle}||'%'
+ 		</if>
+ 		<if test="bookAuthor != null and bookAuthor != '' ">
+ 			and BOOK_WRITER like '%'||#{bookAuthor}||'%' 
+ 		</if>
+ 		<if test="bookPublisher != null and bookPublisher != '' ">
+ 			and BOOK_PUB like '%'||#{bookPublisher}||'%' 
+ 		</if>
+ 	</select>
+ 	
+ 	<select id="productSelectListCount" resultType="int">
+ 		select count(*) from book
+ 		where 1=1
+ 		<if test="bookNo != null and bookNo != '' ">
+ 			and book_code like '%'||#{bookNo}||'%' 
+ 		</if>
+ 		<if test="bookTitle != null and bookTitle != '' ">
+ 			and book_title like '%'||#{bookTitle}||'%'
+ 		</if>
+ 		<if test="bookAuthor != null and bookAuthor != '' ">
+ 			and BOOK_WRITER like '%'||#{bookAuthor}||'%' 
+ 		</if>
+ 		<if test="bookPublisher != null and bookPublisher != '' ">
+ 			and BOOK_PUB like '%'||#{bookPublisher}||'%' 
+ 		</if>
+ 	</select>
+ 	
+ 	<resultMap id="bookMap" type="com.kh.potstand.admin.model.vo.Book">
+ 		<id column="book_code" property="bookCode"/>
+ 		<result column="SORT_NO" property="sortNo"></result>
+ 		<result column="BOOK_TITLE" property="bookTitle"></result>
+ 		<result column="BOOK_WRITER" property="bookWriter"></result>
+ 		<result column="BOOK_PUB" property="bookPub"></result>
+ 		<result column="BOOK_COST" property="bookCost"></result>
+ 		<result column="BOOK_SHORT" property="bookShort"></result>
+ 		<result column="BOOK_CONTENT" property="bookContent"></result>
+ 		<result column="BOOK_COVER" property="bookCover"></result>
+ 		<result column="BOOK_DATE" property="bookDate"></result>
+ 		<result column="BOOK_STOCK" property="bookStock"></result>
+ 		<result column="EVENT_NO" property="eventNo"></result>
+ 	</resultMap>
+ 	
+ 	
 </mapper>

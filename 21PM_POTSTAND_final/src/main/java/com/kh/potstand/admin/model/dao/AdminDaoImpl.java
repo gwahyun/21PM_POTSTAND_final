@@ -11,6 +11,7 @@ import com.kh.potstand.admin.model.vo.Faq;
 import com.kh.potstand.admin.model.vo.Notice;
 import com.kh.potstand.admin.model.vo.Qna;
 import com.kh.potstand.admin.model.vo.Review;
+import com.kh.potstand.book.model.vo.Book;
 import com.kh.potstand.event.model.vo.Event;
 import com.kh.potstand.member.model.vo.Address;
 import com.kh.potstand.member.model.vo.Member;
@@ -239,6 +240,18 @@ public class AdminDaoImpl implements AdminDao {
 	public int qnaManagerNoCount(SqlSessionTemplate session) {
 		// TODO Auto-generated method stub
 		return session.selectOne("admin.qnaManagerNoCount");
+	}
+
+	@Override
+	public List<Book> productSelectList(SqlSessionTemplate session, Map param) {
+		// TODO Auto-generated method stub
+		return session.selectList("admin.productSelectList", param);
+	}
+
+	@Override
+	public int productSelectListCount(SqlSessionTemplate session, Map param) {
+		// TODO Auto-generated method stub
+		return session.selectOne("admin.productSelectListCount",param);
 	}
 
 }

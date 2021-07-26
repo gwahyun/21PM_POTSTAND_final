@@ -7,6 +7,7 @@ import com.kh.potstand.admin.model.vo.Faq;
 import com.kh.potstand.admin.model.vo.Notice;
 import com.kh.potstand.admin.model.vo.Qna;
 import com.kh.potstand.admin.model.vo.Review;
+import com.kh.potstand.book.model.vo.Book;
 import com.kh.potstand.event.model.vo.Event;
 import com.kh.potstand.member.model.vo.Address;
 import com.kh.potstand.member.model.vo.Member;
@@ -86,6 +87,10 @@ public interface AdminService {
 	int qnaManagerCount();
 
 	int qnaManagerNoCount();
+
+	List<Book> productSelectList(Map param);
+
+	int productSelectListCount(Map param);
 
 
 

@@ -18,6 +18,7 @@ import com.kh.potstand.admin.model.vo.Faq;
 import com.kh.potstand.admin.model.vo.Notice;
 import com.kh.potstand.admin.model.vo.Qna;
 import com.kh.potstand.admin.model.vo.Review;
+import com.kh.potstand.book.model.vo.Book;
 import com.kh.potstand.common.AES256Util;
 import com.kh.potstand.common.PageFactory;
 import com.kh.potstand.event.model.vo.Event;
@@ -60,6 +61,15 @@ public class AdminController {
 	@RequestMapping("/admin/productSelect")
 	public ModelAndView productSelect(ModelAndView mv) {
 		
+		mv.setViewName("admin/productSelect");
+		return mv;
+	}
+	
+	@RequestMapping("/admin/productSelectList")
+	public ModelAndView productSelectList(ModelAndView mv,@RequestParam Map param) {
+		mv.addObject("count", service.productSelectListCount(param));
+		List<Book> list = service.productSelectList(param);
+		mv.addObject("list", list);
 		mv.setViewName("admin/productSelect");
 		return mv;
 	}

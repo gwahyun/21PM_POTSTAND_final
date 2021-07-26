@@ -12,6 +12,7 @@ import com.kh.potstand.admin.model.vo.Faq;
 import com.kh.potstand.admin.model.vo.Notice;
 import com.kh.potstand.admin.model.vo.Qna;
 import com.kh.potstand.admin.model.vo.Review;
+import com.kh.potstand.book.model.vo.Book;
 import com.kh.potstand.event.model.vo.Event;
 import com.kh.potstand.member.model.vo.Address;
 import com.kh.potstand.member.model.vo.Member;
@@ -239,6 +240,18 @@ public class AdminServiceImpl implements AdminService {
 	public int qnaManagerNoCount() {
 		// TODO Auto-generated method stub
 		return dao.qnaManagerNoCount(session);
+	}
+
+	@Override
+	public List<Book> productSelectList(Map param) {
+		// TODO Auto-generated method stub
+		return dao.productSelectList(session,param);
+	}
+
+	@Override
+	public int productSelectListCount(Map param) {
+		// TODO Auto-generated method stub
+		return dao.productSelectListCount(session,param);
 	}
 
 
