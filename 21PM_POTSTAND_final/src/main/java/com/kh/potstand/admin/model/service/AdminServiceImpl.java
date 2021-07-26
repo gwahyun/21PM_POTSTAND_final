@@ -8,13 +8,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kh.potstand.admin.model.dao.AdminDao;
-import com.kh.potstand.admin.model.vo.Address;
-import com.kh.potstand.admin.model.vo.Event;
 import com.kh.potstand.admin.model.vo.Faq;
-import com.kh.potstand.admin.model.vo.Member;
 import com.kh.potstand.admin.model.vo.Notice;
 import com.kh.potstand.admin.model.vo.Qna;
 import com.kh.potstand.admin.model.vo.Review;
+import com.kh.potstand.event.model.vo.Event;
+import com.kh.potstand.member.model.vo.Address;
+import com.kh.potstand.member.model.vo.Member;
 
 @Service
 public class AdminServiceImpl implements AdminService {

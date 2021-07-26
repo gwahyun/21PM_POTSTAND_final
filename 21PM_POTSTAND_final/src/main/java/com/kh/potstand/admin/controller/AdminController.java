@@ -14,17 +14,20 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.potstand.admin.model.service.AdminService;
-import com.kh.potstand.admin.model.vo.Address;
-import com.kh.potstand.admin.model.vo.Event;
 import com.kh.potstand.admin.model.vo.Faq;
-import com.kh.potstand.admin.model.vo.Member;
 import com.kh.potstand.admin.model.vo.Notice;
 import com.kh.potstand.admin.model.vo.Qna;
 import com.kh.potstand.admin.model.vo.Review;
 import com.kh.potstand.common.AES256Util;
 import com.kh.potstand.common.PageFactory;
+import com.kh.potstand.event.model.vo.Event;
+import com.kh.potstand.member.model.vo.Address;
+import com.kh.potstand.member.model.vo.Member;
+
+import lombok.extern.slf4j.Slf4j;
 
 @Controller
+@Slf4j
 public class AdminController {
 	
 	
@@ -279,7 +282,7 @@ public class AdminController {
 	
 	@RequestMapping("/admin/eventInsertEnd")
 public ModelAndView eventInsertEnd(ModelAndView mv,@RequestParam Map param) {
-		
+		log.debug(param.toString());
 		int result = service.eventInsertEnd(param);
 		mv.addObject("msg", result>0?"등록성공":"등록실패");
 		mv.addObject("loc", "/admin/eventSelect");
@@ -353,14 +356,14 @@ public ModelAndView eventInsertEnd(ModelAndView mv,@RequestParam Map param) {
 		for(Member m : list) {
 			try {
 	               List<Address> ad=new ArrayList<Address>();
-		               for(Address a : m.getAddress()) {
+		               for(Address a : m.getAddresses()) {
 		                  a.setPostNo(aes.decrypt(a.getPostNo()));
 		                  a.setRoadAddr(aes.decrypt(a.getRoadAddr()));
 		                  a.setOldAddr(aes.decrypt(a.getOldAddr()));
 		                  a.setDetailAddr(aes.decrypt(a.getDetailAddr()));
 		                  ad.add(a);
 		               }
-		               m.setAddress(ad);
+		               m.setAddresses(ad);
 				m.setMemberEmail(aes.decrypt(m.getMemberEmail()));
 				m.setMemberPhone(aes.decrypt(m.getMemberPhone()));
 			}catch(Exception e) {

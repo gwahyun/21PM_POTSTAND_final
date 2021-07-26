@@ -46,7 +46,7 @@
                                         </td>
                                         <td><fmt:formatDate value="${l.memberBirth }" pattern="yyyy년 MM월 dd일"/></td>
                                         <td>
-	                                        <c:forEach var="address" items="${l.address }">
+	                                        <c:forEach var="address" items="${l.addresses }">
 	                                        	${address.postNo }
 	                                        	${address.roadAddr }
 	                                        	${address.oldAddr }
