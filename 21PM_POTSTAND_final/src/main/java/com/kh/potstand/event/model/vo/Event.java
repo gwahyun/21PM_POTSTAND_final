@@ -15,4 +15,6 @@ public class Event {
 	private Date eventStart;
 	private Date eventEnd;
 	private String endCheck;
+	private String eventShort;
+	private String eventThum;
 }

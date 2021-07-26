@@ -21,5 +21,4 @@ public class Book {
 	private String bookCover;
 	private Date bookDate;
 	private int bookStock;
-	private Event event;
 }

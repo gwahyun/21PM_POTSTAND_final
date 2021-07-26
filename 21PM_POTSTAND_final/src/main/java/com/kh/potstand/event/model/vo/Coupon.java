@@ -18,4 +18,5 @@ public class Coupon {
 	private Date usedDate;
 	private String endCheck;
 	private Event event;
+	private int couponAmount;
 }

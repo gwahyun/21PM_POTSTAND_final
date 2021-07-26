@@ -117,15 +117,6 @@ public class MemberDaoImpl implements MemberDao{
 	@Override
 	public List<Cart> cartSelectList(SqlSession session, String memberId) {
 		List<Cart> list = session.selectList("function.cartSelectList", memberId);
-		for(Cart c:list) {
-				if(c.getBook().getEvent()!=null) {
-					Map param =new HashMap();
-					param.put("memberId",c.getMemberId());
-					param.put("eventNo",c.getBook().getEvent().getEventNo());
-				List<Coupon> cp = session.selectList("function.selectCouponByEventNo",param);
-				c.setCoupon(cp);
-			}
-		}
 		return list; 
 	}
 
