@@ -1,5 +1,6 @@
 package com.kh.potstand.member.model.dao;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import com.kh.potstand.admin.model.vo.Notice;
 import com.kh.potstand.admin.model.vo.Qna;
+import com.kh.potstand.event.model.vo.Coupon;
 import com.kh.potstand.member.model.vo.Address;
 import com.kh.potstand.member.model.vo.Member;
 import com.kh.potstand.order.model.vo.Cart;
@@ -114,7 +116,17 @@ public class MemberDaoImpl implements MemberDao{
 	//cart 조회
 	@Override
 	public List<Cart> cartSelectList(SqlSession session, String memberId) {
-		return session.selectList("function.cartSelectList", memberId);
+		List<Cart> list = session.selectList("function.cartSelectList", memberId);
+		for(Cart c:list) {
+				if(c.getBook().getEvent()!=null) {
+					Map param =new HashMap();
+					param.put("memberId",c.getMemberId());
+					param.put("eventNo",c.getBook().getEvent().getEventNo());
+				List<Coupon> cp = session.selectList("function.selectCouponByEventNo",param);
+				c.setCoupon(cp);
+			}
+		}
+		return list; 
 	}
 
 	

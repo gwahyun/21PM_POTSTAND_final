@@ -57,7 +57,7 @@ public class FunctionController {
 		int totalData = service.qnaSelectCount(m.getMemberId());
 		if(m!=null) {
 			mv.addObject("myQnaList", service.qnaSelectList(m.getMemberId(), cPage, numPerPage));
-			mv.addObject("pageBar",PageFactory.getPageBar(totalData, cPage, numPerPage, 5, "myqnaList.do"));
+			mv.addObject("pageBar",PageFactory.getPageBar(totalData, cPage, numPerPage, 5, "myQnaList.do"));
 			mv.setViewName("qna/myqnaList");
 		}else {
 			mv.addObject("msg","로그인이 필요한 서비스입니다.");
