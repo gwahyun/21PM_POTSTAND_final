@@ -14,7 +14,7 @@
                         </div>
                     </div>
                 </div>
-                <form action="${path }/dd" method="get">
+                <form action="${path }/admin/orderSelectList" method="get">
                 
                 <div class="admin-content_area">
                     <div class="admin-content">
@@ -42,9 +42,9 @@
                         <div class="admin-search">
                             <select name="type">
                                 <option>전체</option>
-                                <option value="purchaseNo">주문번호</option>
+                                <option value="orderNo">주문번호</option>
                                 <option value="bookNo">상품번호</option>
-                                <option value="purchaseRecipient">주문자명</option>
+                                <option value="receiverName">주문자명</option>
                             </select>
                             <input type="text" name="keyword">
                         </div>

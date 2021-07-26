@@ -245,6 +245,9 @@
  		delete from event where event_no = #{no}
  	</delete>
  	
+ 	
+ 	<!-- book -->
+ 	
  	<select id="productSelectList" resultMap="bookMap">
  		select * from book
  		where 1=1
@@ -294,5 +297,69 @@
  		<result column="EVENT_NO" property="eventNo"></result>
  	</resultMap>
  	
+ 	<!-- 재고관리 -->
+ 	<select id="stockManagerListCount" resultType="int">
+ 		select count(*) from book
+ 	</select>
+ 	
+ 	<select id="stockManagerList" resultMap="bookMap">
+ 		select * from book
+ 	</select>
+ 	
+ 	<update id="stockUpdate">
+ 		update book 
+ 			set book_stock = book_stock + #{no}
+ 				where book_code = #{bookCode}
+ 	</update>
+ 	
+ 	<!-- request -->
+ 	
+ 	<select id="requestSelectListCount" resultType="int">
+ 		select count(*) from request r
+    	join book b on r.book_code = b.book_code
+ 		<!-- <if test="type != null and type != '' "> -->
+    		where b.book_code like '%'||#{type}||'%'
+    	<!-- </if> -->
+ 	</select>
+ 	
+ 	<select id="requestSelectList" resultMap="requestMap">
+ 		select * from request r
+    	join book b on r.book_code = b.book_code
+    	<!-- <if test="type != null and type != '' "> -->
+    		where b.book_code like '%'||#{type}||'%'
+    	<!-- </if> -->
+ 	</select>
+ 	
+ 	<update id="requestUpdate">
+ 		<!-- update request
+    		set status = 'Y' , RESPONSE_DATE = sysdate
+        	where request_no = #{requestNo} -->
+        	update request
+			    set status = 'Y' , response_date = sysdate
+			        where book_code = (select book_code from book where book_code = #{bookCode})
+ 	</update>
+ 	
+ 	
+ 	<resultMap id="requestMap" type="request">
+ 		<id column="REQUEST_NO" property="requestNo"></id>
+ 		<result column="MEMBER_ID" property="memberId"></result>
+ 		<result column="STATUS" property="status"></result>
+ 		<result column="REQUEST_DATE" property="requestDate"></result>
+ 		<result column="RESPONSE_DATE" property="responseDate"></result>
+ 		<association property="book" javaType="com.kh.potstand.admin.model.vo.Book">
+ 			<id column="book_code" property="bookCode"/>
+	 		<result column="SORT_NO" property="sortNo"></result>
+	 		<result column="BOOK_TITLE" property="bookTitle"></result>
+	 		<result column="BOOK_WRITER" property="bookWriter"></result>
+	 		<result column="BOOK_PUB" property="bookPub"></result>
+	 		<result column="BOOK_COST" property="bookCost"></result>
+	 		<result column="BOOK_SHORT" property="bookShort"></result>
+	 		<result column="BOOK_CONTENT" property="bookContent"></result>
+	 		<result column="BOOK_COVER" property="bookCover"></result>
+	 		<result column="BOOK_DATE" property="bookDate"></result>
+	 		<result column="BOOK_STOCK" property="bookStock"></result>
+	 		<result column="EVENT_NO" property="eventNo"></result>
+ 		</association>
+  	</resultMap>
  	
 </mapper>

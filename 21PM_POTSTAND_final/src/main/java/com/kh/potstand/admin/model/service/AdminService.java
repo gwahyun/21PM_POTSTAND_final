@@ -6,6 +6,7 @@ import java.util.Map;
 import com.kh.potstand.admin.model.vo.Faq;
 import com.kh.potstand.admin.model.vo.Notice;
 import com.kh.potstand.admin.model.vo.Qna;
+import com.kh.potstand.admin.model.vo.Request;
 import com.kh.potstand.admin.model.vo.Review;
 import com.kh.potstand.book.model.vo.Book;
 import com.kh.potstand.event.model.vo.Event;
@@ -91,6 +92,19 @@ public interface AdminService {
 	List<Book> productSelectList(Map param);
 
 	int productSelectListCount(Map param);
+
+	int requestSelectCount(String type);
+
+	List<Request> requestSelect(int cPage, int numPerpage, String type);
+
+	int stockManagerCount();
+
+	List<Book> stockManagerList(int cPage, int numPerpage);
+
+	int stockUpdate(Map param);
+
+	int requestUpdate(Map param);
+
 
 
 

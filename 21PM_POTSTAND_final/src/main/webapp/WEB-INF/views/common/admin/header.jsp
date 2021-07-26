@@ -25,7 +25,7 @@
                 <li class="admin-aside-top_menu"><span class="admin-aside-top_text">상품</span>
                     <ul class="admin-aside-side_menus">
                         <li><a href="${path }/admin/productInsert">상품 등록</a></li>
-                        <li><a href="${path }/admin/productSelect">상품 조회/수정</a></li>
+                        <li><a href="${path }/admin/productSelectList">상품 조회/수정</a></li>
                     </ul>
                 </li>
                 <li class="admin-aside-top_menu"><span class="admin-aside-top_text">판매</span>
@@ -71,6 +71,12 @@
                 <li class="admin-aside-top_menu"><span class="admin-aside-top_text">재고</span>
                     <ul class="admin-aside-side_menus">
                         <li><a href="${path }/admin/stockManager">재고관리</a></li>
+                    </ul>
+                   
+                </li>
+                 <li class="admin-aside-top_menu"><span class="admin-aside-top_text">재고</span>
+                    <ul class="admin-aside-side_menus">
+                        <li><a href="${path }/admin/requestSelect">입고요청</a></li>
                     </ul>
                    
                 </li>

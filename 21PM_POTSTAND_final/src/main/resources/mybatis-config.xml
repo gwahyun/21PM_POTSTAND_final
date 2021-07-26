@@ -14,6 +14,7 @@
 		<typeAlias alias="faq" type="com.kh.potstand.admin.model.vo.Faq"/>
 		<typeAlias alias="event" type="com.kh.potstand.event.model.vo.Event"/>
 		<typeAlias alias="answer" type="com.kh.potstand.admin.model.vo.Answer"/>
+		<typeAlias alias="request" type="com.kh.potstand.admin.model.vo.Request"/>
 		
 		<!-- event package -->
 		<typeAlias alias="event" type="com.kh.potstand.event.model.vo.Event"/>

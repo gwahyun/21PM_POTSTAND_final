@@ -8,6 +8,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import com.kh.potstand.admin.model.vo.Faq;
 import com.kh.potstand.admin.model.vo.Notice;
 import com.kh.potstand.admin.model.vo.Qna;
+import com.kh.potstand.admin.model.vo.Request;
 import com.kh.potstand.admin.model.vo.Review;
 import com.kh.potstand.book.model.vo.Book;
 import com.kh.potstand.event.model.vo.Event;
@@ -93,4 +94,16 @@ public interface AdminDao {
 	List<Book> productSelectList(SqlSessionTemplate session, Map param);
 
 	int productSelectListCount(SqlSessionTemplate session, Map param);
+
+	int requestSelectListCount(SqlSessionTemplate session, String type);
+
+	List<Request> requestSelectList(SqlSessionTemplate session,int cPage, int numPerpage, String type);
+
+	int stockManagerCount(SqlSessionTemplate session);
+
+	List<Book> stockManagerList(SqlSessionTemplate session, int cPage, int numPerpage);
+
+	int stockUpdate(SqlSessionTemplate session, Map param);
+
+	int requestUpdate(SqlSessionTemplate session, Map param);
 }

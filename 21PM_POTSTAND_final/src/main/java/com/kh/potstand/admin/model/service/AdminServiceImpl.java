@@ -11,6 +11,7 @@ import com.kh.potstand.admin.model.dao.AdminDao;
 import com.kh.potstand.admin.model.vo.Faq;
 import com.kh.potstand.admin.model.vo.Notice;
 import com.kh.potstand.admin.model.vo.Qna;
+import com.kh.potstand.admin.model.vo.Request;
 import com.kh.potstand.admin.model.vo.Review;
 import com.kh.potstand.book.model.vo.Book;
 import com.kh.potstand.event.model.vo.Event;
@@ -253,6 +254,43 @@ public class AdminServiceImpl implements AdminService {
 		// TODO Auto-generated method stub
 		return dao.productSelectListCount(session,param);
 	}
+
+	@Override
+	public int requestSelectCount(String type) {
+		// TODO Auto-generated method stub
+		return dao.requestSelectListCount(session,type);
+	}
+
+	@Override
+	public List<Request> requestSelect(int cPage, int numPerpage,String type) {
+		// TODO Auto-generated method stub
+		return dao.requestSelectList(session,cPage,numPerpage,type);
+	}
+
+	@Override
+	public int stockManagerCount() {
+		// TODO Auto-generated method stub
+		return dao.stockManagerCount(session);
+	}
+
+	@Override
+	public List<Book> stockManagerList(int cPage, int numPerpage) {
+		// TODO Auto-generated method stub
+		return dao.stockManagerList(session,cPage,numPerpage);
+	}
+
+	@Override
+	public int stockUpdate(Map param) {
+		// TODO Auto-generated method stub
+		return dao.stockUpdate(session,param);
+	}
+
+	@Override
+	public int requestUpdate(Map param) {
+		// TODO Auto-generated method stub
+		return dao.requestUpdate(session,param);
+	}
+
 
 
 }
