@@ -25,7 +25,7 @@
 	
 	
 	<select id="memberSelect" resultMap="memberMap">
-		SELECT * FROM MEMBER WHERE MEMBER_ID=#{memberId}
+		SELECT * FROM MEMBER JOIN ADDRESS USING(MEMBER_ID) WHERE MEMBER_ID=#{memberId}
 	</select>
 	
 	<insert id="memberInsert">
@@ -45,4 +45,12 @@
 	<update id="memberResetPwd">
 		UPDATE MEMBER SET MEMBER_PWD=#{memberPwd} WHERE MEMBER_ID=#{memberId}
 	</update>
+	
+	<delete id="memberAddrDelete">
+		DELETE FROM ADDRESS WHERE MEMBER_ID=#{memberId}
+	</delete>
+	
+	<delete id="memberDelete">
+		DELETE FROM Member WHERE MEMBER_ID=#{memberId}
+	</delete>
 </mapper>

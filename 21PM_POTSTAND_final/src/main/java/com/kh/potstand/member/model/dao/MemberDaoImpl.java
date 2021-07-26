@@ -11,6 +11,7 @@ import com.kh.potstand.admin.model.vo.Notice;
 import com.kh.potstand.admin.model.vo.Qna;
 import com.kh.potstand.member.model.vo.Address;
 import com.kh.potstand.member.model.vo.Member;
+import com.kh.potstand.order.model.vo.Cart;
 
 import lombok.extern.slf4j.Slf4j;
 @Slf4j
@@ -47,6 +48,18 @@ public class MemberDaoImpl implements MemberDao{
 	@Override
 	public int memberResetPwd(SqlSession session, Member m) {
 		return session.update("member.memberResetPwd", m);
+	}
+	
+	//회원주소 삭제
+	@Override
+	public int memberAddrDelete(SqlSession session, Map param) {
+		return session.delete("member.memberAddrDelete", param);
+	}
+
+	//회원탈퇴
+	@Override
+	public int memberDelete(SqlSession session, Map param) {
+		return session.delete("member.memberDelete", param);
 	}
 
 	//notice List 호출 (공지사항 페이지)
@@ -97,10 +110,12 @@ public class MemberDaoImpl implements MemberDao{
 	public int qnaSelectCount(SqlSession session, String memberId) {
 		return session.selectOne("function.qnaSelectCount", memberId);
 	}
-	
-	
 
-	
+	//cart 조회
+	@Override
+	public List<Cart> cartSelectList(SqlSession session, String memberId) {
+		return session.selectList("function.cartSelectList", memberId);
+	}
 
 	
 

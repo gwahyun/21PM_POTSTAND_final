@@ -10,6 +10,7 @@ import com.kh.potstand.admin.model.vo.Notice;
 import com.kh.potstand.admin.model.vo.Qna;
 import com.kh.potstand.member.model.vo.Address;
 import com.kh.potstand.member.model.vo.Member;
+import com.kh.potstand.order.model.vo.Cart;
 
 public interface MemberDao {
 
@@ -22,11 +23,17 @@ public interface MemberDao {
 	//회원가입 -> 주소
 	int addressInsert(SqlSession session,Address a);
 	
-	//아이디찾기
+	//이메일로 아이디찾기
 	Member memberSearchIdSelect(SqlSession session,String memberEmail);
 	
 	//비밀번호 재설정
 	int memberResetPwd(SqlSession session, Member m);
+	
+	//회원 주소삭제
+	int memberAddrDelete(SqlSession session, @RequestParam Map param);
+	
+	//회원탈퇴
+	int memberDelete(SqlSession session, @RequestParam Map param);
 	
 	//notice List 호출 (공지사항 페이지)
 	List<Notice> noticeSelectList(SqlSession session, int cPage, int numPerPage);
@@ -50,4 +57,7 @@ public interface MemberDao {
 	
 	//qna Count (totalData용)
 	int qnaSelectCount(SqlSession session, String memberId);
+	
+	//Cart 조회
+	List<Cart> cartSelectList(SqlSession session, String memberId);
 }

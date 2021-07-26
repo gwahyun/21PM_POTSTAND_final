@@ -3,12 +3,12 @@ package com.kh.potstand.member.model.service;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.ibatis.session.SqlSession;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.kh.potstand.admin.model.vo.Notice;
 import com.kh.potstand.admin.model.vo.Qna;
 import com.kh.potstand.member.model.vo.Member;
+import com.kh.potstand.order.model.vo.Cart;
 
 public interface MemberService {
 
@@ -18,11 +18,14 @@ public interface MemberService {
 	//회원가입
 	int memberInsert(Member m) throws Exception;
 	
-	//아이디찾기
+	//이메일로 아이디찾기
 	Member memberSearchIdSelect(String memberEmail);
 	
 	//비밀번호 재설정
 	Member memberResetPwd(Member m) throws Exception;
+	
+	//회원탈퇴
+	int memberDelete(@RequestParam Map param) throws Exception;
 
 	//notice List 호출 (공지사항 페이지)
 	List<Notice> noticeSelectList(int cPage, int numPerPage);
@@ -45,4 +48,8 @@ public interface MemberService {
 	
 	//qna Count (totalData용)
 	int qnaSelectCount(String memberId);
+	
+	//Cart 조회
+	List<Cart> cartSelectList(String memberId);
+	
 }

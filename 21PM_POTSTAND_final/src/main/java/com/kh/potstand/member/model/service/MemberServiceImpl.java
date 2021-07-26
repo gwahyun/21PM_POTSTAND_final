@@ -14,6 +14,7 @@ import com.kh.potstand.admin.model.vo.Qna;
 import com.kh.potstand.member.model.dao.MemberDao;
 import com.kh.potstand.member.model.vo.Address;
 import com.kh.potstand.member.model.vo.Member;
+import com.kh.potstand.order.model.vo.Cart;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -49,7 +50,7 @@ public class MemberServiceImpl implements MemberService{
 				List<Address> Addresses=m.getAddresses();
 				if(Addresses.size()>0) { //나중에 주소 여러개 저장할때를 대비해서 이렇게 로직짬
 					for(Address a :Addresses) {
-						result=dao.addressInsert(session,a);
+						dao.addressInsert(session,a);
 					}
 				}else return 0;	
 			}else return 0;
@@ -100,7 +101,26 @@ public class MemberServiceImpl implements MemberService{
 		return null;
 	}
 	
-
+	//회원탈퇴
+	@Override
+	@Transactional
+	public int memberDelete(Map param) throws Exception {
+		try {
+			int result=dao.memberAddrDelete(session,param);
+			log.debug("{}",result);
+			if(result>0) {
+				result=dao.memberDelete(session,param);	
+				if(result>0) {
+					return 1;
+				}else {
+					return 0;
+				}
+			}else return 0;
+		}catch(RuntimeException e) {
+			log.debug(e.getMessage());
+			throw new Exception("회원탈퇴에 실패하였습니다. 관리자에게 문의하세요.");
+		}
+	}
 	
 	
 	//notice List 호출 (공지사항 페이지)
@@ -144,6 +164,12 @@ public class MemberServiceImpl implements MemberService{
 	@Override
 	public int qnaSelectCount(String memberId) {
 		return dao.qnaSelectCount(session, memberId);
+	}	
+	
+	//카트 조회
+	@Override
+	public List<Cart> cartSelectList(String memberId) {
+		return dao.cartSelectList(session, memberId);
 	}
 	
 	
