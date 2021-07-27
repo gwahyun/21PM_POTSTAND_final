@@ -7,13 +7,15 @@ import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
-import com.kh.potstand.admin.model.vo.Address;
-import com.kh.potstand.admin.model.vo.Event;
 import com.kh.potstand.admin.model.vo.Faq;
-import com.kh.potstand.admin.model.vo.Member;
 import com.kh.potstand.admin.model.vo.Notice;
 import com.kh.potstand.admin.model.vo.Qna;
+import com.kh.potstand.admin.model.vo.Request;
 import com.kh.potstand.admin.model.vo.Review;
+import com.kh.potstand.book.model.vo.Book;
+import com.kh.potstand.event.model.vo.Event;
+import com.kh.potstand.member.model.vo.Address;
+import com.kh.potstand.member.model.vo.Member;
 
 @Repository
 public class AdminDaoImpl implements AdminDao {
@@ -240,5 +242,57 @@ public class AdminDaoImpl implements AdminDao {
 		// TODO Auto-generated method stub
 		return session.selectOne("admin.qnaManagerNoCount");
 	}
+
+	@Override
+	public List<Book> productSelectList(SqlSessionTemplate session, Map param) {
+		// TODO Auto-generated method stub
+		return session.selectList("admin.productSelectList", param);
+	}
+
+	@Override
+	public int productSelectListCount(SqlSessionTemplate session, Map param) {
+		// TODO Auto-generated method stub
+		return session.selectOne("admin.productSelectListCount",param);
+	}
+
+	@Override
+	public int requestSelectListCount(SqlSessionTemplate session,String type) {
+		// TODO Auto-generated method stub
+		return session.selectOne("admin.requestSelectListCount",type);
+	}
+
+	@Override
+	public List<Request> requestSelectList(SqlSessionTemplate session,int cPage, int numPerpage,String type) {
+		// TODO Auto-generated method stub
+		return session.selectList("admin.requestSelectList", type, new RowBounds((cPage-1)*numPerpage, numPerpage));
+	}
+
+	@Override
+	public int requestUpdate(SqlSessionTemplate session, Map param) {
+		// TODO Auto-generated method stub
+		int result = session.update("admin.stockUpdate", param);
+		return result>0?session.update("admin.requestUpdate", param):0;
+	}
+	
+	@Override
+	public int stockManagerCount(SqlSessionTemplate session) {
+		// TODO Auto-generated method stub
+		return session.selectOne("admin.stockManagerListCount");
+	}
+
+	@Override
+	public List<Book> stockManagerList(SqlSessionTemplate session, int cPage, int numPerpage) {
+		// TODO Auto-generated method stub
+		return session.selectList("admin.stockManagerList", null, new RowBounds((cPage-1)*numPerpage, numPerpage));
+	}
+
+	@Override
+	public int stockUpdate(SqlSessionTemplate session, Map param) {
+		// TODO Auto-generated method stub
+		session.update("admin.requestUpdate", param);
+		return session.update("admin.stockUpdate", param);
+	}
+
+	
 
 }

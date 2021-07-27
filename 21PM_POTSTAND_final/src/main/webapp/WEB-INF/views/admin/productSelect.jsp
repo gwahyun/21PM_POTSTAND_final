@@ -14,8 +14,7 @@
                     </div>
                 </div>
             </div>
-            <form action="" method="get">
-		
+       <form action="${path }/admin/productSelectList" method="get">
 		<div class="admin-content_area">
 			<div class="admin-content">
 				<div class="admin-content_title">
@@ -90,11 +89,47 @@
             <div class="admin-content_area" style="margin-top: 45px;">
                 <div class="admin-content">
                     <div class="admin-content_title">
-                        상품목록 (총 0 개)
+                        상품목록 (총 ${count } 개)
                     </div>
                     <div class="search-table">
-                    
-                    <span class="no_Data">데이터가 없습니다</span>
+                    <c:if test="${list.size() >= 1}">
+          			
+	                    <table class="table table-border table-hover table-striped">
+							<thead>
+								<tr>
+									<th>번호</th>
+									<th style="width: 15%;">제목</th>
+									<th style="width: 5%;">카테고리</th>
+									<th style="width: 5%;">저자</th>
+									<th style="width: 7%;">출판사</th>
+									<th>정가</th>
+									<th style="width: 5%;">출판일</th>
+									<th style="width: 3%;">수정</th>
+									<th>삭제</th>
+								</tr>
+							</thead>
+							<tbody>
+								<c:forEach items="${list }" var="l">
+								<tr>
+									<td style="	text-align: center;"><fmt:formatNumber value="${l.bookCode }" ></fmt:formatNumber></td>
+									<td><a href="#">${l.bookTitle }</a></td>
+									<td><a href="#">${l.sortNo }</a></td>
+									<td>${l.bookWriter }</td>
+									<td>${l.bookPub }</td>
+									<td style="	text-align: center;">${l.bookCost }</td>
+									<td style="	text-align: center;"><fmt:formatDate value="${l.bookDate }" pattern="yyyy년MM월dd일"/></td>
+									<td style="	text-align: center;"><a class="update-btn" href="bookEdit.jsp?bookNo=4">수정</a></td>
+									
+									<td style="	text-align: center;"><a class="update-btn" href="/bookin/book/bookDelete.kh?bookNo=4" style="background-color:#ff6b6b">삭제</a></td>
+									
+								</tr>
+							</c:forEach>
+							</tbody>
+						</table>
+                    </c:if>
+                    <c:if test="${list.size() == 0}">
+	                    <span class="no_Data">데이터가 없습니다</span>
+                    </c:if>
                     
                     </div>
                 </div>
