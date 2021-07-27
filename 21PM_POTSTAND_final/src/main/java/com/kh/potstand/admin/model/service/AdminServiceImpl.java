@@ -179,9 +179,9 @@ public class AdminServiceImpl implements AdminService {
 	}
 
 	@Override
-	public int eventInsertEnd(Map param) {
+	public int eventInsertEnd(Event e) {
 		// TODO Auto-generated method stub
-		return dao.eventInsertEnd(session,param);
+		return dao.eventInsertEnd(session,e);
 	}
 
 	@Override
@@ -208,9 +208,9 @@ public class AdminServiceImpl implements AdminService {
 	}
 
 	@Override
-	public int eventUpdateEnd(Map param) {
+	public int eventUpdateEnd(Event e) {
 		// TODO Auto-generated method stub
-		return dao.eventUpdateEnd(session,param);
+		return dao.eventUpdateEnd(session,e);
 	}
 
 	@Override

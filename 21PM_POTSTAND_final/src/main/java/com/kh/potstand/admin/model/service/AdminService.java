@@ -64,7 +64,7 @@ public interface AdminService {
 
 	int answerNo();
 
-	int eventInsertEnd(Map param);
+	int eventInsertEnd(Event e);
 
 	List<Event> eventSelect(int cPage, int numPerpage);
 
@@ -74,7 +74,7 @@ public interface AdminService {
     //날짜 지났는지 확인하고 지났으면 종료하는 메소드임
 	int eventEndUpdate();
 
-	int eventUpdateEnd(Map param);
+	int eventUpdateEnd(Event e);
 
 	int eventDelete(int no);
 

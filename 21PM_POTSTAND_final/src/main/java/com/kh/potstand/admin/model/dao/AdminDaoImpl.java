@@ -180,9 +180,9 @@ public class AdminDaoImpl implements AdminDao {
 	}
 
 	@Override
-	public int eventInsertEnd(SqlSessionTemplate session, Map param) {
+	public int eventInsertEnd(SqlSessionTemplate session, Event e) {
 		// TODO Auto-generated method stub
-		return session.insert("admin.eventInsertEnd", param);
+		return session.insert("admin.eventInsertEnd", e);
 	}
 
 	@Override
@@ -209,9 +209,9 @@ public class AdminDaoImpl implements AdminDao {
 	}
 
 	@Override
-	public int eventUpdateEnd(SqlSessionTemplate session, Map param) {
+	public int eventUpdateEnd(SqlSessionTemplate session, Event e) {
 		// TODO Auto-generated method stub
-		return session.update("admin.eventUpdateEnd", param);
+		return session.update("admin.eventUpdateEnd", e);
 	}
 
 	@Override

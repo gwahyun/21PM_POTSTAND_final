@@ -66,7 +66,7 @@ public interface AdminDao {
 
 	int answerNo(SqlSessionTemplate session);
 
-	int eventInsertEnd(SqlSessionTemplate session, Map param);
+	int eventInsertEnd(SqlSessionTemplate session, Event e);
 
 	List<Event> eventSelect(SqlSessionTemplate session, int cPage, int numPerpage);
 
@@ -76,7 +76,7 @@ public interface AdminDao {
 
 	int eventEndUpdate(SqlSessionTemplate session);
 
-	int eventUpdateEnd(SqlSessionTemplate session, Map param);
+	int eventUpdateEnd(SqlSessionTemplate session, Event e);
 
 	int eventDelete(SqlSessionTemplate session, int no);
 

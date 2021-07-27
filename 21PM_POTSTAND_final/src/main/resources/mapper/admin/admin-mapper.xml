@@ -254,15 +254,21 @@
  		update event set end_check ='Y' where event_no = #{no}
  	</update> -->
  	
+ 	<!-- 얘는 날짜 지나면 이벤트 종료되는 sql문 -->
  	<update id="eventEndUpdate">
  		update event
     		set end_check = 'Y'
       			  where sysdate >= event_end
  	</update>
  	
+ 	<!-- 얘는 이벤트 수정 하는 sql 문 -->
  	<update id="eventUpdateEnd">
  	update event
-   	 set event_title =#{eventTitle} , event_info = #{eventInfo} , event_short = #{eventShort},event_end = #{eventEnd} , event_thum = #{eventThum}
+   	 set event_title =#{eventTitle} , event_info = #{eventInfo} , event_short = #{eventShort},event_end = #{eventEnd} 
+   	  <if test="eventThum != null and eventThum != ''">
+   	 		, event_thum = #{eventThum}
+   	 	</if>
+   	 
     	    where event_no = #{eventNo}
  	</update>
  	

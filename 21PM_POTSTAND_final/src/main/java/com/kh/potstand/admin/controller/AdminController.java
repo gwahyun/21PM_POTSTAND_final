@@ -1,9 +1,13 @@
 package com.kh.potstand.admin.controller;
 
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +15,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.potstand.admin.model.service.AdminService;
@@ -311,10 +316,39 @@ public class AdminController {
 	}
 	
 	@RequestMapping("/admin/eventInsertEnd")
-public ModelAndView eventInsertEnd(ModelAndView mv,@RequestParam Map param) {
-		log.debug(param.toString());
-		int result = service.eventInsertEnd(param);
-		mv.addObject("msg", result>0?"등록성공":"등록실패");
+	public ModelAndView eventInsertEnd(ModelAndView mv,Event e,MultipartFile upFile
+			,HttpServletRequest req) {
+		
+		String path = req.getServletContext().getRealPath("/resources/upload/");
+		File dir = new File(path); // 폴더
+		if(!dir.exists()) dir.mkdirs(); //폴더가 존재하지 않으면 폴더 생성
+		
+			if(!upFile.isEmpty()) { //-> 파일이 있니 ? 있으면 실행
+				String oriFilename = upFile.getOriginalFilename();
+				String ext = oriFilename.substring(oriFilename.lastIndexOf("."));
+				
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmssSSS");
+				int rndNum = (int)(Math.random()*10000);
+				String reName = sdf.format(System.currentTimeMillis())+"_"+rndNum+ext;
+				
+				try {
+					upFile.transferTo(new File(path+reName));
+					e.setEventThum(reName);
+				}catch(IOException e2) {
+					e2.printStackTrace();
+				}
+				
+			}
+		String msg="등록성공";
+		try {
+			service.eventInsertEnd(e);
+			
+		}catch(Exception e2) {
+			msg="등록실패";
+			//msg=e.getMessage();
+		}
+		
+		mv.addObject("msg",msg);
 		mv.addObject("loc", "/admin/eventSelect");
 		mv.setViewName("common/msg");
 		return mv;
@@ -350,16 +384,55 @@ public ModelAndView eventInsertEnd(ModelAndView mv,@RequestParam Map param) {
 	 */
 	
 	@RequestMapping("/admin/eventUpdateEnd")
-	public ModelAndView eventUpdateEnd(ModelAndView mv,@RequestParam Map param) {
-		int result = service.eventUpdateEnd(param);
-		mv.addObject("msg", result>0?"수정성공":"수정실패");
+	public ModelAndView eventUpdateEnd(Event e,HttpServletRequest req,MultipartFile upFile,String oldFile
+			,ModelAndView mv) {
+		String path = req.getServletContext().getRealPath("/resources/upload/");
+		File dir = new File(path); // 폴더
+		if(!dir.exists()) dir.mkdirs(); //폴더가 존재하지 않으면 폴더 생성
+		
+			if(!upFile.isEmpty()) { //-> 파일이 있니 ? 있으면 실행
+				File del1 = new File(path+oldFile);
+				del1.delete();
+				String oriFilename = upFile.getOriginalFilename();
+				String ext = oriFilename.substring(oriFilename.lastIndexOf("."));
+				
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmssSSS");
+				int rndNum = (int)(Math.random()*10000);
+				String reName = sdf.format(System.currentTimeMillis())+"_"+rndNum+ext;
+				
+				try {
+					upFile.transferTo(new File(path+reName));
+					e.setEventThum(reName);
+				}catch(IOException e1) {
+					e1.printStackTrace();
+				}
+				
+			}
+		String msg="수정성공";
+		try {
+			System.out.println(e.getEventThum());
+			service.eventUpdateEnd(e);
+			
+		}catch(Exception e1) {
+			e1.printStackTrace();
+			msg="수정실패";
+			//msg=e.getMessage();
+		}
+		
+		mv.addObject("msg", msg);
 		mv.addObject("loc", "/admin/eventSelect");
 		mv.setViewName("common/msg");
 		return mv;
 	}
 	
 	@RequestMapping("/admin/eventDelete")
-	public ModelAndView eventDelete(ModelAndView mv,int no) {
+	public ModelAndView eventDelete(ModelAndView mv,int no,HttpServletRequest req) {
+		String path = req.getServletContext().getRealPath("/resources/upload/");
+		File dir = new File(path); // 폴더
+		if(!dir.exists()) dir.mkdirs(); //폴더가 존재하지 않으면 폴더 생성
+		Event e = service.eventSelectOne(no);
+		File del1 = new File(path+e.getEventThum());
+		del1.delete();
 		int result = service.eventDelete(no);
 		mv.addObject("msg", result>0?"삭제성공":"삭제실패");
 		mv.addObject("loc", "/admin/eventSelect");
