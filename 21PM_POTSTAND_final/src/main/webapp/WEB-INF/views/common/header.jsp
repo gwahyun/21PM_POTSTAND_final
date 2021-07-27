@@ -61,7 +61,7 @@
 	          		</button>
           		</c:if>
           		<!-- 회원 로그인 -->
-      <c:if test="${loginMember!=null}">
+      <c:if test="${loginMember!=null&&loginMember.memberSort.equals('N')}">
          <div class="flex content-center">
           <div>
             <span class="text-red-500 font-bold"><c:out value="${loginMember.memberName}"></c:out></span> 회원님 어서오세요
@@ -194,7 +194,7 @@
       </div>
      </c:if>
      <!-- 관리자 로그인 -->
-     <c:if test="${loginMember.memberSort.equals('Y')}">
+     <c:if test="${loginMember!=null&&loginMember.memberSort.equals('Y')}">
          <div class="flex content-center">
           <div>
             <span class="text-red-500 font-bold"><c:out value="${loginMember.memberName}"></c:out></span> 회원님 어서오세요
