@@ -57,7 +57,7 @@ public class FunctionController {
 		int totalData = service.qnaSelectCount(m.getMemberId());
 		if(m!=null) {
 			mv.addObject("myQnaList", service.qnaSelectList(m.getMemberId(), cPage, numPerPage));
-			mv.addObject("pageBar",PageFactory.getPageBar(totalData, cPage, numPerPage, 5, "myqnaList.do"));
+			mv.addObject("pageBar",PageFactory.getPageBar(totalData, cPage, numPerPage, 5, "myQnaList.do"));
 			mv.setViewName("qna/myqnaList");
 		}else {
 			mv.addObject("msg","로그인이 필요한 서비스입니다.");
@@ -102,7 +102,7 @@ public class FunctionController {
 		mv.addObject("msg",result>0?"1:1문의 접수 완료":"작성 실패");
 		mv.addObject("loc","/qna/myQnaList.do");
 		mv.setViewName("common/msg");
-		return null;
+		return mv;
 	}
 	
 	//장바구니 이동
@@ -111,7 +111,8 @@ public class FunctionController {
 		try {
 			String memberId =((Member)(session.getAttribute("loginMember"))).getMemberId();
 			List<Cart> cartList = service.cartSelectList(memberId);
-			log.debug(cartList.toString());
+			for(Cart i : cartList)
+			{log.debug(i.getCoupon().toString());}
 			mv.addObject("cartList", cartList);
 			mv.setViewName("cart/cartList");
 		}catch(Exception e) {

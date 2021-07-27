@@ -15,5 +15,5 @@ public class Cart {
 	private String memberId;
 	private int bookAmount;
 	private Book book;
-	private Coupon coupon;
+	private List<Coupon> coupon;
 }
