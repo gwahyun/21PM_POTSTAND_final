@@ -34,6 +34,9 @@ public interface MemberDao {
 	//회원탈퇴
 	int memberDelete(SqlSession session, @RequestParam Map param);
 	
+	//비밀번호 변경
+	int memberUpdatePwd(SqlSession session, @RequestParam Map param);
+	
 	//notice List 호출 (공지사항 페이지)
 	List<Notice> noticeSelectList(SqlSession session, int cPage, int numPerPage);
 	

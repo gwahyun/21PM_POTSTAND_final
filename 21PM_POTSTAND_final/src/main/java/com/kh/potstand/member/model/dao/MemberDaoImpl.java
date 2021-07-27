@@ -60,6 +60,12 @@ public class MemberDaoImpl implements MemberDao{
 	public int memberDelete(SqlSession session, Map param) {
 		return session.delete("member.memberDelete", param);
 	}
+	
+	//비밀번호 변경
+	@Override
+	public int memberUpdatePwd(SqlSession session, Map param) {
+		return session.update("member.memberUpdatePwd", param);
+	}
 
 	//notice List 호출 (공지사항 페이지)
 	@Override

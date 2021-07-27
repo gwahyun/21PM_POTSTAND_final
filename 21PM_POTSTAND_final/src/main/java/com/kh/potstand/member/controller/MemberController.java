@@ -57,12 +57,11 @@ public class MemberController {
 	
 	//로그인 계정확인 매소드
 	@RequestMapping("/member/memberLoginEnd.do")
-	@ResponseBody
-	public Member memberLoginEnd(@RequestParam Map param, HttpSession session, HttpServletResponse response) throws NoSuchAlgorithmException,
+	public ModelAndView memberLoginEnd(@RequestParam Map param, ModelAndView mv, HttpSession session, HttpServletResponse response) 
+			throws NoSuchAlgorithmException,
 	UnsupportedEncodingException, GeneralSecurityException {
 		//아이디저장 체크후 쿠키 저장
-		String idCheck=(String)param.get("saveId");	
-		if(idCheck.equals("true")) {
+		if(param.get("remember_me")!=null && param.get("remember_me").equals("true")) {		
 			Cookie c=new Cookie("saveId",(String)param.get("memberId"));
 			c.setMaxAge(60*60*24*7);
 			response.addCookie(c);
@@ -79,7 +78,7 @@ public class MemberController {
 				//암호화한정보 다시 복호화
 				m.setMemberEmail(aes.decrypt(m.getMemberEmail()));
 				m.setMemberPhone(aes.decrypt(m.getMemberPhone()));
-				log.debug("{}",m.getAddresses());
+				//log.debug("{}",m.getAddresses());
 				if(m.getAddresses()!=null) {
 					List<Address> list=new ArrayList<Address>();
 					for(Address a : m.getAddresses()) {
@@ -94,10 +93,18 @@ public class MemberController {
 
 				//해당 계정이 잇으면 session생성
 				session.setAttribute("loginMember", m);
-				return m;
-			}		
-		}		
-		return null;
+				mv.addObject("msg", "로그인에 성공하였습니다.");
+				mv.addObject("loc", "/");
+			}else {
+				mv.addObject("msg", "로그인에 실패하였습니다 아이디 또는 비밀번호를 확인하세요.");
+				mv.addObject("loc", "/member/memberLogin.do");
+			}
+		}else {
+			mv.addObject("msg", "로그인에 실패하였습니다 아이디 또는 비밀번호를 확인하세요.");
+			mv.addObject("loc", "/member/memberLogin.do");
+		}
+		mv.setViewName("common/msg");
+		return mv;
 	}
 	
 	//로그아웃
@@ -131,21 +138,21 @@ public class MemberController {
 		a.setRoadAddr(aes.encrypt(a.getRoadAddr()));
 		a.setOldAddr(aes.encrypt(a.getOldAddr()));
 		a.setDetailAddr(aes.encrypt(a.getDetailAddr()));
-		//기본배송지인지 확인
-		a.setDefaultAddr(a.getDefaultAddr()!=null?"Y":"N");
 		
 		m.getAddresses().add(Address.builder().memberId(a.getMemberId()).postNo(a.getPostNo()).roadAddr(a.getRoadAddr())
-				.oldAddr(a.getOldAddr()).detailAddr(a.getDetailAddr()).defaultAddr(a.getDefaultAddr()).build());
+				.oldAddr(a.getOldAddr()).detailAddr(a.getDetailAddr()).defaultAddr("Y").build());
 		
 		String msg="회원가입에 성공하였습니다!";
 		try {
 			service.memberInsert(m);
+			mv.addObject("loc","/");	
 		}catch(Exception e) {
 			msg=e.getMessage();
+			mv.addObject("loc","/member/memberEnroll.do");
 		}
 		
 		mv.addObject("msg",msg);
-		mv.addObject("loc","/");
+		
 		mv.setViewName("common/msg");
 		
 		return mv;
@@ -166,14 +173,14 @@ public class MemberController {
 			for(int i=0; i<m.getMemberId().length()-2; i++) {
 				memberId+="*";
 			}
-			
+
 			//아이디 메일로 보내기
 			try {
 				MimeMessage message = mailSender.createMimeMessage();
 				MimeMessageHelper messageHelper = new MimeMessageHelper(message,true, "UTF-8");
 
 				messageHelper.setFrom("audrhkd1220@naver.com"); // 보내는사람 생략하면 정상작동을 안함
-				messageHelper.setTo(memberEmail); // 받는사람 이메일
+				messageHelper.setTo(aes.decrypt(memberEmail)); // 받는사람 이메일
 				messageHelper.setSubject("PotStand 아이디찾기 결과"); // 메일제목은 생략이 가능하다
 				messageHelper.setText(content); // 메일 내용
 
@@ -302,5 +309,65 @@ public class MemberController {
 		model.addAttribute("msg", msg);
 		model.addAttribute("loc", loc);
 		return "common/msg";
+	}
+	
+	//비밀번호확인
+	@RequestMapping("/member/memberUpdateCheckPwd.do")
+	@ResponseBody
+	public Member memberUpdateCheckPwd(@RequestParam Map param) {
+		Member m=service.memberSelect(param);
+		if(pwEncoder.matches((String)param.get("memberPwd"),m.getMemberPwd())) {
+			return m;
+		}else {
+			return null;
+		}	
+	}
+	
+	//비밀번호변경
+	@RequestMapping("/member/memberUpdatePwd.do")
+	public ModelAndView memberUpdatePwd(ModelAndView mv, @RequestParam Map param) {
+		//프론트에서 현재비밀번호가 일치하는지 체킹하고 오기때문에 현재비밀번호로 수정하는 작업만 하면됨.
+		param.put("memberPwd", pwEncoder.encode((String)param.get("newPw")));
+		int result=service.memberUpdatePwd(param);
+		mv.addObject("msg", result>0?"비밀번호 변경에 성공하였습니다.":"비밀번호 변경에 실패하였습니다. 관리자에게 문의하세요.");
+		mv.setViewName("common/msg");
+		return mv;
+	}
+	
+	@RequestMapping("/member/memberUpdateEnd.do")
+	public ModelAndView memberUpdateEnd(Member m, Address a, String newPw, ModelAndView mv) throws NoSuchAlgorithmException, 
+	UnsupportedEncodingException, GeneralSecurityException {
+		//수정사항 비밀번호, 휴대전화 생년월일 성별 주소 -> 비밀번호는 있을경우만
+		
+		//단방향 암호화처리
+//		m.setMemberPwd(pwEncoder.encode(newPw)); 
+//		//양방향 암호화처리
+//		m.setMemberEmail(aes.encrypt(m.getMemberEmail()));
+//		m.setMemberPhone(aes.encrypt(m.getMemberPhone()));
+//		a.setPostNo(aes.encrypt(a.getPostNo()));
+//		a.setRoadAddr(aes.encrypt(a.getRoadAddr()));
+//		a.setOldAddr(aes.encrypt(a.getOldAddr()));
+//		a.setDetailAddr(aes.encrypt(a.getDetailAddr()));
+//				
+//		m.getAddresses().add(Address.builder().memberId(a.getMemberId()).postNo(a.getPostNo()).roadAddr(a.getRoadAddr())
+//				.oldAddr(a.getOldAddr()).detailAddr(a.getDetailAddr()).defaultAddr("Y").build());
+		
+		log.debug("{}",m);
+		log.debug("{}",a);
+		log.debug(newPw);
+		
+//		String msg="회원정보 수정을 성공하였습니다.";
+//		try {
+//			//service.memberUpdate(m);
+//			mv.addObject("loc","/member/memberMypage.do");	
+//		}catch(Exception e) {
+//			msg=e.getMessage();
+//			mv.addObject("loc","/member/memberUpdate.do");
+//		}
+//		mv.addObject("msg",msg);
+//		
+//		mv.setViewName("common/msg");
+		
+		return mv;
 	}
 }

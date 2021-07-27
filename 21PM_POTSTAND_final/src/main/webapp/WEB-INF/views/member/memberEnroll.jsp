@@ -104,10 +104,10 @@
                 </div>
                 <div class="content-center flex justify-between">
                 	<label class="text-sm font-bold text-gray-700 tracking-wide">주소</label>
-                	<div>   		
+                	<!-- <div>   		
                     	<input type="checkbox" id="baseAddress" name="defaultAddr" value="Y" class="h-4 w-4 bg-indigo-500 
                         focus:ring-indigo-400 border-gray-300 rounded"/> 기본배송지로 등록
-                	</div>
+                	</div> -->
                 </div>
                 <div class="content-center flex flex-col">
 	                <div>
@@ -241,6 +241,7 @@
     		if(idResult){
     			idResult=fn_memberEnroll_memberCheckId($(e.target));
     		}
+    		if($(e.target).val().trim()<1)$(e.target).next().children().text("");
     	});
     	$("#password").focus(function(){ //포커싱 되었을때 메세지 지우기
     		$("#password").next().children().text("");
@@ -256,18 +257,18 @@
     				$("#checkPw").next().children().text("비밀번호가 일치하지 않습니다.");
     			}
 			}
+    		if($(e.target).val().trim()<1)$(e.target).next().children().text("");
     	});
     	$("#checkPw").focus(function(){ //포커싱 되었을때 메세지 지우기
     		$("#checkPw").next().children().text("");
     	});
     	$("#checkPw").blur(function(e){
-    		if(fn_memberEnroll_checkPw($(e.target))){ //정규표현식에 해당할때 비밀번호가 일치하는지 확인
-    			if($("#password").val()==$(e.target).val()){
-    				pwResult=true;		
-    			}else{
-    				$("#checkPw").next().children().text("비밀번호가 일치하지 않습니다.");
-    			}
+    		if($("#password").val()==$(e.target).val()){
+    			pwResult=true;		
+    		}else{
+    			$("#checkPw").next().children().text("비밀번호가 일치하지 않습니다.");
     		}
+    		if($(e.target).val().trim()<1)$(e.target).next().children().text("");
     	});
     	$("#email").focus(function(){ //포커싱 되었을때 메세지 지우기
     		$("#email").next().children().text("");

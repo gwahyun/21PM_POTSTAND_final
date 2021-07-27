@@ -53,4 +53,8 @@
 	<delete id="memberDelete">
 		DELETE FROM Member WHERE MEMBER_ID=#{memberId}
 	</delete>
+	
+	<update id="memberUpdatePwd">
+		UPDATE MEMBER SET MEMBER_PWD=#{memberPwd} WHERE MEMBER_ID=#{memberId}
+	</update>
 </mapper>
