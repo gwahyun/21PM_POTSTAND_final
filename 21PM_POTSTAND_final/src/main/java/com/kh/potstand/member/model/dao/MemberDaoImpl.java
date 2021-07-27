@@ -11,6 +11,7 @@ import com.kh.potstand.admin.model.vo.Notice;
 import com.kh.potstand.admin.model.vo.Qna;
 import com.kh.potstand.member.model.vo.Address;
 import com.kh.potstand.member.model.vo.Member;
+import com.kh.potstand.member.model.vo.Point;
 import com.kh.potstand.order.model.vo.Cart;
 
 import lombok.extern.slf4j.Slf4j;
@@ -79,6 +80,12 @@ public class MemberDaoImpl implements MemberDao{
 	public int addressUpdate(SqlSession session, Address a) {
 		return session.update("member.addressUpdate", a);
 	}
+	
+	//포인트 기록 조회
+	@Override
+	public List<Point> memberPointSelect(SqlSession session, String memberId) {
+		return session.selectList("member.memberPointSelect", memberId);
+	}
 
 	//notice List 호출 (공지사항 페이지)
 	@Override
@@ -134,6 +141,8 @@ public class MemberDaoImpl implements MemberDao{
 	public List<Cart> cartSelectList(SqlSession session, String memberId) {
 		return session.selectList("function.cartSelectList", memberId);
 	}
+
+	
 
 	
 

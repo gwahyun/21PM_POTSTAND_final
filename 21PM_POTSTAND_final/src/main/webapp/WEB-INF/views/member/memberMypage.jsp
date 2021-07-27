@@ -25,7 +25,7 @@
 	            		<ul>
 			                <li class="py-2"><a href="#">주문목록/배송조회</a></li>
 			                <li class="py-2"><a href="#">쿠폰</a></li>
-			                <li class="py-2"><a href="#">적립금</a></li>
+			                <li class="py-2"><a href="${path}/member/memberPoint.do?memberId=${loginMember.memberId}">적립금</a></li>
 			            </ul>
 	            	</div>
 	            </div>

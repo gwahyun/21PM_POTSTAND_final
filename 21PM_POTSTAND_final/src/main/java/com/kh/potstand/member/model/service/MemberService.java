@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.kh.potstand.admin.model.vo.Notice;
 import com.kh.potstand.admin.model.vo.Qna;
 import com.kh.potstand.member.model.vo.Member;
+import com.kh.potstand.member.model.vo.Point;
 import com.kh.potstand.order.model.vo.Cart;
 
 public interface MemberService {
@@ -32,6 +33,9 @@ public interface MemberService {
 	
 	//회원정보 수정
 	int memberUpdate(Member m) throws Exception;
+	
+	//포인트 기록 조회
+	List<Point> memberPointSelect(String memberId);
 
 	//notice List 호출 (공지사항 페이지)
 	List<Notice> noticeSelectList(int cPage, int numPerPage);

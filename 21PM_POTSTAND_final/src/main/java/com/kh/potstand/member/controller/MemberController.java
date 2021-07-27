@@ -27,6 +27,7 @@ import com.kh.potstand.common.AES256Util;
 import com.kh.potstand.member.model.service.MemberService;
 import com.kh.potstand.member.model.vo.Address;
 import com.kh.potstand.member.model.vo.Member;
+import com.kh.potstand.member.model.vo.Point;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -378,6 +379,16 @@ public class MemberController {
 		mv.addObject("loc",loc);		
 		mv.setViewName("common/msg");
 		
+		return mv;
+	}
+	
+	//적립금 페이지 전환
+	@RequestMapping("/member/memberPoint")
+	public ModelAndView memberPoint(ModelAndView mv, String memberId) {
+		List<Point> list=service.memberPointSelect(memberId);
+		mv.addObject("list", list);
+		log.debug("{}",list);
+		mv.setViewName("member/memberPoint");
 		return mv;
 	}
 }

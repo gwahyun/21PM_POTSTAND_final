@@ -5,6 +5,7 @@
 		<!-- member package -->
 		<typeAlias alias="member" type="com.kh.potstand.member.model.vo.Member"/>
 		<typeAlias alias="address" type="com.kh.potstand.member.model.vo.Address"/>
+		<typeAlias alias="point" type="com.kh.potstand.member.model.vo.Point"/>
 		
 		
 		<!-- admin package -->

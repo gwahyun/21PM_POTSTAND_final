@@ -67,4 +67,17 @@
 		UPDATE ADDRESS SET POST_NO=#{postNo}, ROAD_ADDR=#{roadAddr}, OLD_ADDR=#{oldAddr}, DETAIL_Addr=#{detailAddr} WHERE 
 		MEMBER_ID=#{memberId}
 	</update>
+	
+	<resultMap type="point" id="pointMap">
+		<id column="point_no" property="pointNo"/>
+		<result column="member_id" property="memberId"/>
+		<result column="point" property="point"/>
+		<result column="use_log" property="useLog"/>
+		<result column="use_date" property="useDate"/>
+	</resultMap>
+	
+	<select id="memberPointSelect" resultMap="pointMap">
+		SELECT * FROM POINT WHERE MEMBER_ID=#{memberId}
+	</select>
+	
 </mapper>
