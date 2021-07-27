@@ -3,13 +3,16 @@ package com.kh.potstand.admin.model.service;
 import java.util.List;
 import java.util.Map;
 
-import com.kh.potstand.admin.model.vo.Address;
-import com.kh.potstand.admin.model.vo.Event;
+import com.kh.potstand.admin.model.vo.Answer;
 import com.kh.potstand.admin.model.vo.Faq;
-import com.kh.potstand.admin.model.vo.Member;
 import com.kh.potstand.admin.model.vo.Notice;
 import com.kh.potstand.admin.model.vo.Qna;
+import com.kh.potstand.admin.model.vo.Request;
 import com.kh.potstand.admin.model.vo.Review;
+import com.kh.potstand.book.model.vo.Book;
+import com.kh.potstand.event.model.vo.Event;
+import com.kh.potstand.member.model.vo.Address;
+import com.kh.potstand.member.model.vo.Member;
 
 public interface AdminService {
 
@@ -61,7 +64,7 @@ public interface AdminService {
 
 	int answerNo();
 
-	int eventInsertEnd(Map param);
+	int eventInsertEnd(Event e);
 
 	List<Event> eventSelect(int cPage, int numPerpage);
 
@@ -71,7 +74,7 @@ public interface AdminService {
     //날짜 지났는지 확인하고 지났으면 종료하는 메소드임
 	int eventEndUpdate();
 
-	int eventUpdateEnd(Map param);
+	int eventUpdateEnd(Event e);
 
 	int eventDelete(int no);
 
@@ -86,6 +89,27 @@ public interface AdminService {
 	int qnaManagerCount();
 
 	int qnaManagerNoCount();
+
+	List<Book> productSelectList(Map param);
+
+	int productSelectListCount(Map param);
+
+	int requestSelectCount(String type);
+
+	List<Request> requestSelect(int cPage, int numPerpage, String type);
+
+	int stockManagerCount();
+
+	List<Book> stockManagerList(int cPage, int numPerpage);
+
+	int stockUpdate(Map param);
+
+	int requestUpdate(Map param);
+
+	Answer answerSelectOne(int no);
+
+	int qnaReplyUpdateEnd(Map param);
+
 
 
 

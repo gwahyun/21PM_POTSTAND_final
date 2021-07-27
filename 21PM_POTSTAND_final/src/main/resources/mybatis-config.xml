@@ -9,8 +9,12 @@
 		
 		<!-- admin package -->
 		<typeAlias alias="notice" type="com.kh.potstand.admin.model.vo.Notice"/>
-		<typeAlias alias="answer" type="com.kh.potstand.admin.model.vo.Answer"/>
 		<typeAlias alias="qna" type="com.kh.potstand.admin.model.vo.Qna"/>
+		<typeAlias alias="review" type="com.kh.potstand.admin.model.vo.Review"/>
+		<typeAlias alias="faq" type="com.kh.potstand.admin.model.vo.Faq"/>
+		<typeAlias alias="event" type="com.kh.potstand.event.model.vo.Event"/>
+		<typeAlias alias="answer" type="com.kh.potstand.admin.model.vo.Answer"/>
+		<typeAlias alias="request" type="com.kh.potstand.admin.model.vo.Request"/>
 		
 		<!-- event package -->
 		<typeAlias alias="event" type="com.kh.potstand.event.model.vo.Event"/>

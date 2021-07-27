@@ -8,13 +8,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kh.potstand.admin.model.dao.AdminDao;
-import com.kh.potstand.admin.model.vo.Address;
-import com.kh.potstand.admin.model.vo.Event;
+import com.kh.potstand.admin.model.vo.Answer;
 import com.kh.potstand.admin.model.vo.Faq;
-import com.kh.potstand.admin.model.vo.Member;
 import com.kh.potstand.admin.model.vo.Notice;
 import com.kh.potstand.admin.model.vo.Qna;
+import com.kh.potstand.admin.model.vo.Request;
 import com.kh.potstand.admin.model.vo.Review;
+import com.kh.potstand.book.model.vo.Book;
+import com.kh.potstand.event.model.vo.Event;
+import com.kh.potstand.member.model.vo.Address;
+import com.kh.potstand.member.model.vo.Member;
 
 @Service
 public class AdminServiceImpl implements AdminService {
@@ -163,11 +166,22 @@ public class AdminServiceImpl implements AdminService {
 		// TODO Auto-generated method stub
 		return dao.answerNo(session);
 	}
+	@Override
+	public Answer answerSelectOne(int no) {
+		// TODO Auto-generated method stub
+		return dao.answerSelectOne(session,no);
+	}
+	
+	@Override
+	public int qnaReplyUpdateEnd(Map param) {
+		// TODO Auto-generated method stub
+		return dao.qnaReplyUpdateEnd(session,param);
+	}
 
 	@Override
-	public int eventInsertEnd(Map param) {
+	public int eventInsertEnd(Event e) {
 		// TODO Auto-generated method stub
-		return dao.eventInsertEnd(session,param);
+		return dao.eventInsertEnd(session,e);
 	}
 
 	@Override
@@ -194,9 +208,9 @@ public class AdminServiceImpl implements AdminService {
 	}
 
 	@Override
-	public int eventUpdateEnd(Map param) {
+	public int eventUpdateEnd(Event e) {
 		// TODO Auto-generated method stub
-		return dao.eventUpdateEnd(session,param);
+		return dao.eventUpdateEnd(session,e);
 	}
 
 	@Override
@@ -240,6 +254,56 @@ public class AdminServiceImpl implements AdminService {
 		// TODO Auto-generated method stub
 		return dao.qnaManagerNoCount(session);
 	}
+
+	@Override
+	public List<Book> productSelectList(Map param) {
+		// TODO Auto-generated method stub
+		return dao.productSelectList(session,param);
+	}
+
+	@Override
+	public int productSelectListCount(Map param) {
+		// TODO Auto-generated method stub
+		return dao.productSelectListCount(session,param);
+	}
+
+	@Override
+	public int requestSelectCount(String type) {
+		// TODO Auto-generated method stub
+		return dao.requestSelectListCount(session,type);
+	}
+
+	@Override
+	public List<Request> requestSelect(int cPage, int numPerpage,String type) {
+		// TODO Auto-generated method stub
+		return dao.requestSelectList(session,cPage,numPerpage,type);
+	}
+
+	@Override
+	public int stockManagerCount() {
+		// TODO Auto-generated method stub
+		return dao.stockManagerCount(session);
+	}
+
+	@Override
+	public List<Book> stockManagerList(int cPage, int numPerpage) {
+		// TODO Auto-generated method stub
+		return dao.stockManagerList(session,cPage,numPerpage);
+	}
+
+	@Override
+	public int stockUpdate(Map param) {
+		// TODO Auto-generated method stub
+		return dao.stockUpdate(session,param);
+	}
+
+	@Override
+	public int requestUpdate(Map param) {
+		// TODO Auto-generated method stub
+		return dao.requestUpdate(session,param);
+	}
+
+
 
 
 }

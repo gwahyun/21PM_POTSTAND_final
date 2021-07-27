@@ -11,6 +11,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>PotStand</title>
     <link href="${path}/resources/static/tailwind.css" type="text/css" rel="stylesheet"/>
+    <script src="${path }/resources/js/jquery-3.6.0.min.js"></script>
 </head>
 <body class="max-w-full">
     <header class="text-gray-600 body-font">
@@ -40,6 +41,7 @@
           		</form>
         	</div>
 			<div>
+		<!-- 비회원 접속 -->
 				<c:if test="${loginMember==null}">
 	          		<button class=" inline-flex items-center bg-gray-100 border-0 py-1 px-3 focus:outline-none hover:bg-red-400 
 	          		hover:text-white rounded text-base mt-4 md:mt-0" onclick="location.assign('${path}/member/memberLogin.do');">
@@ -58,8 +60,9 @@
 	            		</svg>
 	          		</button>
           		</c:if>
-          		<c:if test="${loginMember!=null}">
-          		 <div class="flex content-center">
+          		<!-- 회원 로그인 -->
+      <c:if test="${loginMember!=null&&loginMember.memberSort.equals('N')}">
+         <div class="flex content-center">
           <div>
             <span class="text-red-500 font-bold"><c:out value="${loginMember.memberName}"></c:out></span> 회원님 어서오세요
           </div>
@@ -189,17 +192,104 @@
           </div>
         </div>
       </div>
-          		</c:if>
-          		<button class=" inline-flex items-center bg-gray-100 border-0 py-1 px-3 focus:outline-none hover:bg-red-400 
-	          		hover:text-white rounded text-base mt-4 md:mt-0" onclick="location.assign('${path}/admin/adminMain');">
-	            		관리자페이지
-	            		<svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
-	            		class="w-4 h-4 ml-1" viewBox="0 0 24 24">
-	              			<path d="M5 12h14M12 5l7 7-7 7"></path>
-	            		</svg>
-          		</button>
-        	</div>
-      	</div>
+     </c:if>
+     <!-- 관리자 로그인 -->
+     <c:if test="${loginMember!=null&&loginMember.memberSort.equals('Y')}">
+         <div class="flex content-center">
+          <div>
+            <span class="text-red-500 font-bold"><c:out value="${loginMember.memberName}"></c:out></span> 회원님 어서오세요
+          </div>
+          <div class="relative">
+            <!-- Dropdown toggle button -->
+            <button
+              id="member-menu"
+              class="
+                relative
+                z-10
+                block
+                p-2
+                bg-white
+                rounded-md
+                dark:bg-gray-800
+                focus:outline-none
+              "
+            >
+              <svg
+                class="w-5 h-5 text-gray-800 dark:text-white"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                  clip-rule="evenodd"
+                />
+              </svg>
+            </button>
+
+            <!-- Dropdown menu -->
+            <div
+              id="member-menu-content"
+              class="
+                absolute
+                right-0
+                z-20
+                w-48
+                py-2
+                mt-2
+                bg-white
+                rounded-md
+                shadow-xl
+                dark:bg-gray-800
+                hidden
+              "
+            >
+              <a
+                href="${path}/admin/adminMain"
+                class="
+                  block
+                  px-4
+                  py-2
+                  text-sm text-gray-700
+                  capitalize
+                  transition-colors
+                  duration-200
+                  transform
+                  dark:text-gray-300
+                  hover:bg-red-500
+                  hover:text-white
+                  dark:hover:text-white
+                "
+              >
+                관리자 페이지
+              </a>
+              <a
+                href="${path}/member/memberLogout.do"
+                class="
+                  block
+                  px-4
+                  py-2
+                  text-sm text-gray-700
+                  capitalize
+                  transition-colors
+                  duration-200
+                  transform
+                  dark:text-gray-300
+                  hover:bg-red-500
+                  hover:text-white
+                  dark:hover:text-white
+                "
+              >
+                로그아웃
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </c:if>
+    </div>
+   </div>
 		<div class="container flex flex-start p-5 mx-auto">
 	        <nav class="md:mr-auto flex flex-wrap items-center text-base">
 	          <a href="${path}" class="mr-5 hover:text-gray-900">HOME</a>

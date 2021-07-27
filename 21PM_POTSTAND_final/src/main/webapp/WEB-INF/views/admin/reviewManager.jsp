@@ -50,7 +50,7 @@
                             <thead>
                                 <tr>
                                     <th style="width: 1%;">리뷰번호</th>
-                                    <th style="width: 1%;">상품번호</th>
+                                    <th style="width: 2%;">상품번호</th>
                                     <th style="width: 15%;">리뷰내용</th>
                                     <th style="width: 2%;">작성자</th>
                                     <th style="width: 4%;">별점</th>
@@ -69,13 +69,15 @@
                                         
                                         ${r.memberId }
                                     </td>
-                                    <td>
+                                    <td >
                                         		<!--  <span style="display: none;"> <img src="/bookin/image/star_off.png"></span> -->
+                                        		<div style="display:flex; ">
                                         	<c:forEach begin="1" end="${r.point }" varStatus="vs">
-															<img src="/bookin/image/star_off.png">    	
+															<img width="20px" height="20px" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTuaCZp61WZ0mcEQLGCQHJEyYyTiIND-ZghqA&usqp=CAU">    	
                                         	</c:forEach>
+                                      	  		</div>
                                     </td>
-                                    <td>${r.reviewDate }</td>
+                                    <td><fmt:formatDate value="${r.reviewDate }" pattern="yyyy년MM월dd일"/></td>
                                     <td><a class="update-btn" href="/bookin/book/bookDetail.jsp?no=10219">상품정보 이동</a></td>
                                     <td><button class="update-btn" onclick="reviewDelete(${r.reviewNo});" style="background-color: #FF5A5A;;">삭제</button></td>
                                 </tr>

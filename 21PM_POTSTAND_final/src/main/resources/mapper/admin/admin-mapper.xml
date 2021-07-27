@@ -21,12 +21,9 @@
    		 where review_date > sysdate -3
  	</select>
  	
- 	<select id="answerNo" resultType="int">
- 		select count(*) from qna
-  		  where qna_status = 'N'
- 	</select>
  	
- 	<resultMap id="memberMap" type="com.kh.potstand.admin.model.vo.Member">
+ 	
+ 	<resultMap id="memberMap" type="member">
  		<id property="memberId" column="member_id"></id>
  		<result property="memberPwd" column="member_pwd"/>
  		<result property="memberName" column="member_name"/>
@@ -37,10 +34,10 @@
  		<result property="enrollDate" column="enroll_Date"/>
  		<result property="memberDate" column="member_date"/>
  		<result property="memberSort" column="member_sort"/>
- 		<collection property="address" resultMap="addressMap"/>
+ 		<collection property="addresses" resultMap="addressMap"/>
  	</resultMap>
  	
- 	<resultMap id="addressMap" type="com.kh.potstand.admin.model.vo.Address">
+ 	<resultMap id="addressMap" type="address">
  		<id property="addrNo" column="addr_no"/>
  		<result property="memberId" column="member_id"/>
  		<result property="postNo" column="post_No"/>
@@ -70,7 +67,7 @@
  		select count(*) from notice
  	</select>
  	
- 	<resultMap id="noticeMap" type="com.kh.potstand.admin.model.vo.Notice">
+ 	<resultMap id="noticeMap" type="notice">
  		<id property="noticeNo" column="notice_no"/>
  		<result property="memberId" column="member_id"/>
  		<result property="noticeContent" column="notice_content"/>
@@ -104,7 +101,7 @@
  		select count(*) from faq
  	</select>
  	
- 	<resultMap id="faqMap" type="com.kh.potstand.admin.model.vo.Faq">
+ 	<resultMap id="faqMap" type="faq">
  		<id property="faqNo" column="faq_no"/>
  		<result property="faqTitle" column="faq_title"/>
  		<result property="faqContent" column="faq_content"/>
@@ -137,18 +134,18 @@
  	</select>
  	
  	<select id="qnaManagerNoCount" resultType="int">
- 		select count(*) from qna where qna_status = 'N' order by qna_date desc
+ 		select count(*) from qna where qna_status = 'N' 
  	</select>
  	
  	<select id="qnaSelectListNo" resultMap="qnaMap">
- 		select * from qna where qna_status = 'N'
+ 		select * from qna where qna_status = 'N' order by qna_date desc
  	</select>
  	
  	<select id="qnaSelectOne" resultMap="qnaMap">
  		select * from qna where qna_no = #{no}
  	</select>
  	
- 	<resultMap id="qnaMap" type="com.kh.potstand.admin.model.vo.Qna">
+ 	<resultMap id="qnaMap" type="qna">
  		<id column="qna_no" property="qnaNo"/>
  		<result column="member_id" property="memberId"/>
  		<result column="qna_sort" property="qnaSort"/>
@@ -166,6 +163,30 @@
  		insert into answer values(seq_answer.nextval,#{qnaNo},#{memberId},#{answerContent},default)
  	</insert>
  	
+ 	<select id="answerNo" resultType="int">
+ 		select count(*) from qna
+  		  where qna_status = 'N'
+ 	</select>
+ 	
+ 	<select id="answerSelectOne" resultMap="answerMap">
+ 		select * from answer
+ 			where qna_no = #{no}
+ 	</select>
+ 	
+ 	<update id="qnaReplyUpdateEnd">
+ 		update answer
+    		set answer_content = #{answerContent}
+      			  where answer_no = #{answerNo}
+ 	</update>
+ 	
+ 	<resultMap id="answerMap" type="answer">
+ 		<id column="ANSWER_NO" property="answerNo"/>
+ 		<result column="QNA_NO" property="qnaNo"></result>
+ 		<result column="ADMIN_ID" property="adminId"></result>
+ 		<result column="ANSWER_CONTENT" property="answerContent"></result>
+ 		<result column="ANSWER_DATE" property="answerDate"></result>
+ 	</resultMap>
+ 	
  	<update id="qnaStatusUpdate">
  		update qna
  			set qna_status = 'Y'
@@ -176,6 +197,8 @@
  		delete from qna where qna_no = #{no}
  	</delete>
  	
+ 
+ 	
  	<!-- review  -->
  	<select id="reviewManager" resultMap="reviewMap">
  		select * from review order by review_date desc
@@ -185,7 +208,7 @@
  		select count(*) from review
  	</select>
  	
- 	<resultMap type="com.kh.potstand.admin.model.vo.Review" id="reviewMap">
+ 	<resultMap type="review" id="reviewMap">
  		<id column="review_no" property="reviewNo"/>
  		<result column="book_code" property="bookCode"/>
  		<result column="member_id" property="memberId"/>
@@ -212,37 +235,162 @@
  		select * from event where event_no = #{no}
  	</select>
  	
- 	<resultMap id="eventMap" type="com.kh.potstand.admin.model.vo.Event">
+ 	<resultMap id="eventMap" type="event">
  		<id column="event_no" property="eventNo"/>
  		<result column="event_title" property="eventTitle"/>
  		<result column="EVENT_INFO" property="eventInfo"/>
+ 		<result column="EVENT_SHORT" property="eventShort"/>
  		<result column="EVENT_START" property="eventStart"/>
  		<result column="EVENT_END" property="eventEnd"/>
  		<result column="END_CHECK" property="endCheck"/>
+ 		<result column="EVENT_THUM" property="eventThum"/>
  	</resultMap>
  	
  	<insert id="eventInsertEnd">
- 		insert into event values(seq_event.nextval,#{eventTitle},#{eventInfo},sysdate,#{eventEnd},default)
+ 		insert into event values(seq_event.nextval,#{eventTitle},#{eventInfo},#{eventShort},sysdate,#{eventEnd},default,#{eventThum})
  	</insert>
  	
  <!-- 	<update id="eventEnd">
  		update event set end_check ='Y' where event_no = #{no}
  	</update> -->
  	
+ 	<!-- 얘는 날짜 지나면 이벤트 종료되는 sql문 -->
  	<update id="eventEndUpdate">
  		update event
     		set end_check = 'Y'
       			  where sysdate >= event_end
  	</update>
  	
+ 	<!-- 얘는 이벤트 수정 하는 sql 문 -->
  	<update id="eventUpdateEnd">
  	update event
-   	 set event_title =#{eventTitle} , event_info = #{eventInfo} ,event_end = #{eventEnd}
+   	 set event_title =#{eventTitle} , event_info = #{eventInfo} , event_short = #{eventShort},event_end = #{eventEnd} 
+   	  <if test="eventThum != null and eventThum != ''">
+   	 		, event_thum = #{eventThum}
+   	 	</if>
+   	 
     	    where event_no = #{eventNo}
  	</update>
  	
  	<delete id="eventDelete">
  		delete from event where event_no = #{no}
  	</delete>
+ 	
+ 	
+ 	<!-- book -->
+ 	
+ 	<select id="productSelectList" resultMap="bookMap">
+ 		select * from book
+ 		where 1=1
+ 		<if test="bookNo != null and bookNo != '' ">
+ 			and book_code like '%'||#{bookNo}||'%' 
+ 		</if>
+ 		<if test="bookTitle != null and bookTitle != '' ">
+ 			and book_title like '%'||#{bookTitle}||'%'
+ 		</if>
+ 		<if test="bookAuthor != null and bookAuthor != '' ">
+ 			and BOOK_WRITER like '%'||#{bookAuthor}||'%' 
+ 		</if>
+ 		<if test="bookPublisher != null and bookPublisher != '' ">
+ 			and BOOK_PUB like '%'||#{bookPublisher}||'%' 
+ 		</if>
+ 	</select>
+ 	
+ 	<select id="productSelectListCount" resultType="int">
+ 		select count(*) from book
+ 		where 1=1
+ 		<if test="bookNo != null and bookNo != '' ">
+ 			and book_code like '%'||#{bookNo}||'%' 
+ 		</if>
+ 		<if test="bookTitle != null and bookTitle != '' ">
+ 			and book_title like '%'||#{bookTitle}||'%'
+ 		</if>
+ 		<if test="bookAuthor != null and bookAuthor != '' ">
+ 			and BOOK_WRITER like '%'||#{bookAuthor}||'%' 
+ 		</if>
+ 		<if test="bookPublisher != null and bookPublisher != '' ">
+ 			and BOOK_PUB like '%'||#{bookPublisher}||'%' 
+ 		</if>
+ 	</select>
+ 	
+ 	<resultMap id="bookMap" type="com.kh.potstand.admin.model.vo.Book">
+ 		<id column="book_code" property="bookCode"/>
+ 		<result column="SORT_NO" property="sortNo"></result>
+ 		<result column="BOOK_TITLE" property="bookTitle"></result>
+ 		<result column="BOOK_WRITER" property="bookWriter"></result>
+ 		<result column="BOOK_PUB" property="bookPub"></result>
+ 		<result column="BOOK_COST" property="bookCost"></result>
+ 		<result column="BOOK_SHORT" property="bookShort"></result>
+ 		<result column="BOOK_CONTENT" property="bookContent"></result>
+ 		<result column="BOOK_COVER" property="bookCover"></result>
+ 		<result column="BOOK_DATE" property="bookDate"></result>
+ 		<result column="BOOK_STOCK" property="bookStock"></result>
+ 		<result column="EVENT_NO" property="eventNo"></result>
+ 	</resultMap>
+ 	
+ 	<!-- 재고관리 -->
+ 	<select id="stockManagerListCount" resultType="int">
+ 		select count(*) from book
+ 	</select>
+ 	
+ 	<select id="stockManagerList" resultMap="bookMap">
+ 		select * from book
+ 	</select>
+ 	
+ 	<update id="stockUpdate">
+ 		update book 
+ 			set book_stock = book_stock + #{no}
+ 				where book_code = #{bookCode}
+ 	</update>
+ 	
+ 	<!-- request -->
+ 	
+ 	<select id="requestSelectListCount" resultType="int">
+ 		select count(*) from request r
+    	join book b on r.book_code = b.book_code
+ 		<!-- <if test="type != null and type != '' "> -->
+    		where b.book_code like '%'||#{type}||'%'
+    	<!-- </if> -->
+ 	</select>
+ 	
+ 	<select id="requestSelectList" resultMap="requestMap">
+ 		select * from request r
+    	join book b on r.book_code = b.book_code
+    	<!-- <if test="type != null and type != '' "> -->
+    		where b.book_code like '%'||#{type}||'%'
+    	<!-- </if> -->
+ 	</select>
+ 	
+ 	<update id="requestUpdate">
+ 		<!-- update request
+    		set status = 'Y' , RESPONSE_DATE = sysdate
+        	where request_no = #{requestNo} -->
+        	update request
+			    set status = 'Y' , response_date = sysdate
+			        where book_code = (select book_code from book where book_code = #{bookCode})
+ 	</update>
+ 	
+ 	
+ 	<resultMap id="requestMap" type="request">
+ 		<id column="REQUEST_NO" property="requestNo"></id>
+ 		<result column="MEMBER_ID" property="memberId"></result>
+ 		<result column="STATUS" property="status"></result>
+ 		<result column="REQUEST_DATE" property="requestDate"></result>
+ 		<result column="RESPONSE_DATE" property="responseDate"></result>
+ 		<association property="book" javaType="com.kh.potstand.admin.model.vo.Book">
+ 			<id column="book_code" property="bookCode"/>
+	 		<result column="SORT_NO" property="sortNo"></result>
+	 		<result column="BOOK_TITLE" property="bookTitle"></result>
+	 		<result column="BOOK_WRITER" property="bookWriter"></result>
+	 		<result column="BOOK_PUB" property="bookPub"></result>
+	 		<result column="BOOK_COST" property="bookCost"></result>
+	 		<result column="BOOK_SHORT" property="bookShort"></result>
+	 		<result column="BOOK_CONTENT" property="bookContent"></result>
+	 		<result column="BOOK_COVER" property="bookCover"></result>
+	 		<result column="BOOK_DATE" property="bookDate"></result>
+	 		<result column="BOOK_STOCK" property="bookStock"></result>
+	 		<result column="EVENT_NO" property="eventNo"></result>
+ 		</association>
+  	</resultMap>
  	
 </mapper>

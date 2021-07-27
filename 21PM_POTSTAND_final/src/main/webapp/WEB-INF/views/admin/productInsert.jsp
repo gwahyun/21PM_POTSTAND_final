@@ -14,7 +14,7 @@
 				</div>
 			</div>
 		</div>
-		<form action="#" method="post" enctype="multipart/form-data">
+		<form action="${path }/admin/productInsertEnd" method="get" enctype="multipart/form-data">
 		<div class="admin-content_area">
 			<div class="admin-content">
 				<div class="admin-content_title">
@@ -61,6 +61,16 @@
 				</div>
 			</div>
 		</div>
+		<div class="admin-content_area">
+			<div class="admin-content">
+				<div class="admin-content_title">
+					책 소제목
+				</div>
+				<div class="admin-input_text">
+				<input type="text" name="bookShort" required="">
+				</div>
+			</div>
+		</div>
 		
 		<div class="admin-content_area">
 			<div class="admin-content ">
@@ -68,13 +78,8 @@
 					판매가
 				</div>
 				<div class="content_price">
-					<span>정가</span>
-					<input required="" type="number" placeholder="숫자만 입력" name="bookPrice">
-					<span>원</span>
-				</div>
-				<div class="content_price">
 					<span>판매가</span>
-					<input type="number" placeholder="숫자만 입력" name="bookDiscount">
+					<input type="number" placeholder="숫자만 입력" name="bookCost">
 					<span>원</span>
 				</div>
 			</div>
@@ -136,7 +141,19 @@
 				</div>
 			</div>
 		</div>
-		<button class="submit-btn">등록</button>
+		
+		<div class="admin-content_area">
+			<div class="admin-content">
+				<div class="admin-content_title">
+					이벤트 여부
+				</div>
+				<div class="admin-input_text">
+				<input type="radio" name="eventNo" value="Y">Y
+				<input type="radio" name="eventNo" value="N">N
+				</div>
+			</div>
+		</div>
+		<input type="submit" class="submit-btn" value="등록">
 		</form>
 	</section>
     <script>

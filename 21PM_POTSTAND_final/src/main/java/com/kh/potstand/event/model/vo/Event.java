@@ -12,9 +12,9 @@ public class Event {
 	private int eventNo;
 	private String eventTitle;
 	private String eventInfo;
+	private String eventShort;
 	private Date eventStart;
 	private Date eventEnd;
 	private String endCheck;
-	private String eventShort;
 	private String eventThum;
 }

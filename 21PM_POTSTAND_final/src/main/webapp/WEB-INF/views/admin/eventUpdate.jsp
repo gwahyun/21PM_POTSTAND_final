@@ -16,7 +16,7 @@
 				</div>
 			</div>
 		</div>
-		<form action="${path }/admin/eventUpdateEnd" method="post" onsubmit="return exgetMarkdown();">
+		<form action="${path }/admin/eventUpdateEnd" method="post"  enctype="multipart/form-data" onsubmit="return exgetMarkdown();">
 			<div class="admin-content_area">
 				<div class="admin-content">
 					<div class="admin-content_title">
@@ -42,6 +42,17 @@
 			<div class="admin-content_area">
 				<div class="admin-content">
 					<div class="admin-content_title">
+						<span>소제목</span>
+					</div>
+					<div class="admin-input_text">
+					<input type="text" value="${e.eventShort}" name="eventShort" placeholder="제목을 입력하세요." required="">
+					</div>
+				</div>
+			</div>
+			
+			<div class="admin-content_area">
+				<div class="admin-content">
+					<div class="admin-content_title">
 						<span>이벤트 기간</span>
 					</div>
 					<div class="admin-search">
@@ -54,9 +65,23 @@
 			<div class="admin-content_area">
 				<div class="admin-content">
 					<div class="admin-content_title">
+						<span>메인으로 보여질 이미지</span>
+					</div>
+					<div class="admin-input_text">
+						등록된 이미지
+					<img src="${path }/resources/upload/event/${e.eventThum }" width="300px" height="300px">
+					<input type="hidden" name="oldFile" value="${e.eventThum}">
+					<input type="file" name="upFile"/>
+					</div>
+				</div>
+			</div>
+			
+			<div class="admin-content_area">
+				<div class="admin-content">
+					<div class="admin-content_title">
 						<span>수정할 내용</span>
 					</div>
-					<input name="eventInfo" type="hidden">
+					<input id="info" name="eventInfo" type="hidden">
 					<div class="admin-input_text">
 					 <div id="editor" style="width: 800px"></div>
 					</div>
@@ -78,7 +103,7 @@
         editor.setMarkdown('${e.eventInfo}');
       
       function exgetMarkdown() {
-    	  $("input[type=hidden]").val(editor.getMarkdown());
+    	  $("#info").val(editor.getMarkdown());
         const text = editor.getMarkdown();
         
     	  if(text.length==0){

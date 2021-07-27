@@ -1,9 +1,13 @@
 package com.kh.potstand.admin.controller;
 
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,20 +15,27 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.potstand.admin.model.service.AdminService;
-import com.kh.potstand.admin.model.vo.Address;
-import com.kh.potstand.admin.model.vo.Event;
+import com.kh.potstand.admin.model.vo.Answer;
 import com.kh.potstand.admin.model.vo.Faq;
-import com.kh.potstand.admin.model.vo.Member;
 import com.kh.potstand.admin.model.vo.Notice;
 import com.kh.potstand.admin.model.vo.Qna;
+import com.kh.potstand.admin.model.vo.Request;
 import com.kh.potstand.admin.model.vo.Review;
+import com.kh.potstand.book.model.vo.Book;
 import com.kh.potstand.common.AES256Util;
 import com.kh.potstand.common.PageFactory;
+import com.kh.potstand.event.model.vo.Event;
+import com.kh.potstand.member.model.vo.Address;
+import com.kh.potstand.member.model.vo.Member;
+
+import lombok.extern.slf4j.Slf4j;
 
 @Controller
+@Slf4j
 public class AdminController {
 	
 	
@@ -54,9 +65,11 @@ public class AdminController {
 		return mv;
 	}
 	
-	@RequestMapping("/admin/productSelect")
-	public ModelAndView productSelect(ModelAndView mv) {
-		
+	@RequestMapping("/admin/productSelectList")
+	public ModelAndView productSelectList(ModelAndView mv,@RequestParam Map param) {
+		mv.addObject("count", service.productSelectListCount(param));
+		List<Book> list = service.productSelectList(param);
+		mv.addObject("list", list);
 		mv.setViewName("admin/productSelect");
 		return mv;
 	}
@@ -68,6 +81,15 @@ public class AdminController {
 		return mv;
 	}
 	
+
+	
+	@RequestMapping("/admin/orderSelectList")
+	public ModelAndView orderSelectList(ModelAndView mv,@RequestParam Map param) {
+		
+		mv.setViewName("admin/orderCheck");
+		return mv;
+	}
+
 	@RequestMapping("/admin/qnaManager")
 	public ModelAndView qnaManager(
 			@RequestParam(value ="cPage",defaultValue="1") int cPage,
@@ -102,8 +124,26 @@ public class AdminController {
 		return mv;
 	}
 	
+	@RequestMapping("/admin/qnaReplyUpdate")
+	public ModelAndView qnaReplyUpdate(ModelAndView mv,int no) {
+		Qna q = service.qnaSelectOne(no);
+		Answer a = service.answerSelectOne(no);
+		mv.addObject("q", q);
+		mv.addObject("a", a);
+		mv.setViewName("admin/qnaReplyUpdate");
+		return mv;
+	}
+	
+	@RequestMapping("/admin/qnaReplyUpdateEnd")
+	public String qnaReplyUpdate(ModelAndView mv,@RequestParam Map param) {
+		int result = service.qnaReplyUpdateEnd(param);
+		return result>0?"true":"false";
+	}
+	
 	@RequestMapping("/admin/qnaAnswer")
-	public String qnaAnswer(ModelAndView mv,@RequestParam Map param,int qnaNo) {
+	public String qnaAnswer(@RequestParam Map param,HttpSession session) {
+		/* Member m = (Member)session.getAttribute("loginMember");
+		param.put("memberId", m.getMemberId()); */
 		param.put("memberId", "admin");
 		int result = service.qnaAnswer(param);
 		return result>0?"true":"false";
@@ -278,10 +318,39 @@ public class AdminController {
 	}
 	
 	@RequestMapping("/admin/eventInsertEnd")
-public ModelAndView eventInsertEnd(ModelAndView mv,@RequestParam Map param) {
+	public ModelAndView eventInsertEnd(ModelAndView mv,Event e,MultipartFile upFile
+			,HttpServletRequest req) {
 		
-		int result = service.eventInsertEnd(param);
-		mv.addObject("msg", result>0?"등록성공":"등록실패");
+		String path = req.getServletContext().getRealPath("/resources/upload/event/");
+		File dir = new File(path); // 폴더
+		if(!dir.exists()) dir.mkdirs(); //폴더가 존재하지 않으면 폴더 생성
+		
+			if(!upFile.isEmpty()) { //-> 파일이 있니 ? 있으면 실행
+				String oriFilename = upFile.getOriginalFilename();
+				String ext = oriFilename.substring(oriFilename.lastIndexOf("."));
+				
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmssSSS");
+				int rndNum = (int)(Math.random()*10000);
+				String reName = sdf.format(System.currentTimeMillis())+"_"+rndNum+ext;
+				
+				try {
+					upFile.transferTo(new File(path+reName));
+					e.setEventThum(reName);
+				}catch(IOException e2) {
+					e2.printStackTrace();
+				}
+				
+			}
+		String msg="등록성공";
+		try {
+			service.eventInsertEnd(e);
+			
+		}catch(Exception e2) {
+			msg="등록실패";
+			//msg=e.getMessage();
+		}
+		
+		mv.addObject("msg",msg);
 		mv.addObject("loc", "/admin/eventSelect");
 		mv.setViewName("common/msg");
 		return mv;
@@ -317,16 +386,55 @@ public ModelAndView eventInsertEnd(ModelAndView mv,@RequestParam Map param) {
 	 */
 	
 	@RequestMapping("/admin/eventUpdateEnd")
-	public ModelAndView eventUpdateEnd(ModelAndView mv,@RequestParam Map param) {
-		int result = service.eventUpdateEnd(param);
-		mv.addObject("msg", result>0?"수정성공":"수정실패");
+	public ModelAndView eventUpdateEnd(Event e,HttpServletRequest req,MultipartFile upFile,String oldFile
+			,ModelAndView mv) {
+		String path = req.getServletContext().getRealPath("/resources/upload/event/");
+		File dir = new File(path); // 폴더
+		if(!dir.exists()) dir.mkdirs(); //폴더가 존재하지 않으면 폴더 생성
+		
+			if(!upFile.isEmpty()) { //-> 파일이 있니 ? 있으면 실행
+				File del1 = new File(path+oldFile);
+				del1.delete();
+				String oriFilename = upFile.getOriginalFilename();
+				String ext = oriFilename.substring(oriFilename.lastIndexOf("."));
+				
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmssSSS");
+				int rndNum = (int)(Math.random()*10000);
+				String reName = sdf.format(System.currentTimeMillis())+"_"+rndNum+ext;
+				
+				try {
+					upFile.transferTo(new File(path+reName));
+					e.setEventThum(reName);
+				}catch(IOException e1) {
+					e1.printStackTrace();
+				}
+				
+			}
+		String msg="수정성공";
+		try {
+			System.out.println(e.getEventThum());
+			service.eventUpdateEnd(e);
+			
+		}catch(Exception e1) {
+			e1.printStackTrace();
+			msg="수정실패";
+			//msg=e.getMessage();
+		}
+		
+		mv.addObject("msg", msg);
 		mv.addObject("loc", "/admin/eventSelect");
 		mv.setViewName("common/msg");
 		return mv;
 	}
 	
 	@RequestMapping("/admin/eventDelete")
-	public ModelAndView eventDelete(ModelAndView mv,int no) {
+	public ModelAndView eventDelete(ModelAndView mv,int no,HttpServletRequest req) {
+		String path = req.getServletContext().getRealPath("/resources/upload/");
+		File dir = new File(path); // 폴더
+		if(!dir.exists()) dir.mkdirs(); //폴더가 존재하지 않으면 폴더 생성
+		Event e = service.eventSelectOne(no);
+		File del1 = new File(path+e.getEventThum());
+		del1.delete();
 		int result = service.eventDelete(no);
 		mv.addObject("msg", result>0?"삭제성공":"삭제실패");
 		mv.addObject("loc", "/admin/eventSelect");
@@ -353,14 +461,14 @@ public ModelAndView eventInsertEnd(ModelAndView mv,@RequestParam Map param) {
 		for(Member m : list) {
 			try {
 	               List<Address> ad=new ArrayList<Address>();
-		               for(Address a : m.getAddress()) {
+		               for(Address a : m.getAddresses()) {
 		                  a.setPostNo(aes.decrypt(a.getPostNo()));
 		                  a.setRoadAddr(aes.decrypt(a.getRoadAddr()));
 		                  a.setOldAddr(aes.decrypt(a.getOldAddr()));
 		                  a.setDetailAddr(aes.decrypt(a.getDetailAddr()));
 		                  ad.add(a);
 		               }
-		               m.setAddress(ad);
+		               m.setAddresses(ad);
 				m.setMemberEmail(aes.decrypt(m.getMemberEmail()));
 				m.setMemberPhone(aes.decrypt(m.getMemberPhone()));
 			}catch(Exception e) {
@@ -381,10 +489,57 @@ public ModelAndView eventInsertEnd(ModelAndView mv,@RequestParam Map param) {
 		return mv;
 	}
 	@RequestMapping("/admin/stockManager")
-	public ModelAndView stockManager(ModelAndView mv) {
+	public ModelAndView stockManager(
+			@RequestParam(value ="cPage",defaultValue="1") int cPage,
+			@RequestParam(value="numPerpage",defaultValue="10") int numPerpage,
+			ModelAndView mv
+			) {
+		int totalData = service.stockManagerCount();
+		mv.addObject("count", totalData);
+		mv.addObject("pageBar", PageFactory.getPageBar(totalData, cPage, numPerpage,5,"stockManager"));
+		List<Book> list = service.stockManagerList(cPage,numPerpage);
+		mv.addObject("list", list);
 		mv.setViewName("admin/stockManager");
 		return mv;
 	}
+	
+	@RequestMapping("/admin/stockUpdate")
+	public ModelAndView stockUpdate(ModelAndView mv,@RequestParam Map param) {
+		
+		int result = service.stockUpdate(param);
+		mv.addObject("msg", result>0?"재고충전 완료!":"재고충전 실패!");
+		mv.addObject("loc", "/admin/stockManager");
+		mv.setViewName("common/msg");
+		
+		return mv;
+	}
+	
+	@RequestMapping("/admin/requestSelect")
+	public ModelAndView requestSelect(
+			@RequestParam(value ="cPage",defaultValue="1") int cPage,
+			@RequestParam(value="numPerpage",defaultValue="10") int numPerpage,
+			ModelAndView mv,
+			@RequestParam(value="type",defaultValue="") String type) {
+		int totalData = service.requestSelectCount(type);
+		mv.addObject("pageBar", PageFactory.getPageBar(totalData, cPage, numPerpage,5,"requestSelect","type="+type));
+		//mv.addObject("pageBar", PageFactory.getPageBar(totalData, cPage, numPerpage,5,"requestSelect?type="+type));
+		List<Request> list = service.requestSelect(cPage,numPerpage,type);
+		mv.addObject("count", totalData);
+		mv.addObject("list", list);
+		mv.setViewName("admin/requestSelect");
+		return mv;
+	}
+	
+	@RequestMapping("/admin/requestUpdate")
+	public ModelAndView requestUpdate(ModelAndView mv,@RequestParam Map param) {
+		
+		int result = service.requestUpdate(param);
+		mv.addObject("msg", result>0?"요청 완료!":"요청 실패!");
+		mv.addObject("loc", "/admin/requestSelect");
+		mv.setViewName("common/msg");
+		return mv;
+	}
+	
 	
 	
 }
