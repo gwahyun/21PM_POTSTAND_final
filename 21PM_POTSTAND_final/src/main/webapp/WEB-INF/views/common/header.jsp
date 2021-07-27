@@ -11,6 +11,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>PotStand</title>
     <link href="${path}/resources/static/tailwind.css" type="text/css" rel="stylesheet"/>
+    <script src="${path }/resources/js/jquery-3.6.0.min.js"></script>
 </head>
 <body class="max-w-full">
     <header class="text-gray-600 body-font">
