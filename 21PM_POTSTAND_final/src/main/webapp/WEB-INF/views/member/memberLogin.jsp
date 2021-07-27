@@ -42,7 +42,7 @@
                 <span class="text-gray-500 font-normal">POTSTAND</span>
                 <span class="h-px w-16 bg-gray-300"></span>
             </div>
-            <form class="mt-8 space-y-6" action="#" method="POST">
+            <form class="mt-8 space-y-6" action="${path}/member/memberLoginEnd.do" method="POST">
                 <input type="hidden" name="remember" value="true" />
                 <div class="relative">  
                     <label class="text-sm font-bold text-gray-700 tracking-wide">ID</label>
@@ -54,13 +54,10 @@
                     <input class="w-full content-center text-base py-2 border-b border-gray-300 focus:outline-none 
                     focus:border-indigo-500" name="memberPwd" type="password" placeholder="Enter your password" required/>
                 </div>
-                <div class="content-center">
-                	<span id="errMsg" class="text-red-500"></span>
-                </div>
                 <div class="flex items-center justify-between">
                     <div class="flex items-center">
                         <input id="remember_me" name="remember_me" type="checkbox" class="h-4 w-4 bg-indigo-500 
-                        focus:ring-indigo-400 border-gray-300 rounded" ${checked }/>
+                        focus:ring-indigo-400 border-gray-300 rounded" value="true" ${checked }/>
                         <label for="remember_me" class="ml-2 block text-sm text-gray-900">아이디 저장</label>
                     </div>
                     <div class="text-sm flex flex-col">
@@ -71,7 +68,7 @@
                     </div>
                 </div>
                 <div>
-                    <button type="button" class="w-full flex justify-center bg-red-500 text-gray-100 p-4 rounded-full 
+                    <button type="submit" class="w-full flex justify-center bg-red-500 text-gray-100 p-4 rounded-full 
                     tracking-wide font-semibold focus:outline-none focus:shadow-outline hover:bg-red-600 shadow-lg 
                     cursor-pointer transition ease-in duration-300" onclick="fn_memberLogin_login();">
                     	Login
@@ -139,28 +136,6 @@
     </div>
 </body>
 <script>
-	const errMsg="! 아이디 또는 비밀번호를 확인해주세요.";
-	//ajax를 이용하여 로그인을 눌렀을때 계정이 틀리면 err메세지출력하는 함수
-	function fn_memberLogin_login(){ 
-		$("#errMsg").text(''); //errMsg창을 비워주고 시작
-		$.ajax({
-			url:"${path}/member/memberLoginEnd.do",
-			data:{
-				"memberId":$("input[name=memberId]").val(),
-				"memberPwd":$("input[name=memberPwd]").val(),
-				"saveId":$("#remember_me").is(":checked")
-			},
-			success:data=>{
-				if(data==''){ //로그인 실패
-					$("#errMsg").text(errMsg);
-				}else{ //로그인 성공
-					alert('로그인 성공!');
-					location.replace('${path}/');//메인페이지로 이동
-				}
-			}
-		});
-	}
-	
 	//아이디찾기 모달창 이벤트
 	$("#searchId").click(e=>{
 		$("#idmodal").fadeIn();
