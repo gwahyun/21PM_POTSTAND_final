@@ -2,6 +2,8 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"  %>
+
 <c:set var="path" value="${pageContext.request.contextPath}"/>
 <script
   src="https://code.jquery.com/jquery-3.6.0.min.js"
@@ -38,7 +40,7 @@
 	                    <input type="checkbox" name="cartNo" value="${cart.cartNo}" class="ml-3">
 	                    	<div class="img-area w-2/12 h-36 mx-5"><img src="${cart.book.bookCover}" class="w-full"></div>
 	                    <div class="obj-info ml-6 w-4/12">
-	                        <h2 class="my-3 text-2xl font-bold"><c:out value="${cart.book.bookTitle}"/></h3>
+	                        <h2 class="my-3 text-2xl font-bold"><c:out value="${cart.book.bookTitle}"/></h2>
 	                        <h4 class="my-3 text-xl font-medium"><c:out value="${cart.book.bookWriter}"/></h4>
 	                        <button class="inline-flex items-center 
 	                			bg-gray-300 
@@ -54,22 +56,22 @@
 	                    <div class="price ml-6 w-4/12">
 	                        <h3 class="ori-price m-3 text-xl text-right font-medium font-bold"><c:out value="${cart.book.bookCost}"/></h3>
 	                        <h2 class="dis-price m-3 text-xl text-right font-medium font-bold mb-3"></h2>
-	                        <!-- coupon List가 비어있을경우 -->
-	                        <c:choose>
-		                        <c:when test="${empty cart.coupon}">
-		                        	<label class="coupon text-l font-bold mb-2 block">사용 가능한 쿠폰이 없습니다.</label>
-		                        </c:when>
-		                        <c:otherwise>
-			                        <label class="coupon text-l font-bold mb-2 block">사용 가능 쿠폰</label>
-			                        	<c:forEach var="cp" items="${cart.coupon}">
-			                        		<c:if test="${cp.couponEnd eq 'N'}">
-					                        	<input type="radio" class="eventTitle w-full border border-solid border-gray-400 " name="couponNo" value="${cp.couponNo}">
-					                        	<input type="hidden" name="dis-ratio" value="${cp.discount}"> 
-					                        	<c:out value="${cp.event.eventTitle}"/>
-				                        	</c:if>
-			                        	</c:forEach>
-		                        </c:otherwise>
-	                        </c:choose>
+                    
+	                        <c:forEach var="cp" items="${cart.coupon}" varStatus="i">
+		                        <c:choose>
+			                        <c:when test="${fn:length(cart.coupon)==1 and empty cp.couponEnd}">
+			                        	<label class="coupon text-l font-bold mb-2 block">사용 가능한 쿠폰이 없습니다.</label>
+			                        </c:when>
+			                        <c:otherwise>
+				                        <label class="coupon text-l font-bold mb-2 block">사용 가능 쿠폰</label>
+				                        		<c:if test="${cp.couponEnd eq 'N'}">
+						                        	<input type="radio" class="eventTitle w-1/12 border border-solid border-gray-400 " name="couponNo${i}" value="${cp.couponNo}">
+						                        	<input type="hidden" name="dis-ratio" value="${cp.discount}"> 
+						                        	<span class="w-10/12"><c:out value="${cp.event.eventTitle}"/></span>
+					                        	</c:if>
+			                        </c:otherwise>
+		                        </c:choose>
+	                        </c:forEach>
 	                    </div>
 	                </div>
                 </c:forEach>
