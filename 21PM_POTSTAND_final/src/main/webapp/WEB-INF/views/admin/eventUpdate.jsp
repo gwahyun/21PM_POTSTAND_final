@@ -69,7 +69,7 @@
 					</div>
 					<div class="admin-input_text">
 						등록된 이미지
-					<img src="${path }/resources/upload/${e.eventThum }" width="300px" height="300px">
+					<img src="${path }/resources/upload/event/${e.eventThum }" width="300px" height="300px">
 					<input type="hidden" name="oldFile" value="${e.eventThum}">
 					<input type="file" name="upFile"/>
 					</div>

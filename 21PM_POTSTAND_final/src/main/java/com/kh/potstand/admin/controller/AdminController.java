@@ -141,7 +141,9 @@ public class AdminController {
 	}
 	
 	@RequestMapping("/admin/qnaAnswer")
-	public String qnaAnswer(@RequestParam Map param) {
+	public String qnaAnswer(@RequestParam Map param,HttpSession session) {
+		/* Member m = (Member)session.getAttribute("loginMember");
+		param.put("memberId", m.getMemberId()); */
 		param.put("memberId", "admin");
 		int result = service.qnaAnswer(param);
 		return result>0?"true":"false";
