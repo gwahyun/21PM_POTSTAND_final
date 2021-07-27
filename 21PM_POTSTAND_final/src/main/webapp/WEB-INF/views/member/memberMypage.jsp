@@ -33,21 +33,21 @@
 	        <div class="w-3/4 h-full px-5 py-8 flex flex-col content-center">
 	        	<div class="flex text-center border-2 border-black">
 	        		<div class="w-1/3 h-full px-5 py-24">
-	        			<h4 class="text-2xl font-semibold">${loginMember.memberId }</h4>
-	        			<h5 class="text-xl">${loginMember.memberEmail }</h5>
-	        			<button type="button" onclick="location.replace('${path}/member/memberLogout.do')"
+	        			<div class="mb-3"><h4 class="text-4xl font-semibold">${loginMember.memberId }</h4></div>
+	        			<div class="mb-2"><h5 class="text-2xl">${loginMember.memberEmail }</h5></div>
+	        			<div><button type="button" onclick="location.replace('${path}/member/memberLogout.do')"
 	        			class="mt-4 bg-red-500 text-gray-100 p-4 rounded-full tracking-wide font-semibold focus:outline-none 
 	        			focus:shadow-outline hover:bg-red-600 shadow-lg cursor-pointer transition ease-in duration-300">
 	        				로그아웃
-	        			</button>
+	        			</button></div>
+	        		</div>
+	        		<div class="w-1/3 h-full px-5 py-24">	
+	        			<div class="mb-3"><h4 class="text-4xl font-semibold">적립금</h4></div>
+	    				<div><h5 class="text-2xl">${mypageTotalPoint }point</h5></div>
 	        		</div>
 	        		<div class="w-1/3 h-full px-5 py-24">
-	        			<h4 class="text-2xl font-semibold">적립금</h4>
-	    				??Point
-	        		</div>
-	        		<div class="w-1/3 h-full px-5 py-24">
-	        			<h4 class="text-2xl font-semibold">쿠폰</h4>
-	        			??개
+	        			<div class="mb-3"><h4 class="text-4xl font-semibold">쿠폰</h4></div>
+	        			<div><h5 class="text-2xl">??개</h5></div>
 	        		</div>
 	        	</div>
 	        	<div class="mt-7 w-full">

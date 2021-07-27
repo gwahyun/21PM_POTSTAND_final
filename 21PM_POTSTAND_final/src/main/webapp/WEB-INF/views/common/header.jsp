@@ -111,7 +111,7 @@
               "
             >
               <a
-                href="${path }/member/memberMypage.do"
+                href="${path }/member/memberMypage.do?memberId=${loginMember.memberId}"
                 class="
                   block
                   px-4

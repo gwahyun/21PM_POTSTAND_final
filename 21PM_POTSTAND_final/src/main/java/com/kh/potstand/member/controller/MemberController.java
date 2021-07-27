@@ -252,8 +252,19 @@ public class MemberController {
 
 	//마이페이지 전환
 	@RequestMapping("/member/memberMypage.do")
-	public String memberMypage() {
-		return "member/memberMypage";
+	public ModelAndView memberMypage(ModelAndView mv, String memberId) {
+		List<Point> pointList=service.memberPointSelect(memberId);
+		int totalPoint=0;
+		for(Point p : pointList) {
+			if(p.getUseLog().contains("구입")) {
+				totalPoint+=p.getPoint();
+			}else if(p.getUseLog().contains("사용")) {
+				totalPoint-=p.getPoint();
+			}
+		}
+		mv.addObject("mypageTotalPoint", totalPoint);
+		mv.setViewName("member/memberMypage");
+		return mv;
 	}
 	
 	//회원정보수정 비밀번호확인페이지 전환

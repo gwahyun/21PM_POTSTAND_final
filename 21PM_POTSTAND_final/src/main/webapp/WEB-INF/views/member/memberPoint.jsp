@@ -58,12 +58,11 @@
 		        				<h4>${p.useLog }</h4>
 		        			</div>
 		        			<div class="w-1/4 border h-11 p-2 flex justify-center">
-		        				<!-- 임시로 사용이 들어가면 -가붙게 구매가 들어가면 +가 붙게함 의논해봐야할듯 -->
 		        				<c:if test="${fn:contains(p.useLog,'사용') }">
 		        					<h4>-${p.point }</h4>
 		        					<c:set value="${totalPoint-p.point }" var="totalPoint"/>
 		        				</c:if>
-	        					<c:if test="${fn:contains(p.useLog,'구매') }">
+	        					<c:if test="${fn:contains(p.useLog,'구입') }">
 	        						<c:set value="${totalPoint+p.point }" var="totalPoint"/>
 		        					<h4>+${p.point }</h4>
 		        				</c:if>
