@@ -6,9 +6,11 @@
 		<id column="event_no" property="eventNo"/>
 		<result column="event_title" property="eventTitle"/>
 		<result column="event_info" property="eventInfo"/>
+		<result column="event_short" property="eventShort"/>
 		<result column="event_start" property="eventStart"/>
 		<result column="event_end" property="eventEnd"/>
 		<result column="end_check" property="endCheck"/>
+		<result column="event_thum" property="eventThum"/>
 	</resultMap>
 
 	<select id="selectEventList" resultMap="eventMap">

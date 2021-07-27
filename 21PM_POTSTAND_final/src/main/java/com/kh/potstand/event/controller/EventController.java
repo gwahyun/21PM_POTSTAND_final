@@ -14,6 +14,7 @@ public class EventController {
 	@Autowired
 	private EventServiceimpl service;
 	
+	//이벤트 리스트 페이지 전환용 메소드 
 	@RequestMapping("event/eventlist.do")
 	public String eventList(Model m) {
 		m.addAttribute("eventList", service.selectEventList());
@@ -21,6 +22,7 @@ public class EventController {
 		return "event/eventList";
 	}
 	
+	//이벤트 상세페이지 조회 메소드
 	@RequestMapping("event/eventpost.do")
 	public String eventPost(@RequestParam(value="no") int no, Model m) {
 		m.addAttribute("event", service.selectEventPost(no));
