@@ -27,18 +27,18 @@
 			<td><fmt:formatDate value="${q.qnaDate }" pattern="yyyy년MM월dd일"/></td>
 		</tr>
 	</table>
-	<div style=" pointer-events: none;" id="editor" style="width: 800px"></div>
 	<div id="viewer"></div>
 	 <!-- onsubmit="fn_btn();" -->
 		<input type="hidden" name="qnaNo" value="${q.qnaNo }">
-		<input type="text" name="answerContent" placeholder="답변하기" required>
+		<textarea rows="10" cols="40" name="answerContent" required=""></textarea>
+		<!-- <input type="text" name="answerContent" placeholder="답변하기" width="400px" required> -->
 		<input type="button" value="답변" onclick="fn_reply();">
 	<button onclick="fn_btn();">종료</button>
 	<script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
 	<script>
 		function fn_reply(){
 			const qnaNo = $("input[type=hidden]").val();
-			const answerContent = $("input[type=text]").val();
+			const answerContent = $("textarea").val();
 		    if(answerContent.trim().length==0){
 		    	alert("내용을 입력해 주세요");
 		    	return false;
@@ -64,13 +64,12 @@
 			opener.location.assign("${path}/admin/qnaManager");
 			window.close();
 		}
-		const editor = new toastui.Editor({
-	        el: document.querySelector("#editor"),
-	        previewStyle: "vertical",
-	        initialEditType: "wysiwyg",
+	      const viewer = toastui.Editor.factory({
+	        el: document.querySelector("#viewer"),
+	        viewer: true,
 	        height: "500px",
 	      });
-	        editor.setMarkdown('${q.qnaContent }');
+	        viewer.setMarkdown('${q.qnaContent }');
 
 	</script>
 </body>

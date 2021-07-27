@@ -130,7 +130,7 @@
                 마이페이지
               </a>
               <a
-                href="#"
+                href="${path}/member/cartList.do"
                 class="
                   block
                   px-4

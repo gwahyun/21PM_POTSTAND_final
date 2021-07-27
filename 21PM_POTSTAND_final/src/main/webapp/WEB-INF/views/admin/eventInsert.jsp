@@ -32,6 +32,17 @@
 			<div class="admin-content_area">
 				<div class="admin-content">
 					<div class="admin-content_title">
+						<span>소제목</span>
+					</div>
+					<div class="admin-input_text">
+					<input type="text" name="eventShort" placeholder="제목을 입력하세요." required="">
+					</div>
+				</div>
+			</div>
+			
+			<div class="admin-content_area">
+				<div class="admin-content">
+					<div class="admin-content_title">
 						<span>이벤트 종료일</span>
 					</div>
 					<div class="admin-search">
@@ -40,6 +51,16 @@
 				</div>
 			</div>
 			
+			<div class="admin-content_area">
+				<div class="admin-content">
+					<div class="admin-content_title">
+						<span>메인으로 보여질 이미지</span>
+					</div>
+					<div class="admin-input_text">
+					<input type="text" name="eventThum" placeholder="제목을 입력하세요." >
+					</div>
+				</div>
+			</div>
 			
 			
 			<div class="admin-content_area">

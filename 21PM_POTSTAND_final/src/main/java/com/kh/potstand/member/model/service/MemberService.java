@@ -3,12 +3,12 @@ package com.kh.potstand.member.model.service;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.ibatis.session.SqlSession;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.kh.potstand.admin.model.vo.Notice;
 import com.kh.potstand.admin.model.vo.Qna;
 import com.kh.potstand.member.model.vo.Member;
+import com.kh.potstand.order.model.vo.Cart;
 
 public interface MemberService {
 
@@ -51,4 +51,8 @@ public interface MemberService {
 	
 	//qna Count (totalData용)
 	int qnaSelectCount(String memberId);
+	
+	//Cart 조회
+	List<Cart> cartSelectList(String memberId);
+	
 }

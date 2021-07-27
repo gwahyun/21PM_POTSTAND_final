@@ -2,12 +2,31 @@
 <!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd" >
 <configuration>
 	<typeAliases>
+		<!-- member package -->
 		<typeAlias alias="member" type="com.kh.potstand.member.model.vo.Member"/>
 		<typeAlias alias="address" type="com.kh.potstand.member.model.vo.Address"/>
+		
+		
+		<!-- admin package -->
 		<typeAlias alias="notice" type="com.kh.potstand.admin.model.vo.Notice"/>
 		<typeAlias alias="qna" type="com.kh.potstand.admin.model.vo.Qna"/>
-		<typeAlias alias="qna" type="com.kh.potstand.admin.model.vo.Qna"/>
+		<typeAlias alias="review" type="com.kh.potstand.admin.model.vo.Review"/>
+		<typeAlias alias="faq" type="com.kh.potstand.admin.model.vo.Faq"/>
 		<typeAlias alias="event" type="com.kh.potstand.event.model.vo.Event"/>
 		<typeAlias alias="answer" type="com.kh.potstand.admin.model.vo.Answer"/>
+		<typeAlias alias="request" type="com.kh.potstand.admin.model.vo.Request"/>
+		
+		<!-- event package -->
+		<typeAlias alias="event" type="com.kh.potstand.event.model.vo.Event"/>
+		<typeAlias alias="coupon" type="com.kh.potstand.event.model.vo.Coupon"/>
+		
+		<!-- book package -->
+		<typeAlias alias="book" type="com.kh.potstand.book.model.vo.Book"/>
+		<typeAlias alias="sort" type="com.kh.potstand.book.model.vo.Sort"/>
+		
+		<!-- order package -->
+		<typeAlias alias="cart" type="com.kh.potstand.order.model.vo.Cart"/>
+		
+		
 	</typeAliases>
 </configuration>

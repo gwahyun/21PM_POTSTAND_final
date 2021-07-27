@@ -26,7 +26,7 @@
 	          		text-white rounded text-base mt-4 md:mt-0 cursor-pointer font-bold w-4/12"><a href="${path}/qna/myQnaList.do">내 문의내역</a></div>
         </div>
         <div class="qna-container">
-        	<form id="qnaWriteEnd" method="post" action="${path}/qna/qnaWriteEnd.do" enctype="multipart/form-data">
+        	<form id="qnaWriteEnd" method="post" action="${path}/qna/qnaWriteEnd.do">
 	            <div class="qna-title flex m-8">
 	            	<label class="text-2xl">분류</label>
 	            	<select name="qnaSort" class="mx-5 border-solid border border-gray-300 w-1/12">
@@ -72,10 +72,6 @@
         viewer.setMarkdown(editor.getMarkdown());
       }
       
-      function exgetMarkdown() {
-        const text = editor.getMarkdown();
-        console.log(text);
-      }
       
       function ex() {
         viewer.setMarkdown("# 안녕하세요");

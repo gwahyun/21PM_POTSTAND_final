@@ -17,4 +17,5 @@
 	<select id="selectEventPost" resultMap="eventMap">
 		select * from event where event_no = #{no}
 	</select>
+	
 </mapper>

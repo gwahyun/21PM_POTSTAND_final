@@ -70,9 +70,7 @@ public class MemberController {
 			c.setMaxAge(0);
 			response.addCookie(c);
 		}
-		
 		Member m=service.memberSelect(param);
-		
 		if(m!=null) {
 			if(pwEncoder.matches((String)param.get("memberPwd"), m.getMemberPwd())) {
 				//암호화한정보 다시 복호화
