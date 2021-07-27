@@ -27,23 +27,23 @@
 			<td><fmt:formatDate value="${q.qnaDate }" pattern="yyyy년MM월dd일"/></td>
 		</tr>
 	</table>
-	<div id="viewer" style="border: 1px solid black; width: 100%;"  ></div>
+	<div id="viewer" style="border: 2px solid black; width: 100%;"  ></div>
 	 <!-- onsubmit="fn_btn();" -->
-		<input type="hidden" name="qnaNo" value="${q.qnaNo }">
-		<textarea style="margin-top : 30px;" rows="10" cols="40" name="answerContent" required=""></textarea>
+		<input type="hidden" name="answerNo" value="${a.answerNo }">
+		<textarea style="margin-top : 30px;" rows="10" cols="40" name="answerContent" required="">${a.answerContent }</textarea>
 		<!-- <input type="text" name="answerContent" placeholder="답변하기" width="400px" required> -->
-		<input type="button" value="답변" onclick="fn_reply();">
+		<input type="button" value="수정" onclick="fn_reply();">
 	<button onclick="fn_btn();">종료</button>
 	<script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
 	<script>
 		function fn_reply(){
-			const qnaNo = $("input[type=hidden]").val();
+			const answerNo = $("input[type=hidden]").val();
 			const answerContent = $("textarea").val();
 		    if(answerContent.trim().length==0){
 		    	alert("내용을 입력해 주세요");
 		    	return false;
 		    }else{
-		    	$.get("${path}/admin/qnaAnswer?answerContent="+answerContent+"&qnaNo=${q.qnaNo}",data=>{
+		    	$.get("${path}/admin/qnaReplyUpdateEnd?answerContent="+answerContent+"&answerNo=${a.answerNo}",data=>{
 		    	/* 	if(data=='true'){
 		    			alert("성공");
 		    			opener.location.assign("${path}/admin/qnaManager");
@@ -54,7 +54,7 @@
 		    			window.close();
 		    		} */
 		    	})
-		    	alert("답변이 완료 되었습니다!");
+		    	alert("답변이 수정 되었습니다!");
 		    	opener.location.assign("${path}/admin/qnaManager");
     			window.close();
 		    }

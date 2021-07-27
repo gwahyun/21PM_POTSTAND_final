@@ -7,6 +7,7 @@ import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.kh.potstand.admin.model.vo.Answer;
 import com.kh.potstand.admin.model.vo.Faq;
 import com.kh.potstand.admin.model.vo.Notice;
 import com.kh.potstand.admin.model.vo.Qna;
@@ -122,6 +123,7 @@ public class AdminDaoImpl implements AdminDao {
 		return result>0?session.update("admin.qnaStatusUpdate", param):0;
 	}
 
+
 	@Override
 	public int qnaDelete(SqlSessionTemplate session, int no) {
 		// TODO Auto-generated method stub
@@ -163,11 +165,24 @@ public class AdminDaoImpl implements AdminDao {
 		// TODO Auto-generated method stub
 		return session.selectOne("admin.answerNo");
 	}
+	
+	@Override
+	public Answer answerSelectOne(SqlSessionTemplate session, int no) {
+		// TODO Auto-generated method stub
+		return session.selectOne("admin.answerSelectOne",no);
+	}
+	
 
 	@Override
-	public int eventInsertEnd(SqlSessionTemplate session, Map param) {
+	public int qnaReplyUpdateEnd(SqlSessionTemplate session, Map param) {
 		// TODO Auto-generated method stub
-		return session.insert("admin.eventInsertEnd", param);
+		return session.update("admin.qnaReplyUpdateEnd", param);
+	}
+
+	@Override
+	public int eventInsertEnd(SqlSessionTemplate session, Event e) {
+		// TODO Auto-generated method stub
+		return session.insert("admin.eventInsertEnd", e);
 	}
 
 	@Override
@@ -194,9 +209,9 @@ public class AdminDaoImpl implements AdminDao {
 	}
 
 	@Override
-	public int eventUpdateEnd(SqlSessionTemplate session, Map param) {
+	public int eventUpdateEnd(SqlSessionTemplate session, Event e) {
 		// TODO Auto-generated method stub
-		return session.update("admin.eventUpdateEnd", param);
+		return session.update("admin.eventUpdateEnd", e);
 	}
 
 	@Override

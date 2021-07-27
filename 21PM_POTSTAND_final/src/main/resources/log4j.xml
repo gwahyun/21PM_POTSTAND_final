@@ -10,9 +10,14 @@
 		</layout>
 	</appender>
 	
+	<logger name="jdbc.sqlonly" additivity="false"> 
+	        <level value="DEBUG"/> 
+	        <appender-ref ref="console" />
+    </logger>
+	
 	<!-- Application Loggers -->
 	<logger name="com.kh.potstand">
-		<level value="debug" />
+		<level value="debug"/>
 	</logger>
 	
 	<!-- 3rdparty Loggers -->

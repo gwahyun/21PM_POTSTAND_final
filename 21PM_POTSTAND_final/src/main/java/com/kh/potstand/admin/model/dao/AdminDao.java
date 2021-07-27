@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 
+import com.kh.potstand.admin.model.vo.Answer;
 import com.kh.potstand.admin.model.vo.Faq;
 import com.kh.potstand.admin.model.vo.Notice;
 import com.kh.potstand.admin.model.vo.Qna;
@@ -65,7 +66,7 @@ public interface AdminDao {
 
 	int answerNo(SqlSessionTemplate session);
 
-	int eventInsertEnd(SqlSessionTemplate session, Map param);
+	int eventInsertEnd(SqlSessionTemplate session, Event e);
 
 	List<Event> eventSelect(SqlSessionTemplate session, int cPage, int numPerpage);
 
@@ -75,7 +76,7 @@ public interface AdminDao {
 
 	int eventEndUpdate(SqlSessionTemplate session);
 
-	int eventUpdateEnd(SqlSessionTemplate session, Map param);
+	int eventUpdateEnd(SqlSessionTemplate session, Event e);
 
 	int eventDelete(SqlSessionTemplate session, int no);
 
@@ -106,4 +107,8 @@ public interface AdminDao {
 	int stockUpdate(SqlSessionTemplate session, Map param);
 
 	int requestUpdate(SqlSessionTemplate session, Map param);
+
+	Answer answerSelectOne(SqlSessionTemplate session, int no);
+
+	int qnaReplyUpdateEnd(SqlSessionTemplate session, Map param);
 }

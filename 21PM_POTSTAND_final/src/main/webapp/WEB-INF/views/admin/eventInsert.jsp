@@ -16,7 +16,7 @@
 				</div>
 			</div>
 		</div>
-		<form action="${path }/admin/eventInsertEnd" method="post" onsubmit="return exgetMarkdown();">
+		<form action="${path }/admin/eventInsertEnd" method="post" enctype="multipart/form-data" onsubmit="return exgetMarkdown();">
 			
 			<div class="admin-content_area">
 				<div class="admin-content">
@@ -57,7 +57,7 @@
 						<span>메인으로 보여질 이미지</span>
 					</div>
 					<div class="admin-input_text">
-					<input type="text" name="eventThum" placeholder="제목을 입력하세요." >
+					<input type="file" name="upFile">
 					</div>
 				</div>
 			</div>

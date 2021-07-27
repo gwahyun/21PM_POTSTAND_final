@@ -2,7 +2,7 @@ package com.kh.potstand.event.model.vo;
 
 import java.sql.Date;
 
-import org.apache.ibatis.type.Alias;
+import com.kh.potstand.book.model.vo.Book;
 
 import lombok.Data;
 
@@ -16,6 +16,7 @@ public class Coupon {
 	private Date startDate;
 	private Date valDate;
 	private Date usedDate;
-	private String endCheck;
+	private String couponEnd;
 	private Event event;
+	private int couponAmount;
 }

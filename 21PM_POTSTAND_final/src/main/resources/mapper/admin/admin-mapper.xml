@@ -21,10 +21,7 @@
    		 where review_date > sysdate -3
  	</select>
  	
- 	<select id="answerNo" resultType="int">
- 		select count(*) from qna
-  		  where qna_status = 'N'
- 	</select>
+ 	
  	
  	<resultMap id="memberMap" type="member">
  		<id property="memberId" column="member_id"></id>
@@ -166,6 +163,30 @@
  		insert into answer values(seq_answer.nextval,#{qnaNo},#{memberId},#{answerContent},default)
  	</insert>
  	
+ 	<select id="answerNo" resultType="int">
+ 		select count(*) from qna
+  		  where qna_status = 'N'
+ 	</select>
+ 	
+ 	<select id="answerSelectOne" resultMap="answerMap">
+ 		select * from answer
+ 			where qna_no = #{no}
+ 	</select>
+ 	
+ 	<update id="qnaReplyUpdateEnd">
+ 		update answer
+    		set answer_content = #{answerContent}
+      			  where answer_no = #{answerNo}
+ 	</update>
+ 	
+ 	<resultMap id="answerMap" type="answer">
+ 		<id column="ANSWER_NO" property="answerNo"/>
+ 		<result column="QNA_NO" property="qnaNo"></result>
+ 		<result column="ADMIN_ID" property="adminId"></result>
+ 		<result column="ANSWER_CONTENT" property="answerContent"></result>
+ 		<result column="ANSWER_DATE" property="answerDate"></result>
+ 	</resultMap>
+ 	
  	<update id="qnaStatusUpdate">
  		update qna
  			set qna_status = 'Y'
@@ -175,6 +196,8 @@
  	<delete id="qnaDelete">
  		delete from qna where qna_no = #{no}
  	</delete>
+ 	
+ 
  	
  	<!-- review  -->
  	<select id="reviewManager" resultMap="reviewMap">
@@ -231,15 +254,21 @@
  		update event set end_check ='Y' where event_no = #{no}
  	</update> -->
  	
+ 	<!-- 얘는 날짜 지나면 이벤트 종료되는 sql문 -->
  	<update id="eventEndUpdate">
  		update event
     		set end_check = 'Y'
       			  where sysdate >= event_end
  	</update>
  	
+ 	<!-- 얘는 이벤트 수정 하는 sql 문 -->
  	<update id="eventUpdateEnd">
  	update event
-   	 set event_title =#{eventTitle} , event_info = #{eventInfo} , event_short = #{eventShort},event_end = #{eventEnd} , event_thum = #{eventThum}
+   	 set event_title =#{eventTitle} , event_info = #{eventInfo} , event_short = #{eventShort},event_end = #{eventEnd} 
+   	  <if test="eventThum != null and eventThum != ''">
+   	 		, event_thum = #{eventThum}
+   	 	</if>
+   	 
     	    where event_no = #{eventNo}
  	</update>
  	

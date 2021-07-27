@@ -54,15 +54,20 @@
 	                    <div class="price ml-6 w-4/12">
 	                        <h3 class="ori-price m-3 text-xl text-right font-medium font-bold"><c:out value="${cart.book.bookCost}"/></h3>
 	                        <h2 class="dis-price m-3 text-xl text-right font-medium font-bold mb-3"></h2>
+	                        <!-- coupon List가 비어있을경우 -->
 	                        <c:choose>
-		                        <c:when test="${empty cart.coupon or cart.coupon.endCheck eq 'Y'}">
+		                        <c:when test="${empty cart.coupon}">
 		                        	<label class="coupon text-l font-bold mb-2 block">사용 가능한 쿠폰이 없습니다.</label>
 		                        </c:when>
 		                        <c:otherwise>
 			                        <label class="coupon text-l font-bold mb-2 block">사용 가능 쿠폰</label>
-			                        	<input type="checkBox" class="eventTitle w-full border border-solid border-gray-400 " name="couponNo" value="${cart.coupon.couponNo}">
-			                        	<input type="hidden" name="dis-ratio" value="${cart.coupon.discount}"> 
-			                        	<c:out value="${cart.coupon.event.eventTitle}"/>
+			                        	<c:forEach var="cp" items="${cart.coupon}">
+			                        		<c:if test="${cp.couponEnd eq 'N'}">
+					                        	<input type="radio" class="eventTitle w-full border border-solid border-gray-400 " name="couponNo" value="${cp.couponNo}">
+					                        	<input type="hidden" name="dis-ratio" value="${cp.discount}"> 
+					                        	<c:out value="${cp.event.eventTitle}"/>
+				                        	</c:if>
+			                        	</c:forEach>
 		                        </c:otherwise>
 	                        </c:choose>
 	                    </div>

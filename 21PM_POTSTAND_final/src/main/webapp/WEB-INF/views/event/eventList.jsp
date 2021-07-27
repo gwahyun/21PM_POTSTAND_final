@@ -33,7 +33,7 @@
             <div class="bg-gray-100 p-6 rounded-lg">
               <img
                 class="h-40 rounded w-full object-cover object-center mb-6"
-                src="https://www.changbi.com/wp-content/uploads/2015/07/20150724_083711.gif"
+                src="${path }/resources/upload/event/${e.eventThum}"
                 alt="content"
               />
               <h2 class="text-lg text-gray-900 font-medium title-font">
@@ -51,7 +51,7 @@
                 <c:out value="${e.eventStart}"/>~<c:out value="${e.eventEnd}"/>
               </h3>
               <p class="leading-relaxed text-base">
-                <c:out value="${e.eventInfo}"/>
+                <c:out value="${e.eventShort}"/>
               </p>
             </div>
           </div>
