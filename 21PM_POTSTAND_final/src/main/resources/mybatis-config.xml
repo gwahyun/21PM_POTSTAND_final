@@ -24,5 +24,10 @@
 		<typeAlias alias="cart" type="com.kh.potstand.order.model.vo.Cart"/>
 		
 		
+		<!-- typeHandler -->
+		<typeAlias alias="longHandler" type="com.kh.potstand.common.LongTypeHandler"/>
+		
+		
+		
 	</typeAliases>
 </configuration>

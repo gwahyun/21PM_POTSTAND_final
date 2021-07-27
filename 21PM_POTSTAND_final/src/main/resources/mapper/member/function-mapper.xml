@@ -48,7 +48,7 @@
 		<result column="BOOK_PUB" property="bookPub"/>
 		<result column="BOOK_COST" property="bookCost"/>
 		<result column="BOOK_SHORT" property="bookShort"/>
-		<result column="BOOK_CONTENT" property="bookContent"/>
+		<result column="BOOK_CONTENT" property="bookContent" typeHandler="longHandler"/>
 		<result column="BOOK_COVER" property="bookCover"/>
 		<result column="BOOK_DATE" property="bookDate"/>
 		<result column="BOOK_STOCK" property="bookStock"/>
@@ -57,17 +57,6 @@
 	<select id="selectBookByPK" resultMap="bookMap">
 		SELECT * FROM BOOK WHERE BOOK_CODE=#{bookCode}
 	</select>
-	
-	
-	
-	
-	<resultMap type="cart" id="cartMap">
-		<id column="CART_NO" property="cartNo"/>
-		<result column="MEMBER_ID" property="memberId"/>
-		<result column="BOOK_AMOUNT" property="bookAmount"/>
-		<association column="BOOK_CODE" property="book" select="selectBookByPK"/>	
-		<collection column="MEMBER_ID" property="coupon" select="selectCouponByMemberId"/>
-	</resultMap>
 	
 	<!-- 쿠폰 리절트맵 + selectByPK -->
 	<resultMap type="coupon" id="couponMap">
@@ -78,32 +67,32 @@
 		<result column="START_DATE" property="startDate"/>
 		<result column="VAL_DATE" property="valDate"/>
 		<result column="USED_DATE" property="usedDate"/>
-		<result column="END_CHECK" property="endCheck"/>
+		<result column="COUPON_END" property="couponEnd"/>
 		<result column="COUPON_AMOUNT" property="couponAmount"/>
-		<association column="EVENT_NO" property="event" select="selectCouponByEventNo"/>
+		<association column="EVENT_NO" property="event" select="selectEventByPK"/>
 	</resultMap>
 	
 	
-	<select id="selectCouponByMemberId" resultMap="couponMap">
-		SELECT * FROM COUPON 
-			LEFT JOIN EVENT USING(EVENT_NO)
-		WHERE MEMBER_ID=#{memberId}
-	</select>
+	<resultMap type="cart" id="cartMap">
+		<id column="CART_NO" property="cartNo"/>
+		<result column="MEMBER_ID" property="memberId"/>
+		<result column="BOOK_AMOUNT" property="bookAmount"/>
+		<association property="book" resultMap="bookMap"/>	
+		<collection property="coupon" resultMap="couponMap"/>
+	</resultMap>
 	
-	
-	<select id="selectCouponByEventNo" resultMap="couponMap">
-		SELECT * FROM COUPON WHERE EVENT_NO=#{eventNo}
-	</select>
 	
 	
 	
 	<resultMap type="event" id="eventMap">
 		<id column="event_no" property="eventNo"/>
 		<result column="event_title" property="eventTitle"/>
-		<result column="event_info" property="eventInfo"/>
+		<result column="event_info" property="eventInfo" typeHandler="longHandler"/>
+		<result column="event_short" property="eventShort"/>
 		<result column="event_start" property="eventStart"/>
 		<result column="event_end" property="eventEnd"/>
 		<result column="end_check" property="endCheck"/>
+		<result column="event_thum" property="eventThum"/>
 	</resultMap>
 
 	<select id="selectEventByPK" resultMap="eventMap">
@@ -136,7 +125,7 @@
 	</select>
 	
 	<select id="cartSelectListJoinEventList" resultMap="cartMap">
-		SELECT * FROM CART LEFT JOIN EVENT_LIST USING (BOOK_CODE) WHERE MEMBER_ID=#{memberId}
+		SELECT * FROM CART_BOOK_COUPON WHERE MEMBER_ID=#{memberId} AND (COUPON_END IS NULL OR COUPON_END='N')
 	</select>
 
 	
