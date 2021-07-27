@@ -98,12 +98,13 @@
 							<thead>
 								<tr>
 									<th>번호</th>
-									<th>제목</th>
-									<th>저자</th>
-									<th>출판사</th>
+									<th style="width: 15%;">제목</th>
+									<th style="width: 5%;">카테고리</th>
+									<th style="width: 5%;">저자</th>
+									<th style="width: 7%;">출판사</th>
 									<th>정가</th>
-									<th>출판일</th>
-									<th>수정</th>
+									<th style="width: 5%;">출판일</th>
+									<th style="width: 3%;">수정</th>
 									<th>삭제</th>
 								</tr>
 							</thead>
@@ -112,10 +113,11 @@
 								<tr>
 									<td style="	text-align: center;"><fmt:formatNumber value="${l.bookCode }" ></fmt:formatNumber></td>
 									<td><a href="#">${l.bookTitle }</a></td>
+									<td><a href="#">${l.sortNo }</a></td>
 									<td>${l.bookWriter }</td>
 									<td>${l.bookPub }</td>
 									<td style="	text-align: center;">${l.bookCost }</td>
-									<td style="	text-align: center;">${l.bookDate }</td>
+									<td style="	text-align: center;"><fmt:formatDate value="${l.bookDate }" pattern="yyyy년MM월dd일"/></td>
 									<td style="	text-align: center;"><a class="update-btn" href="bookEdit.jsp?bookNo=4">수정</a></td>
 									
 									<td style="	text-align: center;"><a class="update-btn" href="/bookin/book/bookDelete.kh?bookNo=4" style="background-color:#ff6b6b">삭제</a></td>

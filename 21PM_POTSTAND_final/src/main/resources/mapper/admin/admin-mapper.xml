@@ -216,13 +216,15 @@
  		<id column="event_no" property="eventNo"/>
  		<result column="event_title" property="eventTitle"/>
  		<result column="EVENT_INFO" property="eventInfo"/>
+ 		<result column="EVENT_SHORT" property="eventShort"/>
  		<result column="EVENT_START" property="eventStart"/>
  		<result column="EVENT_END" property="eventEnd"/>
  		<result column="END_CHECK" property="endCheck"/>
+ 		<result column="EVENT_THUM" property="eventThum"/>
  	</resultMap>
  	
  	<insert id="eventInsertEnd">
- 		insert into event values(seq_event.nextval,#{eventTitle},#{eventInfo},sysdate,#{eventEnd},default)
+ 		insert into event values(seq_event.nextval,#{eventTitle},#{eventInfo},#{eventShort},sysdate,#{eventEnd},default,#{eventThum})
  	</insert>
  	
  <!-- 	<update id="eventEnd">
@@ -237,7 +239,7 @@
  	
  	<update id="eventUpdateEnd">
  	update event
-   	 set event_title =#{eventTitle} , event_info = #{eventInfo} ,event_end = #{eventEnd}
+   	 set event_title =#{eventTitle} , event_info = #{eventInfo} , event_short = #{eventShort},event_end = #{eventEnd} , event_thum = #{eventThum}
     	    where event_no = #{eventNo}
  	</update>
  	

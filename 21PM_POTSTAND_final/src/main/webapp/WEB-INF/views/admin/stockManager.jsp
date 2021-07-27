@@ -12,7 +12,7 @@
                 <div class="admin-content_title">재고 관리</div>
             </div>
 </div>
-<div class="admin-content_area" style="margin-top: 45px;">
+<div class="admin-content_area" >
                 <div class="admin-content">
                     <div class="admin-content_title">
                         상품목록 (총 ${count } 권)
@@ -28,8 +28,9 @@
 									<th>저자</th>
 									<th>출판사</th>
 									<th>정가</th>
-									<th>출판일</th>
+									<th style="width : 10%;">출판일</th>
 									<th>재고</th>
+									<th>재고충전</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -41,7 +42,8 @@
 									<td>${l.bookPub }</td>
 									<td style="	text-align: center;">${l.bookCost }</td>
 									<td style="	text-align: center;"><fmt:formatDate value="${l.bookDate  }" pattern="yyyy년MM월dd일"></fmt:formatDate></td>
-									<td style="	text-align: center;">${l.bookStock }권 <button class="update-btn" onclick="stockInsert(${l.bookCode});">재고충전</button></td>
+									<td style="	text-align: center;">${l.bookStock }권</td>
+									<td style="	text-align: center;"><button style="background-color: #FF5A5A;" class="update-btn" onclick="stockInsert(${l.bookCode});">충전</button></td>
 									
 									
 								</tr>

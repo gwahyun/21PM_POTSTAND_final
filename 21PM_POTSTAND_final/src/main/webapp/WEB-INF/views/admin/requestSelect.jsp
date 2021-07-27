@@ -34,7 +34,7 @@
                                     <!-- <th style="width: 1%;">요청수량</th> -->
                                     <th style="width: 4%;">등록일자</th>
                                     <th style="width: 4%;">처리일자</th>
-                                    <th style="width: 1%;">요청상태</th>
+                                    <th style="width: 2%;">요청상태</th>
                                     <th style="width: 4%;">상품정보</th>
                                     <th style="width: 4%;">재고충전</th>
                                 </tr>
