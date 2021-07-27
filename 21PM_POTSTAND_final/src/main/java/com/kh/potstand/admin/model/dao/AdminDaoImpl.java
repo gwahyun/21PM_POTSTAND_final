@@ -7,6 +7,7 @@ import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.kh.potstand.admin.model.vo.Answer;
 import com.kh.potstand.admin.model.vo.Faq;
 import com.kh.potstand.admin.model.vo.Notice;
 import com.kh.potstand.admin.model.vo.Qna;
@@ -122,6 +123,7 @@ public class AdminDaoImpl implements AdminDao {
 		return result>0?session.update("admin.qnaStatusUpdate", param):0;
 	}
 
+
 	@Override
 	public int qnaDelete(SqlSessionTemplate session, int no) {
 		// TODO Auto-generated method stub
@@ -162,6 +164,19 @@ public class AdminDaoImpl implements AdminDao {
 	public int answerNo(SqlSessionTemplate session) {
 		// TODO Auto-generated method stub
 		return session.selectOne("admin.answerNo");
+	}
+	
+	@Override
+	public Answer answerSelectOne(SqlSessionTemplate session, int no) {
+		// TODO Auto-generated method stub
+		return session.selectOne("admin.answerSelectOne",no);
+	}
+	
+
+	@Override
+	public int qnaReplyUpdateEnd(SqlSessionTemplate session, Map param) {
+		// TODO Auto-generated method stub
+		return session.update("admin.qnaReplyUpdateEnd", param);
 	}
 
 	@Override

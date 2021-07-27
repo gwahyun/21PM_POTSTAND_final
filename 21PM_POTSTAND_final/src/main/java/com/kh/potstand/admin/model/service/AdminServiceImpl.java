@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kh.potstand.admin.model.dao.AdminDao;
+import com.kh.potstand.admin.model.vo.Answer;
 import com.kh.potstand.admin.model.vo.Faq;
 import com.kh.potstand.admin.model.vo.Notice;
 import com.kh.potstand.admin.model.vo.Qna;
@@ -165,6 +166,17 @@ public class AdminServiceImpl implements AdminService {
 		// TODO Auto-generated method stub
 		return dao.answerNo(session);
 	}
+	@Override
+	public Answer answerSelectOne(int no) {
+		// TODO Auto-generated method stub
+		return dao.answerSelectOne(session,no);
+	}
+	
+	@Override
+	public int qnaReplyUpdateEnd(Map param) {
+		// TODO Auto-generated method stub
+		return dao.qnaReplyUpdateEnd(session,param);
+	}
 
 	@Override
 	public int eventInsertEnd(Map param) {
@@ -290,6 +302,7 @@ public class AdminServiceImpl implements AdminService {
 		// TODO Auto-generated method stub
 		return dao.requestUpdate(session,param);
 	}
+
 
 
 

@@ -6,7 +6,7 @@
 <html >
 <head>
 <meta charset="UTF-8">
-<title>postand - admin</title>
+<title>Postand - admin</title>
 <c:set var ="path" value = "${pageContext.request.contextPath }"/>
 <link rel="stylesheet" type="text/css" href="${path }/resources/css/adminStyle.css"/>
 <!-- Latest compiled and minified CSS -->

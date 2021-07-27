@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 
+import com.kh.potstand.admin.model.vo.Answer;
 import com.kh.potstand.admin.model.vo.Faq;
 import com.kh.potstand.admin.model.vo.Notice;
 import com.kh.potstand.admin.model.vo.Qna;
@@ -106,4 +107,8 @@ public interface AdminDao {
 	int stockUpdate(SqlSessionTemplate session, Map param);
 
 	int requestUpdate(SqlSessionTemplate session, Map param);
+
+	Answer answerSelectOne(SqlSessionTemplate session, int no);
+
+	int qnaReplyUpdateEnd(SqlSessionTemplate session, Map param);
 }

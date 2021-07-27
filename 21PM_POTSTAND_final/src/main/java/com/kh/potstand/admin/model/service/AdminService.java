@@ -3,6 +3,7 @@ package com.kh.potstand.admin.model.service;
 import java.util.List;
 import java.util.Map;
 
+import com.kh.potstand.admin.model.vo.Answer;
 import com.kh.potstand.admin.model.vo.Faq;
 import com.kh.potstand.admin.model.vo.Notice;
 import com.kh.potstand.admin.model.vo.Qna;
@@ -104,6 +105,10 @@ public interface AdminService {
 	int stockUpdate(Map param);
 
 	int requestUpdate(Map param);
+
+	Answer answerSelectOne(int no);
+
+	int qnaReplyUpdateEnd(Map param);
 
 
 

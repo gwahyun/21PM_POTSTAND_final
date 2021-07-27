@@ -64,10 +64,10 @@
 		                                        <td><a class="update-btn" onclick="qnaManager(${q.qnaNo});" href="#">답변</a></td>
                                         	</c:when>
                                         	<c:otherwise>
-                                        		<td><a class="update-btn" style="background-color: blue">완료</a></td>
+                                        		<td><a class="update-btn" onclick="qnaUpdate(${q.qnaNo});" href="#" style="background-color: blue">답변수정</a></td>
                                         	</c:otherwise>
                                         </c:choose>
-                                        <td><button class="update-btn" onclick="deleteCheck(${q.qnaNo});" style="background-color: #FF5A5A;">삭제</></button></td>
+                                        <td><button class="update-btn" onclick="deleteCheck(${q.qnaNo});" style="background-color: #FF5A5A;">삭제</button></td>
                                     </tr>
                                     </c:forEach>
                                     
@@ -96,6 +96,13 @@
 			const status="width=600px,height=400px";
         	const title="duplicateId";
         	const url="${path}/admin/qnaReply?no="+no;
+        	open(url,title,status);
+		}
+		
+		function qnaUpdate(no){
+			const status="width=600px,height=400px";
+        	const title="duplicateId";
+        	const url="${path}/admin/qnaReplyUpdate?no="+no;
         	open(url,title,status);
 		}
 	

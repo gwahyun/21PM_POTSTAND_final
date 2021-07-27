@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.potstand.admin.model.service.AdminService;
+import com.kh.potstand.admin.model.vo.Answer;
 import com.kh.potstand.admin.model.vo.Faq;
 import com.kh.potstand.admin.model.vo.Notice;
 import com.kh.potstand.admin.model.vo.Qna;
@@ -118,8 +119,24 @@ public class AdminController {
 		return mv;
 	}
 	
+	@RequestMapping("/admin/qnaReplyUpdate")
+	public ModelAndView qnaReplyUpdate(ModelAndView mv,int no) {
+		Qna q = service.qnaSelectOne(no);
+		Answer a = service.answerSelectOne(no);
+		mv.addObject("q", q);
+		mv.addObject("a", a);
+		mv.setViewName("admin/qnaReplyUpdate");
+		return mv;
+	}
+	
+	@RequestMapping("/admin/qnaReplyUpdateEnd")
+	public String qnaReplyUpdate(ModelAndView mv,@RequestParam Map param) {
+		int result = service.qnaReplyUpdateEnd(param);
+		return result>0?"true":"false";
+	}
+	
 	@RequestMapping("/admin/qnaAnswer")
-	public String qnaAnswer(ModelAndView mv,@RequestParam Map param,int qnaNo) {
+	public String qnaAnswer(@RequestParam Map param) {
 		param.put("memberId", "admin");
 		int result = service.qnaAnswer(param);
 		return result>0?"true":"false";
