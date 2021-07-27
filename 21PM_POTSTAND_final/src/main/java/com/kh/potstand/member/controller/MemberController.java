@@ -333,38 +333,50 @@ public class MemberController {
 	}
 	
 	@RequestMapping("/member/memberUpdateEnd.do")
-	public ModelAndView memberUpdateEnd(Member m, Address a, String newPw, ModelAndView mv) throws NoSuchAlgorithmException, 
-	UnsupportedEncodingException, GeneralSecurityException {
-		//수정사항 비밀번호, 휴대전화 생년월일 성별 주소 -> 비밀번호는 있을경우만
+	public ModelAndView memberUpdateEnd(Member m, Address a, String newPw, ModelAndView mv, HttpSession session) 
+			throws NoSuchAlgorithmException, UnsupportedEncodingException, GeneralSecurityException {
+		//휴대전화 생년월일 성별 주소		
+		//양방향 암호화처리
+		m.setMemberEmail(aes.encrypt(m.getMemberEmail()));
+		m.setMemberPhone(aes.encrypt(m.getMemberPhone()));
+		a.setPostNo(aes.encrypt(a.getPostNo()));
+		a.setRoadAddr(aes.encrypt(a.getRoadAddr()));
+		a.setOldAddr(aes.encrypt(a.getOldAddr()));
+		a.setDetailAddr(aes.encrypt(a.getDetailAddr()));
+				
+		m.getAddresses().add(Address.builder().memberId(a.getMemberId()).postNo(a.getPostNo()).roadAddr(a.getRoadAddr())
+				.oldAddr(a.getOldAddr()).detailAddr(a.getDetailAddr()).defaultAddr("Y").build());
 		
-		//단방향 암호화처리
-//		m.setMemberPwd(pwEncoder.encode(newPw)); 
-//		//양방향 암호화처리
-//		m.setMemberEmail(aes.encrypt(m.getMemberEmail()));
-//		m.setMemberPhone(aes.encrypt(m.getMemberPhone()));
-//		a.setPostNo(aes.encrypt(a.getPostNo()));
-//		a.setRoadAddr(aes.encrypt(a.getRoadAddr()));
-//		a.setOldAddr(aes.encrypt(a.getOldAddr()));
-//		a.setDetailAddr(aes.encrypt(a.getDetailAddr()));
-//				
-//		m.getAddresses().add(Address.builder().memberId(a.getMemberId()).postNo(a.getPostNo()).roadAddr(a.getRoadAddr())
-//				.oldAddr(a.getOldAddr()).detailAddr(a.getDetailAddr()).defaultAddr("Y").build());
+		String msg="회원정보 수정을 성공하였습니다.";
+		String loc;
+		try {
+			int result=service.memberUpdate(m);
+			if(result>0) {
+				//loginMember 세션 다시만들어주기
+				m.setMemberEmail(aes.decrypt(m.getMemberEmail()));
+				m.setMemberPhone(aes.decrypt(m.getMemberPhone()));
+				if(m.getAddresses()!=null) {
+					List<Address> list=new ArrayList<Address>();
+					for(Address addr : m.getAddresses()) {
+						addr.setPostNo(aes.decrypt(addr.getPostNo()));
+						addr.setRoadAddr(aes.decrypt(addr.getRoadAddr()));
+						addr.setOldAddr(aes.decrypt(addr.getOldAddr()));
+						addr.setDetailAddr(aes.decrypt(addr.getDetailAddr()));
+						list.add(addr);
+					}
+					m.setAddresses(list);
+				}
+				session.setAttribute("loginMember", m);
+			}
+			loc="/member/memberMypage.do";	
+		}catch(Exception e) {
+			msg=e.getMessage();
+			loc="/member/memberUpdate.do";
+		}
 		
-		log.debug("{}",m);
-		log.debug("{}",a);
-		log.debug(newPw);
-		
-//		String msg="회원정보 수정을 성공하였습니다.";
-//		try {
-//			//service.memberUpdate(m);
-//			mv.addObject("loc","/member/memberMypage.do");	
-//		}catch(Exception e) {
-//			msg=e.getMessage();
-//			mv.addObject("loc","/member/memberUpdate.do");
-//		}
-//		mv.addObject("msg",msg);
-//		
-//		mv.setViewName("common/msg");
+		mv.addObject("msg",msg);
+		mv.addObject("loc",loc);		
+		mv.setViewName("common/msg");
 		
 		return mv;
 	}

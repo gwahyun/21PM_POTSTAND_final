@@ -113,10 +113,10 @@
 	                <div>
 	                	<input type="hidden" id="confmKey" name="confmKey" value=""  >
 						<input class="w-1/2 content-center text-base py-2 border-b border-gray-300 focus:outline-none 
-						focus:border-indigo-500" type="text" id="zipNo" name="postNo" readonly required> <!-- 우편번호 -->
+						focus:border-indigo-500" type="text" id="zipNo" name="postNo" required> <!-- 우편번호 -->
 						<input class="w-1/3 text-xs bg-red-500 text-gray-100 p-2 rounded-full tracking-wide font-semibold 
 						focus:outline-none focus:shadow-outline hover:bg-red-600 shadow-lg cursor-pointer transition 
-						ease-in duration-300" type="button"  value="주소검색" onclick="goPopup();" style="width: 48%;" required>
+						ease-in duration-300" type="button"  value="주소검색" onclick="goPopup();" style="width: 48%;">
 					</div>
 					<div>
 				        <input class="w-full content-center text-base py-2 border-b border-gray-300 focus:outline-none 

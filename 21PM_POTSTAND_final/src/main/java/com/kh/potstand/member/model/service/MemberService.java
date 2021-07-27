@@ -29,6 +29,9 @@ public interface MemberService {
 	
 	//비밀번호 수정
 	int memberUpdatePwd(@RequestParam Map param);
+	
+	//회원정보 수정
+	int memberUpdate(Member m) throws Exception;
 
 	//notice List 호출 (공지사항 페이지)
 	List<Notice> noticeSelectList(int cPage, int numPerPage);

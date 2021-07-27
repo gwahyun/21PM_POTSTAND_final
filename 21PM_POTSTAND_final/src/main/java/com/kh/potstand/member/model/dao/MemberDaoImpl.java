@@ -67,6 +67,18 @@ public class MemberDaoImpl implements MemberDao{
 	public int memberUpdatePwd(SqlSession session, Map param) {
 		return session.update("member.memberUpdatePwd", param);
 	}
+	
+	//회원정보 수정
+	@Override
+	public int memberUpdate(SqlSession session, Member m) {
+		return session.update("member.memberUpdate", m);
+	}
+
+	//회원주소 수정
+	@Override
+	public int addressUpdate(SqlSession session, Address a) {
+		return session.update("member.addressUpdate", a);
+	}
 
 	//notice List 호출 (공지사항 페이지)
 	@Override
@@ -122,6 +134,8 @@ public class MemberDaoImpl implements MemberDao{
 	public List<Cart> cartSelectList(SqlSession session, String memberId) {
 		return session.selectList("function.cartSelectList", memberId);
 	}
+
+	
 
 	
 

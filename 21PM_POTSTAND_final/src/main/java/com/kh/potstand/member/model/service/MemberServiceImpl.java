@@ -128,6 +128,26 @@ public class MemberServiceImpl implements MemberService{
 		return dao.memberUpdatePwd(session, param);
 	}	
 	
+	//회원정보 수정
+	@Override
+	@Transactional
+	public int memberUpdate(Member m) throws Exception {
+		try {
+			int result=dao.memberUpdate(session,m);
+			if(result>0) {
+				List<Address> Addresses=m.getAddresses();
+				if(Addresses.size()>0) { //나중에 주소 여러개 저장할때를 대비해서 이렇게 로직짬
+					for(Address a :Addresses) {
+						dao.addressUpdate(session,a);
+					}
+				}else return 0;	
+			}else return 0;
+		}catch(RuntimeException e) {
+			throw new Exception("회원가입에 실패하였습니다.");
+		}
+		return 1;
+	}
+	
 	//notice List 호출 (공지사항 페이지)
 	@Override
 	public List<Notice> noticeSelectList(int cPage, int numPerPage) {
@@ -176,6 +196,8 @@ public class MemberServiceImpl implements MemberService{
 	public List<Cart> cartSelectList(String memberId) {
 		return dao.cartSelectList(session, memberId);
 	}
+
+	
 	
 	
 

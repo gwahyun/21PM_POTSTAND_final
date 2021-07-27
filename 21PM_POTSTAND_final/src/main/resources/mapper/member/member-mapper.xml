@@ -57,4 +57,14 @@
 	<update id="memberUpdatePwd">
 		UPDATE MEMBER SET MEMBER_PWD=#{memberPwd} WHERE MEMBER_ID=#{memberId}
 	</update>
+	
+	<update id="memberUpdate">
+		UPDATE MEMBER SET MEMBER_PHONE=#{memberPhone}, MEMBER_BIRTH=#{memberBirth}, MEMBER_GENDER=#{memberGender} WHERE 
+		MEMBER_ID=#{memberId}
+	</update>
+	
+	<update id="addressUpdate">
+		UPDATE ADDRESS SET POST_NO=#{postNo}, ROAD_ADDR=#{roadAddr}, OLD_ADDR=#{oldAddr}, DETAIL_Addr=#{detailAddr} WHERE 
+		MEMBER_ID=#{memberId}
+	</update>
 </mapper>

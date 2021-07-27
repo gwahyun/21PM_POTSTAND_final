@@ -38,6 +38,12 @@ public interface MemberDao {
 	//비밀번호 변경
 	int memberUpdatePwd(SqlSession session, @RequestParam Map param);
 	
+	//회원정보 수정
+	int memberUpdate(SqlSession session, Member m);
+
+	//회원주소 수정
+	int addressUpdate(SqlSession session, Address a);
+	
 	//notice List 호출 (공지사항 페이지)
 	List<Notice> noticeSelectList(SqlSession session, int cPage, int numPerPage);
 	
