@@ -319,7 +319,7 @@ public class AdminController {
 	public ModelAndView eventInsertEnd(ModelAndView mv,Event e,MultipartFile upFile
 			,HttpServletRequest req) {
 		
-		String path = req.getServletContext().getRealPath("/resources/upload/");
+		String path = req.getServletContext().getRealPath("/resources/upload/event/");
 		File dir = new File(path); // 폴더
 		if(!dir.exists()) dir.mkdirs(); //폴더가 존재하지 않으면 폴더 생성
 		
@@ -386,7 +386,7 @@ public class AdminController {
 	@RequestMapping("/admin/eventUpdateEnd")
 	public ModelAndView eventUpdateEnd(Event e,HttpServletRequest req,MultipartFile upFile,String oldFile
 			,ModelAndView mv) {
-		String path = req.getServletContext().getRealPath("/resources/upload/");
+		String path = req.getServletContext().getRealPath("/resources/upload/event/");
 		File dir = new File(path); // 폴더
 		if(!dir.exists()) dir.mkdirs(); //폴더가 존재하지 않으면 폴더 생성
 		
