@@ -102,7 +102,7 @@ public class FunctionController {
 		mv.addObject("msg",result>0?"1:1문의 접수 완료":"작성 실패");
 		mv.addObject("loc","/qna/myQnaList.do");
 		mv.setViewName("common/msg");
-		return null;
+		return mv;
 	}
 	
 	//장바구니 이동

@@ -74,21 +74,21 @@ public class MemberController {
 		Member m=service.memberSelect(param);
 		if(m!=null) {
 			if(pwEncoder.matches((String)param.get("memberPwd"), m.getMemberPwd())) {
-//				//암호화한정보 다시 복호화
-//				m.setMemberEmail(aes.decrypt(m.getMemberEmail()));
-//				m.setMemberPhone(aes.decrypt(m.getMemberPhone()));
-//				log.debug("{}",m.getAddresses());
-//				if(m.getAddresses()!=null) {
-//					List<Address> list=new ArrayList<Address>();
-//					for(Address a : m.getAddresses()) {
-//						a.setPostNo(aes.decrypt(a.getPostNo()));
-//						a.setRoadAddr(aes.decrypt(a.getRoadAddr()));
-//						a.setOldAddr(aes.decrypt(a.getOldAddr()));
-//						a.setDetailAddr(aes.decrypt(a.getDetailAddr()));
-//						list.add(a);
-//					}
-//					m.setAddresses(list);
-//				}
+				//암호화한정보 다시 복호화
+				m.setMemberEmail(aes.decrypt(m.getMemberEmail()));
+				m.setMemberPhone(aes.decrypt(m.getMemberPhone()));
+				log.debug("{}",m.getAddresses());
+				if(m.getAddresses()!=null) {
+					List<Address> list=new ArrayList<Address>();
+					for(Address a : m.getAddresses()) {
+						a.setPostNo(aes.decrypt(a.getPostNo()));
+						a.setRoadAddr(aes.decrypt(a.getRoadAddr()));
+						a.setOldAddr(aes.decrypt(a.getOldAddr()));
+						a.setDetailAddr(aes.decrypt(a.getDetailAddr()));
+						list.add(a);
+					}
+					m.setAddresses(list);
+				}
 
 				//해당 계정이 잇으면 session생성
 				session.setAttribute("loginMember", m);

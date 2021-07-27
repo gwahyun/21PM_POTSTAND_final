@@ -116,7 +116,8 @@ public class MemberDaoImpl implements MemberDao{
 	//cart 조회
 	@Override
 	public List<Cart> cartSelectList(SqlSession session, String memberId) {
-		List<Cart> list = session.selectList("function.cartSelectList", memberId);
+		List<Cart> list = session.selectList("function.cartSelectListJoinEventList", memberId);
+		log.debug(list.toString());
 		return list; 
 	}
 
