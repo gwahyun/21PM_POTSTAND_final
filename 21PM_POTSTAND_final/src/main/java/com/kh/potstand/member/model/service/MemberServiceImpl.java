@@ -176,7 +176,11 @@ public class MemberServiceImpl implements MemberService{
 	public List<Cart> cartSelectList(String memberId) {
 		return dao.cartSelectList(session, memberId);
 	}
-	
+
+	@Override
+	public int cartObjDelete(Map param) {
+		return dao.cartObjDelete(session, param);
+	}
 	
 
 }

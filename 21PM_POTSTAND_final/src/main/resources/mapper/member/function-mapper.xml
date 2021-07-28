@@ -127,9 +127,20 @@
 	<select id="cartSelectListJoinEventList" resultMap="cartMap">
 		SELECT * FROM CART_BOOK_COUPON WHERE MEMBER_ID=#{memberId} AND (COUPON_END IS NULL OR COUPON_END='N')
 	</select>
-
 	
 	<insert id="qnaInsert">
 		 INSERT INTO QNA VALUES(SEQ_QNA.NEXTVAL, #{memberId}, #{qnaSort}, #{qnaTitle}, #{qnaContent}, DEFAULT, DEFAULT)
 	</insert>
+	
+	<delete id="cartObjDelete">
+		DELETE FROM CART
+		<where>
+			<if test="memberId!=null and memberId!=''">
+				MEMBER_ID=#{memberId}
+			</if>
+			<if test="cartNo!=null and cartNo!=''">
+				CART_NO=#{cartNo}
+			</if>
+		</where>
+	</delete>
 </mapper>

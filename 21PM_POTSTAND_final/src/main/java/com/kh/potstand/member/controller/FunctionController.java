@@ -1,5 +1,6 @@
 package com.kh.potstand.member.controller;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.potstand.admin.model.vo.Qna;
@@ -105,7 +107,7 @@ public class FunctionController {
 		return mv;
 	}
 	
-	//장바구니 이동
+	//장바구니 리스트 호출 / 이동
 	@RequestMapping("/member/cartList.do")
 	public ModelAndView cartSelectList(ModelAndView mv, HttpSession session){
 		try {
@@ -117,6 +119,37 @@ public class FunctionController {
 			e.printStackTrace();
 		}finally {
 			return mv;
+		}
+	}
+	
+	@RequestMapping("/ajax/cartObjDelete.do/{cartNo}")
+	public @ResponseBody int cartObjDelete(ModelAndView mv,@PathVariable int cartNo){
+		int result=0;
+		try {
+			Map param = new HashMap();
+			param.put("cartNo", cartNo);
+			result = service.cartObjDelete(param);
+			mv.setViewName("cart/cartList");
+		}catch(Exception e) {
+			e.printStackTrace();
+		}finally {
+			return result;
+		}
+	}
+	
+	@RequestMapping("/ajax/cartObjAllDelete.do")
+	public @ResponseBody int cartObjDelete(HttpSession session){
+		String memberId = ((Member)(session.getAttribute("loginMember"))).getMemberId();
+		int result=0;
+		try {
+			Map param = new HashMap();
+			param.put("memberId", memberId);
+			result = service.cartObjDelete(param);
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}finally {
+			return result;
 		}
 	}
 }

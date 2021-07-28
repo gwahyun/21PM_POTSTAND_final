@@ -55,4 +55,8 @@ public interface MemberService {
 	//Cart 조회
 	List<Cart> cartSelectList(String memberId);
 	
+	
+	//Cart 항목 삭제 / 전체삭제
+	int cartObjDelete(Map param);
+	
 }

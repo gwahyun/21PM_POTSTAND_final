@@ -63,4 +63,7 @@ public interface MemberDao {
 	
 	//Cart 조회
 	List<Cart> cartSelectList(SqlSession session, String memberId);
+	
+	//Cart 항목삭제
+	int cartObjDelete(SqlSession session, Map param);
 }
