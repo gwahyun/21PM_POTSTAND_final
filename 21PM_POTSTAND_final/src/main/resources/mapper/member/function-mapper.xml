@@ -62,8 +62,6 @@
 	<resultMap type="coupon" id="couponMap">
 		<id column="COUPON_NO" property="couponNo"/>
 		<result column="MEMBER_ID" property="memberId"/>
-		<result column="TYPE" property="type"/>
-		<result column="DISCOUNT" property="discount"/>
 		<result column="START_DATE" property="startDate"/>
 		<result column="VAL_DATE" property="valDate"/>
 		<result column="USED_DATE" property="usedDate"/>
@@ -93,6 +91,8 @@
 		<result column="event_end" property="eventEnd"/>
 		<result column="end_check" property="endCheck"/>
 		<result column="event_thum" property="eventThum"/>
+		<result column="TYPE" property="type"/>
+		<result column="DISCOUNT" property="discount"/>
 	</resultMap>
 
 	<select id="selectEventByPK" resultMap="eventMap">

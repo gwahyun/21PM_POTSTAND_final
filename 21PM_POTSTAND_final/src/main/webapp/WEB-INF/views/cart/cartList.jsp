@@ -31,14 +31,14 @@
 	          		
 	          		
 	          	<!-- 카트 내용 출력 -->	
-				<c:forEach var="cart" items="${cartList}">
+				<c:forEach var="cart" items="${cartList}" varStatus="i">
 	                <!-- 카트 항목 -->
 	                <div class="cart-obj 
 	                		flex m-3 py-6 
 	                		border-t border-b border-solid border-gray-400 
 	                		items-center">
 	                    <input type="checkbox" name="cartNo" value="${cart.cartNo}" class="ml-3">
-	                    	<div class="img-area w-2/12 h-36 mx-5"><img src="${cart.book.bookCover}" class="w-full"></div>
+	                    <div class="img-area w-2/12 h-36 mx-5"><img src="${cart.book.bookCover}" class="w-full"></div>
 	                    <div class="obj-info ml-6 w-4/12">
 	                        <h2 class="my-3 text-2xl font-bold"><c:out value="${cart.book.bookTitle}"/></h2>
 	                        <h4 class="my-3 text-xl font-medium"><c:out value="${cart.book.bookWriter}"/></h4>
@@ -51,13 +51,13 @@
 		          				hover:text-white rounded 
 		          				text-base 
 		          				mt-4 md:mt-0" 
-		          		onclick="">삭제</button>
+		          				onclick="fn_cartDelete(event);">삭제</button>
 	                    </div>
 	                    <div class="price ml-6 w-4/12">
 	                        <h3 class="ori-price m-3 text-xl text-right font-medium font-bold"><c:out value="${cart.book.bookCost}"/></h3>
 	                        <h2 class="dis-price m-3 text-xl text-right font-medium font-bold mb-3"></h2>
                     
-	                        <c:forEach var="cp" items="${cart.coupon}" varStatus="i">
+	                        <c:forEach var="cp" items="${cart.coupon}">
 		                        <c:choose>
 			                        <c:when test="${fn:length(cart.coupon)==1 and empty cp.couponEnd}">
 			                        	<label class="coupon text-l font-bold mb-2 block">사용 가능한 쿠폰이 없습니다.</label>
@@ -65,8 +65,8 @@
 			                        <c:otherwise>
 				                        <label class="coupon text-l font-bold mb-2 block">사용 가능 쿠폰</label>
 				                        		<c:if test="${cp.couponEnd eq 'N'}">
-						                        	<input type="radio" class="eventTitle w-1/12 border border-solid border-gray-400 " name="couponNo${i}" value="${cp.couponNo}">
-						                        	<input type="hidden" name="dis-ratio" value="${cp.discount}"> 
+						                        	<input type="radio" class="eventTitle w-1/12 border border-solid border-gray-400 " name="couponNo${i.index}" value="${cp.couponNo}">
+						                        	<input type="hidden" name="dis-ratio" value="${cp.event.discount}"> 
 						                        	<span class="w-10/12"><c:out value="${cp.event.eventTitle}"/></span>
 					                        	</c:if>
 			                        </c:otherwise>
@@ -145,22 +145,22 @@
 <script>
 	function fn_priceCalc(){
 		//책 원래가격
-		let oriPrice=$(".ori-price").text();
+		let oriPrice=$(".ori-price");
 		//책 할인가격
-		let disPrice=$(".dis-price").text();
+		let disPrice=$(".dis-price");
 		
 		console.log(oriPrice);
 		//전체 합
 		let sumPrice=0;
-		oriPrice.forEach(function(v,oriPrice){
-			v.trim();
+		oriPrice.forEach(function(v,i,a){
+			v.text().trim();
 			sumPrice+=v;
 		});
 		
 		//할인가격
 		let totalDiscount=0;
 		for(let i=0;i<oriPrice.length;i++){
-			totalDiscount+=(oriPrice[i]-disPrice[i]);
+			totalDiscount+=(oriPrice[i].text().trim()-disPrice[i].text().trim());
 		}
 		
 		
@@ -190,7 +190,10 @@
 		}
 	};
 	
-	
+	const fn_cartDelete=(e)=>{
+		let cartNo = $(e.target).parents("div").siblings("checkbox").value();
+		console.log(cartNo);
+	}
 	
 	$(document).ready(fn_priceCalc());
 </script>

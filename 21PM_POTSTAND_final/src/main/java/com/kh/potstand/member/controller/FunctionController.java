@@ -111,8 +111,6 @@ public class FunctionController {
 		try {
 			String memberId =((Member)(session.getAttribute("loginMember"))).getMemberId();
 			List<Cart> cartList = service.cartSelectList(memberId);
-			for(Cart i : cartList)
-			{log.debug(i.getCoupon().toString());}
 			mv.addObject("cartList", cartList);
 			mv.setViewName("cart/cartList");
 		}catch(Exception e) {

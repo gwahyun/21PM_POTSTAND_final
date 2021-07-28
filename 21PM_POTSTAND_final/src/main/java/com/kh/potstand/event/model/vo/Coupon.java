@@ -11,8 +11,6 @@ import lombok.Data;
 public class Coupon {
 	private int couponNo;
 	private String memberId;
-	private String type;
-	private double discount;
 	private Date startDate;
 	private Date valDate;
 	private Date usedDate;
