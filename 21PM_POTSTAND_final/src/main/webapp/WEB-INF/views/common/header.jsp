@@ -265,6 +265,25 @@
                 관리자 페이지
               </a>
               <a
+                href="${path}/dbpage"
+                class="
+                  block
+                  px-4
+                  py-2
+                  text-sm text-gray-700
+                  capitalize
+                  transition-colors
+                  duration-200
+                  transform
+                  dark:text-gray-300
+                  hover:bg-red-500
+                  hover:text-white
+                  dark:hover:text-white
+                "
+              >
+                Temp) DB Setting
+              </a>
+              <a
                 href="${path}/member/memberLogout.do"
                 class="
                   block

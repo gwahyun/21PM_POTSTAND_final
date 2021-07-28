@@ -159,7 +159,7 @@
 	          				hover:text-white rounded 
 	          				text-base 
 	          				mt-4 md:mt-0"
-			onclick="">선택삭제</button>
+			onclick="fn_cartCheckedDelete()">선택삭제</button>
 		<button
 			class="inline-flex items-center 
                 			bg-gray-300 
@@ -227,6 +227,8 @@
 		}
 	};
 	
+	
+	//개별삭제
 	const fn_cartDelete=(e)=>{
 		let cartNo = $(e.target).siblings("input[name='cartNo']").attr("value");
 		$.ajax({
@@ -240,6 +242,7 @@
 		})
 	}
 	
+	//전체삭제
 	const fn_cartAllDelete=(e)=>{
 		$.ajax({
 			url:'${path}/ajax/cartObjAllDelete.do',
@@ -252,6 +255,34 @@
 		})
 	}
 	
+	//선택삭제
+	const fn_cartCheckedDelete=()=>{
+		let list = $("input[name='cartObj']");
+		let arr=[];
+		list.each(function(i,v){
+			if($(v).prop("checked")){
+				arr.push($(v).siblings(".obj-info").children("input[name='cartNo']").attr("value"));
+			}
+		});
+		let param={
+				"arr":arr
+		}
+		$.ajax({
+			url:'${path}/ajax/cartObjCheckedDelete.do',
+			type:'post',
+			data:param,
+			dataType:'json',
+			contentType :'application/json',
+			success:function(data){
+				if(data.result!=0){
+					document.location.reload(true);
+				}
+			}
+		})
+	}
+	
+	
+	$(document).ready(fn_priceCalc());
 	
 </script>
 </html>

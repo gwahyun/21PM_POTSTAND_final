@@ -9,6 +9,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -117,9 +118,8 @@ public class FunctionController {
 			mv.setViewName("cart/cartList");
 		}catch(Exception e) {
 			e.printStackTrace();
-		}finally {
-			return mv;
 		}
+			return mv;
 	}
 	
 	@RequestMapping("/ajax/cartObjDelete.do/{cartNo}")
@@ -132,9 +132,8 @@ public class FunctionController {
 			mv.setViewName("cart/cartList");
 		}catch(Exception e) {
 			e.printStackTrace();
-		}finally {
-			return result;
 		}
+			return result;
 	}
 	
 	@RequestMapping("/ajax/cartObjAllDelete.do")
@@ -148,8 +147,24 @@ public class FunctionController {
 			
 		}catch(Exception e) {
 			e.printStackTrace();
-		}finally {
-			return result;
 		}
+			return result;
+	}
+	
+	@RequestMapping("/ajax/cartObjCheckedDelete.do")
+	@ResponseBody
+	public int cartObjCheckedDelete(@RequestBody Map<String, Object> param){
+		System.out.println(param);
+		System.out.println(param.get("arr"));
+		int result=0;
+//		try {
+//			Map param = new HashMap();
+//			param.put("memberId", memberId);
+//			result = service.cartObjDelete(param);
+//			
+//		}catch(Exception e) {
+//			e.printStackTrace();
+//		}
+			return result;
 	}
 }

@@ -143,4 +143,8 @@
 			</if>
 		</where>
 	</delete>
+	
+	<insert id="insertSort">
+		INSERT INTO SORT VALUES(#{sortNo}, #{lv1}, #{lv2}, #{lv3}, #{lv4})
+	</insert>
 </mapper>
