@@ -17,8 +17,15 @@ public class Book {
 	private String bookPub;
 	private int bookCost;
 	private String bookShort;
-	private String bookContent;
 	private String bookCover;
 	private Date bookDate;
 	private int bookStock;
+	private String bookLink;
+	private String bookIntro;
+	private String writerIntro;
+	private String bookIndex;
+	private String pubReview;
+	private String bookExtract;
+	private String recommand;
+	private String introMv;
 }

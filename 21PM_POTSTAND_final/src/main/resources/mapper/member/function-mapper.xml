@@ -48,10 +48,16 @@
 		<result column="BOOK_PUB" property="bookPub"/>
 		<result column="BOOK_COST" property="bookCost"/>
 		<result column="BOOK_SHORT" property="bookShort"/>
-		<result column="BOOK_CONTENT" property="bookContent" typeHandler="longHandler"/>
 		<result column="BOOK_COVER" property="bookCover"/>
 		<result column="BOOK_DATE" property="bookDate"/>
-		<result column="BOOK_STOCK" property="bookStock"/>
+		<result column="BOOK_LINK" property="bookLink"/>
+		<result column="BOOK_INTRO" property="bookIntro"/>
+		<result column="WRITER_INTRO" property="writerIntro"/>
+		<result column="BOOK_INDEX" property="bookIndex"/>
+		<result column="PUB_REVIEW" property="pubReview"/>
+		<result column="BOOK_EXTRACT" property="bookExtract"/>
+		<result column="RECOMMAND" property="recommand"/>
+		<result column="INTRO_MV" property="introMv"/>
 		<association column="SORT_NO" property="sort" select="selectSortByPK"/>
 	</resultMap>
 	<select id="selectBookByPK" resultMap="bookMap">
@@ -144,6 +150,7 @@
 		</where>
 	</delete>
 	
+	<!-- 임시기능 나중에 삭제 -->
 	<insert id="insertSort">
 		INSERT INTO SORT VALUES(#{sortNo}, #{lv1}, #{lv2}, #{lv3}, #{lv4})
 	</insert>
