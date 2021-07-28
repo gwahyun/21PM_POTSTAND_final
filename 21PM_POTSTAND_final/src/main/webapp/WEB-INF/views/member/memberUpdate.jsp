@@ -23,17 +23,6 @@
 		$("#zipNo").val(zipNo);
 	}
 </script>
-<style>
-	.modal__background{
-		  background: rgba(0, 0, 0, 0.8);
-	}
-	.modal__box{
-		top: calc(38vh - 100px); left: calc(45vw - 200px);
-		border-radius: 10px;
-		width: 600px;
-		height: 400px;
-	}
-</style>
 	<section class="body-font">
     	<div class="container mx-auto flex justify-start">
         	<div class="w-1/4 h-full py-8">
@@ -45,7 +34,7 @@
 			                <li class="py-2"><a href="${path}/notice/noticeSelectList.do">고객센터</a></li>
 			                <li class="py-2"><a href="${path}/member/memberCheckPwd.do">정보변경</a></li>
 			                <li class="py-2"><a href="#">장바구니</a></li>
-			                <li class="py-2"><a href="#">찜 목록</a></li>
+			                <li class="py-2"><a href="${path}/member/memberHeartList.do?memberId=${loginMember.memberId}">찜 목록</a></li>
 			                <li class="py-2"><a href="#">내 리뷰 관리</a></li>
 			            </ul>
 	            	</div>
@@ -56,7 +45,7 @@
 	            		<ul>
 			                <li class="py-2"><a href="#">주문목록/배송조회</a></li>
 			                <li class="py-2"><a href="#">쿠폰</a></li>
-			                <li class="py-2"><a href="#">적립금</a></li>
+			                <li class="py-2"><a href="${path}/member/memberPoint.do?memberId=${loginMember.memberId}">적립금</a></li>
 			            </ul>
 	            	</div>
 	            </div>
@@ -68,7 +57,7 @@
         		<div class="flex w-full flex-col justify-center mt-5 border" >
         			<div class="flex">
         				<div class="w-2/5 border h-11 p-2 bg-red-100 pr-3 flex flex-row-reverse content-center">
-        					<h3>아이디</h3>
+        					<h3 class="text-lg font-bold">아이디</h3>
 	        			</div>
 	        			<div class="w-full border h-11 p-2 px-3">
 	        				<h4>${loginMember.memberId }</h4>
@@ -76,13 +65,13 @@
         			</div>
         			<div class="flex">
         				<div class="w-2/5 border p-2 bg-red-100 pr-3 flex flex-row-reverse content-center">
-	        				<h3>비밀번호</h3>
+	        				<h3 class="text-lg font-bold">비밀번호</h3>
 	        			</div>
 	        			<div class="w-full border p-2 px-3 flex content-center">
 	        				<form method="post" action="${path }/member/memberUpdatePwd.do" onsubmit="return fn_memberUpdatePwd()" 
 	        				class="w-full">
 	        					<div class="mb-2">
-	        						<input type="hidden" name="memberId" value="${loginMember.memberId }" class="mb-2">
+	        						<input type="hidden" name="memberId" value="${loginMember.memberId }">
 						            <input type="password" name="memberPwd" id="oldPw" placeholder="현재 비밀번호"
 						        	class="border-2 w-1/3">
 						            <div class="content-center">
@@ -116,7 +105,7 @@
         			</div>
         			<div class="flex">
         				<div class="w-2/5 border p-2 bg-red-100 pr-3 flex flex-row-reverse content-center">
-	        				<h3>이름</h3>
+	        				<h3 class="text-lg font-bold">이름</h3>
 	        			</div>
 	        			<div class="w-full border p-2 px-3 flex content-center">
 	        				<h4>${loginMember.memberName }</h4>
@@ -124,32 +113,35 @@
         			</div>
         			<div class="flex">
         				<div class="w-2/5 border p-2 bg-red-100 pr-3 flex flex-row-reverse content-center">
-	        				<h3>이메일</h3>
+	        				<h3 class="text-lg font-bold">이메일</h3>
 	        			</div>
 	        			<div class="w-full border p-2 px-3 flex content-center">
 	        				<h4>${loginMember.memberEmail }</h4>
 	        			</div>    
         			</div>
-        			<form method="post" action="${path }/member/memberUpdateEnd.do" onsubmit="updateSubmit()">
+        			<form method="post" action="${path }/member/memberUpdateEnd.do">
+        				<input type="hidden" name="memberId" value="${loginMember.memberId }">
+        				<input type="hidden" name="memberEmail" value="${loginMember.memberEmail }">
+        				<input type="hidden" name="memberName" value="${loginMember.memberName }">
         				<div class="flex">
         					<div class="w-2/5 border p-2 bg-red-100 pr-3 flex flex-row-reverse content-center">
-	        					<h3>휴대전화</h3>
+	        					<h3 class="text-lg font-bold">휴대전화</h3>
 		        			</div>
 		        			<div class="w-full border p-2 px-3 flex content-center">
-		        				<input type="tel" name="memberPhone" class="border-2 w-1/3" value="${loginMember.memberPhone }">
+		        				<input type="tel" name="memberPhone" class="border-2 w-1/3" value="${loginMember.memberPhone }" required>
 		        			</div>
 	        			</div>
 	        			<div class="flex">
         					<div class="w-2/5 border p-2 bg-red-100 pr-3 flex flex-row-reverse content-center">
-	        					<h3>생년월일</h3>
+	        					<h3 class="text-lg font-bold">생년월일</h3>
 		        			</div>
 		        			<div class="w-full border p-2 px-3 flex content-center">
-		        				<input type="date" name="memberBirth" class="border-2 w-1/3" value="${loginMember.memberBirth }">
+		        				<input type="date" name="memberBirth" class="border-2 w-1/3" value="${loginMember.memberBirth }" required>
 		        			</div>
 	        			</div>
 	        			<div class="flex">
         					<div class="w-2/5 border p-2 bg-red-100 pr-3 flex flex-row-reverse content-center">
-	        					<h3>성별</h3>
+	        					<h3 class="text-lg font-bold">성별</h3>
 		        			</div>
 		        			<div class="w-full border p-2 px-3 flex content-center">
 		        				<c:if test="${loginMember.memberGender eq 'm' }">
@@ -171,25 +163,25 @@
 	        			</div>
 	        			<div class="flex">
         					<div class="w-2/5 border p-2 bg-red-100 pr-3 flex flex-row-reverse content-center">
-	        					<h3>주소</h3>
+	        					<h3 class="text-lg font-bold">주소</h3>
 		        			</div>
 		        			<div class="w-full border p-2 px-3 flex content-center">
 			        			<div class="w-full">
 			        				<div class="mb-2">
 			        					<input type="hidden" id="confmKey" name="confmKey" value="" >
-			                            <input type="text" id="zipNo" name="postNo" readonly class="border-2" style="width:25%"
-			                            value="${loginMember.addresses.get(0).postNo }"> <!-- 우편번호 -->
+			                            <input type="text" id="zipNo" name="postNo" class="border-2" style="width:25%"
+			                            value="${loginMember.addresses.get(0).postNo }" required> <!-- 우편번호 -->
 			                            <input type="button"  value="주소검색" onclick="goPopup();">
 			        				</div>
 			        				<div class="mb-2">
 			        					<input type="text" id="roadAddrPart1" class="border-2" style="width: 51%" name="roadAddr"
-			                            value="${loginMember.addresses.get(0).roadAddr }">
+			                            value="${loginMember.addresses.get(0).roadAddr }" required>
 			        				</div>
 			        				<div class="mb-2">
 			        					<input type="text" id="addrDetail" class="border-2 w-1/4" name="oldAddr" style="width:25%"
-			                            value="${loginMember.addresses.get(0).oldAddr }"> <!-- 상세주소 -->
+			                            value="${loginMember.addresses.get(0).oldAddr }" required> <!-- 상세주소 -->
 			                            <input type="text" id="roadAddrPart2" class="border-2 w-1/4" name="detailAddr" style="width:25%"
-			                            value="${loginMember.addresses.get(0).detailAddr }"> <!-- 상세주소2 -->
+			                            value="${loginMember.addresses.get(0).detailAddr }" required> <!-- 상세주소2 -->
 			        				</div>       	
 			        			</div>
 		        			</div>

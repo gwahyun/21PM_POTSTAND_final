@@ -13,7 +13,9 @@ import com.kh.potstand.admin.model.vo.Notice;
 import com.kh.potstand.admin.model.vo.Qna;
 import com.kh.potstand.member.model.dao.MemberDao;
 import com.kh.potstand.member.model.vo.Address;
+import com.kh.potstand.member.model.vo.Heart;
 import com.kh.potstand.member.model.vo.Member;
+import com.kh.potstand.member.model.vo.Point;
 import com.kh.potstand.order.model.vo.Cart;
 
 import lombok.extern.slf4j.Slf4j;
@@ -128,6 +130,56 @@ public class MemberServiceImpl implements MemberService{
 		return dao.memberUpdatePwd(session, param);
 	}	
 	
+	//회원정보 수정
+	@Override
+	@Transactional
+	public int memberUpdate(Member m) throws Exception {
+		try {
+			int result=dao.memberUpdate(session,m);
+			if(result>0) {
+				List<Address> Addresses=m.getAddresses();
+				if(Addresses.size()>0) { //나중에 주소 여러개 저장할때를 대비해서 이렇게 로직짬
+					for(Address a :Addresses) {
+						dao.addressUpdate(session,a);
+					}
+				}else return 0;	
+			}else return 0;
+		}catch(RuntimeException e) {
+			throw new Exception("회원가입에 실패하였습니다.");
+		}
+		return 1;
+	}
+	
+	//포인트 기록 조회
+	@Override
+	public List<Point> memberPointSelect(String memberId) {
+		return dao.memberPointSelect(session,memberId);
+	}
+	
+	//포인트 기록 조회(페이징처리)
+	@Override
+	public List<Point> memberPointSelect(String memberId, int cPage, int numPerpage) {
+		return dao.memberPointSelect(session,memberId,cPage,numPerpage);
+	}
+
+	//포인트 기록 총 개수
+	@Override
+	public int memberPointSelectCount(String memberId) {
+		return dao.memberPointSelectCount(session,memberId);
+	}
+	
+	//찜목록 개수
+	@Override
+	public int memberHeartListCount(String memberId) {
+		return dao.memberHeartListCount(session,memberId);
+	}
+
+	//찜목록 리스트
+	@Override
+	public List<Heart> memberHeartListSelect(String memberId, int cPage, int numPerpage) {
+		return dao.memberHeartListSelect(session,memberId,cPage,numPerpage);
+	}
+	
 	//notice List 호출 (공지사항 페이지)
 	@Override
 	public List<Notice> noticeSelectList(int cPage, int numPerPage) {
@@ -181,6 +233,5 @@ public class MemberServiceImpl implements MemberService{
 	public int cartObjDelete(Map param) {
 		return dao.cartObjDelete(session, param);
 	}
-	
 
 }

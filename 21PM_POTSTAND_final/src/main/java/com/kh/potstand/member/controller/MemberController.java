@@ -24,9 +24,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.potstand.common.AES256Util;
+import com.kh.potstand.common.PageFactory;
 import com.kh.potstand.member.model.service.MemberService;
 import com.kh.potstand.member.model.vo.Address;
+import com.kh.potstand.member.model.vo.Heart;
 import com.kh.potstand.member.model.vo.Member;
+import com.kh.potstand.member.model.vo.Point;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -251,8 +254,19 @@ public class MemberController {
 
 	//마이페이지 전환
 	@RequestMapping("/member/memberMypage.do")
-	public String memberMypage() {
-		return "member/memberMypage";
+	public ModelAndView memberMypage(ModelAndView mv, String memberId) {
+		List<Point> pointList=service.memberPointSelect(memberId);
+		int totalPoint=0; //잔여 포인트
+		for(Point p : pointList) {
+			if(p.getUseLog().contains("구입")) {
+				totalPoint+=p.getPoint();
+			}else if(p.getUseLog().contains("사용")) {
+				totalPoint-=p.getPoint();
+			}
+		}
+		mv.addObject("mypageTotalPoint", totalPoint);
+		mv.setViewName("member/memberMypage");
+		return mv;
 	}
 	
 	//회원정보수정 비밀번호확인페이지 전환
@@ -333,39 +347,105 @@ public class MemberController {
 	}
 	
 	@RequestMapping("/member/memberUpdateEnd.do")
-	public ModelAndView memberUpdateEnd(Member m, Address a, String newPw, ModelAndView mv) throws NoSuchAlgorithmException, 
-	UnsupportedEncodingException, GeneralSecurityException {
-		//수정사항 비밀번호, 휴대전화 생년월일 성별 주소 -> 비밀번호는 있을경우만
+	public ModelAndView memberUpdateEnd(Member m, Address a, String newPw, ModelAndView mv, HttpSession session) 
+			throws NoSuchAlgorithmException, UnsupportedEncodingException, GeneralSecurityException {
+		//휴대전화 생년월일 성별 주소		
+		//양방향 암호화처리
+		m.setMemberEmail(aes.encrypt(m.getMemberEmail()));
+		m.setMemberPhone(aes.encrypt(m.getMemberPhone()));
+		a.setPostNo(aes.encrypt(a.getPostNo()));
+		a.setRoadAddr(aes.encrypt(a.getRoadAddr()));
+		a.setOldAddr(aes.encrypt(a.getOldAddr()));
+		a.setDetailAddr(aes.encrypt(a.getDetailAddr()));
+				
+		m.getAddresses().add(Address.builder().memberId(a.getMemberId()).postNo(a.getPostNo()).roadAddr(a.getRoadAddr())
+				.oldAddr(a.getOldAddr()).detailAddr(a.getDetailAddr()).defaultAddr("Y").build());
 		
-		//단방향 암호화처리
-//		m.setMemberPwd(pwEncoder.encode(newPw)); 
-//		//양방향 암호화처리
-//		m.setMemberEmail(aes.encrypt(m.getMemberEmail()));
-//		m.setMemberPhone(aes.encrypt(m.getMemberPhone()));
-//		a.setPostNo(aes.encrypt(a.getPostNo()));
-//		a.setRoadAddr(aes.encrypt(a.getRoadAddr()));
-//		a.setOldAddr(aes.encrypt(a.getOldAddr()));
-//		a.setDetailAddr(aes.encrypt(a.getDetailAddr()));
-//				
-//		m.getAddresses().add(Address.builder().memberId(a.getMemberId()).postNo(a.getPostNo()).roadAddr(a.getRoadAddr())
-//				.oldAddr(a.getOldAddr()).detailAddr(a.getDetailAddr()).defaultAddr("Y").build());
+		String msg="회원정보 수정을 성공하였습니다.";
+		String loc;
+		try {
+			int result=service.memberUpdate(m);
+			if(result>0) {
+				//loginMember 세션 다시만들어주기
+				m.setMemberEmail(aes.decrypt(m.getMemberEmail()));
+				m.setMemberPhone(aes.decrypt(m.getMemberPhone()));
+				if(m.getAddresses()!=null) {
+					List<Address> list=new ArrayList<Address>();
+					for(Address addr : m.getAddresses()) {
+						addr.setPostNo(aes.decrypt(addr.getPostNo()));
+						addr.setRoadAddr(aes.decrypt(addr.getRoadAddr()));
+						addr.setOldAddr(aes.decrypt(addr.getOldAddr()));
+						addr.setDetailAddr(aes.decrypt(addr.getDetailAddr()));
+						list.add(addr);
+					}
+					m.setAddresses(list);
+				}
+				session.setAttribute("loginMember", m);
+			}
+			loc="/member/memberMypage.do";	
+		}catch(Exception e) {
+			msg=e.getMessage();
+			loc="/member/memberUpdate.do";
+		}
 		
-		log.debug("{}",m);
-		log.debug("{}",a);
-		log.debug(newPw);
-		
-//		String msg="회원정보 수정을 성공하였습니다.";
-//		try {
-//			//service.memberUpdate(m);
-//			mv.addObject("loc","/member/memberMypage.do");	
-//		}catch(Exception e) {
-//			msg=e.getMessage();
-//			mv.addObject("loc","/member/memberUpdate.do");
-//		}
-//		mv.addObject("msg",msg);
-//		
-//		mv.setViewName("common/msg");
+		mv.addObject("msg",msg);
+		mv.addObject("loc",loc);		
+		mv.setViewName("common/msg");
 		
 		return mv;
+	}
+	
+	//적립금 페이지 전환
+	@RequestMapping("/member/memberPoint.do")
+	public ModelAndView memberPoint(ModelAndView mv, String memberId, @RequestParam(value ="cPage",defaultValue="1") int cPage,
+			@RequestParam(value="numPerpage",defaultValue="10") int numPerpage) {
+		//잔여포인트
+		List<Point> pointList=service.memberPointSelect(memberId);
+		int totalPoint=0;
+		for(Point p : pointList) {
+			if(p.getUseLog().contains("구입")) {
+				totalPoint+=p.getPoint();
+			}else if(p.getUseLog().contains("사용")) {
+				totalPoint-=p.getPoint();
+			}
+		}
+		//해당 멤버의 총 포인트 개수
+		int totalData=service.memberPointSelectCount(memberId);
+		//페이징처리해서 리스트에 담기
+		List<Point> list=service.memberPointSelect(memberId,cPage,numPerpage);
+		mv.addObject("totalPoint", totalPoint);
+		mv.addObject("pageBar", PageFactory.getPageBar(totalData, cPage, numPerpage,5,"memberPoint.do",
+				"memberId="+memberId));
+		mv.addObject("list", list);
+		mv.setViewName("member/memberPoint");
+		return mv;
+	}
+	
+	//찜 목록 페이지 전환
+	@RequestMapping("/member/memberHeartList.do")
+	public ModelAndView memberHeartList(ModelAndView mv, String memberId, @RequestParam(value ="cPage",defaultValue="1") int cPage,
+			@RequestParam(value="numPerpage",defaultValue="5") int numPerpage) {
+		//찜목록에 담겨있는 책 개수
+		int totalData=service.memberHeartListCount(memberId);
+		//페이징처리해서 리스트에 담기
+		List<Heart> list=service.memberHeartListSelect(memberId,cPage,numPerpage);
+		mv.addObject("pageBar", PageFactory.getPageBar(totalData, cPage, numPerpage,5,"memberHeartList.do",
+				"memberId="+memberId));
+		mv.addObject("list", list);
+		mv.setViewName("member/memberHeartList");
+		
+		return mv;
+	}
+	
+	//찜목록 - 선택 장바구니에담기
+	@RequestMapping("/member/choiceCartInsert.do")
+	@ResponseBody
+	public int choiceCartInsert(@RequestParam(value="bookCodeList[]") List<String> bookCodeList, 
+            @RequestParam(value="memberId") String memberId) {
+		log.debug("{}",bookCodeList);
+		log.debug(memberId);
+
+
+		return 1;
 	}
 }
