@@ -88,6 +88,18 @@ public class MemberDaoImpl implements MemberDao{
 	public List<Point> memberPointSelect(SqlSession session, String memberId) {
 		return session.selectList("member.memberPointSelect", memberId);
 	}
+	
+	//포인트 기록 조회(페이징 처리)
+	@Override
+	public List<Point> memberPointSelect(SqlSession session, String memberId, int cPage, int numPerpage) {
+		return session.selectList("member.memberPointSelect", memberId,new RowBounds((cPage-1)*numPerpage, numPerpage));
+	}
+	
+	//포인트 기록 총 개수
+	@Override
+	public int memberPointSelectCount(SqlSession session, String memberId) {
+		return session.selectOne("member.memberPointSelectCount", memberId);
+	}
 
 	//notice List 호출 (공지사항 페이지)
 	@Override
@@ -143,6 +155,8 @@ public class MemberDaoImpl implements MemberDao{
 	public List<Cart> cartSelectList(SqlSession session, String memberId) {
 		return session.selectList("function.cartSelectListJoinEventList", memberId);  
 	}
+
+	
 
 	
 

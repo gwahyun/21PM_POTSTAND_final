@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <jsp:include page="/WEB-INF/views/common/header.jsp"/>
 <c:set var="path" value="${pageContext.request.contextPath }"/>
 	<section class="body-font">
@@ -32,21 +33,44 @@
         	</div>
         	<div class="w-3/4 h-full px-5 py-8 flex flex-col content-center">
         		<div class="w-full">
-        			<h3 class="text-2xl font-semibold">정보변경</h3>
+        			<h3 class="text-2xl font-semibold">찜 목록</h3>
         		</div>
-        		<div class="mt-4">
-        			<h4 class="text-xl">보안을 위해 비밀번호를 한번 더 입력해 주세요.</h4>
-        			<form class="mt-2" action="${path}/member/memberUpdate.do" method="post">
-        				<input type="hidden" name="memberId" value="${loginMember.memberId }">
-        				<input type="password" name="memberPwd" class="border h-8 w-80" required>
-        				<button type="submit" class="border h-8 w-16 bg-red-500 text-gray-100 rounded-full tracking-wide 
-        				font-semibold focus:outline-none focus:shadow-outline hover:bg-red-600 shadow-lg cursor-pointer 
-        				transition ease-in duration-300">
-        					확인
-        				</button>
-        			</form>
+        		<div class="flex w-full flex-col justify-center mt-5 border" >
+        			<div class="flex">
+        				<div class="w-1/4 border h-11 p-2 bg-red-100 flex justify-center">
+        					<label><input type="checkbox"/>전체 선택</label>
+	        			</div>
+	        			<div class="w-2/4 border h-11 p-2 bg-red-100 flex justify-center">
+	        				<h3 class="text-lg font-bold">내용</h3>
+	        			</div>
+	        			<div class="w-1/4 border h-11 p-2 bg-red-100 flex justify-center">
+        					<h3 class="text-lg font-bold">사용/적립 포인트</h3>
+	        			</div>
+        			</div>
+        			<c:forEach items="${list }" var="p">
+	        			<div class="flex">
+	        				<div class="w-1/4 border h-11 p-2 flex justify-center">
+	        					<h4>${p.useDate }</h4>
+		        			</div>
+		        			<div class="w-2/4 border h-11 p-2 flex justify-center">
+		        				<h4>${p.useLog }</h4>
+		        			</div>
+		        			<div class="w-1/4 border h-11 p-2 flex justify-center">
+		        				<c:if test="${fn:contains(p.useLog,'사용') }">
+		        					<h4>-${p.point }</h4>		
+		        				</c:if>
+	        					<c:if test="${fn:contains(p.useLog,'구입') }">
+		        					<h4>+${p.point }</h4>
+		        				</c:if>
+		        			</div>
+	        			</div>
+        			</c:forEach>
         		</div>
+        		<div class="pageBar flex my-5">${pageBar}</div>
 			</div>
 		</div>
     </section>
+    <script>
+    	
+    </script>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>

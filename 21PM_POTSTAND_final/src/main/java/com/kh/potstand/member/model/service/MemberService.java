@@ -36,6 +36,12 @@ public interface MemberService {
 	
 	//포인트 기록 조회
 	List<Point> memberPointSelect(String memberId);
+	
+	//포인트 기록 조회(페이징 처리)
+	List<Point> memberPointSelect(String memberId, int cPage, int numPerpage);
+	
+	//포인트 기록 총 개수
+	int memberPointSelectCount(String memberId);
 
 	//notice List 호출 (공지사항 페이지)
 	List<Notice> noticeSelectList(int cPage, int numPerPage);

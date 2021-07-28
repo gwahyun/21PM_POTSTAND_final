@@ -80,4 +80,8 @@
 		SELECT * FROM POINT WHERE MEMBER_ID=#{memberId}
 	</select>
 	
+	<select id="memberPointSelectCount" resultType="_int">
+		SELECT COUNT(*) FROM POINT WHERE MEMBER_ID=#{memberId}
+	</select>
+	
 </mapper>

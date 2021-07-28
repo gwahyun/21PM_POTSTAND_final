@@ -155,6 +155,18 @@ public class MemberServiceImpl implements MemberService{
 		return dao.memberPointSelect(session,memberId);
 	}
 	
+	//포인트 기록 조회(페이징처리)
+	@Override
+	public List<Point> memberPointSelect(String memberId, int cPage, int numPerpage) {
+		return dao.memberPointSelect(session,memberId,cPage,numPerpage);
+	}
+
+	//포인트 기록 총 개수
+	@Override
+	public int memberPointSelectCount(String memberId) {
+		return dao.memberPointSelectCount(session,memberId);
+	}
+	
 	//notice List 호출 (공지사항 페이지)
 	@Override
 	public List<Notice> noticeSelectList(int cPage, int numPerPage) {

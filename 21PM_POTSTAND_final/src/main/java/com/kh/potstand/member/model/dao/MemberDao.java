@@ -48,6 +48,12 @@ public interface MemberDao {
 	//포인트 기록 조회
 	List<Point> memberPointSelect(SqlSession session, String memberId);
 	
+	//포인트 기록 조회(페이징 처리)
+	List<Point> memberPointSelect(SqlSession session, String memberId, int cPage, int numPerpage);
+	
+	//포인트 기록 총 개수
+	int memberPointSelectCount(SqlSession session, String memberId);
+	
 	//notice List 호출 (공지사항 페이지)
 	List<Notice> noticeSelectList(SqlSession session, int cPage, int numPerPage);
 	

@@ -23,7 +23,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.kh.potstand.admin.model.vo.Request;
 import com.kh.potstand.common.AES256Util;
+import com.kh.potstand.common.PageFactory;
 import com.kh.potstand.member.model.service.MemberService;
 import com.kh.potstand.member.model.vo.Address;
 import com.kh.potstand.member.model.vo.Member;
@@ -254,7 +256,7 @@ public class MemberController {
 	@RequestMapping("/member/memberMypage.do")
 	public ModelAndView memberMypage(ModelAndView mv, String memberId) {
 		List<Point> pointList=service.memberPointSelect(memberId);
-		int totalPoint=0;
+		int totalPoint=0; //잔여 포인트
 		for(Point p : pointList) {
 			if(p.getUseLog().contains("구입")) {
 				totalPoint+=p.getPoint();
@@ -394,12 +396,35 @@ public class MemberController {
 	}
 	
 	//적립금 페이지 전환
-	@RequestMapping("/member/memberPoint")
-	public ModelAndView memberPoint(ModelAndView mv, String memberId) {
-		List<Point> list=service.memberPointSelect(memberId);
+	@RequestMapping("/member/memberPoint.do")
+	public ModelAndView memberPoint(ModelAndView mv, String memberId, @RequestParam(value ="cPage",defaultValue="1") int cPage,
+			@RequestParam(value="numPerpage",defaultValue="10") int numPerpage) {
+		//잔여포인트
+		List<Point> pointList=service.memberPointSelect(memberId);
+		int totalPoint=0;
+		for(Point p : pointList) {
+			if(p.getUseLog().contains("구입")) {
+				totalPoint+=p.getPoint();
+			}else if(p.getUseLog().contains("사용")) {
+				totalPoint-=p.getPoint();
+			}
+		}
+		//해당 멤버의 총 포인트 개수
+		int totalData=service.memberPointSelectCount(memberId);
+		//페이징처리해서 리스트에 담기
+		List<Point> list=service.memberPointSelect(memberId,cPage,numPerpage);
+		
+		mv.addObject("totalPoint", totalPoint);
+		mv.addObject("pageBar", PageFactory.getPageBar(totalData, cPage, numPerpage,5,"memberPoint.do",
+				"memberId="+memberId));
 		mv.addObject("list", list);
-		log.debug("{}",list);
 		mv.setViewName("member/memberPoint");
+		return mv;
+	}
+	
+	//찜 목록 페이지 전환
+	@RequestMapping("/member/memberHeartList.do")
+	public ModelAndView memberHeartList(ModelAndView mv, String memberId) {
 		return mv;
 	}
 }

@@ -14,7 +14,7 @@
 			                <li class="py-2"><a href="${path}/notice/noticeSelectList.do">고객센터</a></li>
 			                <li class="py-2"><a href="${path}/member/memberCheckPwd.do">정보변경</a></li>
 			                <li class="py-2"><a href="#">장바구니</a></li>
-			                <li class="py-2"><a href="#">찜 목록</a></li>
+			                <li class="py-2"><a href="${path}/member/memberHeartList.do?memberId=${loginMember.memberId}">찜 목록</a></li>
 			                <li class="py-2"><a href="#">내 리뷰 관리</a></li>
 			            </ul>
 	            	</div>
@@ -43,7 +43,11 @@
 	        		</div>
 	        		<div class="w-1/3 h-full px-5 py-24">	
 	        			<div class="mb-3"><h4 class="text-4xl font-semibold">적립금</h4></div>
-	    				<div><h5 class="text-2xl">${mypageTotalPoint }point</h5></div>
+	    				<div>
+	    					<h5 class="text-2xl">
+	    						<a href="${path}/member/memberPoint.do?memberId=${loginMember.memberId}">${mypageTotalPoint }point</a>
+	    					</h5>
+	    				</div>
 	        		</div>
 	        		<div class="w-1/3 h-full px-5 py-24">
 	        			<div class="mb-3"><h4 class="text-4xl font-semibold">쿠폰</h4></div>
