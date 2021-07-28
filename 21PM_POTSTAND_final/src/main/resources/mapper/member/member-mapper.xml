@@ -84,4 +84,43 @@
 		SELECT COUNT(*) FROM POINT WHERE MEMBER_ID=#{memberId}
 	</select>
 	
+	<resultMap type="heart" id="heartMap">
+		<id column="heart_no" property="heartNo"/>
+		<result column="book_code" property="bookCode"/>
+		<result column="member_id" property="memberId"/>
+		<association property="book" resultMap="bookMap"/>
+	</resultMap>
+	
+	<resultMap type="sort" id="sortMap">
+		<id column="SORT_NO" property="sortNo"/>
+		<result column="LV1" property="lv1"/>
+		<result column="LV2" property="lv2"/>
+		<result column="LV3" property="lv3"/>
+		<result column="LV4" property="lv4"/>		
+	</resultMap>
+	<select id="selectSortByPK" resultMap="sortMap">
+		SELECT * FROM SORT WHERE SORT_NO=#{sortNo}
+	</select>
+	
+	<resultMap type="book" id="bookMap">
+		<id column="BOOK_CODE" property="bookCode"/>
+		<result column="BOOK_TITLE" property="bookTitle"/>
+		<result column="BOOK_WRITER" property="bookWriter"/>
+		<result column="BOOK_PUB" property="bookPub"/>
+		<result column="BOOK_COST" property="bookCost"/>
+		<result column="BOOK_SHORT" property="bookShort"/>
+		<result column="BOOK_CONTENT" property="bookContent" typeHandler="longHandler"/>
+		<result column="BOOK_COVER" property="bookCover"/>
+		<result column="BOOK_DATE" property="bookDate"/>
+		<result column="BOOK_STOCK" property="bookStock"/>
+		<association column="SORT_NO" property="sort" select="selectSortByPK"/>
+	</resultMap>
+	
+	<select id="memberHeartListCount" resultType="_int">
+		SELECT COUNT(*) FROM HEART WHERE MEMBER_ID=#{memberId}
+	</select>
+	
+	<select id="memberHeartListSelect" resultMap="heartMap">
+		SELECT * FROM HEART JOIN BOOK USING(BOOK_CODE) WHERE MEMBER_ID=#{memberId}
+	</select>
 </mapper>

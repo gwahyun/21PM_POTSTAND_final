@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.kh.potstand.admin.model.vo.Notice;
 import com.kh.potstand.admin.model.vo.Qna;
+import com.kh.potstand.member.model.vo.Heart;
 import com.kh.potstand.member.model.vo.Member;
 import com.kh.potstand.member.model.vo.Point;
 import com.kh.potstand.order.model.vo.Cart;
@@ -42,6 +43,12 @@ public interface MemberService {
 	
 	//포인트 기록 총 개수
 	int memberPointSelectCount(String memberId);
+	
+	//찜목록 총 개수
+	int memberHeartListCount(String memberId);
+	
+	//찜목록 리스트
+	List<Heart> memberHeartListSelect(String memberId, int cPage, int numPerpage);
 
 	//notice List 호출 (공지사항 페이지)
 	List<Notice> noticeSelectList(int cPage, int numPerPage);

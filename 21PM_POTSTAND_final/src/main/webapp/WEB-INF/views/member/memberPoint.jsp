@@ -35,39 +35,46 @@
         		<div class="w-full">
         			<h3 class="text-2xl font-semibold">적립금</h3>
         		</div>
-        		<div class="flex w-full flex-col justify-center mt-5 border" >
-        		<h2 class="text-xl font-bold">${totalPoint }</h2>
-        			<div class="flex">
-        				<div class="w-1/4 border h-11 p-2 bg-red-100 flex justify-center">
-        					<h3 class="text-lg font-bold">날짜</h3>
-	        			</div>
-	        			<div class="w-2/4 border h-11 p-2 bg-red-100 flex justify-center">
-	        				<h3 class="text-lg font-bold">내용</h3>
-	        			</div>
-	        			<div class="w-1/4 border h-11 p-2 bg-red-100 flex justify-center">
-        					<h3 class="text-lg font-bold">사용/적립 포인트</h3>
-	        			</div>
+        		<c:if test="${list=='[]' }">
+        			<div class="flex justify-center mt-5">
+        				<h3 class="text-lg font-bold">적립금 적립/사용 내역이 없습니다.</h3>
         			</div>
-        			<c:forEach items="${list }" var="p">
+        		</c:if>
+        		<c:if test="${list!='[]'}">
+	        		<div class="flex w-full flex-col justify-center mt-5 border" >
+	        			<h2 class="text-xl font-bold">잔여 적립금 : ${totalPoint } point</h2>
 	        			<div class="flex">
-	        				<div class="w-1/4 border h-11 p-2 flex justify-center">
-	        					<h4>${p.useDate }</h4>
+	        				<div class="w-1/4 border h-11 p-2 bg-red-100 flex justify-center">
+	        					<h3 class="text-lg font-bold">날짜</h3>
 		        			</div>
-		        			<div class="w-2/4 border h-11 p-2 flex justify-center">
-		        				<h4>${p.useLog }</h4>
+		        			<div class="w-2/4 border h-11 p-2 bg-red-100 flex justify-center">
+		        				<h3 class="text-lg font-bold">내용</h3>
 		        			</div>
-		        			<div class="w-1/4 border h-11 p-2 flex justify-center">
-		        				<c:if test="${fn:contains(p.useLog,'사용') }">
-		        					<h4>-${p.point }</h4>		
-		        				</c:if>
-	        					<c:if test="${fn:contains(p.useLog,'구입') }">
-		        					<h4>+${p.point }</h4>
-		        				</c:if>
+		        			<div class="w-1/4 border h-11 p-2 bg-red-100 flex justify-center">
+	        					<h3 class="text-lg font-bold">사용/적립 포인트</h3>
 		        			</div>
 	        			</div>
-        			</c:forEach>
-        		</div>
-        		<div class="pageBar flex my-5">${pageBar}</div>
+	        			<c:forEach items="${list }" var="p">
+		        			<div class="flex">
+		        				<div class="w-1/4 border h-11 p-2 flex justify-center">
+		        					<h4>${p.useDate }</h4>
+			        			</div>
+			        			<div class="w-2/4 border h-11 p-2 flex justify-center">
+			        				<h4>${p.useLog }</h4>
+			        			</div>
+			        			<div class="w-1/4 border h-11 p-2 flex justify-center">
+			        				<c:if test="${fn:contains(p.useLog,'사용') }">
+			        					<h4>-${p.point }</h4>		
+			        				</c:if>
+		        					<c:if test="${fn:contains(p.useLog,'구입') }">
+			        					<h4>+${p.point }</h4>
+			        				</c:if>
+			        			</div>
+		        			</div>
+	        			</c:forEach>
+	        		</div>     	
+        			<div class="pageBar flex my-5">${pageBar}</div>
+        		</c:if>
 			</div>
 		</div>
     </section>
