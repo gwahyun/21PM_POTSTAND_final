@@ -13,6 +13,7 @@ import com.kh.potstand.admin.model.vo.Notice;
 import com.kh.potstand.admin.model.vo.Qna;
 import com.kh.potstand.member.model.dao.MemberDao;
 import com.kh.potstand.member.model.vo.Address;
+import com.kh.potstand.member.model.vo.Heart;
 import com.kh.potstand.member.model.vo.Member;
 import com.kh.potstand.member.model.vo.Point;
 import com.kh.potstand.order.model.vo.Cart;
@@ -153,6 +154,30 @@ public class MemberServiceImpl implements MemberService{
 	@Override
 	public List<Point> memberPointSelect(String memberId) {
 		return dao.memberPointSelect(session,memberId);
+	}
+	
+	//포인트 기록 조회(페이징처리)
+	@Override
+	public List<Point> memberPointSelect(String memberId, int cPage, int numPerpage) {
+		return dao.memberPointSelect(session,memberId,cPage,numPerpage);
+	}
+
+	//포인트 기록 총 개수
+	@Override
+	public int memberPointSelectCount(String memberId) {
+		return dao.memberPointSelectCount(session,memberId);
+	}
+	
+	//찜목록 개수
+	@Override
+	public int memberHeartListCount(String memberId) {
+		return dao.memberHeartListCount(session,memberId);
+	}
+
+	//찜목록 리스트
+	@Override
+	public List<Heart> memberHeartListSelect(String memberId, int cPage, int numPerpage) {
+		return dao.memberHeartListSelect(session,memberId,cPage,numPerpage);
 	}
 	
 	//notice List 호출 (공지사항 페이지)
