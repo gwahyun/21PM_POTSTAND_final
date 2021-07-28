@@ -1,6 +1,7 @@
 package com.kh.potstand.event.model.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,12 @@ public class EventServiceimpl implements EventService {
 	public Event selectEventPost(int no) {
 		// TODO Auto-generated method stub
 		return dao.selectEventPost(session, no);
+	}
+
+	@Override
+	public int insertCoupon(Map<String, String> map) {
+		// TODO Auto-generated method stub
+		return dao.insertCoupon(session, map);
 	}
 
 }
