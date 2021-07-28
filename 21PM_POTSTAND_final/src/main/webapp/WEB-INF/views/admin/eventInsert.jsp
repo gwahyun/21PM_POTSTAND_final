@@ -21,6 +21,21 @@
 			<div class="admin-content_area">
 				<div class="admin-content">
 					<div class="admin-content_title">
+						<span>구분</span>
+					</div>
+					<div class="admin-input_text">
+						<select name="type" required="" class="notice-type-select">
+							<option value="">선택하세요</option>
+							<option value="Y">이벤트1</option>
+							<option value="N">이벤트2</option>
+						</select>
+					</div>
+				</div>
+			</div>
+			
+			<div class="admin-content_area">
+				<div class="admin-content">
+					<div class="admin-content_title">
 						<span>제목</span>
 					</div>
 					<div class="admin-input_text">
@@ -36,6 +51,17 @@
 					</div>
 					<div class="admin-input_text">
 					<input type="text" name="eventShort" placeholder="제목을 입력하세요." required="">
+					</div>
+				</div>
+			</div>
+			
+			<div class="admin-content_area">
+				<div class="admin-content">
+					<div class="admin-content_title">
+						<span>할인율</span>
+					</div>
+					<div class="admin-input_text">
+					<input step="0.01" type="number" name="discount" placeholder="할인율을 입력하세요." required="">
 					</div>
 				</div>
 			</div>
