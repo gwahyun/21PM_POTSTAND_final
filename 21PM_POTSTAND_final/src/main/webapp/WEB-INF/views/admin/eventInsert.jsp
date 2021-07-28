@@ -24,14 +24,37 @@
 						<span>구분</span>
 					</div>
 					<div class="admin-input_text">
-						<select name="type" required="" class="notice-type-select">
+						<select id="optionValue" name="type" required="" class="notice-type-select">
 							<option value="">선택하세요</option>
-							<option value="Y">이벤트1</option>
-							<option value="N">이벤트2</option>
+							<option value="Y">책</option>
+							<option value="N">준비중</option>
 						</select>
+						<h2 id="parentEleId"></h2>
+						<input type="hidden" name="parentValue" id="parentValue" value=""/>
 					</div>
 				</div>
 			</div>
+			
+			<script>
+			
+			
+			
+			$("#optionValue").on('change',function(){
+				if(this.value=='Y'){
+					const status="width=1000px,height=600px";
+			    	const title="duplicateId";
+			    	const url="${path}/admin/eventSelectBook";
+			    	open(url,title,status);
+				}else{
+					$("h2").html("");
+				}
+				
+			});
+			
+			
+			
+			
+			</script>
 			
 			<div class="admin-content_area">
 				<div class="admin-content">
@@ -61,7 +84,7 @@
 						<span>할인율</span>
 					</div>
 					<div class="admin-input_text">
-					<input step="0.01" type="number" name="discount" placeholder="할인율을 입력하세요." required="">
+					<input step="0.1" type="number" name="discount" placeholder="할인율을 입력하세요." required="">
 					</div>
 				</div>
 			</div>
@@ -107,6 +130,8 @@
 </section>
 		  <script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
 <script>
+	
+
       const editor = new toastui.Editor({
         el: document.querySelector("#editor"),
         previewStyle: "vertical",
@@ -122,7 +147,7 @@
         viewer.setMarkdown(editor.getMarkdown());
       }
       function exgetMarkdown() {
-    	  $("input[type=hidden]").val(editor.getMarkdown());
+    	  $("input[name=eventInfo]").val(editor.getMarkdown());
         const text = editor.getMarkdown();
         const hi = $(".hi").val();
         const h = $(".h").val();

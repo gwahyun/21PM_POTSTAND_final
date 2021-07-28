@@ -303,6 +303,25 @@ public class AdminServiceImpl implements AdminService {
 		return dao.requestUpdate(session,param);
 	}
 
+	@Override
+	public void eventBookInsert(String string) {
+		// TODO Auto-generated method stub
+		dao.eventBookInsert(session,string);
+		
+	}
+
+	@Override
+	public List<String> eventBookList(int no) {
+		// TODO Auto-generated method stub
+		return dao.eventBookList(session,no);
+	}
+
+	@Override
+	public void eventBookUpdate(Map param) {
+		dao.eventBookUpdate(session,param);
+		
+	}
+
 
 
 

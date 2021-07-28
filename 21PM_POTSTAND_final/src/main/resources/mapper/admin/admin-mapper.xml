@@ -238,18 +238,36 @@
  	<resultMap id="eventMap" type="event">
  		<id column="event_no" property="eventNo"/>
  		<result column="event_title" property="eventTitle"/>
- 		<result column="EVENT_INFO" property="eventInfo"/>
+ 		<result column="EVENT_INFO" property="eventInfo" />
  		<result column="EVENT_SHORT" property="eventShort"/>
  		<result column="EVENT_START" property="eventStart"/>
  		<result column="EVENT_END" property="eventEnd"/>
  		<result column="END_CHECK" property="endCheck"/>
  		<result column="EVENT_THUM" property="eventThum"/>
+ 		<result column="TYPE" property="type"/>
+ 		<result column="DISCOUNT" property="discount"/>
  	</resultMap>
  	
  	<insert id="eventInsertEnd">
- 		insert into event values(seq_event.nextval,#{eventTitle},#{eventInfo},#{eventShort},sysdate,#{eventEnd},default,#{eventThum})
+ 		insert into event values(seq_event.nextval,#{eventTitle},#{eventInfo},#{eventShort},sysdate,#{eventEnd},default,#{eventThum},#{type},#{discount})
  	</insert>
  	
+ 	<!-- eventList 테이블 삽입 -->
+ 	<insert id="eventBookInsert">
+ 		insert into event_list values(SEQ_EVENT_LIST.NEXTVAL,#{string},SEQ_EVENT.CURRVAL)
+ 	</insert>
+ 	
+ 	<select id="eventBookList" resultType="String">
+ 		select book_code from event_list where event_no = #{no}
+ 	</select>
+ 	
+ 	<delete id="eventNoBookDelete">
+ 		delete from event_list where event_no = #{eventNo}
+ 	</delete>
+ 	
+	<insert id="eventBookUpdate">
+		insert into event_list values(SEQ_EVENT_LIST.NEXTVAL,#{string},#{eventNo})
+	</insert> 	
  <!-- 	<update id="eventEnd">
  		update event set end_check ='Y' where event_no = #{no}
  	</update> -->
@@ -313,20 +331,30 @@
  		</if>
  	</select>
  	
- 	<resultMap id="bookMap" type="com.kh.potstand.admin.model.vo.Book">
- 		<id column="book_code" property="bookCode"/>
- 		<result column="SORT_NO" property="sortNo"></result>
- 		<result column="BOOK_TITLE" property="bookTitle"></result>
- 		<result column="BOOK_WRITER" property="bookWriter"></result>
- 		<result column="BOOK_PUB" property="bookPub"></result>
- 		<result column="BOOK_COST" property="bookCost"></result>
- 		<result column="BOOK_SHORT" property="bookShort"></result>
- 		<result column="BOOK_CONTENT" property="bookContent"></result>
- 		<result column="BOOK_COVER" property="bookCover"></result>
- 		<result column="BOOK_DATE" property="bookDate"></result>
- 		<result column="BOOK_STOCK" property="bookStock"></result>
- 		<result column="EVENT_NO" property="eventNo"></result>
+ 	<resultMap id="bookMap" type="book">
+ 		<id column="BOOK_CODE" property="bookCode"/>
+		<result column="BOOK_TITLE" property="bookTitle"/>
+		<result column="BOOK_WRITER" property="bookWriter"/>
+		<result column="BOOK_PUB" property="bookPub"/>
+		<result column="BOOK_COST" property="bookCost"/>
+		<result column="BOOK_SHORT" property="bookShort"/>
+		<result column="BOOK_CONTENT" property="bookContent" typeHandler="longHandler"/>
+		<result column="BOOK_COVER" property="bookCover"/>
+		<result column="BOOK_DATE" property="bookDate"/>
+		<result column="BOOK_STOCK" property="bookStock"/>
+		<association column="SORT_NO" property="sort" select="selectSortByPK"/>
  	</resultMap>
+ 	
+ 	<resultMap type="sort" id="sortMap">
+		<id column="SORT_NO" property="sortNo"/>
+		<result column="LV1" property="lv1"/>
+		<result column="LV2" property="lv2"/>
+		<result column="LV3" property="lv3"/>
+		<result column="LV4" property="lv4"/>		
+	</resultMap>
+	<select id="selectSortByPK" resultMap="sortMap">
+		SELECT * FROM SORT WHERE SORT_NO=#{sortNo}
+	</select>
  	
  	<!-- 재고관리 -->
  	<select id="stockManagerListCount" resultType="int">
@@ -377,19 +405,18 @@
  		<result column="STATUS" property="status"></result>
  		<result column="REQUEST_DATE" property="requestDate"></result>
  		<result column="RESPONSE_DATE" property="responseDate"></result>
- 		<association property="book" javaType="com.kh.potstand.admin.model.vo.Book">
- 			<id column="book_code" property="bookCode"/>
-	 		<result column="SORT_NO" property="sortNo"></result>
-	 		<result column="BOOK_TITLE" property="bookTitle"></result>
-	 		<result column="BOOK_WRITER" property="bookWriter"></result>
-	 		<result column="BOOK_PUB" property="bookPub"></result>
-	 		<result column="BOOK_COST" property="bookCost"></result>
-	 		<result column="BOOK_SHORT" property="bookShort"></result>
-	 		<result column="BOOK_CONTENT" property="bookContent"></result>
-	 		<result column="BOOK_COVER" property="bookCover"></result>
-	 		<result column="BOOK_DATE" property="bookDate"></result>
-	 		<result column="BOOK_STOCK" property="bookStock"></result>
-	 		<result column="EVENT_NO" property="eventNo"></result>
+ 		<association property="book" javaType="book">
+ 				<id column="BOOK_CODE" property="bookCode"/>
+				<result column="BOOK_TITLE" property="bookTitle"/>
+				<result column="BOOK_WRITER" property="bookWriter"/>
+				<result column="BOOK_PUB" property="bookPub"/>
+				<result column="BOOK_COST" property="bookCost"/>
+				<result column="BOOK_SHORT" property="bookShort"/>
+				<result column="BOOK_CONTENT" property="bookContent" typeHandler="longHandler"/>
+				<result column="BOOK_COVER" property="bookCover"/>
+				<result column="BOOK_DATE" property="bookDate"/>
+				<result column="BOOK_STOCK" property="bookStock"/>
+				<association column="SORT_NO" property="sort" select="selectSortByPK"/>
  		</association>
   	</resultMap>
  	

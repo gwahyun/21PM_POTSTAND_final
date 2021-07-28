@@ -27,6 +27,51 @@
 					</div>
 				</div>
 			</div>
+			
+			<div class="admin-content_area">
+				<div class="admin-content">
+					<div class="admin-content_title">
+						<span>구분</span>
+					</div>
+					<div class="admin-input_text">
+						<select id="optionValue" name="type" required="" class="notice-type-select">
+							<c:choose>
+								<c:when test="${e.type == 'Y' }">
+									<option value="">선택하세요</option>
+									<option value="Y" selected>책</option>
+									<option value="N">준비중</option>
+								</c:when>
+								<c:otherwise>
+									<option value="">선택하세요</option>
+									<option value="Y" >책</option>
+									<option value="N">준비중</option>
+								</c:otherwise>	
+							</c:choose>
+							
+						</select>
+							<h2 id="parentEleId">해당 책 : ${str }</h2>
+						<input type="hidden" name="parentValue" id="parentValue" value=""/>
+					</div>
+				</div>
+			</div>
+			
+			<script>
+			
+			
+			
+			$("#optionValue").on('change',function(){
+				if(this.value=='Y'){
+					const status="width=1000px,height=600px";
+			    	const title="duplicateId";
+			    	const url="${path}/admin/eventSelectBook";
+			    	open(url,title,status);
+					//alert(this.value);
+				}else{
+					$("h2").html("");
+				}
+				
+			});
+			</script>
 		
 			<div class="admin-content_area">
 				<div class="admin-content">

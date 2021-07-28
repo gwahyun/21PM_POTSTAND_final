@@ -111,4 +111,10 @@ public interface AdminDao {
 	Answer answerSelectOne(SqlSessionTemplate session, int no);
 
 	int qnaReplyUpdateEnd(SqlSessionTemplate session, Map param);
+
+	void eventBookInsert(SqlSessionTemplate session, String string);
+
+	List<String> eventBookList(SqlSessionTemplate session, int no);
+
+	void eventBookUpdate(SqlSessionTemplate session, Map param);
 }
