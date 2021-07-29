@@ -11,6 +11,7 @@
 		<typeAlias alias="member" type="com.kh.potstand.member.model.vo.Member"/>
 		<typeAlias alias="address" type="com.kh.potstand.member.model.vo.Address"/>
 		<typeAlias alias="point" type="com.kh.potstand.member.model.vo.Point"/>
+		<typeAlias alias="heart" type="com.kh.potstand.member.model.vo.Heart"/>
 		
 		
 		<!-- admin package -->
