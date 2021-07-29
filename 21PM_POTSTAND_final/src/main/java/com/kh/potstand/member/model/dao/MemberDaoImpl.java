@@ -188,9 +188,15 @@ public class MemberDaoImpl implements MemberDao{
 	//카트 bookAmount update
 	@Override
 	public int cartBookAmountUpdate(SqlSession session, Map param) {
-		System.out.println(param);
 		return session.update("function.cartBookAmountUpdate",param);
 	}
+
+	@Override
+	public int cartCouponUpdate(SqlSession session, Map param) {
+		System.out.println(param);
+		return session.update("function.cartCouponUpdate",param);
+	}
+	
 	
 	
 

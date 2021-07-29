@@ -73,7 +73,6 @@
 		<result column="USED_DATE" property="usedDate"/>
 		<result column="COUPON_END" property="couponEnd"/>
 		<result column="COUPON_AMOUNT" property="couponAmount"/>
-		<result column="USED_COUPON_NO" property="usedCouponNo"/>
 		<association column="EVENT_NO" property="event" select="selectEventByPK"/>
 	</resultMap>
 	
@@ -82,6 +81,7 @@
 		<id column="CART_NO" property="cartNo"/>
 		<result column="MEMBER_ID" property="memberId"/>
 		<result column="BOOK_AMOUNT" property="bookAmount"/>
+		<result column="USED_COUPON_NO" property="usedCouponNo"/>
 		<association property="book" resultMap="bookMap"/>	
 		<collection property="coupon" resultMap="couponMap"/>
 	</resultMap>
@@ -159,5 +159,13 @@
 	
 	<update id="cartBookAmountUpdate">
 		UPDATE CART SET BOOK_AMOUNT=#{bookAmount} WHERE CART_NO=#{cartNo}
+	</update>
+	<update id="cartCouponUpdate">
+		<if test="usedCouponNo!=null">
+			UPDATE CART SET USED_COUPON_NO=#{usedCouponNo} WHERE CART_NO=#{cartNo}
+		</if>
+		<if test="usedCouponNo==null">
+			UPDATE CART SET USED_COUPON_NO=NULL WHERE CART_NO=#{cartNo}
+		</if>
 	</update>
 </mapper>

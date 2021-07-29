@@ -247,5 +247,12 @@ public class MemberServiceImpl implements MemberService{
 		return dao.cartBookAmountUpdate(session, param);
 	}
 
+	@Override
+	public int cartCouponUpdate(Map param) {
+		return dao.cartCouponUpdate(session, param);
+	}
+	
+	
+
 	
 }

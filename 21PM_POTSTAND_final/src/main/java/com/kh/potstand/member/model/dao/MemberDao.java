@@ -93,4 +93,7 @@ public interface MemberDao {
 	
 	//cart bookAmount update
 	int cartBookAmountUpdate(SqlSession session, Map param);
+	
+	//cart usedCoupon update
+	int cartCouponUpdate(SqlSession session, Map param);
 }

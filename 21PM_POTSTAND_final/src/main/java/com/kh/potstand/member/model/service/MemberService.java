@@ -83,4 +83,7 @@ public interface MemberService {
 	//cart bookAmount update
 	int cartBookAmountUpdate(Map param);
 	
+	//cart usedCoupon update
+	int cartCouponUpdate(Map param);
+	
 }

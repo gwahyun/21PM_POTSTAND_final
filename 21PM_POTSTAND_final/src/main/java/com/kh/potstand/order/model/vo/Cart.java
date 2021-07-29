@@ -16,4 +16,5 @@ public class Cart {
 	private int bookAmount;
 	private Book book;
 	private List<Coupon> coupon;
+	private int usedCouponNo;
 }

@@ -107,48 +107,92 @@
 							</div>
 
 							<!-- 가격-->
-							<div>
+							<div class="price-info">
 								<!-- 원래 가격 -->
 								<label>권당 가격 : </label>
 								<h3
 									class="inline ori-price m-3 text-xl text-right font-medium font-bold">
 									<fmt:formatNumber type="currency" value="${cart.book.bookCost}" />
 								</h3>
-								<br> <label>구매 가격 : </label>
-								<h3
-									class="inline ori-price-total m-3 text-xl text-right font-medium font-bold">
-									<fmt:formatNumber type="currency"
-										value="${cart.book.bookCost * cart.bookAmount}" />
-								</h3>
+								<br>
+								
+								
+								 <!-- 구매가격 -->
+								<label>구매 가격 : </label>
+								<c:if test="${cart.usedCouponNo==0}">
+									<h3
+										class="inline ori-price-total m-3 text-xl text-right font-medium font-bold">
+										<fmt:formatNumber type="currency" value="${cart.book.bookCost * cart.bookAmount}" />
+									</h3>
+								</c:if>
+								<c:if test="${cart.usedCouponNo!=0}">
+									<h3
+										class="inline ori-price-total m-3 text-xl text-right font-medium font-bold line-through text-gray-400">
+										<fmt:formatNumber type="currency" value="${cart.book.bookCost * cart.bookAmount}" />
+									</h3>
+								</c:if>
+								
+								
+								
+								
 								<!-- 할인 가격 -->
-								<label class="hidden">할인 가격 : </label>
-								<h2
-									class="hidden dis-price m-3 text-xl text-right font-medium font-bold mb-3">
-
-								</h2>
+								<br>
+								<c:if test="${cart.usedCouponNo==0}">
+									<label class="discalc hidden">할인 가격 : </label>
+									<h2
+										class="inline hidden dis-price m-3 text-xl text-right font-medium font-bold ">
+	
+									</h2>
+								</c:if>
+								<c:if test="${cart.usedCouponNo!=0}">
+									<label class="discalc">할인 가격 : </label>
+									<h2
+										class="inline dis-price m-3 text-xl text-right font-medium font-bold ">
+										<c:forEach var="cp" items="${cart.coupon}">
+											<c:if test="${cp.couponNo==cart.usedCouponNo}">
+												<fmt:formatNumber type="currency" value="${cart.book.bookCost * cart.bookAmount *(1-cp.event.discount)}" />
+											</c:if>
+										</c:forEach>
+									</h2>
+								</c:if>
 							</div>
 
-							<!-- 쿠폰 -->
+
+
+							<!-- 쿠폰 : 쿠폰 없는경우 / 쿠폰 있는데 적용 안한경우 / 쿠폰 있고 적용한경우-->
+
 							<div>
 								<c:choose>
+									
 									<c:when
 										test="${fn:length(cart.coupon)==1 and empty cart.coupon[0].couponEnd}">
 										<label class="coupon text-l font-bold mt-4 block">사용
 											가능한 쿠폰이 없습니다.</label>
 									</c:when>
+									
+									
+									
 									<c:otherwise>
 										<label class="coupon text-l font-bold  block mt-4"> 사용
 											가능 쿠폰</label>
-										<!-- select 문 구현 -->
-										<select name="couponNo">
+										<select name="couponData">
+											<option value="${cart.cartNo}:0:0"> 쿠폰 사용 안함</option>
 											<c:forEach var="cp" items="${cart.coupon}">
 												<c:if test="${cp.couponEnd eq 'N'}">
-													<option value="${cp.couponNo}"> <c:out value="${cp.event.eventTitle}" /> 
-													</option>
-													<input type="hidden" name="dis-ratio" value="${cp.event.discount}">
+													<c:choose>
+														<c:when test="${cart.usedCouponNo==cp.couponNo}">
+															<option value="${cart.cartNo}:${cp.couponNo}:${cp.event.discount}" selected> <c:out value="${cp.event.eventTitle}" />
+															</option>
+														</c:when>
+														<c:otherwise>
+															<option value="${cart.cartNo}:${cp.couponNo}:${cp.event.discount}"> <c:out value="${cp.event.eventTitle}" />
+															</option>
+														</c:otherwise>
+													</c:choose> 
 												</c:if>
 											</c:forEach>
 										</select>
+
 										<button
 											class="inline-flex items-center 
 						                			bg-gray-300 
@@ -160,20 +204,16 @@
 							          				text-base 
 							          				mt-4 md:mt-0"
 											onclick="fn_discount(event);">쿠폰적용</button>
-									</c:otherwise>
+									</c:otherwise>							
 								</c:choose>
-
 							</div>
+							
+							
 						</div>
 
 
 					</div>
 				</c:forEach>
-
-				<!-- 쿠폰 로직+구조 바꿔야될거같은데..? 한 책에 적용 가능한 쿠폰이 여러개일수도 있는데???(Event 중복)?
-                	 한개 쿠폰으로 여러책을 적용해버리는 문제-> 장바구니에서 체크/select 하면 나머지 disable처리?? ajax??
-                	 
-                	   -->
 			</div>
 
 			<!-- 가격표시창 -->
@@ -182,19 +222,19 @@
 				<div class="cart-price mb-8">
 					<div id="sum-price" class="li flex">
 						<h3 class="my-3 text-xl font-semibold mx-3 w-5/12">총 상품 금액</h3>
-						<h3 class="money my-3 text-xl font-semibold ml-10 w-5/12"></h3>
+						<h3 class="money my-3 text-xl font-semibold ml-10 w-5/12 text-right"></h3>
 					</div>
-					<div id="sale-cost" class="li flex bg-blue-300">
+					<div id="sale-price" class="li flex bg-blue-300">
 						<h3 class="my-3 text-xl font-semibold mx-3 w-5/12">할인 금액</h3>
-						<h3 class="money my-3 text-xl font-semibold ml-10 w-5/12"></h3>
+						<h3 class="money my-3 text-xl font-semibold ml-10 w-5/12 text-right"></h3>
 					</div>
 					<div id="send-cost" class="li flex">
 						<h3 class="my-3 text-xl font-semibold mx-3 w-5/12">배송비</h3>
-						<h3 class="money my-3 text-xl font-semibold ml-10 w-5/12">3,000원</h3>
+						<h3 class="money my-3 text-xl font-semibold ml-10 w-5/12 text-right">₩3,000</h3>
 					</div>
 					<div id="total" class="li flex bg-green-300">
 						<h3 class="my-3 text-xl font-bold mx-3 w-5/12">합계</h3>
-						<h3 class="money my-3 text-xl font-bold ml-10 w-5/12"></h3>
+						<h3 class="money my-3 text-xl font-bold ml-10 w-5/12 text-right"></h3>
 					</div>
 				</div>
 				<button
@@ -259,7 +299,12 @@
 		let discountPrice=0;
 		disPrice.each(function(i,v){
 			let price = $(v).text().trim().replace("₩","").replace(",","");
-			discountPrice-=Number(price);
+			let ori = $(v).siblings(".ori-price-total").text().trim().replace("₩","").replace(",","");
+			let dis=0;
+			if(price!=0||price!=""){
+				dis+= ori-price	
+			}
+			discountPrice-=Number(dis);
 		});
 		
 		
@@ -272,10 +317,11 @@
 		let totalPrice=sumPrice+discountPrice+3000;
 		
 		//text 수정
-			$("#sum-price>.money").text(sumPrice);
-			$("#sale-price>.money").text(discountPrice);
+			$("#sum-price>.money").text(sumPrice.toLocaleString('ko-KR',{style:'currency',currency:'KRW'}));
+		
+			$("#sale-price>.money").text(discountPrice.toLocaleString('ko-KR',{style:'currency',currency:'KRW'}));
 			
-			$("#total>.money").text(totalPrice);
+			$("#total>.money").text(totalPrice.toLocaleString('ko-KR',{style:'currency',currency:'KRW'}));
 		
 	}
 
@@ -346,6 +392,8 @@
 		})
 	}
 	
+	
+	//책 수량 update
 	const fn_updateBookAmount=(e)=>{
 		let orivalue=$(e.target).siblings("input[name='bookAmount']").attr("value");
 		let bookAmount = $(e.target).siblings("input[name='bookAmount']").val();
@@ -373,9 +421,34 @@
 		})
 	}
 	
+	//쿠폰 할인 적용
+	const fn_discount=(e)=>{
+		let arr = $(e.target).siblings("select[name='couponData']").val().split(":");
+		let cartNo=arr[0];
+		let couponNo=arr[1];
+		let discount=arr[2];
+		let oriprice = $(e.target).parent("div").siblings(".price-info").children(".ori-price-total");
+		let disprice =$(e.target).parent("div").siblings(".price-info").children(".dis-price");
+		
+		let param={
+				'cartNo':cartNo,
+				'couponNo':couponNo
+		}
+		$.ajax({
+			url:'${path}/ajax/updateCartCoupon.do',
+			type:'post',
+			data:param,
+			dataType:'json',
+			success:function(data){
+				document.location.reload(true);
+			}
+		})
+	}
+	
+	
 	//페이지 로드시 장바구니 리스트 가격 출력
 	$(document).ready(fn_priceCalc());
-	alert("가격 숫자패턴처리 ");
+	
 
 	
 </script>
