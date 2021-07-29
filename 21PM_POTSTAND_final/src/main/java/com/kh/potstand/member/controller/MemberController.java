@@ -467,4 +467,55 @@ public class MemberController {
 		
 		return 1;
 	}
+	
+	//찜목록 - 선택 삭제하기
+	@RequestMapping("/member/memberChoiceHeartDelete.do")
+	@ResponseBody
+	public int memberChoiceHeartDelete(@RequestParam(value="bookCodeList[]") List<String> bookCodeList, 
+            @RequestParam(value="memberId") String memberId) {
+		Map param=new HashMap();
+		try {
+			for(String bc : bookCodeList) {	
+				param.put("memberId", memberId);
+				param.put("bookCode", bc);
+				//찜목록 지우기
+				service.memberHeartDelete(param);
+			}
+		}catch(RuntimeException e) {
+			return 0;
+		}
+		
+		return 1;
+	}
+	
+	//찜목록 - 장바구니에 담기
+	@RequestMapping("/member/memberCartInsert.do")
+	@ResponseBody
+	public int memberCartInsert(@RequestParam Map param) {
+		try {
+			Cart checkC=service.memberCartSelect(param);
+			if(checkC!=null) { //담겨있는책은 수량을 +1해줌
+				service.memberOverlapCartUpdate(param);
+			}else { //담겨있지 않은 책은 장바구니에 등록
+				service.memberChoiceCartInsert(param);
+			}		
+			//장바구니로 이동한 찜목록 지우기
+			service.memberHeartDelete(param);
+		}catch(RuntimeException e) {
+			return 0;
+		}
+		return 1;
+	}
+	
+	//찜목록 - 찜목록 삭제
+	@RequestMapping("/member/memberHeartDelete.do")
+	@ResponseBody
+	public int memberHeartDelete(@RequestParam Map param) {
+		try {
+			service.memberHeartDelete(param);
+		}catch(RuntimeException e) {
+			return 0;
+		}
+		return 1;
+	}
 }

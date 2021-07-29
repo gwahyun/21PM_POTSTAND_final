@@ -47,14 +47,16 @@
 	        				<div class="pr-2">
 		        				<button class="border bg-red-500 text-gray-100 rounded-full tracking-wide font-semibold 
 		        				focus:outline-none focus:shadow-outline hover:bg-red-600 shadow-lg cursor-pointer 
-		        				transition ease-in duration-300 w-48 h-full" onclick="fn_heartList_choiceCartInsert();">
+		        				transition ease-in duration-300 w-48 h-full" type="button"
+		        				onclick="fn_heartList_choiceCartInsert();">
 		        					선택 장바구니에 담기
 		        				</button>
 	        				</div>
 	        				<div>
 		        				<button class="border bg-red-500 text-gray-100 rounded-full tracking-wide font-semibold 
 			        			focus:outline-none focus:shadow-outline hover:bg-red-600 shadow-lg cursor-pointer 
-			        			transition ease-in duration-300 w-24 h-full" onclick="fn_heartList_choiceHeartDelete();">
+			        			transition ease-in duration-300 w-24 h-full" type="button"
+			        			onclick="fn_heartList_choiceHeartDelete();">
 			        				선택 삭제
 			        			</button>
 		        			</div>
@@ -85,12 +87,14 @@
 		        				<div class="h-2/3 flex items-end pb-8">
 		        					<button class="border bg-red-500 text-gray-100 rounded-full tracking-wide font-semibold 
 				        			focus:outline-none focus:shadow-outline hover:bg-red-600 shadow-lg cursor-pointer 
-				        			transition ease-in duration-300 w-36 h-8" onclick="fn_heartList_cartInsert();">
+				        			transition ease-in duration-300 w-36 h-8" type="button"
+				        			onclick="fn_heartList_cartInsert(event);">
 				        				장바구니에 담기
 				        			</button>
 				        			<button class="border bg-red-500 text-gray-100 rounded-full tracking-wide font-semibold 
 				        			focus:outline-none focus:shadow-outline hover:bg-red-600 shadow-lg cursor-pointer 
-				        			transition ease-in duration-300 w-20 h-8">삭제</button>
+				        			transition ease-in duration-300 w-20 h-8" type="button"
+				        			onclick="fn_heartList_cartDelete(event);">삭제</button>
 		        				</div>		
 		        			</div>
 		        			<div class="w-4/12 border-t-2 h-52 p-2 flex flex-col justify-center text-right pr-8">
@@ -163,50 +167,93 @@
     	function fn_heartList_choiceHeartDelete(){
     		//체크박스가 하나라도 체크되어있는지 확인
     		checkList=document.getElementsByName("bookCode");
+    		checkCount=0;
     		flag=false;
     		for(var i=0; i<checkList.length; i++){
     			if(checkList[i].checked){
     				flag=true;
+    				checkCount+=1;
     			}
     		} 
-    		if(confirm('책을 삭제하시겠습니까?')){
-    			alert('삭제');
-    			//ajax
-    		}
-    		
-    		if(!flag){ //이동할 책이 없는 경우
-    			alert('이동할 책을 선택하세요.');
+    			
+    		if(!flag){ //삭제할 책이 없는 경우
+    			alert('삭제할 책을 선택하세요.');
     		}else{
     			//선택 찜 담을 배열
-            	let bookCodeArray=[];
-        		
-        		for(var i=0; i<$('input[name=bookCode]').length; i++){
-        			if($('input[name=bookCode]').eq(i).is(":checked")==true){
-        				bookCodeArray.push($('input[name=bookCode]').eq(i).val());
-        			}    			
+    			if(confirm('선택한 책 '+checkCount+'권을 삭제하시겠습니까?')){
+    				let bookCodeArray=[];
+            		
+    				for(var i=0; i<$('input[name=bookCode]').length; i++){
+            			if($('input[name=bookCode]').eq(i).is(":checked")==true){
+            				bookCodeArray.push($('input[name=bookCode]').eq(i).val());
+            			}    			
+            		}
+            		
+            		var objParams = {
+            				"memberId" : '${loginMember.memberId}', //회원 아이디
+            				"bookCodeList" : bookCodeArray //체크된 북코드
+            		};
+            		
+            		$.ajax({
+            			type:"post",
+        				url:"${path}/member/memberChoiceHeartDelete.do",
+        				dataType:"json",
+        				data:objParams,
+        				success:data=>{
+        					if(data==1){
+        						alert('찜목록에서 삭제되었습니다.');
+        						location.reload();
+        					}else{
+        						alert('찜목록에서 삭제하지 못했습니다. 관리자에게 문의하세요.');
+        					}
+        				}
+        			}); 
         		}
-        		
-        		var objParams = {
-        				"memberId" : '${loginMember.memberId}', //회원 아이디
-        				"bookCodeList" : bookCodeArray //체크된 북코드
-        		};
-        		
-        		$.ajax({
-        			type:"post",
-    				url:"${path}/member/memberChoiceCartInsert.do",
-    				dataType:"json",
-    				data:objParams,
-    				success:data=>{
-    					if(data==1){
-    						alert('장바구니로 이동하였습니다.');
-    						location.reload();
-    					}else{
-    						alert('장바구니로 이동하지 못했습니다. 관리자에게 문의하세요.');
-    					}
-    				}
-    			}); 
     		}		
     	}
     	
+    	//장바구니에 담기
+    	function fn_heartList_cartInsert(e){
+    		$.ajax({
+    			type:"post",
+				url:"${path}/member/memberCartInsert.do",
+				dataType:"json",
+				data:{
+					"memberId":'${loginMember.memberId}',
+					"bookCode":$(e.target).parent().parent().prev().children().children().eq(1).val()
+				},
+				success:data=>{
+					if(data==1){
+						alert('장바구니로 이동하였습니다.');
+						location.reload();
+					}else{
+						alert('장바구니로 이동하지 못했습니다. 관리자에게 문의하세요.');
+					}
+				}
+			});
+    	}
+    	
+    	//찜목록 삭제
+    	function fn_heartList_cartDelete(e){
+    		if(confirm('선택한 책을 삭제하시겠습니까?')){
+    			$.ajax({
+        			type:"post",
+    				url:"${path}/member/memberHeartDelete.do",
+    				dataType:"json",
+    				data:{
+    					"memberId":'${loginMember.memberId}',
+    					"bookCode":$(e.target).parent().parent().prev().children().children().eq(1).val()
+    				},
+    				success:data=>{
+    					if(data==1){
+    						alert('찜목록에서 삭제되었습니다.');
+    						location.reload();
+    					}else{
+    						alert('찜목록에서 삭제하지 못했습니다. 관리자에게 문의하세요.');
+    					}
+    				}
+    			});
+    		}
+    	}
     </script>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
