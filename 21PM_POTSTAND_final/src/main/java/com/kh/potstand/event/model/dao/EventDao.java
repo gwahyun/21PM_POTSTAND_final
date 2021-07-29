@@ -11,5 +11,6 @@ public interface EventDao {
 
 	public List<Event> selectEventList(SqlSession session);
 	public Event selectEventPost(SqlSession session, int no);
+	public int countCoupon(SqlSession session, Map<String,String> map);
 	public int insertCoupon(SqlSession session, Map<String,String>map);
 }

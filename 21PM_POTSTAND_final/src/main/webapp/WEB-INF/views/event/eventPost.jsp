@@ -47,7 +47,7 @@
           md:mt-0
           text-xl
         "
-        onclick="location.assign('${path}/event/getcoupon.do/no=${event.eventNo}');"
+        onclick="location.assign('${path}/event/getcoupon.do?no=${event.eventNo}&start=${event.eventStart}&end=${event.eventEnd}');"
       >
         쿠폰 발급받기
         <svg
@@ -63,7 +63,7 @@
         </svg>
       </button>
     </div>
-			  <div class="w-min-full flex justify-center">
+			  <div class="w-min-full flex justify-center mt-24">
                          <button class=" inline-flex items-center bg-gray-200 border-0 py-1 px-3 focus:outline-none hover:bg-red-400 
                          hover:text-white rounded text-base mt-4 md:mt-0" onclick="location.assign('${path}/event/eventlist.do');">
                    목록으로

@@ -21,12 +21,16 @@ public class EventDaoimpl implements EventDao {
 	public Event selectEventPost(SqlSession session, int no) {
 		return session.selectOne("selectEventPost",no);
 	}
+	//발급받은 쿠폰 장수 확인하기
+	@Override
+	public int countCoupon(SqlSession session, Map<String, String> map) {
+		return session.selectOne("countCoupon",map);
+	}
 	//쿠폰 발급하기
 	@Override
 	public int insertCoupon(SqlSession session, Map<String, String> map) {
 		return session.insert("insertCoupon", map);
 	}
-
 
 
 }

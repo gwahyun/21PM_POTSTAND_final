@@ -37,18 +37,29 @@ public class EventController {
 	
 	//회원에게 쿠폰 발급하는 메소드
 	@RequestMapping("event/getcoupon.do")
-	public String getCoupon(@RequestParam(value="no") int no, Model m, HttpSession session) {
+	public String getCoupon(@RequestParam(value="no") int no, @RequestParam(value="start") String start, @RequestParam (value="end") String end, Model m, HttpSession session) {
+		
+		//로그인 확인
+		if(session.getAttribute("loginMember")==null) {
+			m.addAttribute("msg","로그인 한 회원만 이용가능한 기능입니다");
+			m.addAttribute("loc","/");
+			return "common/msg";
+		}
 		String memberId = ((Member)session.getAttribute("loginMember")).getMemberId();
 		Map map = new HashMap<String, String>();
+		start.replace("-","/");
+		end.replace("-", "/");
 		map.put("memberId", memberId);
 		map.put("no", no);
+		map.put("start", start);
+		map.put("end", end);
 		
 		int result = service.insertCoupon(map);
 		
 		if(result>0) m.addAttribute("msg","쿠폰이 발급되었습니다");
-		else m.addAttribute("msg", "쿠폰 발급에 실패하였습니다");
+		else m.addAttribute("msg", "이미 발급받으신 쿠폰입니다");
 		
-		m.addAttribute("loc","event/eventPost.do?no="+no);
+		m.addAttribute("loc","/event/eventpost.do?no="+no);
 		return "common/msg";
 	}
 }

@@ -15,26 +15,21 @@
 		<result column="discount" property="discount"/>
 	</resultMap>
 	
-	<resultMap type="coupon" id="couponMap">
-		<id column="COUPON_NO" property="couponNo"/>
-		<result column="MEMBER_ID" property="memberId"/>
-		<result column="TYPE" property="type"/>
-		<result column="DISCOUNT" property="discount"/>
-		<result column="START_DATE" property="startDate"/>
-		<result column="VAL_DATE" property="valDate"/>
-		<result column="USED_DATE" property="usedDate"/>
-		<result column="COUPON_END" property="couponEnd"/>
-		<result column="COUPON_AMOUNT" property="couponAmount"/>
-		<association column="EVENT_NO" property="event" select="selectEventByPK"/>
-	</resultMap>
+	<!-- 이벤트 페이지 -->
 	
 	<select id="selectEventList" resultMap="eventMap">
 		SELECT * FROM EVENT
 	</select>
 	<select id="selectEventPost" resultMap="eventMap">
-		select * from event where event_no = #{"no"}
+		select * from event where event_no = #{no}
 	</select>
+	
+	<!-- 쿠폰 -->
+	
 	<insert id="insertCoupon">
-		insert into coupon values(seq_coupon.nextval, #{map.put("memeberId")}, #{event.startDate}, #{event.valDate}, null, default, #{event.eventNo},1}
+		insert into coupon values(seq_coupon.nextval, #{memberId}, #{start}, #{end}, null, default, #{no}, 1)
 	</insert>
+	<select id="countCoupon" resultType="_int">
+		select count(*) from coupon where member_id=#{memberId} and event_no=#{no}
+	</select>
 </mapper>
