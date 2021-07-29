@@ -14,19 +14,21 @@
 	<div>
 		<h1 class="text-4xl font-bold m-5 text-center">장바구니</h1>
 	</div>
+
+	<!-- 장바구니 비어있을때 -->
 	<c:if test="${empty cartList}">
 		<div
 			class="cart-obj 
 	               flex m-3 py-6 
 	               border-t border-b border-solid border-gray-400 
 	               items-center">
-			<h2 class="my-3 text-2xl font-bold text-center w-full">
-				장바구니에 담긴	상품이 없습니다.
-			</h2>
+			<h2 class="my-3 text-2xl font-bold text-center w-full">장바구니에 담긴
+				상품이 없습니다.</h2>
 		</div>
 	</c:if>
-	<!-- 카트 내용 출력 -->
 
+
+	<!-- 장바구니 내용 있을 때 -->
 	<c:if test="${!empty cartList}">
 		<div class="content-container flex">
 			<div
@@ -42,17 +44,24 @@
 	          				text-base 
 	          				mt-4 md:mt-0"
 					onclick="fn_allCheck(event);">전체선택</button>
+
+				<!-- 카트 항목 출력 -->
 				<c:forEach var="cart" items="${cartList}" varStatus="i">
-					<!-- 카트 항목 -->
 					<div
 						class="cart-obj 
-	                		flex m-3 py-6 
+	                		flex m-3 py-3 
 	                		border-t border-b border-solid border-gray-400 
 	                		items-center">
 						<input type="checkbox" name="cartObj" class="ml-3">
+
+
+						<!-- 책 표지 -->
 						<div class="img-area w-2/12 h-36 mx-5">
 							<img src="${cart.book.bookCover}" class="w-full">
 						</div>
+
+
+						<!-- 책 제목, 작가, 삭제버튼 -->
 						<div class="obj-info ml-6 w-4/12">
 							<h2 class="my-3 text-2xl font-bold">
 								<c:out value="${cart.book.bookTitle}" />
@@ -73,69 +82,123 @@
 								onclick="fn_cartDelete(event);">삭제</button>
 							<input type="hidden" name="cartNo" value="${cart.cartNo}" />
 						</div>
-						<div class="price ml-6 w-4/12">
-							<h3
-								class="ori-price m-3 text-xl text-right font-medium font-bold">
-								<c:out value="${cart.book.bookCost}" />
-							</h3>
-							<h2
-								class="dis-price m-3 text-xl text-right font-medium font-bold mb-3"></h2>
 
-							<c:forEach var="cp" items="${cart.coupon}">
+
+						<!--수량, 가격, 쿠폰적용 -->
+						<div class="price ml-6 w-4/12">
+							<!-- 수량 -->
+							<div>
+								<label>수량 : </label> 
+								<input type="number"
+									class="w-4/12 text-right border border-solid border-gray-300"
+									name="bookAmount" value="${cart.bookAmount}">권
+								<input type="hidden" name="cartNo" value="${cart.cartNo}" />
+								<button
+									class="inline-flex items-center 
+	                			bg-gray-300 
+	                			border border-solid border-gray-400 
+	                			py-1 px-2 mb-3 
+	                			focus:outline-none 
+	                			hover:bg-red-200 
+		          				hover:text-white rounded 
+		          				text-base 
+		          				mt-4 md:mt-0"
+									onclick="fn_updateBookAmount(event);">변경</button>
+							</div>
+
+							<!-- 가격-->
+							<div>
+								<!-- 원래 가격 -->
+								<label>권당 가격 : </label>
+								<h3
+									class="inline ori-price m-3 text-xl text-right font-medium font-bold">
+									<fmt:formatNumber type="currency" value="${cart.book.bookCost}" />
+								</h3>
+								<br> <label>구매 가격 : </label>
+								<h3
+									class="inline ori-price-total m-3 text-xl text-right font-medium font-bold">
+									<fmt:formatNumber type="currency"
+										value="${cart.book.bookCost * cart.bookAmount}" />
+								</h3>
+								<!-- 할인 가격 -->
+								<label class="hidden">할인 가격 : </label>
+								<h2
+									class="hidden dis-price m-3 text-xl text-right font-medium font-bold mb-3">
+
+								</h2>
+							</div>
+
+							<!-- 쿠폰 -->
+							<div>
 								<c:choose>
 									<c:when
-										test="${fn:length(cart.coupon)==1 and empty cp.couponEnd}">
-										<label class="coupon text-l font-bold mb-2 block">사용
+										test="${fn:length(cart.coupon)==1 and empty cart.coupon[0].couponEnd}">
+										<label class="coupon text-l font-bold mt-4 block">사용
 											가능한 쿠폰이 없습니다.</label>
 									</c:when>
 									<c:otherwise>
-										<label class="coupon text-l font-bold mb-2 block">사용
+										<label class="coupon text-l font-bold  block mt-4"> 사용
 											가능 쿠폰</label>
-										<c:if test="${cp.couponEnd eq 'N'}">
-											<input type="radio"
-												class="eventTitle w-1/12 border border-solid border-gray-400 "
-												name="couponNo${i.index}" value="${cp.couponNo}">
-											<input type="hidden" name="dis-ratio"
-												value="${cp.event.discount}">
-											<span class="w-10/12"><c:out
-													value="${cp.event.eventTitle}" /></span>
-										</c:if>
+										<!-- select 문 구현 -->
+										<select name="couponNo">
+											<c:forEach var="cp" items="${cart.coupon}">
+												<c:if test="${cp.couponEnd eq 'N'}">
+													<option value="${cp.couponNo}"> <c:out value="${cp.event.eventTitle}" /> 
+													</option>
+													<input type="hidden" name="dis-ratio" value="${cp.event.discount}">
+												</c:if>
+											</c:forEach>
+										</select>
+										<button
+											class="inline-flex items-center 
+						                			bg-gray-300 
+						                			border border-solid border-gray-400 
+						                			py-1 px-2 mb-3 
+						                			focus:outline-none 
+						                			hover:bg-red-200 
+							          				hover:text-white rounded 
+							          				text-base 
+							          				mt-4 md:mt-0"
+											onclick="fn_discount(event);">쿠폰적용</button>
 									</c:otherwise>
 								</c:choose>
-							</c:forEach>
+
+							</div>
 						</div>
+
+
 					</div>
 				</c:forEach>
-	
-	<!-- 쿠폰 로직+구조 바꿔야될거같은데..? 한 책에 적용 가능한 쿠폰이 여러개일수도 있는데???(Event 중복)?
+
+				<!-- 쿠폰 로직+구조 바꿔야될거같은데..? 한 책에 적용 가능한 쿠폰이 여러개일수도 있는데???(Event 중복)?
                 	 한개 쿠폰으로 여러책을 적용해버리는 문제-> 장바구니에서 체크/select 하면 나머지 disable처리?? ajax??
                 	 
                 	   -->
-	</div>
+			</div>
 
-	<!-- 가격표시창 -->
-	<div
-		class="buy-container w-4/12 border border-solid border-blue-400 items-center sticky relative top-0 h-80">
-		<div class="cart-price mb-8">
-			<div id="sum-price" class="li flex">
-				<h3 class="my-3 text-xl font-semibold mx-3 w-5/12">총 상품 금액</h3>
-				<h3 class="money my-3 text-xl font-semibold ml-10 w-5/12"></h3>
-			</div>
-			<div id="sale-cost" class="li flex bg-blue-300">
-				<h3 class="my-3 text-xl font-semibold mx-3 w-5/12">할인 금액</h3>
-				<h3 class="money my-3 text-xl font-semibold ml-10 w-5/12"></h3>
-			</div>
-			<div id="send-cost" class="li flex">
-				<h3 class="my-3 text-xl font-semibold mx-3 w-5/12">배송비</h3>
-				<h3 class="money my-3 text-xl font-semibold ml-10 w-5/12">3,000원</h3>
-			</div>
-			<div id="total" class="li flex bg-green-300">
-				<h3 class="my-3 text-xl font-bold mx-3 w-5/12">합계</h3>
-				<h3 class="money my-3 text-xl font-bold ml-10 w-5/12"></h3>
-			</div>
-		</div>
-		<button
-			class="buy-button
+			<!-- 가격표시창 -->
+			<div
+				class="buy-container w-4/12 border border-solid border-blue-400 items-center sticky relative top-0 h-80">
+				<div class="cart-price mb-8">
+					<div id="sum-price" class="li flex">
+						<h3 class="my-3 text-xl font-semibold mx-3 w-5/12">총 상품 금액</h3>
+						<h3 class="money my-3 text-xl font-semibold ml-10 w-5/12"></h3>
+					</div>
+					<div id="sale-cost" class="li flex bg-blue-300">
+						<h3 class="my-3 text-xl font-semibold mx-3 w-5/12">할인 금액</h3>
+						<h3 class="money my-3 text-xl font-semibold ml-10 w-5/12"></h3>
+					</div>
+					<div id="send-cost" class="li flex">
+						<h3 class="my-3 text-xl font-semibold mx-3 w-5/12">배송비</h3>
+						<h3 class="money my-3 text-xl font-semibold ml-10 w-5/12">3,000원</h3>
+					</div>
+					<div id="total" class="li flex bg-green-300">
+						<h3 class="my-3 text-xl font-bold mx-3 w-5/12">합계</h3>
+						<h3 class="money my-3 text-xl font-bold ml-10 w-5/12"></h3>
+					</div>
+				</div>
+				<button
+					class="buy-button
                 			bg-gray-300 
                 			border border-solid border-gray-400 
                 			py-2 px-2 
@@ -145,12 +208,12 @@
 	          				hover:text-white rounded 
 	          				font-bold
 	          				mt-4 md:mt-0"
-			onclick="">구매하기</button>
-	</div>
-	</div>
-	<div class="button-area m-4">
-		<button
-			class="inline-flex items-center 
+					onclick="">구매하기</button>
+			</div>
+		</div>
+		<div class="button-area m-4">
+			<button
+				class="inline-flex items-center 
                 			bg-gray-300 
                 			border border-solid border-gray-400 
                 			py-2 px-2 m-3
@@ -159,9 +222,9 @@
 	          				hover:text-white rounded 
 	          				text-base 
 	          				mt-4 md:mt-0"
-			onclick="fn_cartCheckedDelete()">선택삭제</button>
-		<button
-			class="inline-flex items-center 
+				onclick="fn_cartCheckedDelete()">선택삭제</button>
+			<button
+				class="inline-flex items-center 
                 			bg-gray-300 
                 			border border-solid border-gray-400 
                 			py-2 px-2 m-3
@@ -170,8 +233,8 @@
 	          				hover:text-white rounded 
 	          				text-base 
 	          				mt-4 md:mt-0"
-			onclick="fn_cartAllDelete(event);">전체삭제</button>
-	</div>
+				onclick="fn_cartAllDelete(event);">전체삭제</button>
+		</div>
 	</c:if>
 </section>
 <!------------------------------------------------------------------------------------------------------------------------------------------------------------->
@@ -180,7 +243,7 @@
 <script>
 	function fn_priceCalc(){
 		//책 원래가격
-		let oriPrice=$(".ori-price");
+		let oriPrice=$(".ori-price-total");
 		//책 할인가격
 		let disPrice=$(".dis-price");
 		
@@ -188,14 +251,14 @@
 		//전체 합
 		let sumPrice=0;
 		oriPrice.each(function(i,v){
-			let price = $(v).html().trim();
+			let price = $(v).text().trim().replace("₩","").replace(",","");
 			sumPrice+=Number(price);
 		});
 		
 		// 할인해주는 가격 합
 		let discountPrice=0;
 		disPrice.each(function(i,v){
-			let price = $(v).html().trim();
+			let price = $(v).text().trim().replace("₩","").replace(",","");
 			discountPrice-=Number(price);
 		});
 		
@@ -283,8 +346,37 @@
 		})
 	}
 	
+	const fn_updateBookAmount=(e)=>{
+		let orivalue=$(e.target).siblings("input[name='bookAmount']").attr("value");
+		let bookAmount = $(e.target).siblings("input[name='bookAmount']").val();
+		
+		if(bookAmount<=0){
+			alert("0또는 음수로 변경할 수 없습니다.");
+			$(e.target).siblings("input[name='bookAmount']").val(orivalue);
+			return;
+		}
+		let cartNo = $(e.target).siblings("input[name='cartNo']").val();
+		let params={
+				"cartNo":cartNo,
+				"bookAmount":bookAmount
+		}	
+		$.ajax({
+			url:'${path}/ajax/cartBookAmountUpdate.do',
+			type:'post',
+			data:params,
+			dataType:'json',
+			success:function(data){
+				if(data.result!=0){
+					document.location.reload(true);
+				}
+			}
+		})
+	}
 	
+	//페이지 로드시 장바구니 리스트 가격 출력
 	$(document).ready(fn_priceCalc());
+	alert("가격 숫자패턴처리 ");
+
 	
 </script>
 </html>

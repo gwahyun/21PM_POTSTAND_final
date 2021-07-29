@@ -73,6 +73,7 @@
 		<result column="USED_DATE" property="usedDate"/>
 		<result column="COUPON_END" property="couponEnd"/>
 		<result column="COUPON_AMOUNT" property="couponAmount"/>
+		<result column="USED_COUPON_NO" property="usedCouponNo"/>
 		<association column="EVENT_NO" property="event" select="selectEventByPK"/>
 	</resultMap>
 	
@@ -154,4 +155,9 @@
 	<insert id="insertSort">
 		INSERT INTO SORT VALUES(#{sortNo}, #{lv1}, #{lv2}, #{lv3}, #{lv4})
 	</insert>
+	
+	
+	<update id="cartBookAmountUpdate">
+		UPDATE CART SET BOOK_AMOUNT=#{bookAmount} WHERE CART_NO=#{cartNo}
+	</update>
 </mapper>

@@ -90,4 +90,7 @@ public interface MemberDao {
 	//Cart 항목삭제/전체삭제/선택삭제
 	int cartObjDelete(SqlSession session, Map param);
 	int cartObjDelete(SqlSession session, List<String> param);
+	
+	//cart bookAmount update
+	int cartBookAmountUpdate(SqlSession session, Map param);
 }

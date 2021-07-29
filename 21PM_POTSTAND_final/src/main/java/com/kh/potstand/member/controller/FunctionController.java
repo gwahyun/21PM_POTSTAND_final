@@ -162,4 +162,22 @@ public class FunctionController {
 		}
 			return result;
 	}
+	
+//	카트 책 수량 업데이트
+	@RequestMapping("/ajax/cartBookAmountUpdate.do")
+	@ResponseBody
+	public int cartBookAmountUpdate(@RequestParam (value="cartNo") int cartNo,
+									@RequestParam (value="bookAmount") int bookAmount
+									){
+		Map param = new HashMap();
+		param.put("cartNo", cartNo);
+		param.put("bookAmount", bookAmount);
+		int result=0;
+		try {
+			result = service.cartBookAmountUpdate(param);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+			return result;
+	}
 }

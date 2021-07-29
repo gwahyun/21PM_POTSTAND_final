@@ -80,4 +80,7 @@ public interface MemberService {
 	int cartObjDelete(Map param);
 	int cartObjDelete(List<String> param);
 	
+	//cart bookAmount update
+	int cartBookAmountUpdate(Map param);
+	
 }
