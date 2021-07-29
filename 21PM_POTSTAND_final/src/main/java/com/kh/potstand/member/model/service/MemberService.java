@@ -95,7 +95,14 @@ public interface MemberService {
 	List<Cart> cartSelectList(String memberId);
 	
 	
-	//Cart 항목 삭제 / 전체삭제
+	//Cart 항목 삭제 / 전체삭제 / 선택삭제
 	int cartObjDelete(Map param);
+	int cartObjDelete(List<String> param);
+	
+	//cart bookAmount update
+	int cartBookAmountUpdate(Map param);
+	
+	//cart usedCoupon update
+	int cartCouponUpdate(Map param);
 	
 }

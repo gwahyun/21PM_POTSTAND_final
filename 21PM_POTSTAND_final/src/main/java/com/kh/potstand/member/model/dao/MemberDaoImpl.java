@@ -208,10 +208,33 @@ public class MemberDaoImpl implements MemberDao{
 
 	@Override
 	public int cartObjDelete(SqlSession session, Map param) {
-		log.debug("cartObjDelete cartNo");
 		return session.delete("function.cartObjDelete", param);
 	}
 
+	@Override
+	public int cartObjDelete(SqlSession session, List<String> param) {
+		int result=0;
+		for(String no : param) {
+			Map map=new HashMap();
+			map.put("cartNo", no);
+			result+=session.delete("function.cartObjDelete", map);
+		}
+		return result;
+	}
+	
+	//카트 bookAmount update
+	@Override
+	public int cartBookAmountUpdate(SqlSession session, Map param) {
+		return session.update("function.cartBookAmountUpdate",param);
+	}
+
+	@Override
+	public int cartCouponUpdate(SqlSession session, Map param) {
+		System.out.println(param);
+		return session.update("function.cartCouponUpdate",param);
+	}
+	
+	
 	
 
 	

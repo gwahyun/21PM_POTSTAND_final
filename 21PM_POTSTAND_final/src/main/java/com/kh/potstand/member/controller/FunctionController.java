@@ -153,18 +153,51 @@ public class FunctionController {
 	
 	@RequestMapping("/ajax/cartObjCheckedDelete.do")
 	@ResponseBody
-	public int cartObjCheckedDelete(@RequestBody Map<String, Object> param){
-		System.out.println(param);
-		System.out.println(param.get("arr"));
+	public int cartObjCheckedDelete(@RequestParam (value="arr[]") List<String> param){
 		int result=0;
-//		try {
-//			Map param = new HashMap();
-//			param.put("memberId", memberId);
-//			result = service.cartObjDelete(param);
-//			
-//		}catch(Exception e) {
-//			e.printStackTrace();
-//		}
+		try {
+			result = service.cartObjDelete(param);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+			return result;
+	}
+	
+//	카트 책 수량 업데이트
+	@RequestMapping("/ajax/cartBookAmountUpdate.do")
+	@ResponseBody
+	public int cartBookAmountUpdate(@RequestParam (value="cartNo") int cartNo,
+									@RequestParam (value="bookAmount") int bookAmount
+									){
+		Map param = new HashMap();
+		param.put("cartNo", cartNo);
+		param.put("bookAmount", bookAmount);
+		int result=0;
+		try {
+			result = service.cartBookAmountUpdate(param);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+			return result;
+	}
+	
+//	카트 used coupon 업데이트
+	@RequestMapping("/ajax/updateCartCoupon.do")
+	@ResponseBody
+	public int cartCouponUpdate(@RequestParam (value="cartNo") int cartNo,
+								@RequestParam (value="couponNo") int couponNo
+									){
+		Map param = new HashMap();
+		param.put("cartNo", cartNo);
+		if(couponNo!=0) {
+			param.put("usedCouponNo", couponNo);
+		}
+		int result=0;
+		try {
+			result = service.cartCouponUpdate(param);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
 			return result;
 	}
 }
