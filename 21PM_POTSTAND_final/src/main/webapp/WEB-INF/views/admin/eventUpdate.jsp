@@ -49,8 +49,8 @@
 							</c:choose>
 							
 						</select>
-							<h2 id="parentEleId">해당 책 : ${str }</h2>
-						<input type="hidden" name="parentValue" id="parentValue" value=""/>
+							해당 책 :<h2 style="margin-left: 117px;" id="parentEleId">${str }</h2>
+						<input type="hidden" name="parentValue" id="parentValue" value="${str }"/>
 					</div>
 				</div>
 			</div>
@@ -148,6 +148,10 @@
         editor.setMarkdown('${e.eventInfo}');
       
       function exgetMarkdown() {
+    	  if($("h2").html()==""){
+    		  alert("책을 다시 입력해주세요");
+    		  return false;
+    	  }
     	  $("#info").val(editor.getMarkdown());
         const text = editor.getMarkdown();
         

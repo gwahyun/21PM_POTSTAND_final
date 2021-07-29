@@ -69,7 +69,7 @@
 			    				B.push($('input[class=check-item]').eq(i).val());
 			    			}   			
 			    		}
-			$("#parentEleId", parent.opener.document).text("해당 책 : "+B);
+			$("#parentEleId", parent.opener.document).text(B);
 			$("#parentValue", parent.opener.document).val(B);
 			window.close();
 		});			

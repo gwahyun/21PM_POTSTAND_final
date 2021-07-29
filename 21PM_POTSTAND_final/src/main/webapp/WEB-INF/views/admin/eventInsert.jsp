@@ -29,7 +29,7 @@
 							<option value="Y">책</option>
 							<option value="N">준비중</option>
 						</select>
-						<h2 id="parentEleId"></h2>
+						해당 책 :<h2 style="margin-left: 117px;" id="parentEleId"></h2>
 						<input type="hidden" name="parentValue" id="parentValue" value=""/>
 					</div>
 				</div>
@@ -147,6 +147,11 @@
         viewer.setMarkdown(editor.getMarkdown());
       }
       function exgetMarkdown() {
+    	  if($("h2").html()==""){
+    		  alert("책을 다시 입력해주세요");
+    		  return false;
+    	  }
+    	  
     	  $("input[name=eventInfo]").val(editor.getMarkdown());
         const text = editor.getMarkdown();
         const hi = $(".hi").val();
