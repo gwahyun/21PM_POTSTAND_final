@@ -184,4 +184,21 @@
 	<delete id="memberHeartDelete">
 		DELETE FROM HEART WHERE MEMBER_ID=#{memberId} AND BOOK_CODE=#{bookCode}
 	</delete>
+	
+	<resultMap type="myreview" id="reviewMap">
+ 		<id column="review_no" property="reviewNo"/>
+ 		<result column="book_code" property="bookCode"/>
+ 		<result column="member_id" property="memberId"/>
+ 		<result column="review_content" property="reviewContent"/>
+ 		<result column="review_date" property="reviewDate"/>
+ 		<association property="book" resultMap="bookMap"/>
+ 	</resultMap>
+ 	
+ 	<select id="memberReviewListCount" resultType="_int">
+		SELECT COUNT(*) FROM REVIEW WHERE MEMBER_ID=#{memberId}
+	</select>
+	
+	<select id="memberReviewListSelect" resultMap="reviewMap">
+		SELECT * FROM REVIEW JOIN BOOK USING(BOOK_CODE) WHERE MEMBER_ID=#{memberId}
+	</select>
 </mapper>

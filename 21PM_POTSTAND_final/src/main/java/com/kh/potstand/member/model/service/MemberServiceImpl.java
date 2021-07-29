@@ -8,9 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.kh.potstand.admin.model.vo.Notice;
 import com.kh.potstand.admin.model.vo.Qna;
+import com.kh.potstand.book.model.vo.Review;
 import com.kh.potstand.member.model.dao.MemberDao;
 import com.kh.potstand.member.model.vo.Address;
 import com.kh.potstand.member.model.vo.Heart;
@@ -204,6 +206,18 @@ public class MemberServiceImpl implements MemberService{
 		return dao.memberHeartDelete(session,param);
 	}
 	
+	//내 리뷰 관리 - 리뷰리스트 총 개수
+	@Override
+	public int memberReviewListCount(Map param) {
+		return dao.memberReviewListCount(session,param);
+	}
+
+	//내 리뷰 관리 - 리뷰리스트
+	@Override
+	public List<Review> memberReviewListSelect(Map param,int cPage, int numPerpage) {
+		return dao.memberReviewListSelect(session,param,cPage,numPerpage);
+	}
+	
 	//notice List 호출 (공지사항 페이지)
 	@Override
 	public List<Notice> noticeSelectList(int cPage, int numPerPage) {
@@ -260,9 +274,6 @@ public class MemberServiceImpl implements MemberService{
 	}
 
 	
-
-	
-
 	
 
 	

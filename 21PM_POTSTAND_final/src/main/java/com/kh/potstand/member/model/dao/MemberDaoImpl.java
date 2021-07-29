@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import com.kh.potstand.admin.model.vo.Notice;
 import com.kh.potstand.admin.model.vo.Qna;
+import com.kh.potstand.book.model.vo.Review;
 import com.kh.potstand.event.model.vo.Coupon;
 import com.kh.potstand.member.model.vo.Address;
 import com.kh.potstand.member.model.vo.Heart;
@@ -138,6 +139,18 @@ public class MemberDaoImpl implements MemberDao{
 		return session.delete("member.memberHeartDelete", param);
 	}
 	
+	//내 리뷰 관리 - 리뷰리스트 총 개수
+	@Override
+	public int memberReviewListCount(SqlSession session, Map param) {
+		return session.selectOne("member.memberReviewListCount", param);
+	}
+	
+	//내 리뷰 관리 - 리뷰리스트
+	@Override
+	public List<Review> memberReviewListSelect(SqlSession session, Map param, int cPage, int numPerpage) {
+		return session.selectList("member.memberReviewListSelect", param, new RowBounds((cPage-1)*numPerpage, numPerpage));
+	}
+	
 	//notice List 호출 (공지사항 페이지)
 	@Override
 	public List<Notice> noticeSelectList(SqlSession session, int cPage, int numPerPage) {
@@ -202,16 +215,6 @@ public class MemberDaoImpl implements MemberDao{
 	
 
 	
-
-	
-
-	
-	
-
-	
-
-	
-
 	
 
 	

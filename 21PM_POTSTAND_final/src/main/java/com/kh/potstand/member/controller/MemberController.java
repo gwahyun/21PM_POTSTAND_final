@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.kh.potstand.book.model.vo.Book;
+import com.kh.potstand.book.model.vo.Review;
 import com.kh.potstand.common.AES256Util;
 import com.kh.potstand.common.PageFactory;
 import com.kh.potstand.member.model.service.MemberService;
@@ -517,5 +517,22 @@ public class MemberController {
 			return 0;
 		}
 		return 1;
+	}
+	
+	//내 리뷰 관리 페이지전환
+	@RequestMapping("/member/memberMyReview.do")
+	public ModelAndView memberMyReview(ModelAndView mv, @RequestParam Map param, 
+			@RequestParam(value ="cPage",defaultValue="1") int cPage,
+			@RequestParam(value="numPerpage",defaultValue="5") int numPerpage) {
+		int totalData=service.memberReviewListCount(param);
+		
+		List<Review> list=service.memberReviewListSelect(param,cPage,numPerpage);
+		
+		mv.addObject("totalData", totalData);
+		mv.addObject("list", list);
+		mv.addObject("pageBar", PageFactory.getPageBar(totalData, cPage, numPerpage,5,"memberMyReview.do",
+				"memberId="+param.get("memberId")));
+		mv.setViewName("member/memberMyReview");
+		return mv;
 	}
 }
