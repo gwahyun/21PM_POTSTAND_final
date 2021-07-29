@@ -49,7 +49,19 @@ public interface MemberService {
 	
 	//찜목록 리스트
 	List<Heart> memberHeartListSelect(String memberId, int cPage, int numPerpage);
-
+	
+	//찜목록 장바구니에 등록되어 있는 책인지 조회
+	Cart memberCartSelect(Map param);
+	
+	//찜목록 장바구니에 있으면 amount +1
+	int memberOverlapCartUpdate(Map param);
+	
+	//찜목록 선택 찜 장바구니로 이동
+	int memberChoiceCartInsert(Map param);
+	
+	//찜목록 지우기
+	int memberHeartDelete(Map param);
+	
 	//notice List 호출 (공지사항 페이지)
 	List<Notice> noticeSelectList(int cPage, int numPerPage);
 	

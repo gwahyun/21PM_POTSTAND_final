@@ -4,6 +4,7 @@ import java.io.UnsupportedEncodingException;
 import java.security.GeneralSecurityException;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -23,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.kh.potstand.book.model.vo.Book;
 import com.kh.potstand.common.AES256Util;
 import com.kh.potstand.common.PageFactory;
 import com.kh.potstand.member.model.service.MemberService;
@@ -30,6 +32,7 @@ import com.kh.potstand.member.model.vo.Address;
 import com.kh.potstand.member.model.vo.Heart;
 import com.kh.potstand.member.model.vo.Member;
 import com.kh.potstand.member.model.vo.Point;
+import com.kh.potstand.order.model.vo.Cart;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -438,14 +441,30 @@ public class MemberController {
 	}
 	
 	//찜목록 - 선택 장바구니에담기
-	@RequestMapping("/member/choiceCartInsert.do")
+	@RequestMapping("/member/memberChoiceCartInsert.do")
 	@ResponseBody
-	public int choiceCartInsert(@RequestParam(value="bookCodeList[]") List<String> bookCodeList, 
-            @RequestParam(value="memberId") String memberId) {
-		log.debug("{}",bookCodeList);
-		log.debug(memberId);
-
-
+	public int memberChoiceCartInsert(@RequestParam(value="bookCodeList[]") List<String> bookCodeList, 
+            @RequestParam(value="memberId") String memberId) {	
+		Map param=new HashMap();
+		try {
+			for(String bc : bookCodeList) {	
+				param.put("memberId", memberId);
+				param.put("bookCode", bc);
+				Cart checkC=service.memberCartSelect(param);
+				//장바구니에 이미 담긴건지 확인
+				if(checkC!=null) { //담겨있는책은 수량을 +1해줌
+					service.memberOverlapCartUpdate(param);
+				}else { //담겨있지 않은 책은 장바구니에 등록
+					service.memberChoiceCartInsert(param);
+				}		
+				//장바구니로 이동한 찜목록 지우기
+				service.memberHeartDelete(param);
+			}
+		}catch(RuntimeException e) {
+			return 0;
+		}
+		
+		
 		return 1;
 	}
 }

@@ -180,6 +180,30 @@ public class MemberServiceImpl implements MemberService{
 		return dao.memberHeartListSelect(session,memberId,cPage,numPerpage);
 	}
 	
+	//찜목록 등록전 장바구니에 등록되어 있는 책인지 조회
+	@Override
+	public Cart memberCartSelect(Map param) {
+		return dao.memberCartSelect(session,param);
+	}
+	
+	//찜목록 장바구니에 있으면 amount +1
+	@Override
+	public int memberOverlapCartUpdate(Map param) {
+		return dao.memberOverlapCartUpdate(session,param);
+	}
+	
+	//찜목록 - 선택 장바구니에담기
+	@Override
+	public int memberChoiceCartInsert(Map param) {
+		return dao.memberChoiceCartInsert(session,param);
+	}
+	
+	//찜목록 지우기
+	@Override
+	public int memberHeartDelete(Map param) {
+		return dao.memberHeartDelete(session,param);
+	}
+	
 	//notice List 호출 (공지사항 페이지)
 	@Override
 	public List<Notice> noticeSelectList(int cPage, int numPerPage) {
@@ -234,6 +258,14 @@ public class MemberServiceImpl implements MemberService{
 	public int cartObjDelete(Map param) {
 		return dao.cartObjDelete(session, param);
 	}
+
+	
+
+	
+
+	
+
+	
 
 
 }

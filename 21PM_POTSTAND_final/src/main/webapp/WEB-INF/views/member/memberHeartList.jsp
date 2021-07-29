@@ -117,37 +117,95 @@
     	  	
     	//선택 장바구니에 담기
     	function fn_heartList_choiceCartInsert(){
-    		//선택 찜 담을 배열
-        	let bookCodeArray=[];
-    		
-    		for(var i=0; i<$('input[name=bookCode]').length; i++){
-    			if($('input[name=bookCode]').eq(i).is(":checked")==true){
-    				bookCodeArray.push($('input[name=bookCode]').eq(i).val());
-    			}    			
-    		}
-    		
-    		var objParams = {
-    				"memberId" : '${loginMember.memberId}', //회원 아이디
-    				"bookCodeList" : bookCodeArray //체크된 북코드
-    		};
-    		
-    		$.ajax({
-    			type:"post",
-				url:"${path}/member/choiceCartInsert.do",
-				dataType:"json",
-				data:objParams,
-				success:data=>{
-					
-				}
-			}); 
+    		//체크박스가 하나라도 체크되어있는지 확인
+    		checkList=document.getElementsByName("bookCode");
+    		flag=false;
+    		for(var i=0; i<checkList.length; i++){
+    			if(checkList[i].checked){
+    				flag=true;
+    			}
+    		} 
+    		if(!flag){ //이동할 책이 없는 경우
+    			alert('이동할 책을 선택하세요.');
+    		}else{
+    			//선택 찜 담을 배열
+            	let bookCodeArray=[];
+        		
+        		for(var i=0; i<$('input[name=bookCode]').length; i++){
+        			if($('input[name=bookCode]').eq(i).is(":checked")==true){
+        				bookCodeArray.push($('input[name=bookCode]').eq(i).val());
+        			}    			
+        		}
+        		
+        		var objParams = {
+        				"memberId" : '${loginMember.memberId}', //회원 아이디
+        				"bookCodeList" : bookCodeArray //체크된 북코드
+        		};
+        		
+        		$.ajax({
+        			type:"post",
+    				url:"${path}/member/memberChoiceCartInsert.do",
+    				dataType:"json",
+    				data:objParams,
+    				success:data=>{
+    					if(data==1){
+    						alert('장바구니로 이동하였습니다.');
+    						location.reload();
+    					}else{
+    						alert('장바구니로 이동하지 못했습니다. 관리자에게 문의하세요.');
+    					}
+    				}
+    			}); 
+    		}		
     	}
     	
     	//선택 장바구니에서 삭제
     	function fn_heartList_choiceHeartDelete(){
+    		//체크박스가 하나라도 체크되어있는지 확인
+    		checkList=document.getElementsByName("bookCode");
+    		flag=false;
+    		for(var i=0; i<checkList.length; i++){
+    			if(checkList[i].checked){
+    				flag=true;
+    			}
+    		} 
     		if(confirm('책을 삭제하시겠습니까?')){
     			alert('삭제');
     			//ajax
     		}
+    		
+    		if(!flag){ //이동할 책이 없는 경우
+    			alert('이동할 책을 선택하세요.');
+    		}else{
+    			//선택 찜 담을 배열
+            	let bookCodeArray=[];
+        		
+        		for(var i=0; i<$('input[name=bookCode]').length; i++){
+        			if($('input[name=bookCode]').eq(i).is(":checked")==true){
+        				bookCodeArray.push($('input[name=bookCode]').eq(i).val());
+        			}    			
+        		}
+        		
+        		var objParams = {
+        				"memberId" : '${loginMember.memberId}', //회원 아이디
+        				"bookCodeList" : bookCodeArray //체크된 북코드
+        		};
+        		
+        		$.ajax({
+        			type:"post",
+    				url:"${path}/member/memberChoiceCartInsert.do",
+    				dataType:"json",
+    				data:objParams,
+    				success:data=>{
+    					if(data==1){
+    						alert('장바구니로 이동하였습니다.');
+    						location.reload();
+    					}else{
+    						alert('장바구니로 이동하지 못했습니다. 관리자에게 문의하세요.');
+    					}
+    				}
+    			}); 
+    		}		
     	}
     	
     </script>
