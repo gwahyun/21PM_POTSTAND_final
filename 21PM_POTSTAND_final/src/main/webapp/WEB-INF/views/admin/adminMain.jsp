@@ -7,6 +7,16 @@
 <jsp:include page="/WEB-INF/views/common/admin/header.jsp"/>
         
         <section>
+        	<%-- <%for(int i=1;i<=19;i++){ %>
+			   <a href="${path }/bookadmin/savebook.kh?start=<%=10*i-9%>&end=<%=10*i%>">책 추가 <%=i%></a>
+			   <br>
+			   <%} %> --%>
+			        	
+        	
+        	
+        	
+        	
+        	
             <div class="admin-home_content_area">
                 <div class="admin-home_content">
                     <div class="admin-content_title">

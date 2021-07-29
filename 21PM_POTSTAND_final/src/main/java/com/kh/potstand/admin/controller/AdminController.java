@@ -4,12 +4,14 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -46,6 +48,9 @@ public class AdminController {
 	//양방향암호화
 	@Autowired
 	private AES256Util aes;
+	
+	@Autowired
+	private SqlSessionTemplate session;
 	
 	@Autowired
 	private AdminService service;
@@ -319,7 +324,8 @@ public class AdminController {
 	
 	@RequestMapping("/admin/eventInsertEnd")
 	public ModelAndView eventInsertEnd(ModelAndView mv,Event e,MultipartFile upFile
-			,HttpServletRequest req) {
+			,HttpServletRequest req
+			,@RequestParam(value="parentValue") String parentValue) {
 		
 		String path = req.getServletContext().getRealPath("/resources/upload/event/");
 		File dir = new File(path); // 폴더
@@ -344,10 +350,18 @@ public class AdminController {
 		String msg="등록성공";
 		try {
 			service.eventInsertEnd(e);
-			
 		}catch(Exception e2) {
 			msg="등록실패";
 			//msg=e.getMessage();
+		}
+		try {
+			String[] strArr = parentValue.split(",");
+			for(int i=0; i<strArr.length; i++) {
+				service.eventBookInsert(strArr[i]);
+			}
+		}catch(Exception e2) {
+			if(msg.equals("등록성공"))
+			msg ="등록에 성공했고 이벤트에 해당하는 책은 없습니다!";
 		}
 		
 		mv.addObject("msg",msg);
@@ -360,6 +374,10 @@ public class AdminController {
 	@RequestMapping("/admin/eventUpdate")
 	public ModelAndView eventUpdate(ModelAndView mv,int no) {
 		Event e = service.eventSelectOne(no);
+		String str ="";
+		List<String> list = service.eventBookList(no);
+		str = String.join(",", list);
+		mv.addObject("str", str);
 		mv.addObject("e", e);
 		mv.setViewName("admin/eventUpdate");
 		return mv;
@@ -378,6 +396,16 @@ public class AdminController {
 		return mv;
 	}
 	
+	
+	@RequestMapping("/admin/eventSelectBook")
+	public ModelAndView eventSelectBook(
+			@RequestParam Map param,
+			ModelAndView mv) {
+		List<Book> list = service.productSelectList(param);
+		mv.addObject("list", list);
+		mv.setViewName("admin/eventSelectBook");
+		return mv;
+	}
 	/*
 	 * @RequestMapping("/admin/eventEnd")
 	 * 
@@ -387,7 +415,8 @@ public class AdminController {
 	
 	@RequestMapping("/admin/eventUpdateEnd")
 	public ModelAndView eventUpdateEnd(Event e,HttpServletRequest req,MultipartFile upFile,String oldFile
-			,ModelAndView mv) {
+			,ModelAndView mv
+			,@RequestParam(value="parentValue") String parentValue) {
 		String path = req.getServletContext().getRealPath("/resources/upload/event/");
 		File dir = new File(path); // 폴더
 		if(!dir.exists()) dir.mkdirs(); //폴더가 존재하지 않으면 폴더 생성
@@ -411,14 +440,31 @@ public class AdminController {
 				
 			}
 		String msg="수정성공";
+		Map<String,Object> param = new HashMap();
+		param.put("eventNo", e.getEventNo());
+		session.delete("admin.eventNoBookDelete", param);
+		
 		try {
-			System.out.println(e.getEventThum());
 			service.eventUpdateEnd(e);
 			
 		}catch(Exception e1) {
 			e1.printStackTrace();
 			msg="수정실패";
 			//msg=e.getMessage();
+		}
+		try {
+			if(parentValue!=null) {
+				String[] strArr = parentValue.split(",");
+				for(int i=0; i<strArr.length; i++) {
+					param.put("string", strArr[i]);
+					service.eventBookUpdate(param);
+				}
+			}else {
+				msg="아무것도 없네용";
+			}
+		}catch(Exception e1) {
+			if(msg.equals("수정성공"))
+			msg="수정엔 성공했고 이벤트에 해당하는 책은 없습니다!";
 		}
 		
 		mv.addObject("msg", msg);

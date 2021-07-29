@@ -308,6 +308,25 @@ public class AdminDaoImpl implements AdminDao {
 		return session.update("admin.stockUpdate", param);
 	}
 
+	@Override
+	public void eventBookInsert(SqlSessionTemplate session, String string) {
+		// TODO Auto-generated method stub
+		session.insert("admin.eventBookInsert", string);
+	}
+
+	@Override
+	public List<String> eventBookList(SqlSessionTemplate session, int no) {
+		// TODO Auto-generated method stub
+		return session.selectList("admin.eventBookList", no);
+	}
+
+	@Override
+	public void eventBookUpdate(SqlSessionTemplate session, Map param) {
+		// TODO Auto-generated method stub
+	
+		session.insert("admin.eventBookUpdate", param);
+	}
+
 	
 
 }
