@@ -1,5 +1,6 @@
 package com.kh.potstand.member.controller;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -8,8 +9,10 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.potstand.admin.model.vo.Qna;
@@ -105,20 +108,63 @@ public class FunctionController {
 		return mv;
 	}
 	
-	//장바구니 이동
+	//장바구니 리스트 호출 / 이동
 	@RequestMapping("/member/cartList.do")
 	public ModelAndView cartSelectList(ModelAndView mv, HttpSession session){
 		try {
 			String memberId =((Member)(session.getAttribute("loginMember"))).getMemberId();
 			List<Cart> cartList = service.cartSelectList(memberId);
-			for(Cart i : cartList)
-			{log.debug(i.getCoupon().toString());}
 			mv.addObject("cartList", cartList);
 			mv.setViewName("cart/cartList");
 		}catch(Exception e) {
 			e.printStackTrace();
-		}finally {
-			return mv;
 		}
+			return mv;
+	}
+	
+	@RequestMapping("/ajax/cartObjDelete.do/{cartNo}")
+	public @ResponseBody int cartObjDelete(ModelAndView mv,@PathVariable int cartNo){
+		int result=0;
+		try {
+			Map param = new HashMap();
+			param.put("cartNo", cartNo);
+			result = service.cartObjDelete(param);
+			mv.setViewName("cart/cartList");
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+			return result;
+	}
+	
+	@RequestMapping("/ajax/cartObjAllDelete.do")
+	public @ResponseBody int cartObjDelete(HttpSession session){
+		String memberId = ((Member)(session.getAttribute("loginMember"))).getMemberId();
+		int result=0;
+		try {
+			Map param = new HashMap();
+			param.put("memberId", memberId);
+			result = service.cartObjDelete(param);
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+			return result;
+	}
+	
+	@RequestMapping("/ajax/cartObjCheckedDelete.do")
+	@ResponseBody
+	public int cartObjCheckedDelete(@RequestBody Map<String, Object> param){
+		System.out.println(param);
+		System.out.println(param.get("arr"));
+		int result=0;
+//		try {
+//			Map param = new HashMap();
+//			param.put("memberId", memberId);
+//			result = service.cartObjDelete(param);
+//			
+//		}catch(Exception e) {
+//			e.printStackTrace();
+//		}
+			return result;
 	}
 }

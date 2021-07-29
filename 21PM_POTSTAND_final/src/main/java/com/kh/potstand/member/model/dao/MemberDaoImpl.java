@@ -169,6 +169,11 @@ public class MemberDaoImpl implements MemberDao{
 		return session.selectList("function.cartSelectListJoinEventList", memberId);  
 	}
 
+	@Override
+	public int cartObjDelete(SqlSession session, Map param) {
+		log.debug("cartObjDelete cartNo");
+		return session.delete("function.cartObjDelete", param);
+	}
 	
 
 	
