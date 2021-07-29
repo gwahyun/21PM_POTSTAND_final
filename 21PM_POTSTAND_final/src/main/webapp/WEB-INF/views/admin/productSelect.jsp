@@ -113,7 +113,7 @@
 								<tr>
 									<td style="	text-align: center;"><fmt:formatNumber value="${l.bookCode }" ></fmt:formatNumber></td>
 									<td><a href="#">${l.bookTitle }</a></td>
-									<td><a href="#">${l.sortNo }</a></td>
+									<td><a href="#">카테고리 넣을것</a></td>
 									<td>${l.bookWriter }</td>
 									<td>${l.bookPub }</td>
 									<td style="	text-align: center;">${l.bookCost }</td>

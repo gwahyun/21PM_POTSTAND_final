@@ -110,6 +110,12 @@ public interface AdminService {
 
 	int qnaReplyUpdateEnd(Map param);
 
+	void eventBookInsert(String string);
+
+	List<String> eventBookList(int no);
+
+	void eventBookUpdate(Map param);
+
 
 
 
