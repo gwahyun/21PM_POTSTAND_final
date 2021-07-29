@@ -17,4 +17,6 @@ public class Event {
 	private Date eventEnd;
 	private String endCheck;
 	private String eventThum;
+	private String type;
+	private double discount;
 }

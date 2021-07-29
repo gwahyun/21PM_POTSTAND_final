@@ -11,7 +11,10 @@
 		<result column="event_end" property="eventEnd"/>
 		<result column="end_check" property="endCheck"/>
 		<result column="event_thum" property="eventThum"/>
+		<result column="type" property="type"/>
+		<result column="discount" property="discount"/>
 	</resultMap>
+	
 	<resultMap type="coupon" id="couponMap">
 		<id column="COUPON_NO" property="couponNo"/>
 		<result column="MEMBER_ID" property="memberId"/>
@@ -29,9 +32,9 @@
 		SELECT * FROM EVENT
 	</select>
 	<select id="selectEventPost" resultMap="eventMap">
-		select * from event where event_no = #{no}
+		select * from event where event_no = #{"no"}
 	</select>
 	<insert id="insertCoupon">
-		insert into coupon values(seq_coupon.nextval, )
+		insert into coupon values(seq_coupon.nextval, #{map.put("memeberId")}, #{event.startDate}, #{event.valDate}, null, default, #{event.eventNo},1}
 	</insert>
 </mapper>

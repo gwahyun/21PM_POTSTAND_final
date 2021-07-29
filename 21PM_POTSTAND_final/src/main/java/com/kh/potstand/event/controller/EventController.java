@@ -43,7 +43,12 @@ public class EventController {
 		map.put("memberId", memberId);
 		map.put("no", no);
 		
-		service.insertCoupon(map);
-		return "";
+		int result = service.insertCoupon(map);
+		
+		if(result>0) m.addAttribute("msg","쿠폰이 발급되었습니다");
+		else m.addAttribute("msg", "쿠폰 발급에 실패하였습니다");
+		
+		m.addAttribute("loc","event/eventPost.do?no="+no);
+		return "common/msg";
 	}
 }
