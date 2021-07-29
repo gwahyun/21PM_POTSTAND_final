@@ -1,14 +1,16 @@
 package com.kh.potstand.book.model.vo;
 
-import java.sql.Date;
+import java.util.Date;
 
 import org.apache.ibatis.type.Alias;
 
 import com.kh.potstand.event.model.vo.Event;
 
 import lombok.Data;
+import lombok.ToString;
 
 @Data
+@ToString
 public class Book {
 	private int bookCode;
 	private Sort sort;

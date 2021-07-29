@@ -154,4 +154,11 @@
 	<insert id="insertSort">
 		INSERT INTO SORT VALUES(#{sortNo}, #{lv1}, #{lv2}, #{lv3}, #{lv4})
 	</insert>
+	
+	<select id="selectSortAll" resultMap="sortMap">
+		select * from sort
+	</select>
+	<insert id="insertBook" parameterType="book">
+		insert into book values(seq_book.nextval, #{sort.sortNo}, #{bookTitle}, #{bookWriter}, #{bookPub}, #{bookCost}, null , #{bookCover}, #{bookDate}, null, #{bookLink}, null, null, null, null, null, null, null)
+	</insert>
 </mapper>
