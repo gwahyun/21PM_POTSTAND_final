@@ -34,72 +34,40 @@
         	</div>
         	<div class="w-3/4 h-full px-5 py-8 flex flex-col content-center">
         		<div class="w-full">
-        			<h3 class="text-2xl font-semibold">찜 목록</h3>
+        			<h3 class="text-2xl font-semibold">내 리뷰 관리</h3>
         		</div>
-        		<div class="flex w-full flex-col justify-center mt-5 border" >
-        			<div class="flex">
-        				<div class="w-3/12 h-11 pl-3 p-2 bg-red-100 flex">
-        					<label class="text-lg"><input type="checkbox" class="w-10" id="selectAll"/>전체 선택</label>
-	        			</div>
-	        			<div class="w-5/12 h-11 p-2 bg-red-100 flex justify-center">
-	        			</div>
-	        			<div class="w-4/12 h-11 p-2 bg-red-100 flex justify-end">
-	        				<div class="pr-2">
-		        				<button class="border bg-red-500 text-gray-100 rounded-full tracking-wide font-semibold 
-		        				focus:outline-none focus:shadow-outline hover:bg-red-600 shadow-lg cursor-pointer 
-		        				transition ease-in duration-300 w-48 h-full" type="button"
-		        				onclick="fn_heartList_choiceCartInsert();">
-		        					선택 장바구니에 담기
-		        				</button>
-	        				</div>
-	        				<div>
-		        				<button class="border bg-red-500 text-gray-100 rounded-full tracking-wide font-semibold 
-			        			focus:outline-none focus:shadow-outline hover:bg-red-600 shadow-lg cursor-pointer 
-			        			transition ease-in duration-300 w-24 h-full" type="button"
-			        			onclick="fn_heartList_choiceHeartDelete();">
-			        				선택 삭제
-			        			</button>
-		        			</div>
-	        			</div>
+        		<div class="flex w-full flex-col justify-center mt-5" >
+        			<div class="flex justify-end">
+        				<h4 class="text-xl font-semibold">총 ${totalData }개의 리뷰를 등록했습니다.</h4>
         			</div>
         			<form action="" method="post">
-        			<c:forEach var="h" items="${list }">
-	        			<div class="flex">
-	        				<div class="w-3/12 border-t-2 h-52 p-2 flex">
-	        					<div class="p-1 flex flex-col justify-center">
-	        						<input type="hidden" value="${loginMember.memberId }"/>
-        							<input type="checkbox" class="w-10" name="bookCode" value="${h.book.bookCode}"/>
+        			<c:forEach var="r" items="${list }">
+	        			<div class="flex mx-8">
+	        				<div class="w-4/5 border-t-2 h-52 p-2 flex flex-col">
+	        					<div class="flex flex-col justify-center h-1/4">
+	        						<h3 class="text-xl font-medium">${r.book.bookTitle }</h3>
 	        					</div>
-	        					<div class="w-full flex flex-col justify-center">
-	        						<c:if test="${h.book.bookCover == null}">
-	        							<img src="${path}/resources/img/noImg.jpg" alt="" class="w-40 h-48">
-	        						</c:if>
-	        						<c:if test="${h.book.bookCover != null}">
-	        							<img src="${h.book.bookCover }" alt="" class="w-40 h-48">
-	        						</c:if>
-	        					</div>      					
+	        					<div class="h-1/4">
+	        						별점<img src="" alt="" class="">
+	        					</div>   
+	        					<div class="h-2/4">
+	        						<h4>${r.reviewContent }</h4>
+	        					</div>   					
 		        			</div>
-		        			<div class="w-5/12 border-t-2 h-52 p-2 flex-col content-between">
-		        				<div class="h-1/3">
-		        					<h3 class="text-2xl font-bold pb-4 pt-4">${h.book.bookTitle }</h3>
-		        					<h4 class="text-xl font-semibold">${h.book.bookWriter }</h4>
-		        				</div>
-		        				<div class="h-2/3 flex items-end pb-8">
+		        			<div class="w-1/5 flex justify-center border-t-2 h-52 p-2 ">
+		        				<div class="h-full flex items-center">
 		        					<button class="border bg-red-500 text-gray-100 rounded-full tracking-wide font-semibold 
 				        			focus:outline-none focus:shadow-outline hover:bg-red-600 shadow-lg cursor-pointer 
-				        			transition ease-in duration-300 w-36 h-8" type="button"
-				        			onclick="fn_heartList_cartInsert(event);">장바구니에 담기</button>
-				        			<button class="border bg-red-500 text-gray-100 rounded-full tracking-wide font-semibold 
-				        			focus:outline-none focus:shadow-outline hover:bg-red-600 shadow-lg cursor-pointer 
 				        			transition ease-in duration-300 w-20 h-8" type="button"
-				        			onclick="fn_heartList_cartDelete(event);">삭제</button>
+				        			onclick="fn_myReview_reviewUpdate(event);">수정</button>
+				        			<button class="border bg-white text-black rounded-full tracking-wide font-semibold 
+				        			focus:outline-none focus:shadow-outline hover:bg-red-600 shadow-lg cursor-pointer 
+				        			transition ease-in duration-300 hover:text-gray-100 w-20 h-8" type="button"
+				        			onclick="fn_myReview_reviewDelete(event);">삭제</button>
 		        				</div>		
 		        			</div>
-		        			<div class="w-4/12 border-t-2 h-52 p-2 flex flex-col justify-center text-right pr-8">
-		        				<h3 class="text-2xl"><fmt:formatNumber value="${h.book.bookCost }" type="currency"/></h3>
-		        			</div>
 	        			</div>
-        			</c:forEach>  
+        			 </c:forEach>
         			</form>
         		</div>
         		<div class="pageBar flex my-5">${pageBar}</div>

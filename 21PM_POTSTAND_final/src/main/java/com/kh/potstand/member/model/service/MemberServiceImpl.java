@@ -8,9 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.kh.potstand.admin.model.vo.Notice;
 import com.kh.potstand.admin.model.vo.Qna;
+import com.kh.potstand.book.model.vo.Review;
 import com.kh.potstand.member.model.dao.MemberDao;
 import com.kh.potstand.member.model.vo.Address;
 import com.kh.potstand.member.model.vo.Heart;
@@ -180,6 +182,42 @@ public class MemberServiceImpl implements MemberService{
 		return dao.memberHeartListSelect(session,memberId,cPage,numPerpage);
 	}
 	
+	//찜목록 등록전 장바구니에 등록되어 있는 책인지 조회
+	@Override
+	public Cart memberCartSelect(Map param) {
+		return dao.memberCartSelect(session,param);
+	}
+	
+	//찜목록 장바구니에 있으면 amount +1
+	@Override
+	public int memberOverlapCartUpdate(Map param) {
+		return dao.memberOverlapCartUpdate(session,param);
+	}
+	
+	//찜목록 - 선택 장바구니에담기
+	@Override
+	public int memberChoiceCartInsert(Map param) {
+		return dao.memberChoiceCartInsert(session,param);
+	}
+	
+	//찜목록 지우기
+	@Override
+	public int memberHeartDelete(Map param) {
+		return dao.memberHeartDelete(session,param);
+	}
+	
+	//내 리뷰 관리 - 리뷰리스트 총 개수
+	@Override
+	public int memberReviewListCount(Map param) {
+		return dao.memberReviewListCount(session,param);
+	}
+
+	//내 리뷰 관리 - 리뷰리스트
+	@Override
+	public List<Review> memberReviewListSelect(Map param,int cPage, int numPerpage) {
+		return dao.memberReviewListSelect(session,param,cPage,numPerpage);
+	}
+	
 	//notice List 호출 (공지사항 페이지)
 	@Override
 	public List<Notice> noticeSelectList(int cPage, int numPerPage) {
@@ -247,12 +285,14 @@ public class MemberServiceImpl implements MemberService{
 		return dao.cartBookAmountUpdate(session, param);
 	}
 
+
 	@Override
 	public int cartCouponUpdate(Map param) {
 		return dao.cartCouponUpdate(session, param);
 	}
 	
 	
+
 
 	
 }

@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.kh.potstand.admin.model.vo.Notice;
 import com.kh.potstand.admin.model.vo.Qna;
+import com.kh.potstand.book.model.vo.Review;
 import com.kh.potstand.member.model.vo.Address;
 import com.kh.potstand.member.model.vo.Heart;
 import com.kh.potstand.member.model.vo.Member;
@@ -60,6 +61,24 @@ public interface MemberDao {
 	
 	//찜목록 리스트
 	List<Heart> memberHeartListSelect(SqlSession session, String memberId, int cPage, int numPerpage);
+	
+	//찜목록 등록전 장바구니에 등록되어 있는 책인지 조회
+	Cart memberCartSelect(SqlSession session, Map param);
+	
+	//찜목록 장바구니에 있으면 amount +1
+	int memberOverlapCartUpdate(SqlSession session,Map param);
+	
+	//찜목록 - 선택 장바구니에담기
+	int memberChoiceCartInsert(SqlSession session,Map param);
+	
+	//찜목록 지우기
+	int memberHeartDelete(SqlSession session,Map param);
+	
+	//내 리뷰 관리 - 리뷰리스트 총 개수
+	int memberReviewListCount(SqlSession session,Map param);
+		
+	//내 리뷰 관리 - 리뷰리스트
+	List<Review> memberReviewListSelect(SqlSession session,Map param,int cPage,int numPerpage);
 	
 	//notice List 호출 (공지사항 페이지)
 	List<Notice> noticeSelectList(SqlSession session, int cPage, int numPerPage);

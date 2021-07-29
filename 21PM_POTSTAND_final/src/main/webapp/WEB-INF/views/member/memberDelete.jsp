@@ -14,8 +14,8 @@
 			                <li class="py-2"><a href="${path}/notice/noticeSelectList.do">고객센터</a></li>
 			                <li class="py-2"><a href="${path}/member/memberCheckPwd.do">정보변경</a></li>
 			                <li class="py-2"><a href="#">장바구니</a></li>
-			                <li class="py-2"><a href="#">찜 목록</a></li>
-			                <li class="py-2"><a href="#">내 리뷰 관리</a></li>
+			                <li class="py-2"><a href="${path}/member/memberHeartList.do?memberId=${loginMember.memberId}">찜 목록</a></li>
+			                <li class="py-2"><a href="${path }//member/memberMyReview.do?memberId=${loginMember.memberId}">내 리뷰 관리</a></li>
 			            </ul>
 	            	</div>
 	            </div>
@@ -25,7 +25,7 @@
 	            		<ul>
 			                <li class="py-2"><a href="#">주문목록/배송조회</a></li>
 			                <li class="py-2"><a href="#">쿠폰</a></li>
-			                <li class="py-2"><a href="#">적립금</a></li>
+			                <li class="py-2"><a href="${path}/member/memberPoint.do?memberId=${loginMember.memberId}">적립금</a></li>
 			            </ul>
 	            	</div>
 	            </div>

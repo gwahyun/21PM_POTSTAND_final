@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import com.kh.potstand.admin.model.vo.Notice;
 import com.kh.potstand.admin.model.vo.Qna;
+import com.kh.potstand.book.model.vo.Review;
 import com.kh.potstand.event.model.vo.Coupon;
 import com.kh.potstand.member.model.vo.Address;
 import com.kh.potstand.member.model.vo.Heart;
@@ -114,6 +115,42 @@ public class MemberDaoImpl implements MemberDao{
 		return session.selectList("member.memberHeartListSelect",memberId, new RowBounds((cPage-1)*numPerpage, numPerpage));
 	}
 	
+	//찜목록 등록전 장바구니에 등록되어 있는 책인지 조회
+	@Override
+	public Cart memberCartSelect(SqlSession session, Map param) {
+		return session.selectOne("member.memberCartSelect",param);
+	}
+	
+	//찜목록 장바구니에 있으면 amount +1
+	@Override
+	public int memberOverlapCartUpdate(SqlSession session, Map param) {
+		return session.update("member.memberOverlapCartUpdate", param);
+	}
+	
+	//찜목록 - 선택 장바구니에담기
+	@Override
+	public int memberChoiceCartInsert(SqlSession session, Map param) {
+		return session.insert("member.memberChoiceCartInsert", param);
+	}
+	
+	//찜목록 지우기
+	@Override
+	public int memberHeartDelete(SqlSession session, Map param) {
+		return session.delete("member.memberHeartDelete", param);
+	}
+	
+	//내 리뷰 관리 - 리뷰리스트 총 개수
+	@Override
+	public int memberReviewListCount(SqlSession session, Map param) {
+		return session.selectOne("member.memberReviewListCount", param);
+	}
+	
+	//내 리뷰 관리 - 리뷰리스트
+	@Override
+	public List<Review> memberReviewListSelect(SqlSession session, Map param, int cPage, int numPerpage) {
+		return session.selectList("member.memberReviewListSelect", param, new RowBounds((cPage-1)*numPerpage, numPerpage));
+	}
+	
 	//notice List 호출 (공지사항 페이지)
 	@Override
 	public List<Notice> noticeSelectList(SqlSession session, int cPage, int numPerPage) {
@@ -201,7 +238,6 @@ public class MemberDaoImpl implements MemberDao{
 	
 
 	
-
 	
 
 	
