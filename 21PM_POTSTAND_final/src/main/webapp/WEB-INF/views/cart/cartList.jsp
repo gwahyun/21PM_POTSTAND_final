@@ -264,17 +264,19 @@
 				arr.push($(v).siblings(".obj-info").children("input[name='cartNo']").attr("value"));
 			}
 		});
-		let param={
+			
+		let params={
 				"arr":arr
-		}
+		}		
+
 		$.ajax({
 			url:'${path}/ajax/cartObjCheckedDelete.do',
 			type:'post',
-			data:param,
+			data:params,
 			dataType:'json',
-			contentType :'application/json',
 			success:function(data){
 				if(data.result!=0){
+					alert(arr.length+"개 항목 삭제");
 					document.location.reload(true);
 				}
 			}

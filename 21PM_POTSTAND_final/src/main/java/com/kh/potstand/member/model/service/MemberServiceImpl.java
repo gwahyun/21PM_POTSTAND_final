@@ -235,5 +235,10 @@ public class MemberServiceImpl implements MemberService{
 		return dao.cartObjDelete(session, param);
 	}
 
+	@Override
+	public int cartObjDelete(List<String> param) {
+		return dao.cartObjDelete(session, param);
+	}
 
+	
 }

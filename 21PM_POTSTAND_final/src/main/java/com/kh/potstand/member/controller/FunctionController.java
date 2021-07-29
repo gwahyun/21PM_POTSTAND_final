@@ -153,18 +153,13 @@ public class FunctionController {
 	
 	@RequestMapping("/ajax/cartObjCheckedDelete.do")
 	@ResponseBody
-	public int cartObjCheckedDelete(@RequestBody Map<String, Object> param){
-		System.out.println(param);
-		System.out.println(param.get("arr"));
+	public int cartObjCheckedDelete(@RequestParam (value="arr[]") List<String> param){
 		int result=0;
-//		try {
-//			Map param = new HashMap();
-//			param.put("memberId", memberId);
-//			result = service.cartObjDelete(param);
-//			
-//		}catch(Exception e) {
-//			e.printStackTrace();
-//		}
+		try {
+			result = service.cartObjDelete(param);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
 			return result;
 	}
 }
