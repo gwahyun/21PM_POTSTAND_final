@@ -7,12 +7,18 @@
  	<!-- 회원관리  -->
  	<select id="memberSelectCount" resultType="int">
  		select count(*) from member where member_sort = 'N'
+ 		<if test="searchType != null and searchKeyword != null and searchKeyword != ''">
+ 			and ${searchType} like '%'||#{searchKeyword}||'%' 
+ 		</if>
  	</select>
  
  	<select id="memberSelect" resultMap="memberMap">
  		select * from member m
 		    join address a on m.member_id = a.member_id 
 		    where member_sort = 'N' 
+		    <if test="searchType != null and searchKeyword != null and searchKeyword != ''">
+ 				and m.${searchType} like '%'||#{searchKeyword}||'%' 
+ 			</if>
             order by m.enroll_date desc
  	</select>
  	
@@ -437,19 +443,16 @@
  	<!-- 재고관리 -->
  	<select id="stockManagerListCount" resultType="int">
  		select count(*) from book
- 		<if test="type != null and type != ''">
- 			where book_code = #{type}
- 		</if>
- 		<if test="typeString != null and typeString != ''">
- 			where book_title like '%'||#{typeString}||'%'
- 		</if>
+ 			<if test="searchType != null and searchKeyword != '' and searchKeyword != null">
+   					where ${searchType} like '%'||#{searchKeyword}||'%'
+   				</if>
  	</select>
  	
  	<select id="stockManagerList" resultMap="bookMap">
  		select * from book
- 		<if test="type != null and type != ''">
- 			where book_code = #{type}
- 		</if>
+ 			<if test="searchType != null and searchKeyword != '' and searchKeyword != null">
+   					where ${searchType} like '%'||#{searchKeyword}||'%'
+   				</if>
  	</select>
  	
  	<update id="stockUpdate">
@@ -471,35 +474,35 @@
  	<select id="requestSelectListCount" resultType="int">
  		select count(*) from request r
     	join book b on r.book_code = b.book_code
-    	<if test="type != null and type != ''">
-   			where b.book_code = #{type}
+    	<if test="searchType != null and searchKeyword != '' and searchKeyword != null">
+   			where ${searchType} like '%'||#{searchKeyword}||'%'
    		</if>
  	</select>
  	
  	<select id="requestSelectList" resultMap="requestMap">
  		select * from request r
     	join book b on r.book_code = b.book_code
-    		<if test="type != null and type != ''">
-	    		where b.book_code = #{type}
-	    	</if>
+    		<if test="searchType != null and searchKeyword != '' and searchKeyword != null">
+   			where ${searchType} like '%'||#{searchKeyword}||'%'
+   		</if>
  	</select>
  	
  	<select id="requestSelectNoCount" resultType="int">
  		select count(*) from request r
     	join book b on r.book_code = b.book_code
     		where status = 'N'
-    		<if test="type != null and type != ''">
-	    		and b.book_code = #{type}
-	    	</if>
+    			<if test="searchType != null and searchKeyword != '' and searchKeyword != null">
+   					and ${searchType} like '%'||#{searchKeyword}||'%'
+   				</if>
  	</select>
  	
 	<select id="requestSelectNo" resultMap="requestMap">
  		select * from request r
     	join book b on r.book_code = b.book_code
     		where status = 'N'
-    		<if test="type != null and type != ''">
-	    		and b.book_code = #{type}
-	    	</if>
+    			<if test="searchType != null and searchKeyword != '' and  searchKeyword != null">
+   					and ${searchType} like '%'||#{searchKeyword}||'%'
+   				</if>
  	</select>
  	
  	

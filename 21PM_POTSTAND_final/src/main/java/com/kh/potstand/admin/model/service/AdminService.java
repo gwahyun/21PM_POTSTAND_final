@@ -17,9 +17,9 @@ import com.kh.potstand.member.model.vo.Member;
 
 public interface AdminService {
 
-	List<Member> memberSelect(int cPage, int numPerpage);
+	List<Member> memberSelect(int cPage, int numPerpage, Map param);
 
-	int memberSelectCount();
+	int memberSelectCount(Map param);
 
 	int memberDelete(String memberId);
 
@@ -95,13 +95,13 @@ public interface AdminService {
 
 	int productSelectListCount(Map param);
 
-	int requestSelectCount(String type);
+	int requestSelectCount(Map param);
 
-	List<Request> requestSelect(int cPage, int numPerpage, String type);
+	List<Request> requestSelect(int cPage, int numPerpage, Map param);
 
-	int stockManagerCount(String type);
+	int stockManagerCount(Map param);
 
-	List<Book> stockManagerList(int cPage, int numPerpage, String type);
+	List<Book> stockManagerList(int cPage, int numPerpage, Map param);
 
 	int stockUpdate(Map param);
 
@@ -119,9 +119,9 @@ public interface AdminService {
 
 	List<Book> productSelectList(Map param);
 
-	int requestSelectNoCount(String type);
+	int requestSelectNoCount(Map param);
 
-	List<Request> requestSelectNo(int cPage, int numPerpage, String type);
+	List<Request> requestSelectNo(int cPage, int numPerpage, Map param);
 
 	Sort bookGenreSelectOne(String bookGenre);
 

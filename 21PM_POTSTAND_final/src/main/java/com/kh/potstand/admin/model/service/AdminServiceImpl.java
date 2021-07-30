@@ -32,13 +32,13 @@ public class AdminServiceImpl implements AdminService {
 	private SqlSessionTemplate session;
 	
 	@Override
-	public List<Member> memberSelect(int cPage,int numPerpage) {
-		return dao.memberSelect(session,cPage,numPerpage);
+	public List<Member> memberSelect(int cPage,int numPerpage,Map param) {
+		return dao.memberSelect(session,cPage,numPerpage,param);
 	}
 
 	@Override
-	public int memberSelectCount() {
-		return dao.memeberSelectCount(session);
+	public int memberSelectCount(Map param) {
+		return dao.memeberSelectCount(session,param);
 	}
 
 	@Override
@@ -271,27 +271,27 @@ public class AdminServiceImpl implements AdminService {
 	}
 
 	@Override
-	public int requestSelectCount(String type) {
+	public int requestSelectCount(Map param) {
 		// TODO Auto-generated method stub
-		return dao.requestSelectListCount(session,type);
+		return dao.requestSelectListCount(session,param);
 	}
 
 	@Override
-	public List<Request> requestSelect(int cPage, int numPerpage,String type) {
+	public List<Request> requestSelect(int cPage, int numPerpage,Map param) {
 		// TODO Auto-generated method stub
-		return dao.requestSelectList(session,cPage,numPerpage,type);
+		return dao.requestSelectList(session,cPage,numPerpage,param);
 	}
 
 	@Override
-	public int stockManagerCount(String type) {
+	public int stockManagerCount(Map param) {
 		// TODO Auto-generated method stub
-		return dao.stockManagerCount(session,type);
+		return dao.stockManagerCount(session,param);
 	}
 
 	@Override
-	public List<Book> stockManagerList(int cPage, int numPerpage,String type) {
+	public List<Book> stockManagerList(int cPage, int numPerpage,Map param) {
 		// TODO Auto-generated method stub
-		return dao.stockManagerList(session,cPage,numPerpage,type);
+		return dao.stockManagerList(session,cPage,numPerpage,param);
 	}
 
 	@Override
@@ -332,15 +332,15 @@ public class AdminServiceImpl implements AdminService {
 	}
 
 	@Override
-	public int requestSelectNoCount(String type) {
+	public int requestSelectNoCount(Map param) {
 		// TODO Auto-generated method stub
-		return dao.requestSelectNoCount(session,type);
+		return dao.requestSelectNoCount(session,param);
 	}
 
 	@Override
-	public List<Request> requestSelectNo(int cPage, int numPerpage, String type) {
+	public List<Request> requestSelectNo(int cPage, int numPerpage, Map param) {
 		// TODO Auto-generated method stub
-		return dao.requestSelectNo(session,cPage,numPerpage,type);
+		return dao.requestSelectNo(session,cPage,numPerpage,param);
 	}
 
 	@Override

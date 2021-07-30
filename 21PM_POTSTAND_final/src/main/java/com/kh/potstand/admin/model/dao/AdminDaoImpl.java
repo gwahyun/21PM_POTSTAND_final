@@ -24,14 +24,14 @@ import com.kh.potstand.member.model.vo.Member;
 public class AdminDaoImpl implements AdminDao {
 
 	@Override
-	public List<Member> memberSelect(SqlSessionTemplate session,int cPage,int numPerpage) {
-		return session.selectList("admin.memberSelect",null,new RowBounds((cPage-1)*numPerpage, numPerpage));
+	public List<Member> memberSelect(SqlSessionTemplate session,int cPage,int numPerpage,Map param) {
+		return session.selectList("admin.memberSelect",param,new RowBounds((cPage-1)*numPerpage, numPerpage));
 	}
 
 	@Override
-	public int memeberSelectCount(SqlSessionTemplate session) {
+	public int memeberSelectCount(SqlSessionTemplate session,Map param) {
 		// TODO Auto-generated method stub
-		return session.selectOne("admin.memberSelectCount");
+		return session.selectOne("admin.memberSelectCount",param);
 	}
 
 	@Override
@@ -273,19 +273,15 @@ public class AdminDaoImpl implements AdminDao {
 	}
 
 	@Override
-	public int requestSelectListCount(SqlSessionTemplate session,String type) {
+	public int requestSelectListCount(SqlSessionTemplate session,Map param) {
 		// TODO Auto-generated method stub
-		Map<String,Object> map = new HashMap();
-		map.put("type", type);
-		return session.selectOne("admin.requestSelectListCount",map);
+		return session.selectOne("admin.requestSelectListCount",param);
 	}
 
 	@Override
-	public List<Request> requestSelectList(SqlSessionTemplate session,int cPage, int numPerpage,String type) {
+	public List<Request> requestSelectList(SqlSessionTemplate session,int cPage, int numPerpage,Map param) {
 		// TODO Auto-generated method stub
-		Map<String,Object> map = new HashMap();
-		map.put("type", type);
-		return session.selectList("admin.requestSelectList", map, new RowBounds((cPage-1)*numPerpage, numPerpage));
+		return session.selectList("admin.requestSelectList", param, new RowBounds((cPage-1)*numPerpage, numPerpage));
 	}
 
 	@Override
@@ -296,19 +292,15 @@ public class AdminDaoImpl implements AdminDao {
 	}
 	
 	@Override
-	public int stockManagerCount(SqlSessionTemplate session,String type) {
+	public int stockManagerCount(SqlSessionTemplate session,Map param) {
 		// TODO Auto-generated method stub
-		Map<String,Object> map = new HashMap();
-		map.put("type", type);
-		return session.selectOne("admin.stockManagerListCount",map);
+		return session.selectOne("admin.stockManagerListCount",param);
 	}
 
 	@Override
-	public List<Book> stockManagerList(SqlSessionTemplate session, int cPage, int numPerpage,String type) {
+	public List<Book> stockManagerList(SqlSessionTemplate session, int cPage, int numPerpage,Map param) {
 		// TODO Auto-generated method stub
-		Map<String,Object> map = new HashMap();
-			map.put("type", type);
-		return session.selectList("admin.stockManagerList", map, new RowBounds((cPage-1)*numPerpage, numPerpage));
+		return session.selectList("admin.stockManagerList", param, new RowBounds((cPage-1)*numPerpage, numPerpage));
 	}
 
 	@Override
@@ -344,19 +336,15 @@ public class AdminDaoImpl implements AdminDao {
 	}
 
 	@Override
-	public int requestSelectNoCount(SqlSessionTemplate session, String type) {
+	public int requestSelectNoCount(SqlSessionTemplate session, Map param) {
 		// TODO Auto-generated method stub
-		Map<String,Object> map = new HashMap();
-		map.put("type", type);
-		return session.selectOne("admin.requestSelectNoCount", map);
+		return session.selectOne("admin.requestSelectNoCount", param);
 	}
 
 	@Override
-	public List<Request> requestSelectNo(SqlSessionTemplate session, int cPage, int numPerpage, String type) {
+	public List<Request> requestSelectNo(SqlSessionTemplate session, int cPage, int numPerpage, Map param) {
 		// TODO Auto-generated method stub
-		Map<String,Object> map = new HashMap();
-		map.put("type", type);
-		return session.selectList("admin.requestSelectNo", map, new RowBounds((cPage-1)*numPerpage, numPerpage));
+		return session.selectList("admin.requestSelectNo", param, new RowBounds((cPage-1)*numPerpage, numPerpage));
 	}
 
 	@Override

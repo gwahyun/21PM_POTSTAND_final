@@ -19,9 +19,9 @@ import com.kh.potstand.member.model.vo.Member;
 
 public interface AdminDao {
 
-	List<Member> memberSelect(SqlSessionTemplate session, int cPage, int numPerpage);
+	List<Member> memberSelect(SqlSessionTemplate session, int cPage, int numPerpage, Map param);
 
-	int memeberSelectCount(SqlSessionTemplate session);
+	int memeberSelectCount(SqlSessionTemplate session, Map param);
 
 	int memberDelete(SqlSessionTemplate session, String memberId);
 
@@ -97,13 +97,13 @@ public interface AdminDao {
 
 	int productSelectListCount(SqlSessionTemplate session, Map param);
 
-	int requestSelectListCount(SqlSessionTemplate session, String type);
+	int requestSelectListCount(SqlSessionTemplate session, Map param);
 
-	List<Request> requestSelectList(SqlSessionTemplate session,int cPage, int numPerpage, String type);
+	List<Request> requestSelectList(SqlSessionTemplate session,int cPage, int numPerpage, Map param);
 
-	int stockManagerCount(SqlSessionTemplate session, String type);
+	int stockManagerCount(SqlSessionTemplate session, Map param);
 
-	List<Book> stockManagerList(SqlSessionTemplate session, int cPage, int numPerpage, String type);
+	List<Book> stockManagerList(SqlSessionTemplate session, int cPage, int numPerpage, Map param);
 
 	int stockUpdate(SqlSessionTemplate session, Map param);
 
@@ -121,9 +121,9 @@ public interface AdminDao {
 
 	List<Book> productSelectList(SqlSessionTemplate session, Map param);
 
-	int requestSelectNoCount(SqlSessionTemplate session, String type);
+	int requestSelectNoCount(SqlSessionTemplate session, Map param);
 
-	List<Request> requestSelectNo(SqlSessionTemplate session, int cPage, int numPerpage, String type);
+	List<Request> requestSelectNo(SqlSessionTemplate session, int cPage, int numPerpage, Map param);
 
 	Sort bookGenreSelectOne(SqlSessionTemplate session, String bookGenre);
 

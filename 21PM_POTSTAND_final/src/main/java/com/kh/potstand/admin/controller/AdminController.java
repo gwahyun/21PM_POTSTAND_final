@@ -535,12 +535,13 @@ public class AdminController {
 	
 	@RequestMapping("/admin/memberSelect")
 	public ModelAndView memberSelect(
+			@RequestParam Map param,
 			@RequestParam(value ="cPage",defaultValue="1") int cPage,
-			@RequestParam(value="numPerpage",defaultValue="10") int numPerpage,
+			@RequestParam(value="numPerpage",defaultValue="30") int numPerpage,
 			ModelAndView mv) {
-		int totalData = service.memberSelectCount();
+		int totalData = service.memberSelectCount(param);
 		mv.addObject("pageBar", PageFactory.getPageBar(totalData, cPage, numPerpage,5,"memberSelect"));
-		List<Member> list = service.memberSelect(cPage,numPerpage);
+		List<Member> list = service.memberSelect(cPage,numPerpage,param);
 		
 		for(Member m : list) {
 			try {
@@ -558,7 +559,7 @@ public class AdminController {
 			}catch(Exception e) {
 			}
 		}
-		mv.addObject("count", service.memberSelectCount()); 
+		mv.addObject("count",totalData); 
 		mv.addObject("list", list);
 		mv.setViewName("admin/memberSelect");
 		return mv;
@@ -574,15 +575,17 @@ public class AdminController {
 	}
 	@RequestMapping("/admin/stockManager")
 	public ModelAndView stockManager(
-			@RequestParam(value ="type",defaultValue="") String type,
+			@RequestParam Map param,
+			@RequestParam(value="searchType",defaultValue="") String searchType,
+			@RequestParam(value ="searchKeyword",defaultValue="") String searchKeyword,
 			@RequestParam(value ="cPage",defaultValue="1") int cPage,
 			@RequestParam(value="numPerpage",defaultValue="100") int numPerpage,
 			ModelAndView mv
 			) {
-		int totalData = service.stockManagerCount(type);
+		int totalData = service.stockManagerCount(param);
 		mv.addObject("count", totalData);
-		mv.addObject("pageBar", PageFactory.getPageBar(totalData, cPage, numPerpage,5,"stockManager","type="+type));
-		List<Book> list = service.stockManagerList(cPage,numPerpage,type);
+		mv.addObject("pageBar", PageFactory.getPageBar(totalData, cPage, numPerpage,5,"stockManager","searchType="+searchType+"&searchKeyword="+searchKeyword));
+		List<Book> list = service.stockManagerList(cPage,numPerpage,param);
 		mv.addObject("list", list);
 		mv.setViewName("admin/stockManager");
 		return mv;
@@ -604,10 +607,12 @@ public class AdminController {
 			@RequestParam(value ="cPage",defaultValue="1") int cPage,
 			@RequestParam(value="numPerpage",defaultValue="100") int numPerpage,
 			ModelAndView mv,
-			@RequestParam(value="type",defaultValue="") String type) {
-		int totalData = service.requestSelectCount(type);
-		mv.addObject("pageBar", PageFactory.getPageBar(totalData, cPage, numPerpage,5,"requestSelect","type="+type));
-		List<Request> list = service.requestSelect(cPage,numPerpage,type);
+			@RequestParam Map param,
+			@RequestParam(value="searchKeyword",defaultValue="") String searchKeyword,
+			@RequestParam(value="searchType",defaultValue="") String searchType) {
+		int totalData = service.requestSelectCount(param);
+		mv.addObject("pageBar", PageFactory.getPageBar(totalData, cPage, numPerpage,5,"requestSelect","searchType="+searchType+"&searchKeyword="+searchKeyword));
+		List<Request> list = service.requestSelect(cPage,numPerpage,param);
 		mv.addObject("count", totalData);
 		mv.addObject("list", list);
 		mv.setViewName("admin/requestSelect");
@@ -619,10 +624,12 @@ public class AdminController {
 			@RequestParam(value ="cPage",defaultValue="1") int cPage,
 			@RequestParam(value="numPerpage",defaultValue="100") int numPerpage,
 			ModelAndView mv,
-			@RequestParam(value="type",defaultValue="") String type) {
-		int totalData = service.requestSelectNoCount(type);
-		mv.addObject("pageBar", PageFactory.getPageBar(totalData, cPage, numPerpage,5,"requestSelectNo","type="+type));
-		List<Request> list = service.requestSelectNo(cPage,numPerpage,type);
+			@RequestParam Map param,
+			@RequestParam(value="searchKeyword",defaultValue="") String searchKeyword,
+			@RequestParam(value="searchType",defaultValue="") String searchType) {
+		int totalData = service.requestSelectNoCount(param);
+		mv.addObject("pageBar", PageFactory.getPageBar(totalData, cPage, numPerpage,5,"requestSelectNo","searchType="+searchType+"&searchKeyword="+searchKeyword));
+		List<Request> list = service.requestSelectNo(cPage,numPerpage,param);
 		mv.addObject("count", totalData);
 		mv.addObject("list", list);
 		mv.setViewName("admin/requestSelect");
