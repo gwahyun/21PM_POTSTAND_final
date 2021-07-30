@@ -6,7 +6,7 @@ import lombok.Data;
 
 @Data
 public class Sort {
-	private int sortNo;
+	private String sortNo;
 	private String lv1;
 	private String lv2;
 	private String lv3;

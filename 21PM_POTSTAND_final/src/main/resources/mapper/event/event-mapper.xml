@@ -11,8 +11,12 @@
 		<result column="event_end" property="eventEnd"/>
 		<result column="end_check" property="endCheck"/>
 		<result column="event_thum" property="eventThum"/>
+		<result column="type" property="type"/>
+		<result column="discount" property="discount"/>
 	</resultMap>
-
+	
+	<!-- 이벤트 페이지 -->
+	
 	<select id="selectEventList" resultMap="eventMap">
 		SELECT * FROM EVENT
 	</select>
@@ -20,4 +24,12 @@
 		select * from event where event_no = #{no}
 	</select>
 	
+	<!-- 쿠폰 -->
+	
+	<insert id="insertCoupon">
+		insert into coupon values(seq_coupon.nextval, #{memberId}, #{start}, #{end}, null, default, #{no}, 1)
+	</insert>
+	<select id="countCoupon" resultType="_int">
+		select count(*) from coupon where member_id=#{memberId} and event_no=#{no}
+	</select>
 </mapper>

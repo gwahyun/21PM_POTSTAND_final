@@ -6,9 +6,17 @@ import org.apache.ibatis.type.Alias;
 
 import com.kh.potstand.event.model.vo.Event;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.ToString;
+import lombok.NoArgsConstructor;
 
 @Data
+@ToString
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Book {
 	private int bookCode;
 	private Sort sort;
