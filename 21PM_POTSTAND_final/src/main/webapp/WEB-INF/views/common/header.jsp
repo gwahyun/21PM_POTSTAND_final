@@ -115,7 +115,7 @@
               "
             >
               <a
-                href="${path }/member/memberMypage.do?memberId=${loginMember.memberId}"
+                href="${path }/member/memberMypage.do"
                 class="
                   block
                   px-4
@@ -153,7 +153,7 @@
                 장바구니
               </a>
               <a
-                href="${path}/member/memberHeartList.do?memberId=${loginMember.memberId}"
+                href="${path}/member/memberHeartList.do"
                 class="
                   block
                   px-4
