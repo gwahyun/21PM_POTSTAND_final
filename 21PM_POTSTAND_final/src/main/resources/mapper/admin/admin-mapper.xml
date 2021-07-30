@@ -515,6 +515,9 @@
   		<result column="PRICE" property="price"></result>
   	</resultMap>
   	
-  	
+  	<!-- db 세팅할 때 book_code / Link 가져오는 select문 -->
+  	<select id="selectBCAndBL" resultType="HashMap">
+  		SELECT BOOK_CODE, BOOK_LINK FROM BOOK
+  	</select>
  	
 </mapper>

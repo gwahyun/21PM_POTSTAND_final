@@ -446,7 +446,7 @@
 	
 	//페이지 로드시 장바구니 리스트 가격 출력
 	$(document).ready(fn_priceCalc());
-	$(document).ready(alert("선택한거만 가격 계산해서 출력"));
+	$(document).ready(alert("초기에 전체선택 / 선택한거만 가격 계산해서 출력"));
 	
 	
 	
