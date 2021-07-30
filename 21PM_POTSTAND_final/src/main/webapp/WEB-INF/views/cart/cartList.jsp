@@ -246,7 +246,7 @@
 	          				hover:text-white rounded 
 	          				font-bold
 	          				mt-4 md:mt-0"
-					onclick="">구매하기</button>
+					onclick="location.assign('${path}/order/order.do')">구매하기</button>
 			</div>
 		</div>
 		<div class="button-area m-4">
