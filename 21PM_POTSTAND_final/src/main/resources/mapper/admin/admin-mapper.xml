@@ -372,46 +372,51 @@
  				book_intro = #{bookIntro}
  			</if>
  			<if test="bookIntro == null">
- 				book_intro = 'null'
+ 				book_intro = null
  			</if> 
  			 <if test="writerIntro == null">
- 				,writer_intro = 'null'
+ 				,writer_intro = null
  			</if>
  			<if test="writerIntro != null">
  				,writer_intro = #{writerIntro}
  			</if> 
  			<if test="bookIndex == null">
- 				,book_index = 'null'
+ 				,book_index = null
  			</if>
  			<if test="bookIndex != null">
  				,book_index = #{bookIndex}
  			</if> 
  			<if test="pubReview == null">
- 				,pub_review = 'null'
+ 				,pub_review = null
  			</if>
  			<if test="pubReview != null">
  				,pub_review = #{pubReview}
  			</if>
  			<if test="bookExtract == null">
- 				,book_extract = 'null'
+ 				,book_extract = null
  			</if>
  			<if test="bookExtract != null">
  				,book_extract = #{bookExtract}
  			</if>
 			<if test="recommand == null">
- 				,recommand = 'null'
+ 				,recommand = null
  			</if>
  			<if test="recommand != null">
  				,recommand = #{recommand}
  			</if>
  			<if test="introMv == null">
- 				,intro_mv = 'null'
+ 				,intro_mv = null
  			</if>
  			<if test="introMv != null">
  				,intro_mv = #{introMv}
  			</if>
  					where book_code = #{bookCode}
  	</update>
+ 	
+ 	<select id="bookCodeSelectOne" resultType="int">
+		select seq_book.currval from dual 	
+ 	</select>
+ 	
  	
  	<!-- 재고관리 -->
  	<select id="stockManagerListCount" resultType="int">
