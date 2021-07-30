@@ -31,10 +31,12 @@ public class SortSetting {
 	public ModelAndView sortSetting(ModelAndView mv, HttpServletRequest request) throws Exception{
 		int result=0;
 		
-		
-		//얘 src 앞에 경로만 바꾸면 됩니다. 절대경로 갖고오는거 생각 안나서 쌩으로 넣음
-		
-		File category = new File("C:\\Users\\jaja5\\git\\21PM_POTSTAND_final6\\21PM_POTSTAND_final\\src\\main\\webapp\\temp\\category.txt");
+
+		//Context Root
+		String path = request.getSession().getServletContext().getRealPath("/"); 
+		path = path.substring(0,path.lastIndexOf("target"));
+		File category = new File(path+"src\\main\\webapp\\temp\\category.txt");
+
 		
 		
 		BufferedReader br = new BufferedReader(new FileReader(category));
