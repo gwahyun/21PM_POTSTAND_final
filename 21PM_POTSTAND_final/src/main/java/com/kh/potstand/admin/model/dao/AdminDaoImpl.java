@@ -273,12 +273,14 @@ public class AdminDaoImpl implements AdminDao {
 	@Override
 	public int requestSelectListCount(SqlSessionTemplate session,String type) {
 		// TODO Auto-generated method stub
+		System.out.println(type);
 		return session.selectOne("admin.requestSelectListCount",type);
 	}
 
 	@Override
 	public List<Request> requestSelectList(SqlSessionTemplate session,int cPage, int numPerpage,String type) {
 		// TODO Auto-generated method stub
+		System.out.println(type);
 		return session.selectList("admin.requestSelectList", type, new RowBounds((cPage-1)*numPerpage, numPerpage));
 	}
 

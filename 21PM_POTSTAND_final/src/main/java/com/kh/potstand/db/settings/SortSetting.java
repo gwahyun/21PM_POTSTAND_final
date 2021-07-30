@@ -31,10 +31,12 @@ public class SortSetting {
 	public ModelAndView sortSetting(ModelAndView mv, HttpServletRequest request) throws Exception{
 		int result=0;
 		
+
 		//Context Root
 		String path = request.getSession().getServletContext().getRealPath("/"); 
 		path = path.substring(0,path.lastIndexOf("target"));
 		File category = new File(path+"src\\main\\webapp\\temp\\category.txt");
+
 		
 		
 		BufferedReader br = new BufferedReader(new FileReader(category));

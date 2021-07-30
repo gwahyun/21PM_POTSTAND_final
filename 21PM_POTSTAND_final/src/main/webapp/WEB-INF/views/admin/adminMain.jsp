@@ -12,9 +12,16 @@
 			   <br>
 			   <%} %> --%>
 			        	
+        	<button onclick="stockInsert()">크롤링</button>
         	
+        	<script>
+        	function stockInsert(){
+				const no = prompt('입력하세요');
+					alert(no);
+					location.assign("${path}/admin/crol?url1="+no);
+				}
         	
-        	
+        	</script>
         	
         	
             <div class="admin-home_content_area">
@@ -41,21 +48,22 @@
                 
             </div>
             <div class="admin-home_chart_area">
-                
-                <div class="admin-chart">
-                    <div class="admin-content_title admin-search date-search">
-                        매출 통계
-                        <a style="margin-left:20px;">1주일</a><a>1개월</a><a>3개월</a>
-                        <form action="" class="date_form">
-                        <input type="date" name="startDate" class="date1" style="visibility: hidden">
-                        <input type="date" name="endDate" class="date2" style="visibility: hidden">
-                        </form>
-                    </div>
-                    <div class="chart">
-                        <canvas id="myChart" style="width: 100%; height: 530px; display: block; box-sizing: border-box;" width="1545" height="795"></canvas>
-                    </div>
-                </div>
-            </div>
+			
+			<div class="admin-chart">
+				<div class="admin-content_title admin-search date-search">
+					매출 통계
+					<a style="margin-left:20px;">1주일</a><a>1개월</a><a>3개월</a>
+					<form action="" class="date_form">
+					<input type="date" name="startDate" class="date1" style="visibility: hidden">
+					<input type="date" name="endDate" class="date2" style="visibility: hidden">
+					</form>
+				</div>
+				<div class="chart">
+					<canvas id="myChart" style="width: 100%; height: 530px; display: block; box-sizing: border-box;" width="1656" height="530"></canvas>
+				</div>
+			</div>
+		</div>
+		${c }
         </section>
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
         <script>
@@ -111,25 +119,10 @@
                 });
             }
         });
-        
-        
         const labels = [
             
-            '21-07-13',
-            
-            '21-07-14',
-            
-            '21-07-15',
-            
-            '21-07-16',
-            
-            '21-07-17',
-            
-            '21-07-18',
-            
-            '21-07-19',
-            
-            '21-07-20',
+        	${c}
+           
             
             ];
         const data = {
@@ -148,7 +141,7 @@
                         
                         0,
                         
-                        0,
+                        3,
                         
                         0,
                         

@@ -78,7 +78,6 @@
 					판매가
 				</div>
 				<div class="content_price">
-					<span>판매가</span>
 					<input type="number" placeholder="숫자만 입력" name="bookCost">
 					<span>원</span>
 				</div>
@@ -142,17 +141,6 @@
 			</div>
 		</div>
 		
-		<div class="admin-content_area">
-			<div class="admin-content">
-				<div class="admin-content_title">
-					이벤트 여부
-				</div>
-				<div class="admin-input_text">
-				<input type="radio" name="eventNo" value="Y">Y
-				<input type="radio" name="eventNo" value="N">N
-				</div>
-			</div>
-		</div>
 		<input type="submit" class="submit-btn" value="등록">
 		</form>
 	</section>

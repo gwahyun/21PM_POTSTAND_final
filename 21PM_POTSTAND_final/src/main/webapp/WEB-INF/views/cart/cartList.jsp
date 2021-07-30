@@ -49,14 +49,14 @@
 				<c:forEach var="cart" items="${cartList}" varStatus="i">
 					<div
 						class="cart-obj 
-	                		flex m-3 py-3 
+	                		flex m-1 py-1 
 	                		border-t border-b border-solid border-gray-400 
 	                		items-center">
 						<input type="checkbox" name="cartObj" class="ml-3">
 
 
 						<!-- 책 표지 -->
-						<div class="img-area w-2/12 h-36 mx-5">
+						<div class="img-area w-24 h-24 mx-5">
 							<img src="${cart.book.bookCover}" class="w-full">
 						</div>
 
@@ -69,49 +69,48 @@
 							<h4 class="my-3 text-xl font-medium">
 								<c:out value="${cart.book.bookWriter}" />
 							</h4>
-							<button
-								class="inline-flex items-center 
-	                			bg-gray-300 
-	                			border border-solid border-gray-400 
-	                			py-1 px-2 mb-3 
-	                			focus:outline-none 
-	                			hover:bg-red-200 
-		          				hover:text-white rounded 
-		          				text-base 
-		          				mt-4 md:mt-0"
-								onclick="fn_cartDelete(event);">삭제</button>
-							<input type="hidden" name="cartNo" value="${cart.cartNo}" />
-						</div>
-
-
-						<!--수량, 가격, 쿠폰적용 -->
-						<div class="price ml-6 w-4/12">
 							<!-- 수량 -->
 							<div>
-								<label>수량 : </label> 
+								<label class="text-sm">수량 : </label> 
 								<input type="number"
-									class="w-4/12 text-right border border-solid border-gray-300"
+									class="w-2/12 text-right border border-solid border-gray-300 text-sm"
 									name="bookAmount" value="${cart.bookAmount}">권
 								<input type="hidden" name="cartNo" value="${cart.cartNo}" />
 								<button
 									class="inline-flex items-center 
 	                			bg-gray-300 
 	                			border border-solid border-gray-400 
-	                			py-1 px-2 mb-3 
+	                			p-1 mb-1 
 	                			focus:outline-none 
 	                			hover:bg-red-200 
 		          				hover:text-white rounded 
-		          				text-base 
+		          				text-sm 
 		          				mt-4 md:mt-0"
 									onclick="fn_updateBookAmount(event);">변경</button>
+								<button
+								class="inline-flex items-center 
+	                			bg-gray-300 
+	                			border border-solid border-gray-400 
+	                			p-1 mb-1 
+	                			focus:outline-none 
+	                			hover:bg-red-200 
+		          				hover:text-white rounded 
+		          				text-sm 
+		          				mt-4 md:mt-0"
+								onclick="fn_cartDelete(event);">삭제</button>
+							<input type="hidden" name="cartNo" value="${cart.cartNo}" />
 							</div>
+						</div>
 
+
+						<!--수량, 가격, 쿠폰적용 -->
+						<div class="price ml-6 w-4/12">
 							<!-- 가격-->
-							<div class="price-info">
+							<div class="price-info text-sm">
 								<!-- 원래 가격 -->
 								<label>권당 가격 : </label>
 								<h3
-									class="inline ori-price m-3 text-xl text-right font-medium font-bold">
+									class="inline ori-price m-3 text-base text-right font-medium font-bold ">
 									<fmt:formatNumber type="currency" value="${cart.book.bookCost}" />
 								</h3>
 								<br>
@@ -121,33 +120,32 @@
 								<label>구매 가격 : </label>
 								<c:if test="${cart.usedCouponNo==0}">
 									<h3
-										class="inline ori-price-total m-3 text-xl text-right font-medium font-bold">
+										class="inline ori-price-total m-3 text-base text-right font-medium font-bold">
 										<fmt:formatNumber type="currency" value="${cart.book.bookCost * cart.bookAmount}" />
 									</h3>
 								</c:if>
 								<c:if test="${cart.usedCouponNo!=0}">
 									<h3
-										class="inline ori-price-total m-3 text-xl text-right font-medium font-bold line-through text-gray-400">
+										class="inline ori-price-total m-3 text-base text-right font-medium font-bold line-through text-gray-400">
 										<fmt:formatNumber type="currency" value="${cart.book.bookCost * cart.bookAmount}" />
 									</h3>
 								</c:if>
 								
 								
-								
-								
+							
 								<!-- 할인 가격 -->
 								<br>
 								<c:if test="${cart.usedCouponNo==0}">
 									<label class="discalc hidden">할인 가격 : </label>
 									<h2
-										class="inline hidden dis-price m-3 text-xl text-right font-medium font-bold ">
+										class="inline hidden dis-price m-3 text-base text-right font-medium font-bold ">
 	
 									</h2>
 								</c:if>
 								<c:if test="${cart.usedCouponNo!=0}">
 									<label class="discalc">할인 가격 : </label>
 									<h2
-										class="inline dis-price m-3 text-xl text-right font-medium font-bold ">
+										class="inline dis-price m-3 text-base text-right font-medium font-bold ">
 										<c:forEach var="cp" items="${cart.coupon}">
 											<c:if test="${cp.couponNo==cart.usedCouponNo}">
 												<fmt:formatNumber type="currency" value="${cart.book.bookCost * cart.bookAmount *(1-cp.event.discount)}" />
@@ -166,16 +164,16 @@
 									
 									<c:when
 										test="${fn:length(cart.coupon)==1 and empty cart.coupon[0].couponEnd}">
-										<label class="coupon text-l font-bold mt-4 block">사용
+										<label class="coupon text-base font-bold mt-4 block">사용
 											가능한 쿠폰이 없습니다.</label>
 									</c:when>
 									
 									
 									
 									<c:otherwise>
-										<label class="coupon text-l font-bold  block mt-4"> 사용
+										<label class="coupon text-sm font-bold  block mt-1"> 사용
 											가능 쿠폰</label>
-										<select name="couponData">
+										<select name="couponData" class="text-sm">
 											<option value="${cart.cartNo}:0:0"> 쿠폰 사용 안함</option>
 											<c:forEach var="cp" items="${cart.coupon}">
 												<c:if test="${cp.couponEnd eq 'N'}">
@@ -197,11 +195,11 @@
 											class="inline-flex items-center 
 						                			bg-gray-300 
 						                			border border-solid border-gray-400 
-						                			py-1 px-2 mb-3 
+						                			p-1 mb-1 
 						                			focus:outline-none 
 						                			hover:bg-red-200 
 							          				hover:text-white rounded 
-							          				text-base 
+							          				text-sm 
 							          				mt-4 md:mt-0"
 											onclick="fn_discount(event);">쿠폰적용</button>
 									</c:otherwise>							
@@ -448,8 +446,9 @@
 	
 	//페이지 로드시 장바구니 리스트 가격 출력
 	$(document).ready(fn_priceCalc());
+	$(document).ready(alert("선택한거만 가격 계산해서 출력"));
 	
-
+	
 	
 </script>
 </html>
