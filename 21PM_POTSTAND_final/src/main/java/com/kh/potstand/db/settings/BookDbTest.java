@@ -66,10 +66,9 @@ public class BookDbTest {
 
 				try {
 					//api의 response를 String result로 가져옵니다
-					String result = response.replace("<hr>", "");
+					String result = response.replace("<hr>", "").replace("<b>", "").replace("</b>", "");
 					InputSource is = new InputSource(new StringReader(result));
-//					System.out.println(is);
-//					System.out.println(result);
+
 					//xml형식을 읽을 수 있게 문서를 빌드합니다
 					builder = factory.newDocumentBuilder();
 					Document doc = builder.parse(is);
@@ -90,12 +89,12 @@ public class BookDbTest {
 			                Node node = child.item(k);
 			                    
 			                switch(node.getNodeName()) {
-			                case "title": b.setBookTitle(node.getTextContent()); System.out.println(node.getTextContent());break;
-				               case "link": b.setBookLink(node.getTextContent());System.out.println(node.getTextContent());break;
-				               case "image": b.setBookCover(node.getTextContent());System.out.println(node.getTextContent());break;
-				               case "author": b.setBookWriter(node.getTextContent());System.out.println(node.getTextContent());break;
-				               case "price" : b.setBookCost(Integer.parseInt(node.getTextContent()));System.out.println(Integer.parseInt(node.getTextContent()));break;
-				               case "publisher" : b.setBookPub(node.getTextContent());System.out.println(node.getTextContent());break;
+			                case "title": b.setBookTitle(node.getTextContent());break;
+				               case "link": b.setBookLink(node.getTextContent());break;
+				               case "image": b.setBookCover(node.getTextContent());break;
+				               case "author": b.setBookWriter(node.getTextContent());break;
+				               case "price" : b.setBookCost(Integer.parseInt(node.getTextContent()));break;
+				               case "publisher" : b.setBookPub(node.getTextContent());break;
 				               case "pubdate" : b.setBookDate(java.sql.Date.valueOf(node.getTextContent()));break;
 			                 }
 			            }

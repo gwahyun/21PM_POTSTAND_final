@@ -24,6 +24,7 @@ import org.xml.sax.InputSource;
 
 import com.kh.potstand.book.model.vo.Book;
 
+//api값 넘어오는지 확인하기 위한 테스트 클래스입니다.
 public class BookTest {
 
 	public static void main(String[] args)throws Exception {

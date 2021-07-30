@@ -171,6 +171,6 @@
 		select * from sort
 	</select>
 	<insert id="insertBook" parameterType="book">
-		insert into book values(seq_book.nextval, #{sort.sortNo}, #{bookTitle}, #{bookWriter}, #{bookPub}, #{bookCost}, null , #{bookCover}, #{bookDate}, null, #{bookLink}, null, null, null, null, null, null, null)
+		insert into book values(seq_book.nextval, #{sort.sortNo}, #{bookTitle}, #{bookWriter}, #{bookPub}, #{bookCost}, null , #{bookCover}, #{bookDate}, 10, #{bookLink}, null, null, null, null, null, null, null)
 	</insert>
 </mapper>
