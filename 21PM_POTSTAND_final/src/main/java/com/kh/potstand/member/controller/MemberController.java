@@ -527,12 +527,39 @@ public class MemberController {
 		int totalData=service.memberReviewListCount(param);
 		
 		List<Review> list=service.memberReviewListSelect(param,cPage,numPerpage);
-		
 		mv.addObject("totalData", totalData);
 		mv.addObject("list", list);
 		mv.addObject("pageBar", PageFactory.getPageBar(totalData, cPage, numPerpage,5,"memberMyReview.do",
 				"memberId="+param.get("memberId")));
 		mv.setViewName("member/memberMyReview");
+		return mv;
+	}
+	
+	//내 리뷰 삭제
+	@RequestMapping("/member/memberReviewDelete.do")
+	public ModelAndView myReviewDelete(ModelAndView mv, @RequestParam Map param) {
+		int result=service.memberReviewDelete(param);
+		String msg="리뷰삭제에 실패하였습니다. 다시 시도해주세요.";
+		if(result>0) {
+			msg="리뷰를 삭제하였습니다.";
+		}
+		mv.addObject("msg",msg);
+		mv.addObject("loc","/member/memberMyReview.do?memberId="+param.get("memberId"));
+		mv.setViewName("common/msg");
+		return mv;
+	}
+	
+	//내 리뷰 수정
+	@RequestMapping("/member/memberReviewUpdate.do")
+	public ModelAndView memberReviewUpdate(ModelAndView mv, @RequestParam Map param) {
+		int result=service.memberReviewUpdate(param);
+		String msg="리뷰수정에 실패하였습니다. 다시 시도해주세요.";
+		if(result>0) {
+			msg="리뷰를 수정하였습니다.";
+		}
+		mv.addObject("msg",msg);
+		mv.addObject("loc","/member/memberMyReview.do?memberId="+param.get("memberId"));
+		mv.setViewName("common/msg");
 		return mv;
 	}
 }

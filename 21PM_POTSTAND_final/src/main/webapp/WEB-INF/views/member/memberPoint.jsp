@@ -42,7 +42,9 @@
         		</c:if>
         		<c:if test="${list!='[]'}">
 	        		<div class="flex w-full flex-col justify-center mt-5 border" >
-	        			<h2 class="text-xl font-bold">잔여 적립금 : ${totalPoint } point</h2>
+	        			<h2 class="mb-2">
+	        				잔여 적립금 : <span class="text-blue-500 font-semibold text-xl">${totalPoint }</span> point
+	        			</h2>
 	        			<div class="flex">
 	        				<div class="w-1/4 border h-11 p-2 bg-red-100 flex justify-center">
 	        					<h3 class="text-lg font-bold">날짜</h3>

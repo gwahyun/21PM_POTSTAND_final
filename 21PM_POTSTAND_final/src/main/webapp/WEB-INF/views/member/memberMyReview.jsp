@@ -37,189 +37,207 @@
         			<h3 class="text-2xl font-semibold">내 리뷰 관리</h3>
         		</div>
         		<div class="flex w-full flex-col justify-center mt-5" >
-        			<div class="flex justify-end">
-        				<h4 class="text-xl font-semibold">총 ${totalData }개의 리뷰를 등록했습니다.</h4>
+        			<div class="flex justify-end mb-2">
+        				<h4>총 <span class="text-blue-500 font-semibold">${totalData }</span>개의 리뷰를 등록했습니다.</h4>
         			</div>
-        			<form action="" method="post">
         			<c:forEach var="r" items="${list }">
-	        			<div class="flex mx-8">
-	        				<div class="w-4/5 border-t-2 h-52 p-2 flex flex-col">
-	        					<div class="flex flex-col justify-center h-1/4">
-	        						<h3 class="text-xl font-medium">${r.book.bookTitle }</h3>
-	        					</div>
-	        					<div class="h-1/4">
-	        						별점<img src="" alt="" class="">
-	        					</div>   
-	        					<div class="h-2/4">
-	        						<h4>${r.reviewContent }</h4>
-	        					</div>   					
-		        			</div>
-		        			<div class="w-1/5 flex justify-center border-t-2 h-52 p-2 ">
-		        				<div class="h-full flex items-center">
-		        					<button class="border bg-red-500 text-gray-100 rounded-full tracking-wide font-semibold 
-				        			focus:outline-none focus:shadow-outline hover:bg-red-600 shadow-lg cursor-pointer 
-				        			transition ease-in duration-300 w-20 h-8" type="button"
-				        			onclick="fn_myReview_reviewUpdate(event);">수정</button>
-				        			<button class="border bg-white text-black rounded-full tracking-wide font-semibold 
-				        			focus:outline-none focus:shadow-outline hover:bg-red-600 shadow-lg cursor-pointer 
-				        			transition ease-in duration-300 hover:text-gray-100 w-20 h-8" type="button"
-				        			onclick="fn_myReview_reviewDelete(event);">삭제</button>
-		        				</div>		
-		        			</div>
-	        			</div>
-        			 </c:forEach>
-        			</form>
+        			<!-- 기본 리뷰 -->
+        			<div class="border mb-2">
+	        			<form action="${path}/member/memberReviewDelete.do" onsubmit="return fn_myReview_reviewDelete()" 
+	        			method="post">
+	        				<input type="hidden" name="bookCode" value="${r.book.bookCode }"/>
+	        				<input type="hidden" name="memberId" value="${loginMember.memberId }"/>
+		        			<div class="flex mx-8 h-64">
+		        				<div class="w-4/5 h-full p-2 flex flex-col">
+		        					<div class="flex flex-col justify-center h-1/4">
+		        						<h3 class="text-xl font-semibold">${r.book.bookTitle }</h3>
+		        					</div>
+		        					<div class="h-1/4 flex">
+		        						<c:if test="${r.point==1 }">
+		        							<img src="${path}/resources/img/star_on.png" alt="" class="w-4 h-4 mr-1">
+		        							<c:forEach begin="0" end="3">
+		        								<img src="${path}/resources/img/star_off.png" alt="" class="w-4 h-4 mr-1">
+		        							</c:forEach>
+		        						</c:if>
+		        						<c:if test="${r.point==2 }">
+			        						<img src="${path}/resources/img/star_on.png" alt="" class="w-4 h-4 mr-1">
+			        						<img src="${path}/resources/img/star_on.png" alt="" class="w-4 h-4 mr-1">
+		        							<c:forEach begin="0" end="2">
+		        								<img src="${path}/resources/img/star_off.png" alt="" class="w-4 h-4 mr-1">
+		        							</c:forEach>
+		        						</c:if>
+		        						<c:if test="${r.point==3 }">
+		        							<c:forEach begin="0" end="2">
+		        								<img src="${path}/resources/img/star_on.png" alt="" class="w-4 h-4 mr-1">
+		        							</c:forEach>
+		        							<img src="${path}/resources/img/star_off.png" alt="" class="w-4 h-4 mr-1">
+		        							<img src="${path}/resources/img/star_off.png" alt="" class="w-4 h-4 mr-1">
+		        						</c:if>
+		        						<c:if test="${r.point==4 }">
+		        							<c:forEach begin="0" end="3">
+		        								<img src="${path}/resources/img/star_on.png" alt="" class="w-4 h-4 mr-1">
+		        							</c:forEach>
+		        							<img src="${path}/resources/img/star_off.png" alt="" class="w-4 h-4 mr-1">
+		        						</c:if>
+		        						<c:if test="${r.point==5 }">
+		        							<c:forEach begin="0" end="4">
+		        								<img src="${path}/resources/img/star_on.png" alt="" class="w-4 h-4 mr-1" >
+		        							</c:forEach>
+		        						</c:if>
+		        						<div class="pl-2">${r.reviewDate }</div>
+		        					</div>   
+		        					<div class="h-2/4">
+		        						<h4>${r.reviewContent }</h4>
+		        					</div>   					
+			        			</div>
+			        			<div class="w-1/5 flex justify-center h-full p-2 ">
+			        				<div class="h-full flex items-center">
+			        					<button class="border bg-red-500 text-gray-100 rounded-full tracking-wide font-semibold 
+					        			focus:outline-none focus:shadow-outline hover:bg-red-600 shadow-lg cursor-pointer 
+					        			transition ease-in duration-300 w-20 h-8" type="button"
+					        			onclick="fn_myReview_reviewUpdate(event);">수정</button>
+					        			<button class="border bg-white text-black rounded-full tracking-wide font-semibold 
+					        			focus:outline-none focus:shadow-outline hover:bg-red-600 shadow-lg cursor-pointer 
+					        			transition ease-in duration-300 hover:text-gray-100 w-20 h-8" type="submit">삭제</button>
+			        				</div>		
+			        			</div>
+		        			</div>	
+		        		</form>
+	        		</div>
+	        		<!-- 리뷰 수정 div -->
+	        		<div class="hidden border mb-2">
+		        		<form action="${path}/member/memberReviewUpdate.do" onsubmit="return fn_myReview_reviewUpdateEnd()" method="post">
+			        		<div class="flex mx-8 h-72">
+			        			<input type="hidden" name="bookCode" value="${r.book.bookCode }"/>
+	        					<input type="hidden" name="memberId" value="${loginMember.memberId }"/>
+	        					<input type="hidden" name="point" value="${r.point }"/>
+			        			<div class="w-full h-full p-2 flex flex-col">
+			        				<div class="h-1/6">
+			        					<h3 class="text-xl font-medium">${r.book.bookTitle }</h3>
+			        				</div>
+			        				<div class="h-1/6 flex">
+		        						<c:if test="${r.point==1 }">
+		        							<img src="${path}/resources/img/star_on.png" alt="" class="w-8 h-8 mr-1"
+		        							onclick="fn_myReview_point(event);">
+		        							<c:forEach begin="0" end="3">
+		        								<img src="${path}/resources/img/star_off.png" alt="" class="w-8 h-8 mr-1"
+		        								onclick="fn_myReview_point(event);">
+		        							</c:forEach>
+		        						</c:if>
+		        						<c:if test="${r.point==2 }">
+			        						<img src="${path}/resources/img/star_on.png" alt="" id="star" class="w-8 h-8 mr-1"
+			        						onclick="fn_myReview_point(event);">
+			        						<img src="${path}/resources/img/star_on.png" alt="" class="w-8 h-8 mr-1"
+			        						onclick="fn_myReview_point(event);">
+		        							<c:forEach begin="0" end="2">
+		        								<img src="${path}/resources/img/star_off.png" alt="" class="w-8 h-8 mr-1"
+		        								onclick="fn_myReview_point(event);">
+		        							</c:forEach>
+		        						</c:if>
+		        						<c:if test="${r.point==3 }">
+		        							<c:forEach begin="0" end="2">
+		        								<img src="${path}/resources/img/star_on.png" alt="" class="w-8 h-8 mr-1"
+		        								onclick="fn_myReview_point(event);">
+		        							</c:forEach>
+		        							<img src="${path}/resources/img/star_off.png" alt="" class="w-8 h-8 mr-1"
+		        							onclick="fn_myReview_point(event);">
+		        							<img src="${path}/resources/img/star_off.png" alt="" class="w-8 h-8 mr-1"
+		        							onclick="fn_myReview_point(event);">
+		        						</c:if>
+		        						<c:if test="${r.point==4 }">
+		        							<c:forEach begin="0" end="3">
+		        								<img src="${path}/resources/img/star_on.png" alt="" class="w-8 h-8 mr-1"
+		        								onclick="fn_myReview_point(event);">
+		        							</c:forEach>
+		        							<img src="${path}/resources/img/star_off.png" alt="" class="w-8 h-8 mr-1"
+		        							onclick="fn_myReview_point(event);">
+		        						</c:if>
+		        						<c:if test="${r.point==5 }">
+		        							<c:forEach begin="0" end="4">
+		        								<img src="${path}/resources/img/star_on.png" alt="" class="w-8 h-8 mr-1"
+		        								onclick="fn_myReview_point(event);">
+		        							</c:forEach>
+		        						</c:if>
+			        				</div>   
+			        				<div class="h-3/6">
+			        					<textarea name="reviewContent" class="w-full border h-full">${r.reviewContent }</textarea>
+			        				</div>   	
+			        				<div class="h-1/6 flex items-center">
+				        				<button class="border bg-white text-black rounded-full tracking-wide font-semibold 
+						        		focus:outline-none focus:shadow-outline hover:bg-red-600 shadow-lg cursor-pointer 
+						        		transition ease-in duration-300 hover:text-gray-100 w-14 h-8" type="button"
+						        		onclick="fn_myReview_reviewUpdateCancel(event);">취소</button>
+						        		<button class="border bg-red-500 text-gray-100 rounded-full tracking-wide font-semibold 
+						        		focus:outline-none focus:shadow-outline hover:bg-red-600 shadow-lg cursor-pointer 
+						        		transition ease-in duration-300 w-24 h-8" type="submit"">수정완료</button>
+				        			</div>				
+								</div>
+			        		</div>
+						</form>
+					</div>
+        			</c:forEach>			
         		</div>
         		<div class="pageBar flex my-5">${pageBar}</div>
 			</div>
 		</div>
     </section>
     <script>
-    	//전체 선택/해제
-    	$("#selectAll").click(e=>{
-    		if($(e.target).is(":checked")==true){
-    			$("input:checkbox").prop("checked", true);
-    		}else{
-    			$("input:checkbox").prop("checked", false);
+    	//리뷰 수정창
+    	function fn_myReview_reviewUpdate(e){
+    		let reviewContainer=$(e.target).parent().parent().parent().parent().parent();
+    		let updateContainer=$(e.target).parent().parent().parent().parent().parent().next();
+    		reviewContainer.hide(); //기존 리뷰창 숨기기
+    		updateContainer.show(); //리뷰 수정창 보이기
+    	}
+    	
+    	//리뷰 수정창 나가기
+    	function fn_myReview_reviewUpdateCancel(e){
+    		let reviewContainer=$(e.target).parent().parent().parent().parent().parent().prev();
+    		let updateContainer=$(e.target).parent().parent().parent().parent().parent();
+    		reviewContainer.show(); //기존 리뷰창 보이기
+    		updateContainer.hide(); //리뷰 수정창 숨기기
+    	}
+    	
+    	//리뷰 별점 수정
+    	function fn_myReview_point(e){
+    		let starOff=[];
+    		let starOn=[];
+    		starOff=$(e.target).nextAll();
+    		starOn=$(e.target).prevAll();
+    		//이미지 누르는 별접으로 변경하는 로직
+    		for(var i=0; i<starOn.length; i++){
+    			starOn[i].src='${path}/resources/img/star_on.png';
     		}
-    	});
-    	
-    	  	
-    	//선택 장바구니에 담기
-    	function fn_heartList_choiceCartInsert(){
-    		//체크박스가 하나라도 체크되어있는지 확인
-    		checkList=document.getElementsByName("bookCode");
-    		flag=false;
-    		for(var i=0; i<checkList.length; i++){
-    			if(checkList[i].checked){
-    				flag=true;
-    			}
-    		} 
-    		if(!flag){ //이동할 책이 없는 경우
-    			alert('이동할 책을 선택하세요.');
-    		}else{
-    			//선택 찜 담을 배열
-            	let bookCodeArray=[];
-        		
-        		for(var i=0; i<$('input[name=bookCode]').length; i++){
-        			if($('input[name=bookCode]').eq(i).is(":checked")==true){
-        				bookCodeArray.push($('input[name=bookCode]').eq(i).val());
-        			}    			
-        		}
-        		
-        		var objParams = {
-        				"memberId" : '${loginMember.memberId}', //회원 아이디
-        				"bookCodeList" : bookCodeArray //체크된 북코드
-        		};
-        		
-        		$.ajax({
-        			type:"post",
-    				url:"${path}/member/memberChoiceCartInsert.do",
-    				dataType:"json",
-    				data:objParams,
-    				success:data=>{
-    					if(data==1){
-    						alert('장바구니로 이동하였습니다.');
-    						location.reload();
-    					}else{
-    						alert('장바구니로 이동하지 못했습니다. 관리자에게 문의하세요.');
-    					}
-    				}
-    			}); 
+    		$(e.target).attr("src",'${path}/resources/img/star_on.png');
+    		for(var i=0; i<starOff.length; i++){
+    			starOff[i].src='${path}/resources/img/star_off.png';
     		}		
-    	}
-    	
-    	//선택 장바구니에서 삭제
-    	function fn_heartList_choiceHeartDelete(){
-    		//체크박스가 하나라도 체크되어있는지 확인
-    		checkList=document.getElementsByName("bookCode");
-    		checkCount=0;
-    		flag=false;
-    		for(var i=0; i<checkList.length; i++){
-    			if(checkList[i].checked){
-    				flag=true;
-    				checkCount+=1;
-    			}
-    		} 
-    			
-    		if(!flag){ //삭제할 책이 없는 경우
-    			alert('삭제할 책을 선택하세요.');
+    		//변경된 이미지에 맞춰 point값을 넣어줌
+    		if(starOn.length==0){
+    			$(e.target).parent().parent().parent().children().eq(2).val(1);
+    		}else if(starOn.length==1){
+    			$(e.target).parent().parent().parent().children().eq(2).val(2);
+    		}else if(starOn.length==2){
+    			$(e.target).parent().parent().parent().children().eq(2).val(3);
+    		}else if(starOn.length==3){
+    			$(e.target).parent().parent().parent().children().eq(2).val(4);
     		}else{
-    			//선택 찜 담을 배열
-    			if(confirm('선택한 책 '+checkCount+'권을 삭제하시겠습니까?')){
-    				let bookCodeArray=[];
-            		
-    				for(var i=0; i<$('input[name=bookCode]').length; i++){
-            			if($('input[name=bookCode]').eq(i).is(":checked")==true){
-            				bookCodeArray.push($('input[name=bookCode]').eq(i).val());
-            			}    			
-            		}
-            		
-            		var objParams = {
-            				"memberId" : '${loginMember.memberId}', //회원 아이디
-            				"bookCodeList" : bookCodeArray //체크된 북코드
-            		};
-            		
-            		$.ajax({
-            			type:"post",
-        				url:"${path}/member/memberChoiceHeartDelete.do",
-        				dataType:"json",
-        				data:objParams,
-        				success:data=>{
-        					if(data==1){
-        						alert('찜목록에서 삭제되었습니다.');
-        						location.reload();
-        					}else{
-        						alert('찜목록에서 삭제하지 못했습니다. 관리자에게 문의하세요.');
-        					}
-        				}
-        			}); 
-        		}
-    		}		
-    	}
-    	
-    	//장바구니에 담기
-    	function fn_heartList_cartInsert(e){
-    		$.ajax({
-    			type:"post",
-				url:"${path}/member/memberCartInsert.do",
-				dataType:"json",
-				data:{
-					"memberId":'${loginMember.memberId}',
-					"bookCode":$(e.target).parent().parent().prev().children().children().eq(1).val()
-				},
-				success:data=>{
-					if(data==1){
-						alert('장바구니로 이동하였습니다.');
-						location.reload();
-					}else{
-						alert('장바구니로 이동하지 못했습니다. 관리자에게 문의하세요.');
-					}
-				}
-			});
-    	}
-    	
-    	//찜목록 삭제
-    	function fn_heartList_cartDelete(e){
-    		if(confirm('선택한 책을 삭제하시겠습니까?')){
-    			$.ajax({
-        			type:"post",
-    				url:"${path}/member/memberHeartDelete.do",
-    				dataType:"json",
-    				data:{
-    					"memberId":'${loginMember.memberId}',
-    					"bookCode":$(e.target).parent().parent().prev().children().children().eq(1).val()
-    				},
-    				success:data=>{
-    					if(data==1){
-    						alert('찜목록에서 삭제되었습니다.');
-    						location.reload();
-    					}else{
-    						alert('찜목록에서 삭제하지 못했습니다. 관리자에게 문의하세요.');
-    					}
-    				}
-    			});
+    			$(e.target).parent().parent().parent().children().eq(2).val(5);
     		}
+    		
+    	}
+    	
+    	//리뷰 수정
+    	function fn_myReview_reviewUpdateEnd(){
+    		
+    	}
+    	
+    	//리뷰 삭제
+    	function fn_myReview_reviewDelete(){
+    		if(confirm("정말 삭제하시겠습니까?")){
+    			return true;
+    		}
+    		return false;
     	}
     </script>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>

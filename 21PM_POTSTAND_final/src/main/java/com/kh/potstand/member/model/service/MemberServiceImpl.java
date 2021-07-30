@@ -218,6 +218,18 @@ public class MemberServiceImpl implements MemberService{
 		return dao.memberReviewListSelect(session,param,cPage,numPerpage);
 	}
 	
+	//내 리뷰 삭제
+	@Override
+	public int memberReviewDelete(Map param) {
+		return dao.memberReviewDelete(session,param);
+	}
+	
+	//내 리뷰 수정
+	@Override
+	public int memberReviewUpdate(Map param) {
+		return dao.memberReviewUpdate(session,param);
+	}
+	
 	//notice List 호출 (공지사항 페이지)
 	@Override
 	public List<Notice> noticeSelectList(int cPage, int numPerPage) {
@@ -290,6 +302,10 @@ public class MemberServiceImpl implements MemberService{
 	public int cartCouponUpdate(Map param) {
 		return dao.cartCouponUpdate(session, param);
 	}
+
+	
+
+	
 	
 	
 

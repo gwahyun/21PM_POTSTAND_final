@@ -189,6 +189,7 @@
  		<id column="review_no" property="reviewNo"/>
  		<result column="book_code" property="bookCode"/>
  		<result column="member_id" property="memberId"/>
+ 		<result column="point" property="point"/>
  		<result column="review_content" property="reviewContent"/>
  		<result column="review_date" property="reviewDate"/>
  		<association property="book" resultMap="bookMap"/>
@@ -201,4 +202,13 @@
 	<select id="memberReviewListSelect" resultMap="reviewMap">
 		SELECT * FROM REVIEW JOIN BOOK USING(BOOK_CODE) WHERE MEMBER_ID=#{memberId}
 	</select>
+	
+	<delete id="memberReviewDelete">
+		DELETE FROM REVIEW WHERE BOOK_CODE=#{bookCode} AND MEMBER_ID=#{memberId}
+	</delete>
+	
+	<update id="memberReviewUpdate">
+		UPDATE REVIEW SET POINT=#{point}, REVIEW_CONTENT=#{reviewContent}, REVIEW_DATE=SYSDATE 
+		WHERE BOOK_CODE=#{bookCode} AND MEMBER_ID=#{memberId}
+	</update>
 </mapper>
