@@ -41,7 +41,6 @@ public class BookDbTest {
 	public ModelAndView bookSetting(ModelAndView mv, HttpServletRequest request) throws Exception{
 		
 		List<Sort> cateList = getCategoryList();
-		SimpleDateFormat dateForm = new SimpleDateFormat("yyyyMMdd", Locale.KOREA);
 		
 		//카테고리 리스트의 길이만큼 반복합니다
 		for(int i=0; i<cateList.size();i++) {
@@ -97,7 +96,7 @@ public class BookDbTest {
 				               case "author": b.setBookWriter(node.getTextContent());System.out.println(node.getTextContent());break;
 				               case "price" : b.setBookCost(Integer.parseInt(node.getTextContent()));System.out.println(Integer.parseInt(node.getTextContent()));break;
 				               case "publisher" : b.setBookPub(node.getTextContent());System.out.println(node.getTextContent());break;
-				               case "pubdate" : b.setBookDate(dateForm.parse(node.getTextContent()));break;
+				               case "pubdate" : b.setBookDate(java.sql.Date.valueOf(node.getTextContent()));break;
 			                 }
 			            }
 			        String sortNo = cateList.get(i).getSortNo();

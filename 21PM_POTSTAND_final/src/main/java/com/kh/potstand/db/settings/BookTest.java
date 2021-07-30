@@ -43,7 +43,7 @@ public class BookTest {
 							: httpConn.getErrorStream();
 					Scanner s = new Scanner(responseStream).useDelimiter("\\A");
 					String response = s.hasNext() ? s.next() : "";
-System.out.println(response);
+					
 				//documentBuilderFactory 생성 
 				DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 				factory.setNamespaceAware(true);
@@ -70,9 +70,7 @@ System.out.println(response);
 			            NodeList child = nodeList.item(j).getChildNodes();
 			            for (int k = 0; k < child.getLength(); k++) {
 			                Node node = child.item(k);
-			               
-			                
-			                SimpleDateFormat afterFormat = new SimpleDateFormat("yyyyMMdd", Locale.KOREA);
+	
 			                switch(node.getNodeName()) {
 				               case "title": b.setBookTitle(node.getTextContent()); System.out.println(node.getTextContent());break;
 				               case "link": b.setBookLink(node.getTextContent());System.out.println(node.getTextContent());break;
@@ -80,11 +78,9 @@ System.out.println(response);
 				               case "author": b.setBookWriter(node.getTextContent());System.out.println(node.getTextContent());break;
 				               case "price" : b.setBookCost(Integer.parseInt(node.getTextContent()));System.out.println(Integer.parseInt(node.getTextContent()));break;
 				               case "publisher" : b.setBookPub(node.getTextContent());System.out.println(node.getTextContent());break;
-				               case "pubdate" : b.setBookDate(afterFormat.parse(node.getTextContent()));break;
+				               case "pubdate" : b.setBookDate(java.sql.Date.valueOf(node.getTextContent()));break;
 			                 }
 			            }
-			     
-			        System.out.println(b);
 
 					}
 				}catch(Exception e) {
