@@ -299,9 +299,10 @@
  	
  	<select id="productSelectList" resultMap="bookMap">
  		select * from book
+ 		join sort using(sort_no)
  		where 1=1
  		<if test="bookNo != null and bookNo != '' ">
- 			and book_code like '%'||#{bookNo}||'%' 
+ 			and book_code = #{bookNo}
  		</if>
  		<if test="bookTitle != null and bookTitle != '' ">
  			and book_title like '%'||#{bookTitle}||'%'
@@ -311,14 +312,26 @@
  		</if>
  		<if test="bookPublisher != null and bookPublisher != '' ">
  			and BOOK_PUB like '%'||#{bookPublisher}||'%' 
+ 		</if>
+ 		<if test="bookGenre != null and bookGenre != '' ">
+ 			and lv2 = #{bookGenre} or lv3 = #{bookGenre} or lv4 = #{bookGenre}
  		</if>
  	</select>
  	
+ 	<select id="productSelectListNopage" resultMap="bookMap">
+ 		select * from book
+ 		join sort using(sort_no)
+ 	</select>
+ 		
+ 		
+ 		
+ 	
  	<select id="productSelectListCount" resultType="int">
  		select count(*) from book
+ 		join sort using(sort_no)
  		where 1=1
  		<if test="bookNo != null and bookNo != '' ">
- 			and book_code like '%'||#{bookNo}||'%' 
+ 			and book_code = #{bookNo}
  		</if>
  		<if test="bookTitle != null and bookTitle != '' ">
  			and book_title like '%'||#{bookTitle}||'%'
@@ -328,6 +341,9 @@
  		</if>
  		<if test="bookPublisher != null and bookPublisher != '' ">
  			and BOOK_PUB like '%'||#{bookPublisher}||'%' 
+ 		</if>
+ 		<if test="bookGenre != null and bookGenre != '' ">
+ 			and lv2 = #{bookGenre} or lv3 = #{bookGenre} or lv4 = #{bookGenre}
  		</if>
  	</select>
  	
@@ -421,10 +437,19 @@
  	<!-- 재고관리 -->
  	<select id="stockManagerListCount" resultType="int">
  		select count(*) from book
+ 		<if test="type != null and type != ''">
+ 			where book_code = #{type}
+ 		</if>
+ 		<if test="typeString != null and typeString != ''">
+ 			where book_title like '%'||#{typeString}||'%'
+ 		</if>
  	</select>
  	
  	<select id="stockManagerList" resultMap="bookMap">
  		select * from book
+ 		<if test="type != null and type != ''">
+ 			where book_code = #{type}
+ 		</if>
  	</select>
  	
  	<update id="stockUpdate">
@@ -446,20 +471,37 @@
  	<select id="requestSelectListCount" resultType="int">
  		select count(*) from request r
     	join book b on r.book_code = b.book_code
-   		where b.book_code like '%'||#{type}||'%'
+    	<if test="type != null and type != ''">
+   			where b.book_code = #{type}
+   		</if>
  	</select>
  	
  	<select id="requestSelectList" resultMap="requestMap">
  		select * from request r
     	join book b on r.book_code = b.book_code
-	    		where b.book_code like '%'||#{type}||'%'
+    		<if test="type != null and type != ''">
+	    		where b.book_code = #{type}
+	    	</if>
  	</select>
  	
- 	<select id="startFromBook" resultMap ="bookMap">
- 		select * from book 
- 		where book_code = #{bookCode}
- 	
+ 	<select id="requestSelectNoCount" resultType="int">
+ 		select count(*) from request r
+    	join book b on r.book_code = b.book_code
+    		where status = 'N'
+    		<if test="type != null and type != ''">
+	    		and b.book_code = #{type}
+	    	</if>
  	</select>
+ 	
+	<select id="requestSelectNo" resultMap="requestMap">
+ 		select * from request r
+    	join book b on r.book_code = b.book_code
+    		where status = 'N'
+    		<if test="type != null and type != ''">
+	    		and b.book_code = #{type}
+	    	</if>
+ 	</select>
+ 	
  	
  	<update id="requestUpdate">
  		<!-- update request
@@ -515,6 +557,15 @@
   		<result column="PRICE" property="price"></result>
   	</resultMap>
   	
+  	<!-- 상품 등록 sql문 -->
+  	<select id="bookGenreSelectOne" resultMap="sortMap">
+  		 select * from sort
+   		 where lv2 = #{bookGenre} or lv3 = #{bookGenre} or lv4 = #{bookGenre}
+  	</select>
+  	
+  	<insert id="productInsertEnd"  parameterType="book">
+  		insert into book values(seq_book.nextval, #{sort.sortNo}, #{bookTitle}, #{bookWriter}, #{bookPub}, #{bookCost}, #{bookPub} , #{bookCover}, #{bookDate}, #{bookStock}, #{bookLink},#{writerIntro}, #{bookIntro}, #{bookIndex}, #{pubReview}, #{bookExtract}, #{recommand}, #{introMv})
+  	</insert>
   	
  	
 </mapper>

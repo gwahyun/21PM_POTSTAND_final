@@ -92,10 +92,35 @@ public class AdminController {
 		return mv;
 	}
 	
+	@RequestMapping("/admin/productInsertEnd")
+	public ModelAndView productInsertEnd(
+			@RequestParam(value="bookGenre",defaultValue="") String bookGenre,
+			Book b,ModelAndView mv) {
+		log.debug("bookGenre :{}",bookGenre);
+		b.setSort(service.bookGenreSelectOne(bookGenre));
+		log.debug("b의 값 :{}",b);
+		int result = service.productInsertEnd(b);
+		mv.addObject("loc", "/admin/productInsert");
+		mv.addObject("msg",result>0?"책 등록에 성공하였습니다!":"등록 실패!");
+		
+		mv.setViewName("common/msg");
+		return mv;
+	}
+	
 	@RequestMapping("/admin/productSelectList")
-	public ModelAndView productSelectList(ModelAndView mv,@RequestParam Map param) {
-		mv.addObject("count", service.productSelectListCount(param));
-		List<Book> list = service.productSelectList(param);
+	public ModelAndView productSelectList(ModelAndView mv,@RequestParam Map param
+			,	@RequestParam(value ="cPage",defaultValue="1") int cPage,
+			@RequestParam(value="numPerpage",defaultValue="300") int numPerpage,
+			@RequestParam(value="bookNo",defaultValue="") String bookNo,
+			@RequestParam(value="bookTitle",defaultValue="") String bookTitle,
+			@RequestParam(value="bookAuthor",defaultValue="") String bookAuthor,
+			@RequestParam(value="bookPublisher",defaultValue="") String bookPublisher,
+			@RequestParam(value="bookGenre",defaultValue="") String bookGenre) {
+		int count = service.productSelectListCount(param);
+		mv.addObject("count", count);
+		List<Book> list = service.productSelectList(param,cPage,numPerpage);
+		mv.addObject("pageBar", PageFactory.getPageBar(count, cPage, numPerpage,5,"productSelectList",
+				"bookNo="+bookNo+"&bookTitle="+bookTitle+"&bookAuthor="+bookAuthor+"&bookPublisher="+bookPublisher+"&bookGenre="+bookGenre));
 		mv.addObject("list", list);
 		mv.setViewName("admin/productSelect");
 		return mv;
@@ -549,14 +574,15 @@ public class AdminController {
 	}
 	@RequestMapping("/admin/stockManager")
 	public ModelAndView stockManager(
+			@RequestParam(value ="type",defaultValue="") String type,
 			@RequestParam(value ="cPage",defaultValue="1") int cPage,
-			@RequestParam(value="numPerpage",defaultValue="10") int numPerpage,
+			@RequestParam(value="numPerpage",defaultValue="100") int numPerpage,
 			ModelAndView mv
 			) {
-		int totalData = service.stockManagerCount();
+		int totalData = service.stockManagerCount(type);
 		mv.addObject("count", totalData);
-		mv.addObject("pageBar", PageFactory.getPageBar(totalData, cPage, numPerpage,5,"stockManager"));
-		List<Book> list = service.stockManagerList(cPage,numPerpage);
+		mv.addObject("pageBar", PageFactory.getPageBar(totalData, cPage, numPerpage,5,"stockManager","type="+type));
+		List<Book> list = service.stockManagerList(cPage,numPerpage,type);
 		mv.addObject("list", list);
 		mv.setViewName("admin/stockManager");
 		return mv;
@@ -576,7 +602,7 @@ public class AdminController {
 	@RequestMapping("/admin/requestSelect")
 	public ModelAndView requestSelect(
 			@RequestParam(value ="cPage",defaultValue="1") int cPage,
-			@RequestParam(value="numPerpage",defaultValue="10") int numPerpage,
+			@RequestParam(value="numPerpage",defaultValue="100") int numPerpage,
 			ModelAndView mv,
 			@RequestParam(value="type",defaultValue="") String type) {
 		int totalData = service.requestSelectCount(type);
@@ -587,6 +613,23 @@ public class AdminController {
 		mv.setViewName("admin/requestSelect");
 		return mv;
 	}
+	
+	@RequestMapping("/admin/requestSelectNo")
+	public ModelAndView requestSelectNo(
+			@RequestParam(value ="cPage",defaultValue="1") int cPage,
+			@RequestParam(value="numPerpage",defaultValue="100") int numPerpage,
+			ModelAndView mv,
+			@RequestParam(value="type",defaultValue="") String type) {
+		int totalData = service.requestSelectNoCount(type);
+		mv.addObject("pageBar", PageFactory.getPageBar(totalData, cPage, numPerpage,5,"requestSelectNo","type="+type));
+		List<Request> list = service.requestSelectNo(cPage,numPerpage,type);
+		mv.addObject("count", totalData);
+		mv.addObject("list", list);
+		mv.setViewName("admin/requestSelect");
+		return mv;
+	}
+	
+	
 	
 	@RequestMapping("/admin/requestUpdate")
 	public ModelAndView requestUpdate(ModelAndView mv,@RequestParam Map param) {

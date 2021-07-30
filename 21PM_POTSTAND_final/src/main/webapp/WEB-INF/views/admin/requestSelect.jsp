@@ -9,7 +9,10 @@
 <section>
 <div class="admin-content_area">
             <div class="admin-content">
-                <div class="admin-content_title">입고 관리</div>
+                <div class="admin-content_title">입고 관리
+	                <button class="update-btn" style="background-color:gray"onclick="location.assign('${path}/admin/requestSelectNo')">미요청</button>
+	                <button class="update-btn" onclick="location.assign('${path}/admin/requestSelect')">전체</button>
+                </div>
             </div>
 </div>
 <div class="admin-content_area">

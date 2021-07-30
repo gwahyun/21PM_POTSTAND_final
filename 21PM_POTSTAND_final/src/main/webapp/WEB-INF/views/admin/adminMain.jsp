@@ -12,16 +12,16 @@
 			   <br>
 			   <%} %> --%>
 			        	
-        	<button onclick="stockInsert()">크롤링</button>
+        	<!-- <button onclick="stockInsert()">크롤링</button> -->
         	
-        	<script>
+        <!-- 	<script>
         	function stockInsert(){
 				const no = prompt('입력하세요');
 					alert(no);
 					location.assign("${path}/admin/crol?url1="+no);
 				}
         	
-        	</script>
+        	</script> -->
         	
         	
             <div class="admin-home_content_area">
@@ -63,7 +63,6 @@
 				</div>
 			</div>
 		</div>
-		${c }
         </section>
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
         <script>
@@ -121,7 +120,6 @@
         });
         const labels = [
             
-        	${c}
            
             
             ];

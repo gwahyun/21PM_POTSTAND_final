@@ -1,5 +1,6 @@
 package com.kh.potstand.admin.model.dao;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -14,6 +15,7 @@ import com.kh.potstand.admin.model.vo.Qna;
 import com.kh.potstand.admin.model.vo.Request;
 import com.kh.potstand.admin.model.vo.Review;
 import com.kh.potstand.book.model.vo.Book;
+import com.kh.potstand.book.model.vo.Sort;
 import com.kh.potstand.event.model.vo.Event;
 import com.kh.potstand.member.model.vo.Address;
 import com.kh.potstand.member.model.vo.Member;
@@ -259,9 +261,9 @@ public class AdminDaoImpl implements AdminDao {
 	}
 
 	@Override
-	public List<Book> productSelectList(SqlSessionTemplate session, Map param) {
+	public List<Book> productSelectList(SqlSessionTemplate session, Map param,int cPage,int numPerpage) {
 		// TODO Auto-generated method stub
-		return session.selectList("admin.productSelectList", param);
+		return session.selectList("admin.productSelectList", param, new RowBounds((cPage-1)*numPerpage, numPerpage));
 	}
 
 	@Override
@@ -273,15 +275,17 @@ public class AdminDaoImpl implements AdminDao {
 	@Override
 	public int requestSelectListCount(SqlSessionTemplate session,String type) {
 		// TODO Auto-generated method stub
-		System.out.println(type);
-		return session.selectOne("admin.requestSelectListCount",type);
+		Map<String,Object> map = new HashMap();
+		map.put("type", type);
+		return session.selectOne("admin.requestSelectListCount",map);
 	}
 
 	@Override
 	public List<Request> requestSelectList(SqlSessionTemplate session,int cPage, int numPerpage,String type) {
 		// TODO Auto-generated method stub
-		System.out.println(type);
-		return session.selectList("admin.requestSelectList", type, new RowBounds((cPage-1)*numPerpage, numPerpage));
+		Map<String,Object> map = new HashMap();
+		map.put("type", type);
+		return session.selectList("admin.requestSelectList", map, new RowBounds((cPage-1)*numPerpage, numPerpage));
 	}
 
 	@Override
@@ -292,15 +296,19 @@ public class AdminDaoImpl implements AdminDao {
 	}
 	
 	@Override
-	public int stockManagerCount(SqlSessionTemplate session) {
+	public int stockManagerCount(SqlSessionTemplate session,String type) {
 		// TODO Auto-generated method stub
-		return session.selectOne("admin.stockManagerListCount");
+		Map<String,Object> map = new HashMap();
+		map.put("type", type);
+		return session.selectOne("admin.stockManagerListCount",map);
 	}
 
 	@Override
-	public List<Book> stockManagerList(SqlSessionTemplate session, int cPage, int numPerpage) {
+	public List<Book> stockManagerList(SqlSessionTemplate session, int cPage, int numPerpage,String type) {
 		// TODO Auto-generated method stub
-		return session.selectList("admin.stockManagerList", null, new RowBounds((cPage-1)*numPerpage, numPerpage));
+		Map<String,Object> map = new HashMap();
+			map.put("type", type);
+		return session.selectList("admin.stockManagerList", map, new RowBounds((cPage-1)*numPerpage, numPerpage));
 	}
 
 	@Override
@@ -327,6 +335,40 @@ public class AdminDaoImpl implements AdminDao {
 		// TODO Auto-generated method stub
 	
 		session.insert("admin.eventBookUpdate", param);
+	}
+
+	@Override
+	public List<Book> productSelectList(SqlSessionTemplate session, Map param) {
+		// TODO Auto-generated method stub
+		return session.selectList("admin.productSelectListNopage",param);
+	}
+
+	@Override
+	public int requestSelectNoCount(SqlSessionTemplate session, String type) {
+		// TODO Auto-generated method stub
+		Map<String,Object> map = new HashMap();
+		map.put("type", type);
+		return session.selectOne("admin.requestSelectNoCount", map);
+	}
+
+	@Override
+	public List<Request> requestSelectNo(SqlSessionTemplate session, int cPage, int numPerpage, String type) {
+		// TODO Auto-generated method stub
+		Map<String,Object> map = new HashMap();
+		map.put("type", type);
+		return session.selectList("admin.requestSelectNo", map, new RowBounds((cPage-1)*numPerpage, numPerpage));
+	}
+
+	@Override
+	public Sort bookGenreSelectOne(SqlSessionTemplate session, String bookGenre) {
+		// TODO Auto-generated method stub
+		return session.selectOne("admin.bookGenreSelectOne", bookGenre);
+	}
+
+	@Override
+	public int productInsertEnd(SqlSessionTemplate session, Book b) {
+		// TODO Auto-generated method stub
+		return session.insert("admin.productInsertEnd", b);
 	}
 
 	

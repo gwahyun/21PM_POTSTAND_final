@@ -10,6 +10,7 @@ import com.kh.potstand.admin.model.vo.Qna;
 import com.kh.potstand.admin.model.vo.Request;
 import com.kh.potstand.admin.model.vo.Review;
 import com.kh.potstand.book.model.vo.Book;
+import com.kh.potstand.book.model.vo.Sort;
 import com.kh.potstand.event.model.vo.Event;
 import com.kh.potstand.member.model.vo.Address;
 import com.kh.potstand.member.model.vo.Member;
@@ -90,7 +91,7 @@ public interface AdminService {
 
 	int qnaManagerNoCount();
 
-	List<Book> productSelectList(Map param);
+	List<Book> productSelectList(Map param, int cPage, int numPerpage);
 
 	int productSelectListCount(Map param);
 
@@ -98,9 +99,9 @@ public interface AdminService {
 
 	List<Request> requestSelect(int cPage, int numPerpage, String type);
 
-	int stockManagerCount();
+	int stockManagerCount(String type);
 
-	List<Book> stockManagerList(int cPage, int numPerpage);
+	List<Book> stockManagerList(int cPage, int numPerpage, String type);
 
 	int stockUpdate(Map param);
 
@@ -115,6 +116,16 @@ public interface AdminService {
 	List<String> eventBookList(int no);
 
 	void eventBookUpdate(Map param);
+
+	List<Book> productSelectList(Map param);
+
+	int requestSelectNoCount(String type);
+
+	List<Request> requestSelectNo(int cPage, int numPerpage, String type);
+
+	Sort bookGenreSelectOne(String bookGenre);
+
+	int productInsertEnd(Book b);
 
 
 

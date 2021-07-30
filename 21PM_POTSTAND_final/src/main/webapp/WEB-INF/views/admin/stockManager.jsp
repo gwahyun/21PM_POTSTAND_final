@@ -17,6 +17,12 @@
                     <div class="admin-content_title">
                         상품목록 (총 ${count } 권)
                     </div>
+                    <form action="${path }/admin/stockManager" method="post">
+	                      <div class="admin-content_title">
+	                        <input type="text" placeholder="상품번호 입력하세요." name="type">
+	                      	<input type="submit" value="검색" >
+	                 	   </div>
+                    </form>
                     <div class="search-table">
                     <c:if test="${list.size() >= 1}">
           			

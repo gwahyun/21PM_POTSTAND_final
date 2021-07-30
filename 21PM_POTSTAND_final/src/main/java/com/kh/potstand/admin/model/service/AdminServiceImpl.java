@@ -15,12 +15,15 @@ import com.kh.potstand.admin.model.vo.Qna;
 import com.kh.potstand.admin.model.vo.Request;
 import com.kh.potstand.admin.model.vo.Review;
 import com.kh.potstand.book.model.vo.Book;
+import com.kh.potstand.book.model.vo.Sort;
 import com.kh.potstand.event.model.vo.Event;
 import com.kh.potstand.member.model.vo.Address;
 import com.kh.potstand.member.model.vo.Member;
 
 @Service
 public class AdminServiceImpl implements AdminService {
+
+
 
 	@Autowired
 	private AdminDao dao;
@@ -256,9 +259,9 @@ public class AdminServiceImpl implements AdminService {
 	}
 
 	@Override
-	public List<Book> productSelectList(Map param) {
+	public List<Book> productSelectList(Map param,int cPage, int numPerpage) {
 		// TODO Auto-generated method stub
-		return dao.productSelectList(session,param);
+		return dao.productSelectList(session,param,cPage,numPerpage);
 	}
 
 	@Override
@@ -280,15 +283,15 @@ public class AdminServiceImpl implements AdminService {
 	}
 
 	@Override
-	public int stockManagerCount() {
+	public int stockManagerCount(String type) {
 		// TODO Auto-generated method stub
-		return dao.stockManagerCount(session);
+		return dao.stockManagerCount(session,type);
 	}
 
 	@Override
-	public List<Book> stockManagerList(int cPage, int numPerpage) {
+	public List<Book> stockManagerList(int cPage, int numPerpage,String type) {
 		// TODO Auto-generated method stub
-		return dao.stockManagerList(session,cPage,numPerpage);
+		return dao.stockManagerList(session,cPage,numPerpage,type);
 	}
 
 	@Override
@@ -322,7 +325,35 @@ public class AdminServiceImpl implements AdminService {
 		
 	}
 
+	@Override
+	public List<Book> productSelectList(Map param) {
+		// TODO Auto-generated method stub
+		return dao.productSelectList(session,param);
+	}
 
+	@Override
+	public int requestSelectNoCount(String type) {
+		// TODO Auto-generated method stub
+		return dao.requestSelectNoCount(session,type);
+	}
+
+	@Override
+	public List<Request> requestSelectNo(int cPage, int numPerpage, String type) {
+		// TODO Auto-generated method stub
+		return dao.requestSelectNo(session,cPage,numPerpage,type);
+	}
+
+	@Override
+	public Sort bookGenreSelectOne(String bookGenre) {
+		// TODO Auto-generated method stub
+		return dao.bookGenreSelectOne(session,bookGenre);
+	}
+
+	@Override
+	public int productInsertEnd(Book b) {
+		// TODO Auto-generated method stub
+		return dao.productInsertEnd(session,b);
+	}
 
 
 }
