@@ -57,16 +57,16 @@
 
 						<!-- 책 표지 -->
 						<div class="img-area w-24 h-24 mx-5">
-							<img src="${cart.book.bookCover}" class="w-full">
+							<img src="${cart.book.bookCover}" class="w-full h-full">
 						</div>
 
 
 						<!-- 책 제목, 작가, 삭제버튼 -->
-						<div class="obj-info ml-6 w-4/12">
-							<h2 class="my-3 text-2xl font-bold">
-								<c:out value="${cart.book.bookTitle}" />
+						<div class="obj-info ml-6 w-6/12">
+							<h2 class="my-3 text-base font-bold">
+								<c:out value="${cart.book.bookTitle}" escapeXml="false" />
 							</h2>
-							<h4 class="my-3 text-xl font-medium">
+							<h4 class="my-3 text-sm font-medium">
 								<c:out value="${cart.book.bookWriter}" />
 							</h4>
 							<!-- 수량 -->
@@ -104,7 +104,7 @@
 
 
 						<!--수량, 가격, 쿠폰적용 -->
-						<div class="price ml-6 w-4/12">
+						<div class="price ml-6 w-3/12">
 							<!-- 가격-->
 							<div class="price-info text-sm">
 								<!-- 원래 가격 -->
