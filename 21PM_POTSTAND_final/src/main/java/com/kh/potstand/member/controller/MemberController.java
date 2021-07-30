@@ -257,8 +257,9 @@ public class MemberController {
 
 	//마이페이지 전환
 	@RequestMapping("/member/memberMypage.do")
-	public ModelAndView memberMypage(ModelAndView mv, String memberId) {
-		List<Point> pointList=service.memberPointSelect(memberId);
+	public ModelAndView memberMypage(ModelAndView mv, HttpSession session) {
+		
+		List<Point> pointList=service.memberPointSelect(((Member)(session.getAttribute("loginMember"))).getMemberId());
 		int totalPoint=0; //잔여 포인트
 		for(Point p : pointList) {
 			if(p.getUseLog().contains("구입")) {
@@ -349,6 +350,7 @@ public class MemberController {
 		return mv;
 	}
 	
+	//회원정보수정
 	@RequestMapping("/member/memberUpdateEnd.do")
 	public ModelAndView memberUpdateEnd(Member m, Address a, String newPw, ModelAndView mv, HttpSession session) 
 			throws NoSuchAlgorithmException, UnsupportedEncodingException, GeneralSecurityException {
@@ -400,8 +402,10 @@ public class MemberController {
 	
 	//적립금 페이지 전환
 	@RequestMapping("/member/memberPoint.do")
-	public ModelAndView memberPoint(ModelAndView mv, String memberId, @RequestParam(value ="cPage",defaultValue="1") int cPage,
+	public ModelAndView memberPoint(ModelAndView mv, HttpSession session, 
+			@RequestParam(value ="cPage",defaultValue="1") int cPage,
 			@RequestParam(value="numPerpage",defaultValue="10") int numPerpage) {
+		String memberId=((Member)session.getAttribute("loginMember")).getMemberId();
 		//잔여포인트
 		List<Point> pointList=service.memberPointSelect(memberId);
 		int totalPoint=0;
@@ -426,8 +430,10 @@ public class MemberController {
 	
 	//찜 목록 페이지 전환
 	@RequestMapping("/member/memberHeartList.do")
-	public ModelAndView memberHeartList(ModelAndView mv, String memberId, @RequestParam(value ="cPage",defaultValue="1") int cPage,
+	public ModelAndView memberHeartList(ModelAndView mv, HttpSession session, 
+			@RequestParam(value ="cPage",defaultValue="1") int cPage,
 			@RequestParam(value="numPerpage",defaultValue="5") int numPerpage) {
+		String memberId=((Member)session.getAttribute("loginMember")).getMemberId();
 		//찜목록에 담겨있는 책 개수
 		int totalData=service.memberHeartListCount(memberId);
 		//페이징처리해서 리스트에 담기
@@ -521,9 +527,10 @@ public class MemberController {
 	
 	//내 리뷰 관리 페이지전환
 	@RequestMapping("/member/memberMyReview.do")
-	public ModelAndView memberMyReview(ModelAndView mv, @RequestParam Map param, 
+	public ModelAndView memberMyReview(ModelAndView mv, @RequestParam Map param, HttpSession session,
 			@RequestParam(value ="cPage",defaultValue="1") int cPage,
 			@RequestParam(value="numPerpage",defaultValue="5") int numPerpage) {
+		param.put("memberId", ((Member)session.getAttribute("loginMember")).getMemberId());
 		int totalData=service.memberReviewListCount(param);
 		
 		List<Review> list=service.memberReviewListSelect(param,cPage,numPerpage);
