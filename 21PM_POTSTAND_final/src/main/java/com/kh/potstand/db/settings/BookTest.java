@@ -29,10 +29,11 @@ public class BookTest {
 
 	public static void main(String[] args)throws Exception {
 		//카테고리 리스트의 길이만큼 반복합니다
+		SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
 		for(int i=0; i<1;i++) {
 			
 			//카테고리 리스트의 장르 번호로 100개씩 조회, 필수조건은 목차=1로 고정
-			URL url = new URL("https://openapi.naver.com/v1/search/book_adv.xml?&display=10&start=1&d_catg="+100+"&d_cont=1");
+			URL url = new URL("https://openapi.naver.com/v1/search/book_adv.xml?&display=10&start=1&d_catg="+200+"&d_cont=1");
 			HttpURLConnection httpConn = (HttpURLConnection) url.openConnection();
 			httpConn.setRequestMethod("GET");
 			//api 키값 설정
@@ -44,7 +45,13 @@ public class BookTest {
 							: httpConn.getErrorStream();
 					Scanner s = new Scanner(responseStream).useDelimiter("\\A");
 					String response = s.hasNext() ? s.next() : "";
-					
+
+				response.replace("&lt;", "");
+				response.replace("&gt;", "");
+				response.replace("&apos;", "");
+				response.replace("&quot;", "");
+
+				System.out.println(response);
 				//documentBuilderFactory 생성 
 				DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 				factory.setNamespaceAware(true);
@@ -79,7 +86,7 @@ public class BookTest {
 				               case "author": b.setBookWriter(node.getTextContent());System.out.println(node.getTextContent());break;
 				               case "price" : b.setBookCost(Integer.parseInt(node.getTextContent()));System.out.println(Integer.parseInt(node.getTextContent()));break;
 				               case "publisher" : b.setBookPub(node.getTextContent());System.out.println(node.getTextContent());break;
-				               case "pubdate" : b.setBookDate(java.sql.Date.valueOf(node.getTextContent()));break;
+				               case "pubdate" : b.setBookDate(new java.sql.Date(format.parse(node.getTextContent()).getTime()));break;
 			                 }
 			            }
 

@@ -5,6 +5,7 @@ import java.io.StringReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Scanner;
@@ -41,6 +42,7 @@ public class BookDbTest {
 	public ModelAndView bookSetting(ModelAndView mv, HttpServletRequest request) throws Exception{
 		
 		List<Sort> cateList = getCategoryList();
+		SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
 		
 		//카테고리 리스트의 길이만큼 반복합니다
 		for(int i=0; i<cateList.size();i++) {
@@ -63,6 +65,9 @@ public class BookDbTest {
 				DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 				factory.setNamespaceAware(true);
 				DocumentBuilder builder=null;
+				
+				response.replace("<b>", "").replace("</b>", "");
+				System.out.println(response);
 
 				try {
 					//api의 response를 String result로 가져옵니다
@@ -78,7 +83,7 @@ public class BookDbTest {
 					XPathExpression expr = xpath.compile("//rss/channel/item");
 					//가져온 item 엘리먼츠는 노드리스트 형태로 담깁니다.
 					NodeList nodeList = (NodeList)expr.evaluate(doc, XPathConstants.NODESET);
-				
+
 					//item이 갖고있는 노드리스트만큼 반복합니다
 					for (int j =0; j < nodeList.getLength(); j++) {
 						Book b = new Book();
@@ -95,7 +100,7 @@ public class BookDbTest {
 				               case "author": b.setBookWriter(node.getTextContent());break;
 				               case "price" : b.setBookCost(Integer.parseInt(node.getTextContent()));break;
 				               case "publisher" : b.setBookPub(node.getTextContent());break;
-				               case "pubdate" : b.setBookDate(java.sql.Date.valueOf(node.getTextContent()));break;
+				               case "pubdate" : b.setBookDate(new java.sql.Date(format.parse(node.getTextContent()).getTime()));break;
 			                 }
 			            }
 			        String sortNo = cateList.get(i).getSortNo();

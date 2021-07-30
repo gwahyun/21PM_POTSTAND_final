@@ -10,6 +10,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>PotStand</title>
+    <link rel="shortcut icon" href="${path}/resources/img/favicon-32x32.png" type="image/x-icon">
+	<link rel="icon" href="${path}/resources/img/favicon-32x32.png" type="image/x-icon">
     <link href="${path}/resources/static/tailwind.css" type="text/css" rel="stylesheet"/>
     <script src="${path }/resources/js/jquery-3.6.0.min.js"></script>
 </head>
