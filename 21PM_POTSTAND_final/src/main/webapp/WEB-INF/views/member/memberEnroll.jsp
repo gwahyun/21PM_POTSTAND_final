@@ -177,6 +177,7 @@
     		let flag=false;
     		$.ajax({
 				url:"${path}/member/memberCheckId.do",
+				type:"POST",
 				data:{
 					"memberId":userId.val()
 				},
@@ -217,6 +218,7 @@
     		flag=false;
     		$.ajax({
 				url:"${path}/member/memberCheckEmail.do",
+				type:"POST",
 				data:{
 					"memberEmail":email.val()
 				},

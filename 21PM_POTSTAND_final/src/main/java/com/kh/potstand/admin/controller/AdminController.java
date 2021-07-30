@@ -96,9 +96,7 @@ public class AdminController {
 	public ModelAndView productInsertEnd(
 			@RequestParam(value="bookGenre",defaultValue="") String bookGenre,
 			Book b,ModelAndView mv) {
-		log.debug("bookGenre :{}",bookGenre);
 		b.setSort(service.bookGenreSelectOne(bookGenre));
-		log.debug("b의 값 :{}",b);
 		int result = service.productInsertEnd(b);
 		mv.addObject("loc", "/admin/productInsert");
 		mv.addObject("msg",result>0?"책 등록에 성공하였습니다!":"등록 실패!");

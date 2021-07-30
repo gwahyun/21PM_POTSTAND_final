@@ -7,16 +7,16 @@
 	<section class="body-font">
     	<div class="container mx-auto flex justify-start">
         	<div class="w-1/4 h-full py-8">
-	            <h3 class="text-4xl font-extrabold">마이페이지</h3>
+	            <h3 class="text-4xl font-extrabold"><a href="${path}/member/memberMypage.do">마이페이지</a></h3>
 	            <div class="mt-4 text-gray-500 border-t-2">
 	            	<h4 class="text-2xl font-semibold py-2"><span>개인</span></h4>
 	            	<div class="pl-5 text-xl">
 	            		<ul>
 			                <li class="py-2"><a href="${path}/notice/noticeSelectList.do">고객센터</a></li>
 			                <li class="py-2"><a href="${path}/member/memberCheckPwd.do">정보변경</a></li>
-			                <li class="py-2"><a href="#">장바구니</a></li>
-			                <li class="py-2"><a href="${path}/member/memberHeartList.do?memberId=${loginMember.memberId}">찜 목록</a></li>
-			                <li class="py-2"><a href="${path }//member/memberMyReview.do?memberId=${loginMember.memberId}">내 리뷰 관리</a></li>
+			                <li class="py-2"><a href="${path}/member/cartList.do">장바구니</a></li>
+			                <li class="py-2"><a href="${path}/member/memberHeartList.do">찜 목록</a></li>
+			                <li class="py-2"><a href="${path }//member/memberMyReview.do">내 리뷰 관리</a></li>
 			            </ul>
 	            	</div>
 	            </div>
@@ -26,7 +26,7 @@
 	            		<ul>
 			                <li class="py-2"><a href="#">주문목록/배송조회</a></li>
 			                <li class="py-2"><a href="#">쿠폰</a></li>
-			                <li class="py-2"><a href="${path}/member/memberPoint.do?memberId=${loginMember.memberId}">적립금</a></li>
+			                <li class="py-2"><a href="${path}/member/memberPoint.do">적립금</a></li>
 			            </ul>
 	            	</div>
 	            </div>
@@ -42,7 +42,9 @@
         		</c:if>
         		<c:if test="${list!='[]'}">
 	        		<div class="flex w-full flex-col justify-center mt-5 border" >
-	        			<h2 class="text-xl font-bold">잔여 적립금 : ${totalPoint } point</h2>
+	        			<h2 class="mb-2">
+	        				잔여 적립금 : <span class="text-blue-500 font-semibold text-xl">${totalPoint }</span> point
+	        			</h2>
 	        			<div class="flex">
 	        				<div class="w-1/4 border h-11 p-2 bg-red-100 flex justify-center">
 	        					<h3 class="text-lg font-bold">날짜</h3>

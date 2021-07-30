@@ -80,6 +80,12 @@ public interface MemberDao {
 	//내 리뷰 관리 - 리뷰리스트
 	List<Review> memberReviewListSelect(SqlSession session,Map param,int cPage,int numPerpage);
 	
+	//내 리뷰 삭제
+	int memberReviewDelete(SqlSession session,Map param);
+	
+	//내 리뷰 수정
+	int memberReviewUpdate(SqlSession session,Map param);
+	
 	//notice List 호출 (공지사항 페이지)
 	List<Notice> noticeSelectList(SqlSession session, int cPage, int numPerPage);
 	

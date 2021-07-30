@@ -151,6 +151,18 @@ public class MemberDaoImpl implements MemberDao{
 		return session.selectList("member.memberReviewListSelect", param, new RowBounds((cPage-1)*numPerpage, numPerpage));
 	}
 	
+	//내 리뷰 삭제
+	@Override
+	public int memberReviewDelete(SqlSession session, Map param) {
+		return session.delete("member.memberReviewDelete", param);
+	}
+	
+	//내 리뷰 수정
+	@Override
+	public int memberReviewUpdate(SqlSession session, Map param) {
+		return session.update("member.memberReviewUpdate", param);
+	}
+	
 	//notice List 호출 (공지사항 페이지)
 	@Override
 	public List<Notice> noticeSelectList(SqlSession session, int cPage, int numPerPage) {
@@ -179,7 +191,6 @@ public class MemberDaoImpl implements MemberDao{
 	public Qna qnaSelectOne(SqlSession session, int qnaNo) {
 		return session.selectOne("function.qnaSelectOne",qnaNo);
 	}
-
 
 	//1:1문의 작성
 	@Override
@@ -233,6 +244,10 @@ public class MemberDaoImpl implements MemberDao{
 		System.out.println(param);
 		return session.update("function.cartCouponUpdate",param);
 	}
+
+	
+
+	
 	
 	
 	

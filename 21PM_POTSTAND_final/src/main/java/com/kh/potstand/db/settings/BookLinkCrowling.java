@@ -105,7 +105,7 @@ public class BookLinkCrowling {
 	    	  e.printStackTrace();
 	    	  	result = 0;
 	      }
-    	  System.out.println(result);
+    	  
 		
 	}
 }

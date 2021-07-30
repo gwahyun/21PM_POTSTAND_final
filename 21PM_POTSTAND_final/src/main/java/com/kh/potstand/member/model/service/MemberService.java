@@ -69,6 +69,12 @@ public interface MemberService {
 	//내 리뷰 관리 - 리뷰리스트
 	List<Review> memberReviewListSelect(Map param, int cPage, int numPerPage);
 	
+	//내 리뷰 삭제
+	int memberReviewDelete(Map param);
+	
+	//내 리뷰 수정
+	int memberReviewUpdate(Map param);
+	
 	//notice List 호출 (공지사항 페이지)
 	List<Notice> noticeSelectList(int cPage, int numPerPage);
 	
