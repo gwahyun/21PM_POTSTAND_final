@@ -151,7 +151,7 @@
                 장바구니
               </a>
               <a
-                href="#"
+                href="${path}/member/memberHeartList.do?memberId=${loginMember.memberId}"
                 class="
                   block
                   px-4

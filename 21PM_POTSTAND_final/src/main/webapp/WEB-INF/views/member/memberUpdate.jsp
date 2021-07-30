@@ -35,7 +35,7 @@
 			                <li class="py-2"><a href="${path}/member/memberCheckPwd.do">정보변경</a></li>
 			                <li class="py-2"><a href="#">장바구니</a></li>
 			                <li class="py-2"><a href="${path}/member/memberHeartList.do?memberId=${loginMember.memberId}">찜 목록</a></li>
-			                <li class="py-2"><a href="#">내 리뷰 관리</a></li>
+			                <li class="py-2"><a href="${path }//member/memberMyReview.do?memberId=${loginMember.memberId}">내 리뷰 관리</a></li>
 			            </ul>
 	            	</div>
 	            </div>

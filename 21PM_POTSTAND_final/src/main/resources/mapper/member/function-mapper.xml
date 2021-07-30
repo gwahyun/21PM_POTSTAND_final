@@ -81,6 +81,7 @@
 		<id column="CART_NO" property="cartNo"/>
 		<result column="MEMBER_ID" property="memberId"/>
 		<result column="BOOK_AMOUNT" property="bookAmount"/>
+		<result column="USED_COUPON_NO" property="usedCouponNo"/>
 		<association property="book" resultMap="bookMap"/>	
 		<collection property="coupon" resultMap="couponMap"/>
 	</resultMap>
@@ -154,6 +155,17 @@
 	<insert id="insertSort">
 		INSERT INTO SORT VALUES(#{sortNo}, #{lv1}, #{lv2}, #{lv3}, #{lv4})
 	</insert>
+		<update id="cartBookAmountUpdate">
+		UPDATE CART SET BOOK_AMOUNT=#{bookAmount} WHERE CART_NO=#{cartNo}
+	</update>
+	<update id="cartCouponUpdate">
+		<if test="usedCouponNo!=null">
+			UPDATE CART SET USED_COUPON_NO=#{usedCouponNo} WHERE CART_NO=#{cartNo}
+		</if>
+		<if test="usedCouponNo==null">
+			UPDATE CART SET USED_COUPON_NO=NULL WHERE CART_NO=#{cartNo}
+		</if>
+	</update>
 	
 	<select id="selectSortAll" resultMap="sortMap">
 		select * from sort
