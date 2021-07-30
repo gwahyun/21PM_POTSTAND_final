@@ -26,12 +26,12 @@ public class OrderDaoImpl implements OrderDao{
 	//cart 조회
 	@Override
 	public List<Cart> cartSelectList(SqlSession session, String memberId) {
-		return session.selectList("function.cartSelectListJoinEventList", memberId);  
+		return session.selectList("cart.cartSelectListJoinEventList", memberId);  
 	}
 
 	@Override
 	public int cartObjDelete(SqlSession session, Map param) {
-		return session.delete("function.cartObjDelete", param);
+		return session.delete("cart.cartObjDelete", param);
 	}
 
 	@Override
@@ -40,7 +40,7 @@ public class OrderDaoImpl implements OrderDao{
 		for(String no : param) {
 			Map map=new HashMap();
 			map.put("cartNo", no);
-			result+=session.delete("function.cartObjDelete", map);
+			result+=session.delete("cart.cartObjDelete", map);
 		}
 		return result;
 	}
@@ -48,13 +48,13 @@ public class OrderDaoImpl implements OrderDao{
 	//카트 bookAmount update
 	@Override
 	public int cartBookAmountUpdate(SqlSession session, Map param) {
-		return session.update("function.cartBookAmountUpdate",param);
+		return session.update("cart.cartBookAmountUpdate",param);
 	}
 
 	@Override
 	public int cartCouponUpdate(SqlSession session, Map param) {
 		System.out.println(param);
-		return session.update("function.cartCouponUpdate",param);
+		return session.update("cart.cartCouponUpdate",param);
 	}
 
 	
