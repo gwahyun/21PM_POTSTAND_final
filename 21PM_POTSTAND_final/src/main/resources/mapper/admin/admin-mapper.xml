@@ -338,10 +338,17 @@
 		<result column="BOOK_PUB" property="bookPub"/>
 		<result column="BOOK_COST" property="bookCost"/>
 		<result column="BOOK_SHORT" property="bookShort"/>
-		<result column="BOOK_CONTENT" property="bookContent" typeHandler="longHandler"/>
 		<result column="BOOK_COVER" property="bookCover"/>
 		<result column="BOOK_DATE" property="bookDate"/>
 		<result column="BOOK_STOCK" property="bookStock"/>
+		<result column="BOOK_LINK" property="bookLink"/>
+		<result column="BOOK_INTRO" property="bookIntro"/>
+		<result column="WRITER_INTRO" property="writerIntro"/>
+		<result column="BOOK_INDEX" property="bookIndex"/>
+		<result column="PUB_REVIEW" property="pubReview"/>
+		<result column="BOOK_EXTRACT" property="bookExtract"/>
+		<result column="RECOMMAND" property="recommand"/>
+		<result column="INTRO_MV" property="introMv"/>
 		<association column="SORT_NO" property="sort" select="selectSortByPK"/>
  	</resultMap>
  	
@@ -352,9 +359,59 @@
 		<result column="LV3" property="lv3"/>
 		<result column="LV4" property="lv4"/>		
 	</resultMap>
+	
 	<select id="selectSortByPK" resultMap="sortMap">
 		SELECT * FROM SORT WHERE SORT_NO=#{sortNo}
 	</select>
+
+	<!-- 크롤링해서 가져온 데이터들 Book Table에 쏴주는 과정 -->
+ 	<update id="bookInsertRinkCrowling">
+ 		update book
+     	   set 
+ 			<if test="bookIntro != null">
+ 				book_intro = #{bookIntro}
+ 			</if>
+ 			<if test="bookIntro == null">
+ 				book_intro = 'null'
+ 			</if> 
+ 			 <if test="writerIntro == null">
+ 				,writer_intro = 'null'
+ 			</if>
+ 			<if test="writerIntro != null">
+ 				,writer_intro = #{writerIntro}
+ 			</if> 
+ 			<if test="bookIndex == null">
+ 				,book_index = 'null'
+ 			</if>
+ 			<if test="bookIndex != null">
+ 				,book_index = #{bookIndex}
+ 			</if> 
+ 			<if test="pubReview == null">
+ 				,pub_review = 'null'
+ 			</if>
+ 			<if test="pubReview != null">
+ 				,pub_review = #{pubReview}
+ 			</if>
+ 			<if test="bookExtract == null">
+ 				,book_extract = 'null'
+ 			</if>
+ 			<if test="bookExtract != null">
+ 				,book_extract = #{bookExtract}
+ 			</if>
+			<if test="recommand == null">
+ 				,recommand = 'null'
+ 			</if>
+ 			<if test="recommand != null">
+ 				,recommand = #{recommand}
+ 			</if>
+ 			<if test="introMv == null">
+ 				,intro_mv = 'null'
+ 			</if>
+ 			<if test="introMv != null">
+ 				,intro_mv = #{introMv}
+ 			</if>
+ 					where book_code = #{bookCode}
+ 	</update>
  	
  	<!-- 재고관리 -->
  	<select id="stockManagerListCount" resultType="int">
@@ -372,21 +429,31 @@
  	</update>
  	
  	<!-- request -->
- 	
+ 	<resultMap id="requestMap" type="request">
+ 		<id column="REQUEST_NO" property="requestNo"></id>
+ 		<result column="MEMBER_ID" property="memberId"></result>
+ 		<result column="STATUS" property="status"></result>
+ 		<result column="REQUEST_DATE" property="requestDate"></result>
+ 		<result column="RESPONSE_DATE" property="responseDate"></result>
+ 		<association property="book" resultMap="bookMap"/>
+  	</resultMap>
+  	
  	<select id="requestSelectListCount" resultType="int">
  		select count(*) from request r
     	join book b on r.book_code = b.book_code
- 		<!-- <if test="type != null and type != '' "> -->
-    		where b.book_code like '%'||#{type}||'%'
-    	<!-- </if> -->
+   		where b.book_code like '%'||#{type}||'%'
  	</select>
  	
  	<select id="requestSelectList" resultMap="requestMap">
  		select * from request r
     	join book b on r.book_code = b.book_code
-    	<!-- <if test="type != null and type != '' "> -->
-    		where b.book_code like '%'||#{type}||'%'
-    	<!-- </if> -->
+	    		where b.book_code like '%'||#{type}||'%'
+ 	</select>
+ 	
+ 	<select id="startFromBook" resultMap ="bookMap">
+ 		select * from book 
+ 		where book_code = #{bookCode}
+ 	
  	</select>
  	
  	<update id="requestUpdate">
@@ -398,26 +465,51 @@
 			        where book_code = (select book_code from book where book_code = #{bookCode})
  	</update>
  	
- 	
- 	<resultMap id="requestMap" type="request">
- 		<id column="REQUEST_NO" property="requestNo"></id>
- 		<result column="MEMBER_ID" property="memberId"></result>
- 		<result column="STATUS" property="status"></result>
- 		<result column="REQUEST_DATE" property="requestDate"></result>
- 		<result column="RESPONSE_DATE" property="responseDate"></result>
- 		<association property="book" javaType="book">
- 				<id column="BOOK_CODE" property="bookCode"/>
-				<result column="BOOK_TITLE" property="bookTitle"/>
-				<result column="BOOK_WRITER" property="bookWriter"/>
-				<result column="BOOK_PUB" property="bookPub"/>
-				<result column="BOOK_COST" property="bookCost"/>
-				<result column="BOOK_SHORT" property="bookShort"/>
-				<result column="BOOK_CONTENT" property="bookContent" typeHandler="longHandler"/>
-				<result column="BOOK_COVER" property="bookCover"/>
-				<result column="BOOK_DATE" property="bookDate"/>
-				<result column="BOOK_STOCK" property="bookStock"/>
-				<association column="SORT_NO" property="sort" select="selectSortByPK"/>
- 		</association>
+
+  	<!-- 결제 연습 -->
+  	<select id="orderSelectList" resultMap="creditMap">
+  		select * from credit
+  		where 1 = 1
+  			<if test="dType != null and dType != '전체'">
+  				and status = #{dType}
+  			</if>
+  			<if test="type != null and type != '전체'">
+  				and ${type} = #{keyword}
+  			</if>
+  		
+  			<if test="endDate != null and startDate != null">
+  			and creditdate <![CDATA[<]]> #{endDate} and creditdate > #{startDate}
+  			</if>
+  	</select>
+  	
+  	<select id="orderSelectListCount" resultType="int">
+	  	select count(*) from credit
+	  		where 1 = 1
+	  			<if test="dType != null and dType != '전체'">
+	  				and status = #{dType}
+	  			</if>
+	  			<if test="type != null and type != '전체'">
+	  				and ${type} = #{keyword}
+	  			</if>
+	  		
+	  			<if test="endDate != null and startDate != null">
+	  			and creditdate <![CDATA[<]]> #{endDate} and creditdate > #{startDate}
+	  			</if>
+  	</select>
+  	
+  	<resultMap type="com.kh.potstand.admin.model.vo.Credit" id="creditMap">
+  		<id column="CREDITNO" property="creditNo"></id>
+  		<result column="MEMBERID" property="memberId"></result>
+  		<result column="PRODUCTNO" property="productNo"></result>
+  		<result column="STOCK" property="stock"></result>
+  		<result column="STATUS" property="status"></result>
+  		<result column="CREDITDATE" property="creditDate"></result>
+  		<result column="RECIPIENT" property="recipient"></result>
+  		<result column="SHOPADDRESS" property="shopAddress"></result>
+  		<result column="PHONE" property="phone"></result>
+  		<result column="PRICE" property="price"></result>
   	</resultMap>
+  	
+  	
  	
 </mapper>

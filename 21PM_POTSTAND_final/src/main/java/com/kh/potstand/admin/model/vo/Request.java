@@ -2,6 +2,8 @@ package com.kh.potstand.admin.model.vo;
 
 import java.util.Date;
 
+import com.kh.potstand.book.model.vo.Book;
+
 import lombok.Data;
 
 @Data

@@ -5,12 +5,17 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -22,6 +27,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.potstand.admin.model.service.AdminService;
 import com.kh.potstand.admin.model.vo.Answer;
+import com.kh.potstand.admin.model.vo.Credit;
 import com.kh.potstand.admin.model.vo.Faq;
 import com.kh.potstand.admin.model.vo.Notice;
 import com.kh.potstand.admin.model.vo.Qna;
@@ -56,7 +62,23 @@ public class AdminController {
 	private AdminService service;
 
 	@RequestMapping("/admin/adminMain")
+	
 	public ModelAndView adminMain(ModelAndView mv) {
+		//차트
+		String[] str = new String[7];
+		str[0] = "21-07-31";
+		str[1] = "21-08-01";
+		str[2] = "21-08-02";
+		str[3] = "21-08-03";
+		str[4] = "21-08-04";
+		str[5] = "21-08-05";
+		str[6] = "21-08-06";
+		String c = "";
+		for(int i=0; i<str.length; i++) {
+			c += "'"+str[i]+"',"+"\n\n";
+		}
+		mv.addObject("c", c);
+		//최신 리뷰,문의 등등
 		mv.addObject("answerNo", service.answerNo());
 		mv.addObject("newReview", service.newReview());
 		mv.setViewName("admin/adminMain");
@@ -81,15 +103,6 @@ public class AdminController {
 	
 	@RequestMapping("/admin/orderCheck")
 	public ModelAndView orderCheck(ModelAndView mv) {
-		
-		mv.setViewName("admin/orderCheck");
-		return mv;
-	}
-	
-
-	
-	@RequestMapping("/admin/orderSelectList")
-	public ModelAndView orderSelectList(ModelAndView mv,@RequestParam Map param) {
 		
 		mv.setViewName("admin/orderCheck");
 		return mv;
@@ -568,7 +581,6 @@ public class AdminController {
 			@RequestParam(value="type",defaultValue="") String type) {
 		int totalData = service.requestSelectCount(type);
 		mv.addObject("pageBar", PageFactory.getPageBar(totalData, cPage, numPerpage,5,"requestSelect","type="+type));
-		//mv.addObject("pageBar", PageFactory.getPageBar(totalData, cPage, numPerpage,5,"requestSelect?type="+type));
 		List<Request> list = service.requestSelect(cPage,numPerpage,type);
 		mv.addObject("count", totalData);
 		mv.addObject("list", list);
@@ -583,6 +595,118 @@ public class AdminController {
 		mv.addObject("msg", result>0?"요청 완료!":"요청 실패!");
 		mv.addObject("loc", "/admin/requestSelect");
 		mv.setViewName("common/msg");
+		return mv;
+	}
+	
+	@RequestMapping("/admin/crol")
+	public ModelAndView crol(ModelAndView mv,
+			@RequestParam(value="url1",defaultValue="") String url1) {
+		System.out.println(url1);
+		int bookNo = 2;
+		//newsCrawling("https://book.naver.com/bookdb/book_detail.nhn?bid=17764815",bookNo);
+		
+		String url = url1;
+		Book b = new Book();
+		  b.setBookCode(bookNo);
+	      Document doc=null;
+	      
+	      try {
+	         doc=Jsoup.connect(url).get();
+	      }catch(IOException e) {
+	      }
+	      
+	      Elements element=doc.select("div#content");	    
+	      
+	      //책소개
+	      Iterator<Element> introduce=element.select("div#bookIntroContent>p").iterator();
+	      //저자소개
+	      Iterator<Element> writerIntroduce=element.select("div#authorIntroContent").iterator();
+	      //출판사 서평
+	      Iterator<Element> pubReviewContent=element.select("div#pubReviewContent").iterator();
+	      //책 속으로
+	      Iterator<Element> bookIn=element.select("div>h3.order35+p ").iterator();
+	  
+	      try {
+	    	  //목차 없는애들 있음
+	    	  Iterator<Element> index=element.select("div#contentContent").iterator();
+	    	 // System.out.println("목차 : "+index.next().text());
+	    	  b.setBookIndex(index.next().text().substring(0, 350));
+	      }catch(Exception e) {
+	    	  b.setBookIndex("null");
+	      }
+	      try {
+	    	  //비디오 없는애들 있음
+	    	  Iterator<Element> iframe=element.select("iframe").iterator();
+	    	 // System.out.println("책소개 영상 : "+iframe.next().absUrl("src"));
+	    	  b.setIntroMv(iframe.next().absUrl("src"));
+	      }catch(Exception e) {
+	    	  b.setIntroMv("null");
+	      }
+	      try {
+	    	  Iterator<Element> chooChunPung=element.select("div>h3.order36+p").iterator();
+	    	  //System.out.println("추쳔평 : "+chooChunPung.next().text());
+	    	  b.setRecommand(chooChunPung.next().text().substring(0, 350));
+	      }catch(Exception e) {
+	    	  b.setRecommand("null");
+	      }
+	      	
+	      //System.out.println("책 소개 : "+introduce.next().text());
+	     try {
+	    	b.setBookIntro(introduce.next().text().substring(0, 200));
+	     }catch(Exception e) {
+	    	 b.setBookIntro("null");
+	     }
+	      try {
+	    	  
+	    	  //System.out.println("저자 : "+writerIntroduce.next().text());
+	    	  b.setWriterIntro(writerIntroduce.next().text().substring(0, 350));
+	      }catch(Exception e) {
+	      }
+	      //System.out.println("출판사 서평 : "+pubReviewContent.next().text());
+	      try {
+	    	  b.setPubReview(pubReviewContent.next().text().substring(0, 300));
+	      }catch(Exception e) {
+	    	  b.setPubReview("null");
+	      }
+	      //System.out.println("책속으로 : "+bookIn.next().text());
+	      try {
+	    	  b.setBookExtract(bookIn.next().text().substring(0, 300));
+	      }catch(Exception e) {
+	    	  b.setBookExtract("null");
+	      }
+	      int result =0;
+	      System.out.println(b);
+	      try {
+	    	  System.out.println(b.toString());
+	    	  /*
+	    	  session.insert("admin.BI", b);
+	    	  session.insert("admin.WI", b);
+	    	  session.insert("admin.bookIndex", b);
+	    	  session.insert("admin.PUBREVIEW", b);
+	    	  session.insert("admin.BOOKEXTRACT", b);
+	    	  session.insert("admin.RECOMMAND", b);
+	    	  session.insert("admin.INTROMV", b);
+	    	  */
+	    	  result = session.update("admin.bookInsertRinkCrowling", b);
+	      }catch(Exception e) {
+	    	  e.printStackTrace();
+	    	  	result = 0;
+	      }
+      	  System.out.println(result);
+		
+      	mv.setViewName("admin/adminMain");
+		return mv;
+	}
+	
+	@RequestMapping("/admin/orderSelectList")
+	public ModelAndView orderSelectList(ModelAndView mv,@RequestParam Map param) {
+		
+		List<Credit> list = session.selectList("admin.orderSelectList", param);
+		int count = session.selectOne("admin.orderSelectListCount", param);
+		System.out.println(list);
+		mv.addObject("list", list);
+		mv.addObject("count", count);
+		mv.setViewName("admin/orderCheck");
 		return mv;
 	}
 	
