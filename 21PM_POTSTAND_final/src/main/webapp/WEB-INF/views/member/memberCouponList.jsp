@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <jsp:include page="/WEB-INF/views/common/header.jsp"/>
 <c:set var="path" value="${pageContext.request.contextPath }"/>
 	<section class="body-font">
@@ -32,27 +33,55 @@
         	</div>
         	<div class="w-3/4 h-full px-5 py-8 flex flex-col content-center">
         		<div class="w-full">
-        			<h3 class="text-2xl font-semibold">회원탈퇴</h3>
+        			<h3 class="text-2xl font-semibold">쿠폰</h3>
         		</div>
-        		<div class="mt-4">
-        			<div>
-        				<h4 class="text-xl font-semibold text-red-500">"다음 사항을 꼭 확인해 주세요."</h4>
-        				<p class="text-xl">한번 탈퇴하면 복구 할 수 없습니다. 신중하게 생각하고 탈퇴하세요.</p>      	
+        		<c:if test="${list=='[]' }">
+        			<div class="flex justify-center mt-5">
+        				<h3 class="text-lg font-bold">사용가능한 쿠폰이 없습니다.</h3>
         			</div>
-        			<div class="mt-8">		
-        				<h4 class="text-xl font-semibold">"본인 확인을 위해 비밀번호를 입력해주세요."</h4>
-	        			<form class="mt-2" action="${path}/member/memberDeleteEnd.do" method="post">
-	        				<input type="hidden" name="memberId" value="${loginMember.memberId }">
-	        				<input type="password" name="memberPwd" class="border h-8 w-80" required>
-	        				<button type="submit" class="border h-8 w-1/6 bg-red-500 text-gray-100 rounded-full tracking-wide 
-	        				font-semibold focus:outline-none focus:shadow-outline hover:bg-red-600 shadow-lg cursor-pointer 
-	        				transition ease-in duration-300">
-	        					회원탈퇴
-	        				</button>
-	        			</form>
-        			</div>
-        		</div>
+        		</c:if>
+        		<c:if test="${list!='[]'}">
+	        		<div class="flex w-full flex-col justify-center mt-5 border" >
+	        			<h2 class="mb-2 font-semibold text-xl">
+	        				사용가능 <span class="text-blue-500">${totalData }</span>
+	        			</h2>
+	        			<div class="flex">
+	        				<div class="w-1/5 border h-11 p-2 bg-red-100 flex justify-center">
+	        					<h3 class="text-lg font-bold">발행일</h3>
+		        			</div>
+		        			<div class="w-2/5 border h-11 p-2 bg-red-100 flex justify-center">
+		        				<h3 class="text-lg font-bold">쿠폰명</h3>
+		        			</div>
+		        			<div class="w-1/5 border h-11 p-2 bg-red-100 flex justify-center">
+	        					<h3 class="text-lg font-bold">할인가</h3>
+		        			</div>
+		        			<div class="w-1/5 border h-11 p-2 bg-red-100 flex justify-center">
+	        					<h3 class="text-lg font-bold">만료일</h3>
+		        			</div>
+	        			</div>
+	        			<c:forEach items="${list }" var="c">
+		        			<div class="flex">
+		        				<div class="w-1/5 border h-11 p-2 flex justify-center">
+		        					<h4>${c.startDate }</h4>
+			        			</div>
+			        			<div class="w-2/5 border h-11 p-2 flex justify-center">
+			        				<h4>${c.event.eventTitle }</h4>
+			        			</div>
+			        			<div class="w-1/5 border h-11 p-2 flex justify-center">
+			        				<h4>${c.event.discount}</h4>
+			        			</div>
+			        			<div class="w-1/5 border h-11 p-2 flex justify-center">
+			        				<h4>${c.valDate}</h4>
+			        			</div>
+		        			</div>
+	        			</c:forEach>
+	        		</div>     	
+        			<div class="pageBar flex my-5">${pageBar}</div>
+        		</c:if>
 			</div>
 		</div>
     </section>
+    <script>
+    	
+    </script>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>

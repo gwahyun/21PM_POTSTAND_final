@@ -163,6 +163,18 @@ public class MemberDaoImpl implements MemberDao{
 		return session.update("member.memberReviewUpdate", param);
 	}
 	
+	//마이페이지 쿠폰리스트 총 개수
+	@Override
+	public int memberCouponListCount(SqlSession session, String memberId) {
+		return session.selectOne("member.memberCouponListCount", memberId);
+	}
+
+	//마이페이지 쿠폰 리스트
+	@Override
+	public List<Coupon> memberCouponListSelect(SqlSession session, String memberId,int cPage,int numPerpage) {
+		return session.selectList("member.memberCouponListSelect",memberId,new RowBounds((cPage-1)*numPerpage, numPerpage));
+	}
+	
 	//notice List 호출 (공지사항 페이지)
 	@Override
 	public List<Notice> noticeSelectList(SqlSession session, int cPage, int numPerPage) {
@@ -247,8 +259,6 @@ public class MemberDaoImpl implements MemberDao{
 
 	
 
-	
-	
 	
 	
 

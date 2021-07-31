@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.kh.potstand.admin.model.vo.Notice;
 import com.kh.potstand.admin.model.vo.Qna;
 import com.kh.potstand.book.model.vo.Review;
+import com.kh.potstand.event.model.vo.Coupon;
 import com.kh.potstand.member.model.vo.Heart;
 import com.kh.potstand.member.model.vo.Member;
 import com.kh.potstand.member.model.vo.Point;
@@ -74,6 +75,12 @@ public interface MemberService {
 	
 	//내 리뷰 수정
 	int memberReviewUpdate(Map param);
+	
+	//마이페이지 쿠폰리스트 총 개수
+	int memberCouponListCount(String memberId);
+	
+	//마이페이지 쿠폰리스트
+	List<Coupon> memberCouponListSelect(String memberId, int cPage, int numPerpage);
 	
 	//notice List 호출 (공지사항 페이지)
 	List<Notice> noticeSelectList(int cPage, int numPerPage);
