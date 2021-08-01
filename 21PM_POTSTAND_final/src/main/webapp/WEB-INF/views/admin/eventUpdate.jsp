@@ -116,10 +116,35 @@
 						등록된 이미지
 					<img src="${path }/resources/upload/event/${e.eventThum }" width="300px" height="300px">
 					<input type="hidden" name="oldFile" value="${e.eventThum}">
-					<input type="file" name="upFile"/>
+						변경할 이미지
+					<label for="input-file">
+					  <img class="admin-upload_img">
+					</label>
+					<!-- <input type="file" name="upFile"> -->
+					<input class="input_img"  type="file" accept=".png, .jpg, .gif" id="input-file" name="upFile" style="display: none">
+					<!-- <input type="file" name="upFile"/> -->
 					</div>
 				</div>
 			</div>
+			<script>
+			window.addEventListener("load",function(){
+			function readImage(input) {
+			    if(input.files && input.files[0]) {
+			        const reader = new FileReader()
+			        reader.onload = e => {
+			            const previewImage = document.querySelector(".admin-upload_img")
+			            previewImage.src = e.target.result
+			        }
+			        reader.readAsDataURL(input.files[0])
+			    }
+			}
+			const inputImage = document.querySelector(".input_img")
+			inputImage.addEventListener("change", e => {
+			    readImage(e.target)
+			})
+			
+		});
+	</script>
 			
 			<div class="admin-content_area">
 				<div class="admin-content">

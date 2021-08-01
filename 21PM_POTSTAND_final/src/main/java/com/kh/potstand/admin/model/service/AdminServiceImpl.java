@@ -15,12 +15,15 @@ import com.kh.potstand.admin.model.vo.Qna;
 import com.kh.potstand.admin.model.vo.Request;
 import com.kh.potstand.admin.model.vo.Review;
 import com.kh.potstand.book.model.vo.Book;
+import com.kh.potstand.book.model.vo.Sort;
 import com.kh.potstand.event.model.vo.Event;
 import com.kh.potstand.member.model.vo.Address;
 import com.kh.potstand.member.model.vo.Member;
 
 @Service
 public class AdminServiceImpl implements AdminService {
+
+
 
 	@Autowired
 	private AdminDao dao;
@@ -29,13 +32,13 @@ public class AdminServiceImpl implements AdminService {
 	private SqlSessionTemplate session;
 	
 	@Override
-	public List<Member> memberSelect(int cPage,int numPerpage) {
-		return dao.memberSelect(session,cPage,numPerpage);
+	public List<Member> memberSelect(int cPage,int numPerpage,Map param) {
+		return dao.memberSelect(session,cPage,numPerpage,param);
 	}
 
 	@Override
-	public int memberSelectCount() {
-		return dao.memeberSelectCount(session);
+	public int memberSelectCount(Map param) {
+		return dao.memeberSelectCount(session,param);
 	}
 
 	@Override
@@ -256,9 +259,9 @@ public class AdminServiceImpl implements AdminService {
 	}
 
 	@Override
-	public List<Book> productSelectList(Map param) {
+	public List<Book> productSelectList(Map param,int cPage, int numPerpage) {
 		// TODO Auto-generated method stub
-		return dao.productSelectList(session,param);
+		return dao.productSelectList(session,param,cPage,numPerpage);
 	}
 
 	@Override
@@ -268,27 +271,27 @@ public class AdminServiceImpl implements AdminService {
 	}
 
 	@Override
-	public int requestSelectCount(String type) {
+	public int requestSelectCount(Map param) {
 		// TODO Auto-generated method stub
-		return dao.requestSelectListCount(session,type);
+		return dao.requestSelectListCount(session,param);
 	}
 
 	@Override
-	public List<Request> requestSelect(int cPage, int numPerpage,String type) {
+	public List<Request> requestSelect(int cPage, int numPerpage,Map param) {
 		// TODO Auto-generated method stub
-		return dao.requestSelectList(session,cPage,numPerpage,type);
+		return dao.requestSelectList(session,cPage,numPerpage,param);
 	}
 
 	@Override
-	public int stockManagerCount() {
+	public int stockManagerCount(Map param) {
 		// TODO Auto-generated method stub
-		return dao.stockManagerCount(session);
+		return dao.stockManagerCount(session,param);
 	}
 
 	@Override
-	public List<Book> stockManagerList(int cPage, int numPerpage) {
+	public List<Book> stockManagerList(int cPage, int numPerpage,Map param) {
 		// TODO Auto-generated method stub
-		return dao.stockManagerList(session,cPage,numPerpage);
+		return dao.stockManagerList(session,cPage,numPerpage,param);
 	}
 
 	@Override
@@ -322,7 +325,35 @@ public class AdminServiceImpl implements AdminService {
 		
 	}
 
+	@Override
+	public List<Book> productSelectList(Map param) {
+		// TODO Auto-generated method stub
+		return dao.productSelectList(session,param);
+	}
 
+	@Override
+	public int requestSelectNoCount(Map param) {
+		// TODO Auto-generated method stub
+		return dao.requestSelectNoCount(session,param);
+	}
+
+	@Override
+	public List<Request> requestSelectNo(int cPage, int numPerpage, Map param) {
+		// TODO Auto-generated method stub
+		return dao.requestSelectNo(session,cPage,numPerpage,param);
+	}
+
+	@Override
+	public Sort bookGenreSelectOne(String bookGenre) {
+		// TODO Auto-generated method stub
+		return dao.bookGenreSelectOne(session,bookGenre);
+	}
+
+	@Override
+	public int productInsertEnd(Book b) {
+		// TODO Auto-generated method stub
+		return dao.productInsertEnd(session,b);
+	}
 
 
 }

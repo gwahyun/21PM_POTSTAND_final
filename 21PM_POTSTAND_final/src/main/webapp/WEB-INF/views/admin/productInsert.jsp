@@ -5,6 +5,7 @@
 <c:set var="path" value="${pageContext.request.contextPath }"/>
 <!DOCTYPE html>
 <jsp:include page="/WEB-INF/views/common/admin/header.jsp"/>
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>  
         
 <section>
 	<div class="admin-content_area">
@@ -14,7 +15,7 @@
 				</div>
 			</div>
 		</div>
-		<form action="${path }/admin/productInsertEnd" method="get" enctype="multipart/form-data">
+		<form action="${path }/admin/productInsertEnd" method="get" enctype="multipart/form-data" onsubmit="return categoryCheck();">
 		<div class="admin-content_area">
 			<div class="admin-content">
 				<div class="admin-content_title">
@@ -43,10 +44,19 @@
 					</div>
 				</div>
 				<div class="show_genre">
-				<span class="show_genre1"></span>
-				<span class="show_genre2"></span>
-				<span class="show_genre3"></span>
+					<span class="show_genre1"></span>
+					<span class="show_genre2"></span>
+					<span class="show_genre3"></span>
 				</div>
+				
+				<script>
+					function categoryCheck(){
+						if($(".show_genre1").html().length ==0){
+							alert("카테고리 선택해 주세요");
+							return false;
+						}
+					}
+				</script>
 			</div>
 			<input type="hidden" name="bookGenre" class="input_genre">
 		</div>
@@ -61,13 +71,25 @@
 				</div>
 			</div>
 		</div>
+		
 		<div class="admin-content_area">
 			<div class="admin-content">
 				<div class="admin-content_title">
-					책 소제목
+					저자
 				</div>
 				<div class="admin-input_text">
-				<input type="text" name="bookShort" required="">
+				<input type="text" name="bookWriter">
+				</div>
+			</div>
+		</div>
+		
+		<div class="admin-content_area">
+			<div class="admin-content">
+				<div class="admin-content_title">
+					출판사
+				</div>
+				<div class="admin-input_text">
+				<input type="text" name="bookPub" required="">
 				</div>
 			</div>
 		</div>
@@ -85,15 +107,47 @@
 		</div>
 		
 		<div class="admin-content_area">
+			<div class="admin-content">
+				<div class="admin-content_title">
+					리스트에 보여질 소개(short)
+				</div>
+				<div class="admin-input_text">
+				<input type="text" name="bookShort">
+				</div>
+			</div>
+		</div>
+		
+		<div class="admin-content_area">
 			<div class="admin-content ">
 				<div class="admin-content_title">
-					상품 이미지
+					상품 이미지(이거 파일로 받을지 링크로 받을지)
 				</div>
 				<div class="img-up-text"><span>이미지 등록</span></div>
-				<label for="input-file">
-				  <img class="admin-upload_img">
-				</label>
-				<input class="input_img" required="" type="file" accept=".png, .jpg, .gif" id="input-file" name="bookImage" style="display: none">
+				<div class="admin-input_text">
+					<input type="text" name="bookCover">
+				</div>
+			</div>
+		</div>
+		
+		<div class="admin-content_area">
+			<div class="admin-content">
+				<div class="admin-content_title">
+					출판일
+				</div>
+				<div class="admin-input_text">
+					<input type="date" name="bookDate" required="">
+				</div>
+			</div>
+		</div>
+		
+		<div class="admin-content_area">
+			<div class="admin-content">
+				<div class="admin-content_title">
+					재고
+				</div>
+				<div class="admin-input_text">
+					<input type="number" name="bookStock" required="">
+				</div>
 			</div>
 		</div>
 		
@@ -103,7 +157,7 @@
 					책 소개
 				</div>
 				<div class="admin-input_text">
-				<textarea name="bookDescription"></textarea>
+				<textarea name="bookIntro"></textarea>
 				</div>
 			</div>
 		</div>
@@ -111,10 +165,10 @@
 		<div class="admin-content_area">
 			<div class="admin-content">
 				<div class="admin-content_title">
-					저자
+					저자 소개
 				</div>
 				<div class="admin-input_text">
-				<input type="text" name="bookAuthor">
+					<input type="text" name="writerIntro">
 				</div>
 			</div>
 		</div>
@@ -122,10 +176,10 @@
 		<div class="admin-content_area">
 			<div class="admin-content">
 				<div class="admin-content_title">
-					출판사
+					출판사 서평
 				</div>
 				<div class="admin-input_text">
-				<input type="text" name="bookPublisher">
+					<input type="text" name="pubReview">
 				</div>
 			</div>
 		</div>
@@ -133,13 +187,54 @@
 		<div class="admin-content_area">
 			<div class="admin-content">
 				<div class="admin-content_title">
-					출간일
+					책 속으로
 				</div>
 				<div class="admin-input_text">
-				<input type="date" name="bookPubDate">
+					<input type="text" name="bookExtract">
 				</div>
 			</div>
 		</div>
+		
+		<div class="admin-content_area">
+			<div class="admin-content">
+				<div class="admin-content_title">
+					목차
+				</div>
+				<div class="admin-input_text">
+					<input type="text" name="bookIndex">
+				</div>
+			</div>
+		</div>
+		
+		<div class="admin-content_area">
+			<div class="admin-content">
+				<div class="admin-content_title">
+					추천평
+				</div>
+				<div class="admin-input_text">
+					<input type="text" name="recommand">
+				</div>
+			</div>
+		</div>
+		
+		<div class="admin-content_area">
+			<div class="admin-content">
+				<div class="admin-content_title">
+					책 소개 영상
+				</div>
+				<div class="admin-input_text">
+					<input type="text" name="introMv">
+				</div>
+			</div>
+		</div>
+		
+		
+		
+		
+		
+		
+		
+		
 		
 		<input type="submit" class="submit-btn" value="등록">
 		</form>
@@ -147,26 +242,6 @@
     <script>
 		
 		window.addEventListener("load",function(){
-			function readImage(input) {
-			    // 인풋 태그에 파일이 있는 경우
-			    if(input.files && input.files[0]) {
-			        // 이미지 파일인지 검사 (생략)
-			        // FileReader 인스턴스 생성
-			        const reader = new FileReader()
-			        // 이미지가 로드가 된 경우
-			        reader.onload = e => {
-			            const previewImage = document.querySelector(".admin-upload_img")
-			            previewImage.src = e.target.result
-			        }
-			        // reader가 이미지 읽도록 하기
-			        reader.readAsDataURL(input.files[0])
-			    }
-			}
-			// input file에 change 이벤트 부여
-			const inputImage = document.querySelector(".input_img")
-			inputImage.addEventListener("change", e => {
-			    readImage(e.target)
-			})
 			
 			
 			

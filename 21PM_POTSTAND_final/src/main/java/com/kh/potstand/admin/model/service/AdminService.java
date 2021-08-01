@@ -10,15 +10,16 @@ import com.kh.potstand.admin.model.vo.Qna;
 import com.kh.potstand.admin.model.vo.Request;
 import com.kh.potstand.admin.model.vo.Review;
 import com.kh.potstand.book.model.vo.Book;
+import com.kh.potstand.book.model.vo.Sort;
 import com.kh.potstand.event.model.vo.Event;
 import com.kh.potstand.member.model.vo.Address;
 import com.kh.potstand.member.model.vo.Member;
 
 public interface AdminService {
 
-	List<Member> memberSelect(int cPage, int numPerpage);
+	List<Member> memberSelect(int cPage, int numPerpage, Map param);
 
-	int memberSelectCount();
+	int memberSelectCount(Map param);
 
 	int memberDelete(String memberId);
 
@@ -90,17 +91,17 @@ public interface AdminService {
 
 	int qnaManagerNoCount();
 
-	List<Book> productSelectList(Map param);
+	List<Book> productSelectList(Map param, int cPage, int numPerpage);
 
 	int productSelectListCount(Map param);
 
-	int requestSelectCount(String type);
+	int requestSelectCount(Map param);
 
-	List<Request> requestSelect(int cPage, int numPerpage, String type);
+	List<Request> requestSelect(int cPage, int numPerpage, Map param);
 
-	int stockManagerCount();
+	int stockManagerCount(Map param);
 
-	List<Book> stockManagerList(int cPage, int numPerpage);
+	List<Book> stockManagerList(int cPage, int numPerpage, Map param);
 
 	int stockUpdate(Map param);
 
@@ -115,6 +116,16 @@ public interface AdminService {
 	List<String> eventBookList(int no);
 
 	void eventBookUpdate(Map param);
+
+	List<Book> productSelectList(Map param);
+
+	int requestSelectNoCount(Map param);
+
+	List<Request> requestSelectNo(int cPage, int numPerpage, Map param);
+
+	Sort bookGenreSelectOne(String bookGenre);
+
+	int productInsertEnd(Book b);
 
 
 

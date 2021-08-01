@@ -89,7 +89,7 @@
             <div class="admin-content_area" style="margin-top: 45px;">
                 <div class="admin-content">
                     <div class="admin-content_title">
-                        상품목록 (총 ${count } 개)
+                        상품목록 (총 ${count } 권)
                     </div>
                     <div class="search-table">
                     <c:if test="${list.size() >= 1}">
@@ -99,7 +99,7 @@
 								<tr>
 									<th>번호</th>
 									<th style="width: 15%;">제목</th>
-									<th style="width: 5%;">카테고리</th>
+									<th style="width: 15%;">카테고리</th>
 									<th style="width: 5%;">저자</th>
 									<th style="width: 7%;">출판사</th>
 									<th>정가</th>
@@ -112,8 +112,22 @@
 								<c:forEach items="${list }" var="l">
 								<tr>
 									<td style="	text-align: center;"><fmt:formatNumber value="${l.bookCode }" ></fmt:formatNumber></td>
-									<td><a href="#">${l.bookTitle }</a></td>
-									<td><a href="#">카테고리 넣을것</a></td>
+									<td><a href="#"><c:out value="${l.bookTitle }" ></c:out></a></td>
+									<td>
+										${l.sort.lv1 }
+										<c:if test="${l.sort.lv2 != null}">
+											>${l.sort.lv2 }
+										</c:if>
+										<c:if test="${l.sort.lv3 != null}">
+												>${l.sort.lv3 }
+										</c:if>
+										<c:if test="${l.sort.lv4 != null}">
+											>${l.sort.lv4 }
+										</c:if>
+										
+									
+									
+									</td>
 									<td>${l.bookWriter }</td>
 									<td>${l.bookPub }</td>
 									<td style="	text-align: center;">${l.bookCost }</td>
@@ -132,6 +146,7 @@
                     </c:if>
                     
                     </div>
+                     <div class="pageBar flex my-5">${pageBar}</div>
                 </div>
             </div>
 </section>
@@ -416,10 +431,10 @@
 			
 				childList=[];
 				
-					childList.push('교양만화');
+					childList.push('방송교재');
 					gchildList=[];
 					
-						map.set('교양만화', gchildList);
+						//map.set('청소년 과학', gchildList);
 					
 				
 					childList.push('드라마');

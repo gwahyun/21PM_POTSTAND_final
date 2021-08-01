@@ -18,7 +18,7 @@
 									<th style="width: 5%">전체 체크<input class="checkAll" type="checkbox"></th>
 									<th style="width: 5%;">번호</th>
 									<th style="width: 10%;">제목</th>
-									<th style="width: 5%;">카테고리</th>
+									<th style="width: 10%;">카테고리</th>
 									<th style="width: 5%;">저자</th>
 									<th style="width: 7%;">출판사</th>
 									<th style="width: 5%;">정가</th>
@@ -31,7 +31,18 @@
 									<td style="text-align: center;"><input class="check-item" type="checkbox" value="${l.bookCode }"></td>
 									<td style="	text-align: center;"><fmt:formatNumber value="${l.bookCode }" ></fmt:formatNumber></td>
 									<td>${l.bookTitle }</td>
-									<td>카테고리 넣을것</td>
+									<td>
+											${l.sort.lv1 }
+										<c:if test="${l.sort.lv2 != null}">
+											>${l.sort.lv2 }
+										</c:if>
+										<c:if test="${l.sort.lv3 != null}">
+												>${l.sort.lv3 }
+										</c:if>
+										<c:if test="${l.sort.lv4 != null}">
+											>${l.sort.lv4 }
+										</c:if>
+									</td>
 									<td>${l.bookWriter }</td>
 									<td>${l.bookPub }</td>
 									<td style="	text-align: center;">${l.bookCost }</td>

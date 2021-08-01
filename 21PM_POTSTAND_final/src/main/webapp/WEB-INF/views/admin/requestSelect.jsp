@@ -9,19 +9,63 @@
 <section>
 <div class="admin-content_area">
             <div class="admin-content">
-                <div class="admin-content_title">입고 관리</div>
+                <div class="admin-content_title">입고 관리
+	                <button class="update-btn" style="background-color:gray"onclick="location.assign('${path}/admin/requestSelectNo')">미요청</button>
+	                <button class="update-btn" onclick="location.assign('${path}/admin/requestSelect')">전체</button>
+                </div>
             </div>
 </div>
 <div class="admin-content_area">
             <div class="admin-content">
-                <div class="admin-content_title">입고 요청 (총 ${count } 건)</div>
-                <form action="${path }/admin/requestSelect" method="post">
-                	<div class="admin-content_title">
-                	<input type="text" placeholder="상품번호를 입력하세요." name="type">
-                	<input type="submit" value="검색 ">
-                	</div>
-                	
-                </form>
+                <div class="admin-content_title">입고 요청 (총 ${count } 건)
+                
+               <select id="searchType">
+							<option value="id" >요청자</option>
+							<option value="name">책 제목</option>
+							<option value="productNo">상품 번호</option>
+						</select>
+					<div id="search-id">
+						<form action="${path }/admin/requestSelect" method="post">
+							<input type="text" name="searchKeyword" size="40" placeholder="검색할 아이디를 입력해주세요">
+							<input type="hidden" name="searchType" value="member_id">
+							<button class="update-btn" type="submit">조회</button>
+						</form>
+					</div>
+			  
+					<div id="search-name">
+						<form action="${path }/admin/requestSelect" method="post">
+							<input type="text" name="searchKeyword" size="40" placeholder="검색할 회원의 이름을 입력해주세요">
+							<input type="hidden" name="searchType" value="book_title">
+							<button class="update-btn" type="submit">조회</button>
+						</form>
+					</div>
+					<div id="search-productNo">
+						<form action="${path }/admin/requestSelect" method="post">
+							<input type="text" name="searchKeyword" size="40" placeholder="상품 번호를 입력하세요.">
+							<input type="hidden" name="searchType" value="r.book_code">
+							<button class="update-btn" type="submit">조회</button>
+						</form>
+					</div>    
+				
+				
+                </div>
+                    <script>
+                    
+                    $("#searchType").change(e=>{
+                   	 const id=$("#search-id");
+                   	 const name=$("#search-name");
+                   	 const productNo=$("#search-productNo");
+                   	id.css("display","none");
+                   	name.css("display","none");
+                   	productNo.css("display","none");
+                   	
+                   	 $("#search-"+$(e.target).val()).css("display","inline-block");
+                   	 
+                    });
+                    $(function(){
+                   	 $("#searchType").change();
+                    });
+                   </script>
                 <div class="align-row choice-genre-area">
                     <div class="search-table" style="min-height: 630px;">
                         <table class="table table-border table-hover table-striped" style="text-align: center;">

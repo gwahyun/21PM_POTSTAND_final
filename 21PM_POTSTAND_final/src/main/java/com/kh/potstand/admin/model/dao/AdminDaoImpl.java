@@ -1,5 +1,6 @@
 package com.kh.potstand.admin.model.dao;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -14,6 +15,7 @@ import com.kh.potstand.admin.model.vo.Qna;
 import com.kh.potstand.admin.model.vo.Request;
 import com.kh.potstand.admin.model.vo.Review;
 import com.kh.potstand.book.model.vo.Book;
+import com.kh.potstand.book.model.vo.Sort;
 import com.kh.potstand.event.model.vo.Event;
 import com.kh.potstand.member.model.vo.Address;
 import com.kh.potstand.member.model.vo.Member;
@@ -22,14 +24,14 @@ import com.kh.potstand.member.model.vo.Member;
 public class AdminDaoImpl implements AdminDao {
 
 	@Override
-	public List<Member> memberSelect(SqlSessionTemplate session,int cPage,int numPerpage) {
-		return session.selectList("admin.memberSelect",null,new RowBounds((cPage-1)*numPerpage, numPerpage));
+	public List<Member> memberSelect(SqlSessionTemplate session,int cPage,int numPerpage,Map param) {
+		return session.selectList("admin.memberSelect",param,new RowBounds((cPage-1)*numPerpage, numPerpage));
 	}
 
 	@Override
-	public int memeberSelectCount(SqlSessionTemplate session) {
+	public int memeberSelectCount(SqlSessionTemplate session,Map param) {
 		// TODO Auto-generated method stub
-		return session.selectOne("admin.memberSelectCount");
+		return session.selectOne("admin.memberSelectCount",param);
 	}
 
 	@Override
@@ -259,9 +261,9 @@ public class AdminDaoImpl implements AdminDao {
 	}
 
 	@Override
-	public List<Book> productSelectList(SqlSessionTemplate session, Map param) {
+	public List<Book> productSelectList(SqlSessionTemplate session, Map param,int cPage,int numPerpage) {
 		// TODO Auto-generated method stub
-		return session.selectList("admin.productSelectList", param);
+		return session.selectList("admin.productSelectList", param, new RowBounds((cPage-1)*numPerpage, numPerpage));
 	}
 
 	@Override
@@ -271,17 +273,15 @@ public class AdminDaoImpl implements AdminDao {
 	}
 
 	@Override
-	public int requestSelectListCount(SqlSessionTemplate session,String type) {
+	public int requestSelectListCount(SqlSessionTemplate session,Map param) {
 		// TODO Auto-generated method stub
-		System.out.println(type);
-		return session.selectOne("admin.requestSelectListCount",type);
+		return session.selectOne("admin.requestSelectListCount",param);
 	}
 
 	@Override
-	public List<Request> requestSelectList(SqlSessionTemplate session,int cPage, int numPerpage,String type) {
+	public List<Request> requestSelectList(SqlSessionTemplate session,int cPage, int numPerpage,Map param) {
 		// TODO Auto-generated method stub
-		System.out.println(type);
-		return session.selectList("admin.requestSelectList", type, new RowBounds((cPage-1)*numPerpage, numPerpage));
+		return session.selectList("admin.requestSelectList", param, new RowBounds((cPage-1)*numPerpage, numPerpage));
 	}
 
 	@Override
@@ -292,15 +292,15 @@ public class AdminDaoImpl implements AdminDao {
 	}
 	
 	@Override
-	public int stockManagerCount(SqlSessionTemplate session) {
+	public int stockManagerCount(SqlSessionTemplate session,Map param) {
 		// TODO Auto-generated method stub
-		return session.selectOne("admin.stockManagerListCount");
+		return session.selectOne("admin.stockManagerListCount",param);
 	}
 
 	@Override
-	public List<Book> stockManagerList(SqlSessionTemplate session, int cPage, int numPerpage) {
+	public List<Book> stockManagerList(SqlSessionTemplate session, int cPage, int numPerpage,Map param) {
 		// TODO Auto-generated method stub
-		return session.selectList("admin.stockManagerList", null, new RowBounds((cPage-1)*numPerpage, numPerpage));
+		return session.selectList("admin.stockManagerList", param, new RowBounds((cPage-1)*numPerpage, numPerpage));
 	}
 
 	@Override
@@ -327,6 +327,36 @@ public class AdminDaoImpl implements AdminDao {
 		// TODO Auto-generated method stub
 	
 		session.insert("admin.eventBookUpdate", param);
+	}
+
+	@Override
+	public List<Book> productSelectList(SqlSessionTemplate session, Map param) {
+		// TODO Auto-generated method stub
+		return session.selectList("admin.productSelectListNopage",param);
+	}
+
+	@Override
+	public int requestSelectNoCount(SqlSessionTemplate session, Map param) {
+		// TODO Auto-generated method stub
+		return session.selectOne("admin.requestSelectNoCount", param);
+	}
+
+	@Override
+	public List<Request> requestSelectNo(SqlSessionTemplate session, int cPage, int numPerpage, Map param) {
+		// TODO Auto-generated method stub
+		return session.selectList("admin.requestSelectNo", param, new RowBounds((cPage-1)*numPerpage, numPerpage));
+	}
+
+	@Override
+	public Sort bookGenreSelectOne(SqlSessionTemplate session, String bookGenre) {
+		// TODO Auto-generated method stub
+		return session.selectOne("admin.bookGenreSelectOne", bookGenre);
+	}
+
+	@Override
+	public int productInsertEnd(SqlSessionTemplate session, Book b) {
+		// TODO Auto-generated method stub
+		return session.insert("admin.productInsertEnd", b);
 	}
 
 	

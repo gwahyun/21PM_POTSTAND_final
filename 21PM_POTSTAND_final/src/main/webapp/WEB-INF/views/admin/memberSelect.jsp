@@ -5,6 +5,7 @@
 <c:set var="path" value="${pageContext.request.contextPath }"/>
 <!DOCTYPE html>
 <jsp:include page="/WEB-INF/views/common/admin/header.jsp"/>
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>  
 <script
 	src="https://code.jquery.com/jquery-3.6.0.min.js"
 	integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
@@ -16,8 +17,57 @@
             </div>
         </div>
             <div class="admin-content_area">
-                <div class="admin-content">
-                    <div class="admin-content_title">회원 목록 (총 ${count } 명)</div>
+	                <div class="admin-content">
+	                    <div class="admin-content_title">회원 목록 (총 ${count } 명)
+	                   <select id="searchType">
+							<option value="id" >아이디</option>
+							<option value="name">회원 이름</option>
+							<option value="birth">생년 월일</option>
+						</select>
+					<div id="search-id">
+						<form action="${path }/admin/memberSelect" method="post">
+							<input type="text" name="searchKeyword" size="40" placeholder="검색할 아이디를 입력해주세요">
+							<input type="hidden" name="searchType" value="member_id">
+							<button class="update-btn" type="submit">조회</button>
+						</form>
+					</div>
+			  
+					<div id="search-name">
+						<form action="${path }/admin/memberSelect" method="post">
+							<input type="text" name="searchKeyword" size="40" placeholder="검색할 회원의 이름을 입력해주세요">
+							<input type="hidden" name="searchType" value="member_name">
+							<button class="update-btn" type="submit">조회</button>
+						</form>
+					</div>
+					<div id="search-birth">
+						<form action="${path }/admin/memberSelect" method="post">
+							<input type="text" name="searchKeyword" size="40" placeholder="yy/MM/dd로 입력하세요">
+							<input type="hidden" name="searchType" value="member_birth">
+							<button class="update-btn" type="submit">조회</button>
+						</form>
+					</div>    
+				
+				
+                </div>
+                    <script>
+                    
+                    $("#searchType").change(e=>{
+                   	 const id=$("#search-id");
+                   	 const name=$("#search-name");
+                   	 const birth=$("#search-birth");
+                   	id.css("display","none");
+                   	name.css("display","none");
+                   	birth.css("display","none");
+                   	
+                   	 $("#search-"+$(e.target).val()).css("display","inline-block");
+                   	 
+                    });
+                    $(function(){
+                   	 $("#searchType").change();
+                    });
+                   </script>
+                    
+                    
                     <div class="align-row choice-genre-area">
                         <div class="search-table" style="min-height: 550px;">
                             <table class="table table-border table-hover table-striped" style="text-align: center;">

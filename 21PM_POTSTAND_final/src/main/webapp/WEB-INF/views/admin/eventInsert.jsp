@@ -106,10 +106,41 @@
 						<span>메인으로 보여질 이미지</span>
 					</div>
 					<div class="admin-input_text">
-					<input type="file" name="upFile">
+					<label for="input-file">
+				  <img class="admin-upload_img">
+					</label>
+					<!-- <input type="file" name="upFile"> -->
+					<input class="input_img" required="" type="file" accept=".png, .jpg, .gif" id="input-file" name="upFile" style="display: none">
 					</div>
 				</div>
 			</div>
+			<script>
+		
+		window.addEventListener("load",function(){
+			function readImage(input) {
+			    // 인풋 태그에 파일이 있는 경우
+			    if(input.files && input.files[0]) {
+			        // 이미지 파일인지 검사 (생략)
+			        // FileReader 인스턴스 생성
+			        const reader = new FileReader()
+			        // 이미지가 로드가 된 경우
+			        reader.onload = e => {
+			            const previewImage = document.querySelector(".admin-upload_img")
+			            previewImage.src = e.target.result
+			        }
+			        // reader가 이미지 읽도록 하기
+			        reader.readAsDataURL(input.files[0])
+			    }
+			}
+			// input file에 change 이벤트 부여
+			const inputImage = document.querySelector(".input_img")
+			inputImage.addEventListener("change", e => {
+			    readImage(e.target)
+			})
+			
+		});
+	</script>
+			
 			
 			
 			<div class="admin-content_area">

@@ -16,7 +16,53 @@
                 <div class="admin-content">
                     <div class="admin-content_title">
                         상품목록 (총 ${count } 권)
-                    </div>
+                    <select id="searchType">
+							<option value="no" >번호</option>
+							<option value="name">책 제목</option>
+							<option value="writer">저자</option>
+						</select>
+					<div id="search-no">
+						<form action="${path }/admin/stockManager" method="post">
+							<input type="text" name="searchKeyword" size="40" placeholder="상품 번호를 입력하세요.">
+							<input type="hidden" name="searchType" value="book_code">
+							<button class="update-btn" type="submit">조회</button>
+						</form>
+					</div>
+			  
+					<div id="search-name">
+						<form action="${path }/admin/stockManager" method="post">
+							<input type="text" name="searchKeyword" size="40" placeholder="검색할 삼품의 제목을 입력해주세요.">
+							<input type="hidden" name="searchType" value="book_title">
+							<button class="update-btn" type="submit">조회</button>
+						</form>
+					</div>
+					<div id="search-writer">
+						<form action="${path }/admin/stockManager" method="post">
+							<input type="text" name="searchKeyword" size="40" placeholder="검색할 저라를 입력하세요.">
+							<input type="hidden" name="searchType" value="book_writer">
+							<button class="update-btn" type="submit">조회</button>
+						</form>
+					</div>    
+				
+				
+                </div>
+                    <script>
+                    
+                    $("#searchType").change(e=>{
+                   	 const no=$("#search-no");
+                   	 const name=$("#search-name");
+                   	 const writer=$("#search-writer");
+                   	no.css("display","none");
+                   	name.css("display","none");
+                   	writer.css("display","none");
+                   	
+                   	 $("#search-"+$(e.target).val()).css("display","inline-block");
+                   	 
+                    });
+                    $(function(){
+                   	 $("#searchType").change();
+                    });
+                   </script>
                     <div class="search-table">
                     <c:if test="${list.size() >= 1}">
           			

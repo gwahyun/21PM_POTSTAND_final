@@ -12,15 +12,16 @@ import com.kh.potstand.admin.model.vo.Qna;
 import com.kh.potstand.admin.model.vo.Request;
 import com.kh.potstand.admin.model.vo.Review;
 import com.kh.potstand.book.model.vo.Book;
+import com.kh.potstand.book.model.vo.Sort;
 import com.kh.potstand.event.model.vo.Event;
 import com.kh.potstand.member.model.vo.Address;
 import com.kh.potstand.member.model.vo.Member;
 
 public interface AdminDao {
 
-	List<Member> memberSelect(SqlSessionTemplate session, int cPage, int numPerpage);
+	List<Member> memberSelect(SqlSessionTemplate session, int cPage, int numPerpage, Map param);
 
-	int memeberSelectCount(SqlSessionTemplate session);
+	int memeberSelectCount(SqlSessionTemplate session, Map param);
 
 	int memberDelete(SqlSessionTemplate session, String memberId);
 
@@ -92,17 +93,17 @@ public interface AdminDao {
 
 	int qnaManagerNoCount(SqlSessionTemplate session);
 
-	List<Book> productSelectList(SqlSessionTemplate session, Map param);
+	List<Book> productSelectList(SqlSessionTemplate session, Map param, int cPage, int numPerpage);
 
 	int productSelectListCount(SqlSessionTemplate session, Map param);
 
-	int requestSelectListCount(SqlSessionTemplate session, String type);
+	int requestSelectListCount(SqlSessionTemplate session, Map param);
 
-	List<Request> requestSelectList(SqlSessionTemplate session,int cPage, int numPerpage, String type);
+	List<Request> requestSelectList(SqlSessionTemplate session,int cPage, int numPerpage, Map param);
 
-	int stockManagerCount(SqlSessionTemplate session);
+	int stockManagerCount(SqlSessionTemplate session, Map param);
 
-	List<Book> stockManagerList(SqlSessionTemplate session, int cPage, int numPerpage);
+	List<Book> stockManagerList(SqlSessionTemplate session, int cPage, int numPerpage, Map param);
 
 	int stockUpdate(SqlSessionTemplate session, Map param);
 
@@ -117,4 +118,14 @@ public interface AdminDao {
 	List<String> eventBookList(SqlSessionTemplate session, int no);
 
 	void eventBookUpdate(SqlSessionTemplate session, Map param);
+
+	List<Book> productSelectList(SqlSessionTemplate session, Map param);
+
+	int requestSelectNoCount(SqlSessionTemplate session, Map param);
+
+	List<Request> requestSelectNo(SqlSessionTemplate session, int cPage, int numPerpage, Map param);
+
+	Sort bookGenreSelectOne(SqlSessionTemplate session, String bookGenre);
+
+	int productInsertEnd(SqlSessionTemplate session, Book b);
 }
