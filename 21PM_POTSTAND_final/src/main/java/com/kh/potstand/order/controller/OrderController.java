@@ -97,7 +97,7 @@ public class OrderController {
 			return result;
 	}
 	
-//	카트 used coupon 업데이트
+	//	카트 used coupon 업데이트
 	@RequestMapping("/ajax/updateCartCoupon.do")
 	@ResponseBody
 	public int cartCouponUpdate(@RequestParam (value="cartNo") int cartNo,
@@ -116,4 +116,18 @@ public class OrderController {
 		}
 			return result;
 	}
+	
+	@RequestMapping("order/orderItems.do")
+	public ModelAndView orderItems(ModelAndView mv, HttpSession session){
+		try {
+//			String memberId =((Member)(session.getAttribute("loginMember"))).getMemberId();
+//			List<Cart> cartList = service.cartSelectList(memberId);
+//			mv.addObject("cartList", cartList);
+			mv.setViewName("order/order");
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+			return mv;
+	}
+	
 }
