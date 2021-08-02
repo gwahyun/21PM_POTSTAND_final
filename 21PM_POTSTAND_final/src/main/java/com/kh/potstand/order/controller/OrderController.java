@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.kh.potstand.common.AES256Util;
 import com.kh.potstand.member.model.service.MemberService;
+import com.kh.potstand.member.model.vo.Address;
 import com.kh.potstand.member.model.vo.Member;
 import com.kh.potstand.order.model.service.OrderService;
 import com.kh.potstand.order.model.vo.Cart;
@@ -26,8 +28,9 @@ public class OrderController {
 	@Autowired
 	private OrderService service;
 	
+	//양방향암호화
 	@Autowired
-	private MemberService ms;
+	private AES256Util aes;
 	
 	//장바구니 리스트 호출 / 이동
 	@RequestMapping("/member/cartList.do")
@@ -127,7 +130,6 @@ public class OrderController {
 	public ModelAndView orderItems(ModelAndView mv, HttpSession session,
 									@RequestParam (value="cartNo") String param){
 		try {
-			String memberId = ((Member)(session.getAttribute("loginMember"))).getMemberId();
 			param = param.replace("\"", "");
 			param = param.replace("[", "");
 			param = param.replace("]", "");
@@ -136,11 +138,9 @@ public class OrderController {
 			for(String i : strArr) {
 				cartNo.add(Integer.parseInt(i));
 			}
-			Map map = new HashMap();
-			map.put("memberId", memberId);
-			Member memberInfo = ms.memberSelect(map);
+			Member memberInfo = (Member)(session.getAttribute("loginMember")); 
 			List<Cart> cartList = service.cartSelectList(cartNo);
-			System.out.println(cartList.toString());
+	
 			mv.addObject("cartList", cartList);
 			mv.addObject("memberInfo", memberInfo);
 			mv.setViewName("order/order");

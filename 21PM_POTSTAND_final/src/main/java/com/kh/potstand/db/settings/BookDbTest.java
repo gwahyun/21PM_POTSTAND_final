@@ -166,28 +166,32 @@ public class BookDbTest {
 			try {
 				// 책소개
 				Iterator<Element> introduce = element.select("div#bookIntroContent>p").iterator();
-				b.setBookIntro(introduce.next().text().substring(0, 300));
+				String strIntro =introduce.next().html().replace("'", "\""); 
+				b.setBookIntro(strIntro);
 			} catch (Exception e) {
 			}
 
 			try {
 				// 저자소개
 				Iterator<Element> writerIntroduce = element.select("div#authorIntroContent").iterator();
-				b.setWriterIntro(writerIntroduce.next().text().substring(0, 350));
+				String strWriterIntro = writerIntroduce.next().html().replace("'", "\""); 
+				b.setWriterIntro(strWriterIntro);
 			} catch (Exception e) {
 			}
 
 			try {
 				// 출판사 서평
 				Iterator<Element> pubReviewContent = element.select("div#pubReviewContent").iterator();
-				b.setPubReview(pubReviewContent.next().text().substring(0, 300));
+				String strPub = pubReviewContent.next().html().replace("'", "\"");
+				b.setPubReview(strPub);
 			} catch (Exception e) {
 			}
 			// System.out.println("책속으로 : "+bookIn.next().text());
 			try {
 				// 책 속으로
 				Iterator<Element> bookIn = element.select("div>h3.order35+p ").iterator();
-				b.setBookExtract(bookIn.next().text().substring(0, 300));
+				String strBookin = bookIn.next().html().replace("'", "\""); 
+				b.setBookExtract(strBookin);
 			} catch (Exception e) {
 			}
 
@@ -195,7 +199,8 @@ public class BookDbTest {
 				// 목차 없는애들 있음
 				Iterator<Element> index = element.select("div#contentContent").iterator();
 				// System.out.println("목차 : "+index.next().text());
-				b.setBookIndex(index.next().text().substring(0, 350));
+				String strIndex = index.next().html().replace("'", "\"");
+				b.setBookIndex(strIndex);
 			} catch (Exception e) {
 				// b.setBookIndex("(null)");
 			}
@@ -209,7 +214,8 @@ public class BookDbTest {
 			try {
 				Iterator<Element> chooChunPung = element.select("div>h3.order36+p").iterator();
 				// System.out.println("추쳔평 : "+chooChunPung.next().text());
-				b.setRecommand(chooChunPung.next().text().substring(0, 350));
+				String strChoo = chooChunPung.next().html().replace("'", "\"");
+				b.setRecommand(strChoo);
 			} catch (Exception e) {
 			}
 

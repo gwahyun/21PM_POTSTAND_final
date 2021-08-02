@@ -8,6 +8,7 @@ import java.util.Map;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
+import com.kh.potstand.member.model.vo.Member;
 import com.kh.potstand.order.model.vo.Cart;
 
 import lombok.extern.slf4j.Slf4j;
@@ -59,6 +60,8 @@ public class OrderDaoImpl implements OrderDao{
 		}
 		return cartList;
 	}
+
+
 
 	
 	

@@ -30,4 +30,5 @@ public interface OrderDao {
 	
 	//cart usedCoupon update
 	int cartCouponUpdate(SqlSession session, Map param);
+	
 }

@@ -24,7 +24,7 @@
 		<div class="content-container">
 			<div
 				class="cart-list w-full border border-solid border-gray-400 p-4">
-				
+				<h3 class="text-xl font-bold pl-2 border-l-4 border-blue-400 border-solid my-3 "> 상품확인 : ${fn:length(cartList)} 건</h3>
 
 				<!-- 카트 항목 출력 -->
 				<c:forEach var="cart" items="${cartList}" varStatus="i">
@@ -173,35 +173,51 @@
 
 			<!-- 가격표시창 -->
 			<div
-				class="buy-container w-full border border-solid border-blue-400 items-center my-5 h-40 flex">
+				class="buy-container w-full border border-solid border-blue-400 items-center my-5 h-24 flex">
 				<div class="cart-price w-full flex">
-					<div id="sum-price" class="li flex  w-3/12 h-40">
-						<h3 class="my-3 text-xl font-semibold mx-3 w-7/12">총 상품 금액</h3>
-						<h3 class="money my-3 text-xl font-semibold ml-10 w-5/12 text-right"></h3>
+					<div id="sum-price" class="li w-3/12 text-center align-middle">
+						<h3 class="my-3 text-xl font-semibold">총 상품 금액</h3>
+						<h3 class="money my-3 text-xl font-semibold text-center"></h3>
 					</div>
-					<div id="sale-price" class="li flex bg-blue-300 w-3/12 h-40">
-						<h3 class="my-3 text-xl font-semibold mx-3 w-7/12">할인 금액</h3>
-						<h3 class="money my-3 text-xl font-semibold ml-10 w-5/12 text-right"></h3>
+					<div id="sale-price" class="li bg-blue-300 w-3/12 text-center align-middle">
+						<h3 class="my-3 text-xl font-semibold">할인 금액</h3>
+						<h3 class="money my-3 text-xl font-semibold text-center"></h3>
 					</div>
-					<div id="send-cost" class="li flex w-3/12 h-40">
-						<h3 class="my-3 text-xl font-semibold mx-3 w-7/12">배송비</h3>
-						<h3 class="money my-3 text-xl font-semibold ml-10 w-5/12 text-right">₩3,000</h3>
+					<div id="send-cost" class="li w-3/12 text-center align-middle">
+						<h3 class="my-3 text-xl font-semibold">배송비</h3>
+						<h3 class="money my-3 text-xl font-semibold text-center">₩3,000</h3>
 					</div>
-					<div id="total" class="li flex bg-green-300 w-3/12 h-40">
-						<h3 class="my-3 text-xl font-bold mx-3 w-7/12">합계</h3>
-						<h3 class="money my-3 text-xl font-bold ml-10 w-5/12 text-right"></h3>
+					<div id="total" class="li bg-green-300 w-3/12 text-center align-middle">
+						<h3 class="my-3 text-xl font-bold">합계</h3>
+						<h3 class="money my-3 text-xl font-bold text-center"></h3>
 					</div>
 				</div>
 			</div>
 		</div>
-
 	</c:if>
+	<div class="member-container w-full border border-solid border-gray-400 p-4 flex h-40">
+		<div class="member-info w-4/12 mr-2 border border-solid border-gray-400">
+			<div><input type="text" name="memberName" value="<c:out value='${memberInfo.memberName}'"/></div>
+		</div>
+		<div class="member-addr w-8/12 ml-2 border border-solid border-gray-400"></div>
+	</div>
+	<div class="pay-container my-5 w-full border border-solid border-gray-400 p-4 flex h-40">
+		<div class="pay-info w-4/12 mr-2 border border-solid border-gray-400"></div>
+		<div class="pay-option w-8/12 ml-2 border border-solid border-gray-400"></div>
+	</div>
 </section>
 <jsp:include page="/WEB-INF/views/common/footer.jsp" />
 
 <script>
 var IMP = window.IMP; // 생략해도 괜찮습니다.
 IMP.init("imp89075565"); // "imp00000000" 대신 발급받은 "가맹점 식별코드"를 사용합니다.
+
+
+
+
+
+
+
 
 	function fn_priceCalc(){
 		//책 원래가격
@@ -247,63 +263,7 @@ IMP.init("imp89075565"); // "imp00000000" 대신 발급받은 "가맹점 식별�
 		
 	}
 
-	
-	//개별삭제
-	const fn_cartDelete=(e)=>{
-		let cartNo = $(e.target).siblings("input[name='cartNo']").attr("value");
-		$.ajax({
-			url:'${path}/ajax/cartObjDelete.do/'+cartNo,
-			type:'post',
-			success:function(data){
-				if(data.result!=0){
-					document.location.reload(true);
-				}
-			}
-		})
-	}
-	
-	//전체삭제
-	const fn_cartAllDelete=(e)=>{
-		$.ajax({
-			url:'${path}/ajax/cartObjAllDelete.do',
-			type:'post',
-			success:function(data){
-				if(data.result!=0){
-					document.location.reload(true);
-				}
-			}
-		})
-	}
-	
-	
-	
-	//책 수량 update
-	const fn_updateBookAmount=(e)=>{
-		let orivalue=$(e.target).siblings("input[name='bookAmount']").attr("value");
-		let bookAmount = $(e.target).siblings("input[name='bookAmount']").val();
-		
-		if(bookAmount<=0){
-			alert("0또는 음수로 변경할 수 없습니다.");
-			$(e.target).siblings("input[name='bookAmount']").val(orivalue);
-			return;
-		}
-		let cartNo = $(e.target).siblings("input[name='cartNo']").val();
-		let params={
-				"cartNo":cartNo,
-				"bookAmount":bookAmount
-		}	
-		$.ajax({
-			url:'${path}/ajax/cartBookAmountUpdate.do',
-			type:'post',
-			data:params,
-			dataType:'json',
-			success:function(data){
-				if(data.result!=0){
-					document.location.reload(true);
-				}
-			}
-		})
-	}
+
 	
 	//쿠폰 할인 적용
 	const fn_discount=(e)=>{
@@ -336,6 +296,8 @@ IMP.init("imp89075565"); // "imp00000000" 대신 발급받은 "가맹점 식별�
 			fn_priceCalc();
 		}
 	});
+	
+	
 	
 	//페이지 로드시 장바구니 리스트 가격 출력
 	$(document).ready(function(){
