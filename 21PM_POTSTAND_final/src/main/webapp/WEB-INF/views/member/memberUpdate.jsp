@@ -309,7 +309,7 @@
     		if(oldPwResult && newPwResult && newPw2Result){ //약관동의가 되어있으면 가입
     			return true;
     		} else{
-    			alert('비밀번호를 확인');
+    			alert('비밀번호를 확인하세요');
     			return false;
     		}
     	}

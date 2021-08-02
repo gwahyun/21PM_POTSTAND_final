@@ -570,7 +570,7 @@ public class MemberController {
 		return mv;
 	}
 	
-	//마이페이지 - 쿠폰
+	//마이페이지 - 사용가능 쿠폰
 	@RequestMapping("/member/memberCouponListSelect.do")
 	public ModelAndView memberCouponListSelect(ModelAndView mv, HttpSession session,
 			@RequestParam(value="cPage",defaultValue="1") int cPage,
@@ -581,25 +581,25 @@ public class MemberController {
 		
 		mv.addObject("totalData", totalData);
 		mv.addObject("list", list);
-		mv.addObject("pageBar", PageFactory.getPageBar(totalData, cPage, numPerpage,5,"memberMyReview.do"));
+		mv.addObject("pageBar", PageFactory.getPageBar(totalData, cPage, numPerpage,5,"memberCouponListSelect.do"));
 		mv.setViewName("member/memberCouponList");
 		return mv;
 	}
 		
-		//마이페이지 - 쿠폰
-		@RequestMapping("/member/memberEndCouponListSelect.do")
-		public ModelAndView memberEndCouponListSelect(ModelAndView mv, HttpSession session,
-				@RequestParam(value="cPage",defaultValue="1") int cPage,
-				@RequestParam(value="numPerpage",defaultValue="10") int numPerpage) {
-			String memberId=((Member)session.getAttribute("loginMember")).getMemberId();
-			int EndtotalData=service.memberEndCouponListCount(memberId); //기간만료 쿠폰개수
-			int totalData=service.memberCouponListCount(memberId); //사용가능 쿠폰개수
-			List<Coupon> list=service.memberEndCouponListSelect(memberId,cPage,numPerpage);
+	//마이페이지 - 기간만료 쿠폰
+	@RequestMapping("/member/memberEndCouponListSelect.do")
+	public ModelAndView memberEndCouponListSelect(ModelAndView mv, HttpSession session,
+			@RequestParam(value="cPage",defaultValue="1") int cPage,
+			@RequestParam(value="numPerpage",defaultValue="10") int numPerpage) {
+		String memberId=((Member)session.getAttribute("loginMember")).getMemberId();
+		int EndtotalData=service.memberEndCouponListCount(memberId); //기간만료 쿠폰개수
+		int totalData=service.memberCouponListCount(memberId); //사용가능 쿠폰개수
+		List<Coupon> list=service.memberEndCouponListSelect(memberId,cPage,numPerpage);
 			
-			mv.addObject("totalData", totalData);
-			mv.addObject("list", list);
-			mv.addObject("pageBar", PageFactory.getPageBar(EndtotalData, cPage, numPerpage,5,"memberMyReview.do"));
-			mv.setViewName("member/memberEndCouponList");
-			return mv;
-		}	
+		mv.addObject("totalData", totalData);
+		mv.addObject("list", list);
+		mv.addObject("pageBar", PageFactory.getPageBar(EndtotalData, cPage, numPerpage,5,"memberEndCouponListSelect.do"));
+		mv.setViewName("member/memberEndCouponList");
+		return mv;
+	}	
 }
