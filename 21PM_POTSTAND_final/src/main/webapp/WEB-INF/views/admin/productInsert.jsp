@@ -24,7 +24,6 @@
 				<div class="align-row choice-genre-area">
 					<div class="choice-genre top-genre">
 						<ul>
-							<li>여행/지도</li>
 							<li>경제/경영</li>
 							<li>사회</li>
 							<li>종교</li>
@@ -251,78 +250,6 @@
 			let childList;
 			let gchildList;
 			let liList;
-			
-				childList=[];
-				
-					childList.push('국내여행');
-					gchildList=[];
-					
-						gchildList.push('전국여행')
-					
-						gchildList.push('강원/영동')
-					
-						gchildList.push('충청도')
-					
-						gchildList.push('경상도/영남')
-					
-						gchildList.push('전라도/호남')
-					
-						gchildList.push('제주도')
-					
-						gchildList.push('서울/경기')
-					
-						map.set('국내여행', gchildList);
-					
-				
-					childList.push('해외여행');
-					gchildList=[];
-					
-						gchildList.push('세계여행')
-					
-						gchildList.push('유럽여행')
-					
-						gchildList.push('미국/캐나다/중남미')
-					
-						gchildList.push('일본여행')
-					
-						gchildList.push('중국여행')
-					
-						gchildList.push('인도/아시아여행')
-					
-						gchildList.push('기타여행')
-					
-						map.set('해외여행', gchildList);
-					
-				
-					childList.push('테마여행');
-					gchildList=[];
-					
-						gchildList.push('역사/문학기행')
-					
-						gchildList.push('배낭여행')
-					
-						gchildList.push('맛집여행')
-					
-						gchildList.push('체험학습/가족여행')
-					
-						gchildList.push('기타')
-					
-						map.set('테마여행', gchildList);
-					
-				
-					childList.push('지도/지리');
-					gchildList=[];
-					
-						gchildList.push('지리일반/지리학')
-					
-						gchildList.push('국내지도')
-					
-						gchildList.push('해외지도')
-					
-						map.set('지도/지리', gchildList);
-					
-				
-				map.set('여행/지도', childList);
 			
 				childList=[];
 				

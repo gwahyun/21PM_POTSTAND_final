@@ -17,6 +17,7 @@ public interface OrderService {
 	
 	//Cart 조회
 	List<Cart> cartSelectList(String memberId);
+	List<Cart> cartSelectList(List<Integer> cartNo);
 	
 	
 	//Cart 항목 삭제 / 전체삭제 / 선택삭제
