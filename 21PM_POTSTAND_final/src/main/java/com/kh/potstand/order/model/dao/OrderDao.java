@@ -19,6 +19,7 @@ public interface OrderDao {
 
 	//Cart 조회
 	List<Cart> cartSelectList(SqlSession session, String memberId);
+	List<Cart> cartSelectList(SqlSession session, List<Integer> cartNo);
 	
 	//Cart 항목삭제/전체삭제/선택삭제
 	int cartObjDelete(SqlSession session, Map param);

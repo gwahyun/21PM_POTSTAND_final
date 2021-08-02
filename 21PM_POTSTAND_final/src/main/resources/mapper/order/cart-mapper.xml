@@ -83,6 +83,10 @@
 		SELECT * FROM CART_BOOK_COUPON WHERE MEMBER_ID=#{memberId} AND (COUPON_END IS NULL OR COUPON_END='N')
 	</select>
 	
+	<select id="selectCartNo" resultMap="cartMap">
+		SELECT * FROM CART_BOOK_COUPON WHERE CART_NO=#{no}
+	</select>
+	
 	
 	<delete id="cartObjDelete">
 		DELETE FROM CART

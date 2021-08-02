@@ -56,10 +56,17 @@ public class OrderServiceImpl implements OrderService{
 		return dao.cartBookAmountUpdate(session, param);
 	}
 
-
+	//쿠폰사용 업데이트
 	@Override
 	public int cartCouponUpdate(Map param) {
 		return dao.cartCouponUpdate(session, param);
+	}
+	
+	
+	//카트에서 선택된거만 조회해서 리스트 넘겨줌
+	@Override
+	public List<Cart> cartSelectList(List<Integer> cartNo) {
+		return dao.cartSelectList(session, cartNo);
 	}
 
 	

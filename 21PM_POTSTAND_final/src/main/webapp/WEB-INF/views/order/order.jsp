@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
@@ -9,8 +9,9 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"
 	integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
 	crossorigin="anonymous"></script>
-	  <!-- iamport.payment.js -->
-<script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
+<!-- iamport.payment.js -->
+<script type="text/javascript"
+	src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
 <jsp:include page="/WEB-INF/views/common/header.jsp" />
 <!------------------------------------------------------------------------------------------------------------------------------------------------------------->
 <section class="mx-80">
@@ -18,11 +19,24 @@
 		<h1 class="text-4xl font-bold m-5 text-center">상품 구매</h1>
 	</div>
 
+	
+	<c:if test="${!empty cartList}">
 		<div class="content-container flex">
 			<div
 				class="cart-list w-8/12 mx-4 border border-solid border-gray-400 p-4">
-			
-				<!-- 구매 항목 출력 -->
+				<button
+					class="inline-flex items-center 
+                			bg-gray-300 
+                			border border-solid border-gray-400 
+                			p-2
+                			focus:outline-none 
+                			hover:bg-red-200 
+	          				hover:text-white rounded 
+	          				text-base 
+	          				mt-4 md:mt-0"
+					onclick="fn_allCheck(event);">전체선택</button>
+
+				<!-- 카트 항목 출력 -->
 				<c:forEach var="cart" items="${cartList}" varStatus="i">
 					<div
 						class="cart-obj 
@@ -250,7 +264,7 @@
 	          				mt-4 md:mt-0"
 				onclick="fn_cartAllDelete(event);">전체삭제</button>
 		</div>
-	
+	</c:if>
 </section>
 <jsp:include page="/WEB-INF/views/common/footer.jsp" />
 
