@@ -13,23 +13,23 @@
 <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css"/>
 </head>
 <body>
-	<table>
-		<tr>
-			<td>제목</td>
-			<td>${q.qnaTitle }</td>
-		</tr>
-		<tr>
-			<td>작성자</td>
-			<td>${q.memberId }</td>
-		</tr>
-		<tr>
-			<td>등록일</td>
-			<td><fmt:formatDate value="${q.qnaDate }" pattern="yyyy년MM월dd일"/></td>
-		</tr>
-	</table>
-	<div id="viewer" style="border: 2px solid black; width: 100%;"  ></div>
+	<section class="mx-80">
+	<div class="myqna-container">
+	            <div class="myqna-title flex mt-10 pb-2 border-solid border-b border-gray-300 items-baseline">
+	               <h1 class="text-2xl w-6/12 ">제목 : 아 처리훼댈뤠궤~~~~~~50</h1>
+	               <h3 class="text-base w-2/12 ">분류 : ${q.qnaSort }</h3>
+	               <h3 class="text-base w-2/12 ">작성자 : ${q.memberId }</h3>
+	               <h3 class="text-base w-2/12 ">등록날짜 : <fmt:formatDate value="${q.qnaDate }" pattern="yyyy년MM월dd일"/></h3>
+	            </div>
+	            <div class="myqna-content border-solid border-b  border-gray-300 my-5 h-2/5">
+	                <div id="viewer" ></div>
+	            </div>
+	        </div>
+	        
+	        </section>
 	 <!-- onsubmit="fn_btn();" -->
 		<input type="hidden" name="answerNo" value="${a.answerNo }">
+		관리자 : <input type="text" value="${a.adminId }"readonly="readonly"><br>
 		<textarea style="margin-top : 30px;" rows="10" cols="40" name="answerContent" required="">${a.answerContent }</textarea>
 		<!-- <input type="text" name="answerContent" placeholder="답변하기" width="400px" required> -->
 		<input type="button" value="수정" onclick="fn_reply();">
@@ -43,20 +43,26 @@
 		    	alert("내용을 입력해 주세요");
 		    	return false;
 		    }else{
-		    	$.get("${path}/admin/qnaReplyUpdateEnd?answerContent="+answerContent+"&answerNo=${a.answerNo}",data=>{
-		    	/* 	if(data=='true'){
-		    			alert("성공");
-		    			opener.location.assign("${path}/admin/qnaManager");
-		    			window.close();
-		    		}else{
-		    			alert("실패");
-		    			opener.location.assign("${path}/admin/qnaManager");
-		    			window.close();
-		    		} */
-		    	})
-		    	alert("답변이 수정 되었습니다!");
-		    	opener.location.assign("${path}/admin/qnaManager");
-    			window.close();
+		    	if('${a.adminId}'!='${loginMember.memberId}'){
+		    		alert("수정 관리자가 아닙니다");
+		    		return false;
+		    	}else{
+			    	$.get("${path}/admin/qnaReplyUpdateEnd?answerContent="+answerContent+"&answerNo=${a.answerNo}",data=>{
+			    	/* 	if(data=='true'){
+			    			alert("성공");
+			    			opener.location.assign("${path}/admin/qnaManager");
+			    			window.close();
+			    		}else{
+			    			alert("실패");
+			    			opener.location.assign("${path}/admin/qnaManager");
+			    			window.close();
+			    		} */
+			    	})
+			    	alert("답변이 수정 되었습니다!");
+			    	opener.location.assign("${path}/admin/qnaManager");
+	    			window.close();
+		    		
+		    	}
 		    }
 		}
 	

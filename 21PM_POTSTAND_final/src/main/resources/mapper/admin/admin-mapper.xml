@@ -330,6 +330,20 @@
  		select * from book
  		join sort using(sort_no)
  	</select>
+ 	
+ 	<select id="eventBookSelectList" resultMap="bookMap">
+ 		select * from book
+ 		<if test="searchType != null and searchKeyword != '' and searchKeyword != null">
+   					where ${searchType} like '%'||#{searchKeyword}||'%'
+		</if>
+ 	</select>
+ 	
+ 	<select id="eventSelectCountParam" resultType="int">
+ 		select count(*) from book
+ 		<if test="searchType != null and searchKeyword != '' and searchKeyword != null">
+   					where ${searchType} like '%'||#{searchKeyword}||'%'
+		</if>
+ 	</select>
  		
  		
  		
@@ -518,49 +532,7 @@
  	</update>
  	
 
-  	<!-- 결제 연습 -->
-  	<select id="orderSelectList" resultMap="creditMap">
-  		select * from credit
-  		where 1 = 1
-  			<if test="dType != null and dType != '전체'">
-  				and status = #{dType}
-  			</if>
-  			<if test="type != null and type != '전체'">
-  				and ${type} = #{keyword}
-  			</if>
-  		
-  			<if test="endDate != null and startDate != null">
-  			and creditdate <![CDATA[<]]> #{endDate} and creditdate > #{startDate}
-  			</if>
-  	</select>
-  	
-  	<select id="orderSelectListCount" resultType="int">
-	  	select count(*) from credit
-	  		where 1 = 1
-	  			<if test="dType != null and dType != '전체'">
-	  				and status = #{dType}
-	  			</if>
-	  			<if test="type != null and type != '전체'">
-	  				and ${type} = #{keyword}
-	  			</if>
-	  		
-	  			<if test="endDate != null and startDate != null">
-	  			and creditdate <![CDATA[<]]> #{endDate} and creditdate > #{startDate}
-	  			</if>
-  	</select>
-  	
-  	<resultMap type="com.kh.potstand.admin.model.vo.Credit" id="creditMap">
-  		<id column="CREDITNO" property="creditNo"></id>
-  		<result column="MEMBERID" property="memberId"></result>
-  		<result column="PRODUCTNO" property="productNo"></result>
-  		<result column="STOCK" property="stock"></result>
-  		<result column="STATUS" property="status"></result>
-  		<result column="CREDITDATE" property="creditDate"></result>
-  		<result column="RECIPIENT" property="recipient"></result>
-  		<result column="SHOPADDRESS" property="shopAddress"></result>
-  		<result column="PHONE" property="phone"></result>
-  		<result column="PRICE" property="price"></result>
-  	</resultMap>
+  
   	
   	<!-- 상품 등록 sql문 -->
   	<select id="bookGenreSelectOne" resultMap="sortMap">
@@ -606,6 +578,50 @@
 		 </choose>
  		 ,'YY-MM-DD') + 1)
 	</select>
+	
+		<!-- 결제 연습 -->
+  	<select id="orderSelectList" resultMap="creditMap">
+  		select * from credit
+  		where 1 = 1
+  			<if test="dType != null and dType != '전체'">
+  				and status = #{dType}
+  			</if>
+  			<if test="type != null and type != '전체'">
+  				and ${type} = #{keyword}
+  			</if>
+  		
+  			<if test="endDate != null and startDate != null">
+  			and creditdate <![CDATA[<]]> #{endDate} and creditdate > #{startDate}
+  			</if>
+  	</select>
+  	
+  	<select id="orderSelectListCount" resultType="int">
+	  	select count(*) from credit
+	  		where 1 = 1
+	  			<if test="dType != null and dType != '전체'">
+	  				and status = #{dType}
+	  			</if>
+	  			<if test="type != null and type != '전체'">
+	  				and ${type} = #{keyword}
+	  			</if>
+	  		
+	  			<if test="endDate != null and startDate != null">
+	  			and creditdate <![CDATA[<]]> #{endDate} and creditdate > #{startDate}
+	  			</if>
+  	</select>
+  	
+  	<resultMap type="com.kh.potstand.admin.model.vo.Credit" id="creditMap">
+  		<id column="CREDITNO" property="creditNo"></id>
+  		<result column="MEMBERID" property="memberId"></result>
+  		<result column="PRODUCTNO" property="productNo"></result>
+  		<result column="STOCK" property="stock"></result>
+  		<result column="STATUS" property="status"></result>
+  		<result column="CREDITDATE" property="creditDate"></result>
+  		<result column="RECIPIENT" property="recipient"></result>
+  		<result column="SHOPADDRESS" property="shopAddress"></result>
+  		<result column="PHONE" property="phone"></result>
+  		<result column="PRICE" property="price"></result>
+  	</resultMap>
 	
 	<select id="priceDateList" resultType="int">
 		select nvl(sum(price),0) from credit where to_date(creditdate,'YY-MM-DD') = #{str}

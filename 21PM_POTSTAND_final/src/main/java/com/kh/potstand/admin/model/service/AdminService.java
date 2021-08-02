@@ -140,6 +140,10 @@ public interface AdminService {
 
 	List<Credit> creditDateList(String startDate);
 
+	int eventSelectCount(Map param);
+
+	List<Book> eventBookSelectList(Map param, int cPage, int numPerpage);
+
 
 
 

@@ -93,6 +93,14 @@ public class AdminController {
 		mv.addObject("answerNo", service.answerNo());
 		mv.addObject("newReview", service.newReview());
 		mv.setViewName("admin/adminMain");
+		
+		/* count들 갖고 올것
+		 * Map<String,Object> count = service.orderCountMap();
+		 * mv.addObject("count1",count.get("count1"));
+		 * mv.addObject("count2",count.get("count2"));
+		 * mv.addObject("count3",count.get("count3"));
+		 * mv.addObject("count4",count.get("count1"));
+		 */
 		return mv;
 	}
 	
@@ -163,13 +171,6 @@ public class AdminController {
 		return mv;
 	}
 	
-	@RequestMapping("/admin/orderCheck")
-	public ModelAndView orderCheck(ModelAndView mv) {
-		
-		mv.setViewName("admin/orderCheck");
-		return mv;
-	}
-
 	@RequestMapping("/admin/qnaManager")
 	public ModelAndView qnaManager(
 			@RequestParam(value ="cPage",defaultValue="1") int cPage,
@@ -222,9 +223,7 @@ public class AdminController {
 	
 	@RequestMapping("/admin/qnaAnswer")
 	public String qnaAnswer(@RequestParam Map param,HttpSession session) {
-		/* Member m = (Member)session.getAttribute("loginMember");
-		param.put("memberId", m.getMemberId()); */
-		param.put("memberId", "admin");
+		param.put("memberId", ((Member)session.getAttribute("loginMember")).getMemberId());
 		int result = service.qnaAnswer(param);
 		return result>0?"true":"false";
 	}
@@ -233,9 +232,7 @@ public class AdminController {
 	
 	@RequestMapping("/admin/qnaInsert")
 	public ModelAndView qnaInsert(ModelAndView mv,@RequestParam Map param,HttpSession session) {
-		/* Member m = (Member)session.getAttribute("loginMember");
-		param.put("memberId", m.getMemberId()); */
-		param.put("memberId", "admin");
+		param.put("memberId", ((Member)session.getAttribute("loginMember")).getMemberId());
 		int result = service.qnaInsert(param);
 		mv.addObject("msg", result>0?"등록 성공":"등록 실패");
 		mv.addObject("loc", "/admin/qnaManager");
@@ -284,9 +281,7 @@ public class AdminController {
 	
 	@RequestMapping("/admin/noticeInsertEnd")
 	public ModelAndView noticeInsertEnd(ModelAndView mv,@RequestParam Map param,HttpSession session) {
-		/* Member m = (Member)session.getAttribute("loginMember");
-		param.put("memberId", m.getMemberId()); */
-		param.put("memberId", "admin");
+		param.put("memberId", ((Member)session.getAttribute("loginMember")).getMemberId());
 		int result = service.noticeInsert(param);
 		mv.addObject("msg", result>0?"등록 되었습니다!":"등록 실패하였습니다!");
 		mv.addObject("loc","/admin/noticeSelect");
@@ -304,9 +299,7 @@ public class AdminController {
 	
 	@RequestMapping("/admin/noticeUpdateEnd")
 	public ModelAndView noticeUpdateEnd(ModelAndView mv,@RequestParam Map param,HttpSession session) {
-		/* Member m = (Member)session.getAttribute("loginMember");
-		param.put("memberId", m.getMemberId()); */
-		param.put("memberId", "admin");
+		param.put("memberId", ((Member)session.getAttribute("loginMember")).getMemberId());
 		int result = service.noticeUpdateEnd(param);
 		mv.addObject("msg", result>0?"수정 되었습니다!":"수정 실패하였습니다!");
 		mv.addObject("loc","/admin/noticeSelect");
@@ -474,10 +467,17 @@ public class AdminController {
 	
 	@RequestMapping("/admin/eventSelectBook")
 	public ModelAndView eventSelectBook(
+			@RequestParam(value ="cPage",defaultValue="1") int cPage,
+			@RequestParam(value="numPerpage",defaultValue="300") int numPerpage,
 			@RequestParam Map param,
-			ModelAndView mv) {
-		List<Book> list = service.productSelectList(param);
+			ModelAndView mv,
+			@RequestParam(value="searchKeyword",defaultValue="") String searchKeyword,
+			@RequestParam(value="searchType",defaultValue="") String searchType) {
+		int totalData = service.eventSelectCount(param);
+		List<Book> list = service.eventBookSelectList(param,cPage,numPerpage);
 		mv.addObject("list", list);
+		mv.addObject("pageBar", PageFactory.getPageBar(totalData, cPage, numPerpage,5,"eventSelectBook","searchType="+searchType+"&searchKeyword="+searchKeyword));
+		mv.addObject("count", totalData);
 		mv.setViewName("admin/eventSelectBook");
 		return mv;
 	}
@@ -785,12 +785,12 @@ public class AdminController {
 		
 		List<Credit> list = session.selectList("admin.orderSelectList", param);
 		int count = session.selectOne("admin.orderSelectListCount", param);
-		System.out.println(list);
 		mv.addObject("list", list);
 		mv.addObject("count", count);
 		mv.setViewName("admin/orderCheck");
 		return mv;
 	}
+	
 	
 	
 	

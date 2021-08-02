@@ -392,6 +392,20 @@ public class AdminServiceImpl implements AdminService {
 		// TODO Auto-generated method stub
 		return dao.creditDateList(session,startDate);
 	}
+
+	@Override
+	public int eventSelectCount(Map param) {
+		// TODO Auto-generated method stub
+		return dao.eventSelectCount(session,param);
+	}
+
+	@Override
+	public List<Book> eventBookSelectList(Map param, int cPage, int numPerpage) {
+		// TODO Auto-generated method stub
+		return dao.eventBookSelectList(session,param,cPage,numPerpage);
+	}
+	
+	
 	
 	
 	

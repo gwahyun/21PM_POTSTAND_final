@@ -417,6 +417,18 @@ public class AdminDaoImpl implements AdminDao {
 		}
 		return session.selectList("admin.creditDateList", map);
 	}
+
+	@Override
+	public int eventSelectCount(SqlSessionTemplate session, Map param) {
+		// TODO Auto-generated method stub
+		return session.selectOne("admin.eventSelectCountParam",param);
+	}
+
+	@Override
+	public List<Book> eventBookSelectList(SqlSessionTemplate session, Map param, int cPage, int numPerpage) {
+		// TODO Auto-generated method stub
+		return session.selectList("admin.eventBookSelectList", param, new RowBounds((cPage-1)*numPerpage, numPerpage));
+	}
 	
 	
 	

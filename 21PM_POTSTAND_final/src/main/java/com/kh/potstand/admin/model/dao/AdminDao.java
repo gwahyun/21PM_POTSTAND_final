@@ -141,4 +141,8 @@ public interface AdminDao {
 	int sumPrice(SqlSessionTemplate session, String startDate);
 
 	List<Credit> creditDateList(SqlSessionTemplate session, String startDate);
+
+	int eventSelectCount(SqlSessionTemplate session, Map param);
+
+	List<Book> eventBookSelectList(SqlSessionTemplate session, Map param, int cPage, int numPerpage);
 }
