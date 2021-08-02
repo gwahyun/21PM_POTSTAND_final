@@ -24,7 +24,7 @@
 	            	<div class="pl-5 text-xl">
 	            		<ul>
 			                <li class="py-2"><a href="#">주문목록/배송조회</a></li>
-			                <li class="py-2"><a href="#">쿠폰</a></li>
+			                <li class="py-2"><a href="${path}/member/memberCouponListSelect.do">쿠폰</a></li>
 			                <li class="py-2"><a href="${path}/member/memberPoint.do">적립금</a></li>
 			            </ul>
 	            	</div>
@@ -45,13 +45,17 @@
 	        			<div class="mb-3"><h4 class="text-4xl font-semibold">적립금</h4></div>
 	    				<div>
 	    					<h5 class="text-2xl">
-	    						<a href="${path}/member/memberPoint.do?memberId=${loginMember.memberId}">${mypageTotalPoint }point</a>
+	    						<a href="${path}/member/memberPoint.do">${mypageTotalPoint }point</a>
 	    					</h5>
 	    				</div>
 	        		</div>
 	        		<div class="w-1/3 h-full px-5 py-24">
 	        			<div class="mb-3"><h4 class="text-4xl font-semibold">쿠폰</h4></div>
-	        			<div><h5 class="text-2xl">??개</h5></div>
+	        			<div>
+	        				<h5 class="text-2xl">
+	        					<a href="${path}/member/memberCouponListSelect.do">${mypageTotalCoupon }개</a>
+	        				</h5>
+	        			</div>
 	        		</div>
 	        	</div>
 	        	<div class="mt-7 w-full">
