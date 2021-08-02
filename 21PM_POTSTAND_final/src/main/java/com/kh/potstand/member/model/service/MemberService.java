@@ -76,11 +76,17 @@ public interface MemberService {
 	//내 리뷰 수정
 	int memberReviewUpdate(Map param);
 	
-	//마이페이지 쿠폰리스트 총 개수
+	//마이페이지 사용가능 쿠폰리스트 총 개수
 	int memberCouponListCount(String memberId);
 	
-	//마이페이지 쿠폰리스트
+	//마이페이지 사용가능 쿠폰리스트
 	List<Coupon> memberCouponListSelect(String memberId, int cPage, int numPerpage);
+	
+	//마이페이지 기간만료 쿠폰리스트 총 개수
+	int memberEndCouponListCount(String memberId);
+		
+	//마이페이지 기간만료 쿠폰리스트
+	List<Coupon> memberEndCouponListSelect(String memberId, int cPage, int numPerpage);
 	
 	//notice List 호출 (공지사항 페이지)
 	List<Notice> noticeSelectList(int cPage, int numPerPage);

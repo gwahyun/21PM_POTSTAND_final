@@ -259,9 +259,10 @@ public class MemberController {
 	//마이페이지 전환
 	@RequestMapping("/member/memberMypage.do")
 	public ModelAndView memberMypage(ModelAndView mv, HttpSession session) {
-		
-		List<Point> pointList=service.memberPointSelect(((Member)(session.getAttribute("loginMember"))).getMemberId());
+		String memberId=((Member)(session.getAttribute("loginMember"))).getMemberId();
+		List<Point> pointList=service.memberPointSelect(memberId);
 		int totalPoint=0; //잔여 포인트
+		int totalCoupon=service.memberCouponListCount(memberId);
 		for(Point p : pointList) {
 			if(p.getUseLog().contains("구입")) {
 				totalPoint+=p.getPoint();
@@ -270,6 +271,7 @@ public class MemberController {
 			}
 		}
 		mv.addObject("mypageTotalPoint", totalPoint);
+		mv.addObject("mypageTotalCoupon", totalCoupon);
 		mv.setViewName("member/memberMypage");
 		return mv;
 	}
@@ -583,4 +585,21 @@ public class MemberController {
 		mv.setViewName("member/memberCouponList");
 		return mv;
 	}
+		
+		//마이페이지 - 쿠폰
+		@RequestMapping("/member/memberEndCouponListSelect.do")
+		public ModelAndView memberEndCouponListSelect(ModelAndView mv, HttpSession session,
+				@RequestParam(value="cPage",defaultValue="1") int cPage,
+				@RequestParam(value="numPerpage",defaultValue="10") int numPerpage) {
+			String memberId=((Member)session.getAttribute("loginMember")).getMemberId();
+			int EndtotalData=service.memberEndCouponListCount(memberId); //기간만료 쿠폰개수
+			int totalData=service.memberCouponListCount(memberId); //사용가능 쿠폰개수
+			List<Coupon> list=service.memberEndCouponListSelect(memberId,cPage,numPerpage);
+			
+			mv.addObject("totalData", totalData);
+			mv.addObject("list", list);
+			mv.addObject("pageBar", PageFactory.getPageBar(EndtotalData, cPage, numPerpage,5,"memberMyReview.do"));
+			mv.setViewName("member/memberEndCouponList");
+			return mv;
+		}	
 }

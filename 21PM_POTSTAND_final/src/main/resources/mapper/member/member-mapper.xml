@@ -213,10 +213,22 @@
 	</update>
 	
 	<select id="memberCouponListCount" resultType="_int">
-		SELECT COUNT(*) FROM COUPON JOIN EVENT USING(EVENT_NO) WHERE MEMBER_ID=#{memberId}
+		SELECT COUNT(*) FROM COUPON JOIN EVENT USING(EVENT_NO) WHERE MEMBER_ID=#{memberId} AND COUPON_END='N'
 	</select>
 	
 	<select id="memberCouponListSelect" resultMap="couponMap">
-		SELECT * FROM COUPON JOIN EVENT USING(EVENT_NO) WHERE MEMBER_ID=#{memberId}
+		SELECT * FROM COUPON JOIN EVENT USING(EVENT_NO) WHERE MEMBER_ID=#{memberId} AND COUPON_END='N'
 	</select>
+	
+	<select id="memberEndCouponListCount" resultType="_int">
+		SELECT COUNT(*) FROM COUPON JOIN EVENT USING(EVENT_NO) WHERE MEMBER_ID=#{memberId} AND COUPON_END='Y'
+	</select>
+	
+	<select id="memberEndCouponListSelect" resultMap="couponMap">
+		SELECT * FROM COUPON JOIN EVENT USING(EVENT_NO) WHERE MEMBER_ID=#{memberId} AND COUPON_END='Y'
+	</select>
+	
+	<update id="membmerCouponEndUpdate">
+		UPDATE COUPON SET COUPON_END='Y' WHERE VAL_DATE &lt; SYSDATE;
+	</update>
 </mapper>

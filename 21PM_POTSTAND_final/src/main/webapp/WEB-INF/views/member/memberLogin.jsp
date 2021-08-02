@@ -14,6 +14,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>로그인-PotStand</title>
     <link href="${path}/resources/static/tailwind.css" type="text/css" rel="stylesheet"/>
+    <link rel="icon" href="${path}/resources/img/favicon-32x32.png" type="image/x-icon">
     <script src="${path}/resources/js/jquery-3.6.0.min.js"></script>
     <script type="text/javascript" src="https://static.nid.naver.com/js/naverLogin_implicit-1.0.3.js" charset="utf-8"></script>
   	<script type="text/javascript" src="http://code.jquery.com/jquery-1.11.3.min.js"></script>

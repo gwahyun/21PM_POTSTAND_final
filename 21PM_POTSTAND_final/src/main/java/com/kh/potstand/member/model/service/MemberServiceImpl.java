@@ -230,16 +230,28 @@ public class MemberServiceImpl implements MemberService{
 		return dao.memberReviewUpdate(session,param);
 	}
 	
-	//마이페이지 쿠폰 리스트 총 개수
+	//마이페이지 사용가능 쿠폰 리스트 총 개수
 	@Override
 	public int memberCouponListCount(String memberId) {
 		return dao.memberCouponListCount(session,memberId);
 	}
 
-	//마이페이지 쿠폰 리스트
+	//마이페이지 사용가능 쿠폰 리스트
 	@Override
 	public List<Coupon> memberCouponListSelect(String memberId,int cPage,int numPerpage) {
 		return dao.memberCouponListSelect(session,memberId,cPage,numPerpage);
+	}
+	
+	//마이페이지 기간만료 쿠폰리스트 총 개수
+	@Override
+	public int memberEndCouponListCount(String memberId) {
+		return dao.memberEndCouponListCount(session,memberId);
+	}
+	
+	//마이페이지 기간만료 쿠폰리스트
+	@Override
+	public List<Coupon> memberEndCouponListSelect(String memberId, int cPage, int numPerpage) {
+		return dao.memberEndCouponListSelect(session,memberId,cPage,numPerpage);
 	}
 	
 	//notice List 호출 (공지사항 페이지)
@@ -314,6 +326,8 @@ public class MemberServiceImpl implements MemberService{
 	public int cartCouponUpdate(Map param) {
 		return dao.cartCouponUpdate(session, param);
 	}
+
+	
 
 
 	

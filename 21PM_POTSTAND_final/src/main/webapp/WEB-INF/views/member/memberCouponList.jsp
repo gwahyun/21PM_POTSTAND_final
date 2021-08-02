@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <jsp:include page="/WEB-INF/views/common/header.jsp"/>
 <c:set var="path" value="${pageContext.request.contextPath }"/>
 	<section class="body-font">
@@ -41,10 +42,24 @@
         			</div>
         		</c:if>
         		<c:if test="${list!='[]'}">
-	        		<div class="flex w-full flex-col justify-center mt-5 border" >
-	        			<h2 class="mb-2 font-semibold text-xl">
-	        				사용가능 <span class="text-blue-500">${totalData }</span>
-	        			</h2>
+        			<div class="flex w-full mt-5 border-b-4 mb-5">
+        				<div class="h-full border-b-4 border-red-500">
+			        		<h2 class="mb-2 font-semibold text-xl">
+			        			<a href="${path}/member/memberCouponListSelect.do">
+			        				사용가능<span class="text-blue-500">${totalData }</span>
+			        			</a>
+			        		</h2>
+		        		</div>
+		        		<div class="w-6"></div>
+		        		<div class="border-b-4 border-opacity-0 hover:border-opacity-100 hover:border-gray-500">
+			        		<h2 class="mb-2 text-gray-500 font-semibold text-xl">
+			        			<a href="${path}/member/memberEndCouponListSelect.do">
+			        				기간만료
+			        			</a>
+			        		</h2>
+		        		</div>
+	        		</div>
+	        		<div class="flex w-full flex-col justify-center border">
 	        			<div class="flex">
 	        				<div class="w-1/5 border h-11 p-2 bg-red-100 flex justify-center">
 	        					<h3 class="text-lg font-bold">발행일</h3>
@@ -59,7 +74,7 @@
 	        					<h3 class="text-lg font-bold">만료일</h3>
 		        			</div>
 	        			</div>
-	        			<c:forEach items="${list }" var="c">
+	        			<c:forEach items="${list }" var="c">	
 		        			<div class="flex">
 		        				<div class="w-1/5 border h-11 p-2 flex justify-center">
 		        					<h4>${c.startDate }</h4>
@@ -68,7 +83,7 @@
 			        				<h4>${c.event.eventTitle }</h4>
 			        			</div>
 			        			<div class="w-1/5 border h-11 p-2 flex justify-center">
-			        				<h4>${c.event.discount}</h4>
+			        				<h4><fmt:formatNumber value="${c.event.discount}" type="percent"/></h4>
 			        			</div>
 			        			<div class="w-1/5 border h-11 p-2 flex justify-center">
 			        				<h4>${c.valDate}</h4>
@@ -81,7 +96,4 @@
 			</div>
 		</div>
     </section>
-    <script>
-    	
-    </script>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
