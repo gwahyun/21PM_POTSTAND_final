@@ -23,4 +23,10 @@ public class BookDaoImpl implements BookDao {
 		return session.selectOne("book.selectBookCount");
 	}
 
+	@Override
+	public Book selectBookInfo(SqlSession session, int no) {
+		
+		return session.selectOne("book.selectBookInfo", no);
+	}
+
 }

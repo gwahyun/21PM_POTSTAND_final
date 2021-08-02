@@ -10,4 +10,5 @@ public interface BookService {
 
 	public List<Book> selectBookList(int cPage, int numPerpage);
 	public int selectBookCount();
+	public Book selectBookInfo(int no);
 }

@@ -28,4 +28,9 @@ public class BookServiceImpl implements BookService {
 		return dao.selectBookCount(session);
 	}
 
+	@Override
+	public Book selectBookInfo(int no) {
+		return dao.selectBookInfo(session, no);
+	}
+
 }
