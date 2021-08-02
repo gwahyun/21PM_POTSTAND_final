@@ -1,8 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<%@page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
@@ -23,7 +21,7 @@
 				class="order-list w-8/12 mx-4 border border-solid border-gray-400 p-4">
 
 				<!-- 주문 항목 출력 -->
-				<c:forEach var="order" items="${orderList}" varStatus="i">
+				<%-- <c:forEach var="order" items="${orderList}" varStatus="i"> --%>
 					<div
 						class="order-obj 
 	                		flex m-1 py-1 
@@ -34,25 +32,25 @@
 
 						<!-- 책 표지 -->
 						<div class="img-area w-24 h-24 mx-5">
-							<img src="${order.book.bookCover}" class="w-full">
+							<img src="<%-- ${order.book.bookCover} --%>" class="w-full">
 						</div>
 
 
 						<!-- 책 제목, 작가, 삭제버튼 -->
 						<div class="obj-info ml-6 w-4/12">
 							<h2 class="my-3 text-2xl font-bold">
-								<c:out value="${order.book.bookTitle}" />
+								<c:out value="<%-- ${order.book.bookTitle} --%>" />
 							</h2>
 							<h4 class="my-3 text-xl font-medium">
-								<c:out value="${order.book.bookWriter}" />
+								<c:out value="<%-- ${order.book.bookWriter} --%>" />
 							</h4>
 							<!-- 수량 -->
 							<div>
 								<label class="text-sm">수량 : </label> 
 								<input type="number"
 									class="w-2/12 text-right border border-solid border-gray-300 text-sm"
-									name="bookAmount" value="${order.bookAmount}" readonly>권
-								<input type="hidden" name="orderNo" value="${order.orderNo}" />
+									name="bookAmount" value="<%-- ${order.bookAmount} --%>" readonly>권
+								<input type="hidden" name="orderNo" value="<%-- ${order.orderNo} --%>" />
 								<button
 									class="inline-flex items-center 
 	                			bg-gray-300 
@@ -63,7 +61,7 @@
 		          				hover:text-white rounded 
 		          				text-sm 
 		          				mt-4 md:mt-0"
-									onclick="fn_updateBookAmount(event);">변경</button>
+									onclick="<!-- fn_updateBookAmount(event); -->">변경</button>
 								<button
 								class="inline-flex items-center 
 	                			bg-gray-300 
@@ -74,8 +72,8 @@
 		          				hover:text-white rounded 
 		          				text-sm 
 		          				mt-4 md:mt-0"
-								onclick="fn_orderDelete(event);">삭제</button>
-							<input type="hidden" name="orderNo" value="${order.orderNo}" />
+								onclick="<!-- fn_orderDelete(event); -->">삭제</button>
+							<input type="hidden" name="orderNo" value="<%-- ${order.orderNo} --%>" />
 							</div>
 						</div>
 
@@ -86,16 +84,16 @@
 							<div class="price-info text-sm">
 								 <!-- 구매가격 -->
 								<label>구매 가격 : </label>
-								<c:if test="${order.usedCouponNo==0}">
+								<c:if test="<%-- ${order.usedCouponNo==0} --%>">
 									<h3
 										class="inline ori-price-total m-3 text-base text-right font-medium font-bold">
-										<fmt:formatNumber type="currency" value="${order.book.bookCost * order.bookAmount}" />
+										<fmt:formatNumber type="currency" value="<%-- ${order.book.bookCost * order.bookAmount} --%>" />
 									</h3>
 								</c:if>
-								<c:if test="${order.usedCouponNo!=0}">
+								<c:if test="<%-- ${order.usedCouponNo!=0} --%>">
 									<h3
 										class="inline ori-price-total m-3 text-base text-right font-medium font-bold line-through text-gray-400">
-										<fmt:formatNumber type="currency" value="${order.book.bookCost * order.bookAmount}" />
+										<fmt:formatNumber type="currency" value="<%-- ${order.book.bookCost * order.bookAmount} --%>" />
 									</h3>
 								</c:if>
 								
@@ -103,20 +101,20 @@
 							
 								<!-- 할인 가격 -->
 								<br>
-								<c:if test="${order.usedCouponNo==0}">
+								<c:if test="<%-- ${order.usedCouponNo==0} --%>">
 									<label class="discalc hidden">할인 가격 : </label>
 									<h2
 										class="inline hidden dis-price m-3 text-base text-right font-medium font-bold ">
 	
 									</h2>
 								</c:if>
-								<c:if test="${order.usedCouponNo!=0}">
+								<c:if test="<%-- ${order.usedCouponNo!=0} --%>">
 									<label class="discalc">할인 가격 : </label>
 									<h2
 										class="inline dis-price m-3 text-base text-right font-medium font-bold ">
-										<c:forEach var="cp" items="${order.coupon}">
-											<c:if test="${cp.couponNo==order.usedCouponNo}">
-												<fmt:formatNumber type="currency" value="${order.book.bookCost * order.bookAmount *(1-cp.event.discount)}" />
+										<c:forEach var="cp" items="<%-- ${order.coupon} --%>">
+											<c:if test="<%-- ${cp.couponNo==order.usedCouponNo} --%>">
+												<fmt:formatNumber type="currency" value="<%-- ${order.book.bookCost * order.bookAmount *(1-cp.event.discount)} --%>" />
 											</c:if>
 										</c:forEach>
 									</h2>
@@ -132,16 +130,16 @@
 										<label class="coupon text-sm font-bold  block mt-1"> 사용
 											가능 쿠폰</label>
 										<select name="couponData" class="text-sm">
-											<option value="${order.orderNo}:0:0"> 쿠폰 사용 안함</option>
-											<c:forEach var="cp" items="${order.coupon}">
-												<c:if test="${cp.couponEnd eq 'N'}">
+											<option value="<%-- ${order.orderNo} --%>:0:0"> 쿠폰 사용 안함</option>
+											<c:forEach var="cp" items="<%-- ${order.coupon} --%>">
+												<c:if test="<%-- ${cp.couponEnd eq 'N'} --%>">
 													<c:choose>
-														<c:when test="${order.usedCouponNo==cp.couponNo}">
-															<option value="${order.orderNo}:${cp.couponNo}:${cp.event.discount}" selected> <c:out value="${cp.event.eventTitle}" />
+														<c:when test="<%-- ${order.usedCouponNo==cp.couponNo} --%>">
+															<option value="<%-- ${order.orderNo}:${cp.couponNo}:${cp.event.discount} --%>" selected> <c:out value="${cp.event.eventTitle}" />
 															</option>
 														</c:when>
 														<c:otherwise>
-															<option value="${order.orderNo}:${cp.couponNo}:${cp.event.discount}"> <c:out value="${cp.event.eventTitle}" />
+															<option value="<%-- ${order.orderNo}:${cp.couponNo}:${cp.event.discount} --%>"> <c:out value="${cp.event.eventTitle}" />
 															</option>
 														</c:otherwise>
 													</c:choose> 
@@ -159,7 +157,7 @@
 							          				hover:text-white rounded 
 							          				text-sm 
 							          				mt-4 md:mt-0"
-											onclick="fn_discount(event);">쿠폰적용</button>
+											onclick="<!-- fn_discount(event); -->">쿠폰적용</button>
 									
 							</div>
 							
@@ -168,7 +166,7 @@
 
 
 					</div>
-				</c:forEach>
+				<%-- </c:forEach> --%>
 			</div>
 
 			<!-- 가격표시창 -->

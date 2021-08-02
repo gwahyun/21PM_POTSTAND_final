@@ -57,16 +57,16 @@
 
 						<!-- 책 표지 -->
 						<div class="img-area w-24 h-24 mx-5">
-							<img src="${cart.book.bookCover}" class="w-full">
+							<img src="${cart.book.bookCover}" class="w-full h-full">
 						</div>
 
 
 						<!-- 책 제목, 작가, 삭제버튼 -->
-						<div class="obj-info ml-6 w-4/12">
-							<h2 class="my-3 text-2xl font-bold">
-								<c:out value="${cart.book.bookTitle}" />
+						<div class="obj-info ml-6 w-6/12">
+							<h2 class="my-3 text-base font-bold">
+								<c:out value="${cart.book.bookTitle}" escapeXml="false" />
 							</h2>
-							<h4 class="my-3 text-xl font-medium">
+							<h4 class="my-3 text-sm font-medium">
 								<c:out value="${cart.book.bookWriter}" />
 							</h4>
 							<!-- 수량 -->
@@ -104,13 +104,13 @@
 
 
 						<!--수량, 가격, 쿠폰적용 -->
-						<div class="price ml-6 w-4/12">
+						<div class="price ml-6 w-3/12">
 							<!-- 가격-->
 							<div class="price-info text-sm">
 								<!-- 원래 가격 -->
 								<label>권당 가격 : </label>
 								<h3
-									class="inline ori-price m-3 text-base text-right font-medium font-bold ">
+									class="inline ori-price m-3 text-base text-right ">
 									<fmt:formatNumber type="currency" value="${cart.book.bookCost}" />
 								</h3>
 								<br>
@@ -120,13 +120,13 @@
 								<label>구매 가격 : </label>
 								<c:if test="${cart.usedCouponNo==0}">
 									<h3
-										class="inline ori-price-total m-3 text-base text-right font-medium font-bold">
+										class="inline ori-price-total m-3 text-base text-right font-bold">
 										<fmt:formatNumber type="currency" value="${cart.book.bookCost * cart.bookAmount}" />
 									</h3>
 								</c:if>
 								<c:if test="${cart.usedCouponNo!=0}">
 									<h3
-										class="inline ori-price-total m-3 text-base text-right font-medium font-bold line-through text-gray-400">
+										class="inline ori-price-total m-3 text-base text-right font-bold line-through text-gray-400">
 										<fmt:formatNumber type="currency" value="${cart.book.bookCost * cart.bookAmount}" />
 									</h3>
 								</c:if>
@@ -138,14 +138,14 @@
 								<c:if test="${cart.usedCouponNo==0}">
 									<label class="discalc hidden">할인 가격 : </label>
 									<h2
-										class="inline hidden dis-price m-3 text-base text-right font-medium font-bold ">
+										class="inline hidden dis-price m-3 text-base text-right font-bold ">
 	
 									</h2>
 								</c:if>
 								<c:if test="${cart.usedCouponNo!=0}">
 									<label class="discalc">할인 가격 : </label>
 									<h2
-										class="inline dis-price m-3 text-base text-right font-medium font-bold ">
+										class="inline dis-price m-3 text-base text-right font-bold ">
 										<c:forEach var="cp" items="${cart.coupon}">
 											<c:if test="${cp.couponNo==cart.usedCouponNo}">
 												<fmt:formatNumber type="currency" value="${cart.book.bookCost * cart.bookAmount *(1-cp.event.discount)}" />
@@ -246,7 +246,7 @@
 	          				hover:text-white rounded 
 	          				font-bold
 	          				mt-4 md:mt-0"
-					onclick="">구매하기</button>
+					onclick="location.assign('${path}/order/orderItems.do')">구매하기</button>
 			</div>
 		</div>
 		<div class="button-area m-4">
@@ -445,7 +445,8 @@
 	
 	
 	//페이지 로드시 장바구니 리스트 가격 출력
-	$(document).ready(fn_priceCalc());
+	$(document).ready({
+		fn_priceCalc()});
 	$(document).ready(alert("초기에 전체선택 / 선택한거만 가격 계산해서 출력"));
 	
 	
