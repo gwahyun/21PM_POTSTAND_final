@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="book">
+	<select id="selectBookList" resultMap="bookMap">
+		select * from book
+	</select>
+	<select id="selectBookCount" resultType="_int">
+		select count(*) from book
+	</select>
+		<select id="selectSortByPK" resultMap="sortMap">
+		SELECT * FROM SORT WHERE SORT_NO=#{sortNo}
+	</select>
+	
+	<resultMap type="book" id="bookMap">
+		<id column="BOOK_CODE" property="bookCode"/>
+		<result column="BOOK_TITLE" property="bookTitle"/>
+		<result column="BOOK_WRITER" property="bookWriter"/>
+		<result column="BOOK_PUB" property="bookPub"/>
+		<result column="BOOK_COST" property="bookCost"/>
+		<result column="BOOK_SHORT" property="bookShort"/>
+		<result column="BOOK_CONTENT" property="bookContent" typeHandler="longHandler"/>
+		<result column="BOOK_COVER" property="bookCover"/>
+		<result column="BOOK_DATE" property="bookDate"/>
+		<result column="BOOK_STOCK" property="bookStock"/>
+		<result column="BOOK_LINK" property="bookLink"/>
+		<result column="BOOK_INTRO" property="bookIntro"/>
+		<result column="WRITER_INTRO" property="writerIntro"/>
+		<result column="BOOK_INDEX" property="bookIndex"/>
+		<result column="PUB_REVIEW" property="pubReview"/>
+		<result column="BOOK_EXTRACT" property="bookExtract"/>
+		<result column="RECOMMAND" property="recommand"/>
+		<result column="INTRO_MV" property="introMv"/>
+		<association column="SORT_NO" property="sort" select="selectSortByPK"/>
+	</resultMap>
+	<resultMap type="sort" id="sortMap">
+		<id column="SORT_NO" property="sortNo"/>
+		<result column="LV1" property="lv1"/>
+		<result column="LV2" property="lv2"/>
+		<result column="LV3" property="lv3"/>
+		<result column="LV4" property="lv4"/>		
+	</resultMap>
+</mapper>

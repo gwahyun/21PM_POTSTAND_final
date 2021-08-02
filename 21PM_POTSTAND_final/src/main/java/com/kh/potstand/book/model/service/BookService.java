@@ -8,5 +8,6 @@ import com.kh.potstand.book.model.vo.Book;
 
 public interface BookService {
 
-	public List<Book> selectBookList();
+	public List<Book> selectBookList(int cPage, int numPerpage);
+	public int selectBookCount();
 }
