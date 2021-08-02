@@ -368,10 +368,10 @@
 		let arr=[];
 		list.each(function(i,v){
 			if($(v).prop("checked")){
-				arr.push($(v).siblings(".obj-info").children("input[name='cartNo']").attr("value"));
+				arr.push($(v).siblings(".obj-info").children("div").children("input[name='cartNo']").attr("value"));
 			}
 		});
-			
+
 		let params={
 				"arr":arr
 		}		
@@ -379,8 +379,8 @@
 		$.ajax({
 			url:'${path}/ajax/cartObjCheckedDelete.do',
 			type:'post',
-			data:params,
 			dataType:'json',
+			data:params,
 			success:function(data){
 				if(data.result!=0){
 					alert(arr.length+"개 항목 삭제");
@@ -445,10 +445,8 @@
 	
 	
 	//페이지 로드시 장바구니 리스트 가격 출력
-	$(document).ready({
-		fn_priceCalc()});
-	$(document).ready(alert("초기에 전체선택 / 선택한거만 가격 계산해서 출력"));
-	
+	$(document).ready(fn_priceCalc());
+	alert("초기에 전체선택 / 선택한거만 가격 계산해서 출력");
 	
 	
 </script>
