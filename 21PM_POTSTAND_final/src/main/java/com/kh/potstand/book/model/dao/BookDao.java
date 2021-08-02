@@ -8,5 +8,6 @@ import com.kh.potstand.book.model.vo.Book;
 
 public interface BookDao {
 
-	public List<Book> selectBookList(SqlSession session);
+	public List<Book> selectBookList(SqlSession session, int cPage, int numPerpage);
+	public int selectBookCount(SqlSession session);
 }
