@@ -6,12 +6,13 @@ import java.util.Map;
 import org.mybatis.spring.SqlSessionTemplate;
 
 import com.kh.potstand.admin.model.vo.Answer;
+import com.kh.potstand.admin.model.vo.Credit;
 import com.kh.potstand.admin.model.vo.Faq;
 import com.kh.potstand.admin.model.vo.Notice;
 import com.kh.potstand.admin.model.vo.Qna;
 import com.kh.potstand.admin.model.vo.Request;
-import com.kh.potstand.admin.model.vo.Review;
 import com.kh.potstand.book.model.vo.Book;
+import com.kh.potstand.book.model.vo.Review;
 import com.kh.potstand.book.model.vo.Sort;
 import com.kh.potstand.event.model.vo.Event;
 import com.kh.potstand.member.model.vo.Address;
@@ -128,4 +129,16 @@ public interface AdminDao {
 	Sort bookGenreSelectOne(SqlSessionTemplate session, String bookGenre);
 
 	int productInsertEnd(SqlSessionTemplate session, Book b);
+
+	Map<String, String> dateOne(SqlSessionTemplate session);
+
+	List<String> startDate(SqlSessionTemplate session, String startDate);
+
+	int priceDateList(SqlSessionTemplate session, String str);
+
+	int amountDateList(SqlSessionTemplate session, String str);
+
+	int sumPrice(SqlSessionTemplate session, String startDate);
+
+	List<Credit> creditDateList(SqlSessionTemplate session, String startDate);
 }

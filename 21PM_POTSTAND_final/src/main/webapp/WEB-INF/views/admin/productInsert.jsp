@@ -15,7 +15,7 @@
 				</div>
 			</div>
 		</div>
-		<form action="${path }/admin/productInsertEnd" method="get" enctype="multipart/form-data" onsubmit="return categoryCheck();">
+		<form action="${path }/admin/productInsertEnd" method="post" enctype="multipart/form-data" onsubmit="return categoryCheck();">
 		<div class="admin-content_area">
 			<div class="admin-content">
 				<div class="admin-content_title">

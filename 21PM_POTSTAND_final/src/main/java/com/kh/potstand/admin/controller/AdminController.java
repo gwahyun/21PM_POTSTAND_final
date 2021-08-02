@@ -32,8 +32,8 @@ import com.kh.potstand.admin.model.vo.Faq;
 import com.kh.potstand.admin.model.vo.Notice;
 import com.kh.potstand.admin.model.vo.Qna;
 import com.kh.potstand.admin.model.vo.Request;
-import com.kh.potstand.admin.model.vo.Review;
 import com.kh.potstand.book.model.vo.Book;
+import com.kh.potstand.book.model.vo.Review;
 import com.kh.potstand.common.AES256Util;
 import com.kh.potstand.common.PageFactory;
 import com.kh.potstand.event.model.vo.Event;
@@ -63,25 +63,64 @@ public class AdminController {
 
 	@RequestMapping("/admin/adminMain")
 	
-	public ModelAndView adminMain(ModelAndView mv) {
+	public ModelAndView adminMain(
+			@RequestParam(value="startDate",defaultValue="") String startDate,
+			ModelAndView mv) {
 		//차트
-		String[] str = new String[7];
-		str[0] = "21-07-31";
-		str[1] = "21-08-01";
-		str[2] = "21-08-02";
-		str[3] = "21-08-03";
-		str[4] = "21-08-04";
-		str[5] = "21-08-05";
-		str[6] = "21-08-06";
+		List<String> dateList = service.dateList(startDate);
+		//날짜
 		String c = "";
-		for(int i=0; i<str.length; i++) {
-			c += "'"+str[i]+"',"+"\n\n";
+		//매출
+		String d = "";
+		//수량
+		String e = "";
+		for(String str : dateList) {
+			
+			c += "'"+str+"',";
+			d += service.priceDateList(str)+",";
+			e += service.amountDateList(str)+",";
 		}
-		mv.addObject("c", c);
+		//System.out.println(dateList);
+		mv.addObject("c",c);
+		mv.addObject("d", d);
+		mv.addObject("e", e);
+		//신규 주문,주문확인 등등
+		Map<String,String> map = service.dateOne();
+		mv.addObject("startDate", map.get("일주일"));
+		mv.addObject("endDate", map.get("오늘"));
+		
 		//최신 리뷰,문의 등등
 		mv.addObject("answerNo", service.answerNo());
 		mv.addObject("newReview", service.newReview());
 		mv.setViewName("admin/adminMain");
+		return mv;
+	}
+	
+	@RequestMapping("/admin/calSelect")
+	public ModelAndView calSelect(
+			@RequestParam(value="startDate",defaultValue="") String startDate,
+			ModelAndView mv) {
+		//차트
+		List<String> dateList = service.dateList(startDate);
+		//날짜
+		String c = "";
+		//매출
+		String d = "";
+		//수량
+		String e = "";
+		for(String str : dateList) {
+			
+			c += "'"+str+"',";
+			d += service.priceDateList(str)+",";
+			e += service.amountDateList(str)+",";
+		}
+		//System.out.println(dateList);
+		mv.addObject("c",c);
+		mv.addObject("d", d);
+		mv.addObject("e", e);
+		mv.addObject("sumPrice",service.sumPrice(startDate));
+		mv.addObject("list", service.creditDateList(startDate));
+		mv.setViewName("admin/calSelect");
 		return mv;
 	}
 	
@@ -524,12 +563,7 @@ public class AdminController {
 		return mv;
 	}
 	
-	@RequestMapping("/admin/calSelect")
-	public ModelAndView calSelect(ModelAndView mv) {
-		
-		mv.setViewName("admin/calSelect");
-		return mv;
-	}
+	
 	
 	@RequestMapping("/admin/memberSelect")
 	public ModelAndView memberSelect(

@@ -9,12 +9,13 @@ import org.springframework.stereotype.Service;
 
 import com.kh.potstand.admin.model.dao.AdminDao;
 import com.kh.potstand.admin.model.vo.Answer;
+import com.kh.potstand.admin.model.vo.Credit;
 import com.kh.potstand.admin.model.vo.Faq;
 import com.kh.potstand.admin.model.vo.Notice;
 import com.kh.potstand.admin.model.vo.Qna;
 import com.kh.potstand.admin.model.vo.Request;
-import com.kh.potstand.admin.model.vo.Review;
 import com.kh.potstand.book.model.vo.Book;
+import com.kh.potstand.book.model.vo.Review;
 import com.kh.potstand.book.model.vo.Sort;
 import com.kh.potstand.event.model.vo.Event;
 import com.kh.potstand.member.model.vo.Address;
@@ -31,6 +32,13 @@ public class AdminServiceImpl implements AdminService {
 	@Autowired
 	private SqlSessionTemplate session;
 	
+	
+	@Override
+	public Map<String, String> dateOne() {
+		// TODO Auto-generated method stub
+		return dao.dateOne(session);
+	}
+
 	@Override
 	public List<Member> memberSelect(int cPage,int numPerpage,Map param) {
 		return dao.memberSelect(session,cPage,numPerpage,param);
@@ -355,5 +363,37 @@ public class AdminServiceImpl implements AdminService {
 		return dao.productInsertEnd(session,b);
 	}
 
+	@Override
+	public List<String> dateList(String startDate) {
+		// TODO Auto-generated method stub
+		return dao.startDate(session,startDate);
+	}
+
+	@Override
+	public int priceDateList(String str) {
+		// TODO Auto-generated method stub
+		return dao.priceDateList(session,str);
+	}
+
+	@Override
+	public int amountDateList(String str) {
+		// TODO Auto-generated method stub
+		return dao.amountDateList(session,str);
+	}
+
+	@Override
+	public int sumPrice(String startDate) {
+		// TODO Auto-generated method stub
+		return dao.sumPrice(session, startDate);
+	}
+
+	@Override
+	public List<Credit> creditDateList(String startDate) {
+		// TODO Auto-generated method stub
+		return dao.creditDateList(session,startDate);
+	}
+	
+	
+	
 
 }

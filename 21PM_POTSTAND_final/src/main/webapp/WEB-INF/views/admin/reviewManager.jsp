@@ -17,30 +17,6 @@
             </div>
         </div>
         
-    <!-- 	<form action="#" method="post"> -->
-    <!-- 		<div class="admin-content_area"> -->
-    <!-- 			<div class="admin-content"> -->
-    <!-- 				<div class="admin-content_title"> -->
-    <!-- 					검색 -->
-    <!-- 				</div> -->
-    <!-- 				<div class="admin-search"> -->
-    <!-- 					<div>책 번호</div> -->
-    <!-- 					<input type='number' name="bookNo"> -->
-    <!-- 				</div> -->
-    <!-- 				<div class="admin-search"> -->
-    <!-- 					<div>책 제목</div> -->
-    <!-- 					<input type='text' name="bookTitle" > -->
-    <!-- 				</div> -->
-    <!-- 				<div class="admin-search"> -->
-    <!-- 					<div>작성자</div> -->
-    <!-- 					<input type='text' name="bookAuthor" > -->
-    <!-- 				</div> -->
-    <!-- 			</div> -->
-    <!-- 		</div> -->
-    <!-- 		<button class="submit-btn">검색</button> -->
-    <!-- 	</form> -->
-        
-        
         <div class="admin-content_area">
             <div class="admin-content">
                 <div class="admin-content_title">리뷰 목록</div>

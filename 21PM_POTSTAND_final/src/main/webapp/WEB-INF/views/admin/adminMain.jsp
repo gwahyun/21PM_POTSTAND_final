@@ -30,10 +30,10 @@
                         주문 / 배송
                     </div>
                     <div class="admin-content-itmes">
-                    <div><span>신규 주문</span><a href="/bookin/admin/purchaseSearch.jsp?startDate=21-07-13&amp;endDate=21-07-21&amp;type=전체&amp;keyword=&amp;dType=결제완료">1 건</a></div>
-                    <div><span>주문확인</span><a href="/bookin/admin/purchaseSearch.jsp?startDate=21-07-13&amp;endDate=21-07-21&amp;type=전체&amp;keyword=&amp;dType=주문확인">0 건</a></div>
-                    <div><span>배송중</span><a href="/bookin/admin/purchaseSearch.jsp?startDate=21-07-13&amp;endDate=21-07-21&amp;type=전체&amp;keyword=&amp;dType=배송중">0 건</a></div>
-                    <div><span>배송완료</span><a href="/bookin/admin/purchaseSearch.jsp?startDate=21-07-13&amp;endDate=21-07-21&amp;type=전체&amp;keyword=&amp;dType=배송완료">0 건</a></div>
+                    <div><span>신규 주문</span><a href="${path }/admin/orderCheck?startDate=${startDate }&amp;endDate=${endDate }&amp;type=전체&amp;keyword=&amp;dType=결제완료"">1 건</a></div>
+                    <div><span>주문확인</span><a href="${path }/admin/orderCheck?startDate=${startDate }&amp;endDate=${endDate }&amp;type=전체&amp;keyword=&amp;dType=주문확인">0 건</a></div>
+                    <div><span>배송중</span><a href="${path }/admin/orderCheck?startDate=${startDate }&amp;endDate=${endDate }&amp;type=전체&amp;keyword=&amp;dType=배송중">0 건</a></div>
+                    <div><span>배송완료</span><a href="${path }/admin/orderCheck?startDate=${startDate }&amp;endDate=${endDate }&amp;type=전체&amp;keyword=&amp;dType=배송완료">0 건</a></div>
                     </div>
                 </div>
                 <div class="admin-home_content">
@@ -119,9 +119,7 @@
             }
         });
         const labels = [
-            
-           
-            
+			${c}            
             ];
         const data = {
           labels: labels,
@@ -133,21 +131,7 @@
                     borderColor: '#ff9f43',
                     data: [
                         
-                        0,
-                        
-                        0,
-                        
-                        0,
-                        
-                        3,
-                        
-                        0,
-                        
-                        0,
-                        
-                        0,
-                        
-                        40000,
+                        ${d}
                         
                         ],
                    },
@@ -158,21 +142,7 @@
                     borderColor: '#ff6b6b',
                     data: [
                         
-                        0,
-                        
-                        0,
-                        
-                        0,
-                        
-                        0,
-                        
-                        0,
-                        
-                        0,
-                        
-                        0,
-                        
-                        1,
+                      ${e}
                         
                         ],
                  }

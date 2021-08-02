@@ -218,8 +218,10 @@
  		<id column="review_no" property="reviewNo"/>
  		<result column="book_code" property="bookCode"/>
  		<result column="member_id" property="memberId"/>
+ 		<result column="point" property="point"/>
  		<result column="review_content" property="reviewContent"/>
  		<result column="review_date" property="reviewDate"/>
+ 		<association property="book" resultMap="bookMap"/>
  	</resultMap>
  	
  	<delete id="reviewDelete">
@@ -574,5 +576,70 @@
   	<select id="selectBCAndBL" resultType="HashMap">
   		SELECT BOOK_CODE, BOOK_LINK FROM BOOK
   	</select>
+ 	
+ 	<!-- 차트에 필요한 날짜 -->
+ 	<select id="dateOne" resultType="HashMap">
+ 		SELECT  TO_CHAR(SYSDATE-6, 'YY-MM-DD') AS 일주일, TO_CHAR(SYSDATE, 'YY-MM-DD') AS 오늘
+    	FROM DUAL
+ 	</select>
+ 	
+ 	<!-- 차트에 필요할 날짜 -->
+	<select id="startDate" resultType="String">
+		 select to_char(to_date(
+		 <choose>
+		 	<when test="startDateStr == null">
+		 		${startDate}
+		 	</when>
+		 	<otherwise>
+		 		#{startDateStr}
+		 	</otherwise>
+		 </choose>
+		,'YY-MM-DD') + (LEVEL-1),'YY-MM-DD') dates
+ 		 from dual CONNECT BY LEVEL <![CDATA[<]]>= (to_date(SYSDATE,'YY-MM-DD') - to_date(
+ 			 <choose>
+		 	<when test="startDateStr == null">
+		 		${startDate}
+		 	</when>
+		 	<otherwise>
+		 		#{startDateStr}
+		 	</otherwise>
+		 </choose>
+ 		 ,'YY-MM-DD') + 1)
+	</select>
+	
+	<select id="priceDateList" resultType="int">
+		select nvl(sum(price),0) from credit where to_date(creditdate,'YY-MM-DD') = #{str}
+	</select>
+	
+	<select id="amountDateList" resultType="int">
+		select nvl(sum(stock),0) from credit where to_date(creditdate,'YY-MM-DD') = #{str}
+	</select>
+	
+	<select id="creditDateList" resultMap="creditMap">
+			select * from credit where to_date(creditdate,'YY-MM-DD') >= 
+		 <choose>
+		 	<when test="startDateStr == null">
+		 		${startDate}
+		 	</when>
+		 	<otherwise>
+		 		#{startDateStr}
+		 	</otherwise>
+		 </choose>
+	</select>
+	
+	
+	<!-- 정산관리  -->
+	<select id="sumPrice" resultType="int">
+		select nvl(sum(price),0) from credit where to_date(creditdate,'YY-MM-DD') >= 
+		 <choose>
+		 	<when test="startDateStr == null">
+		 		${startDate}
+		 	</when>
+		 	<otherwise>
+		 		#{startDateStr}
+		 	</otherwise>
+		 </choose>
+	</select>
+
  	
 </mapper>
