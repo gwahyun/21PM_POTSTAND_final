@@ -109,16 +109,4 @@ public interface MemberDao {
 	//qna Count (totalData용)
 	int qnaSelectCount(SqlSession session, String memberId);
 	
-	//Cart 조회
-	List<Cart> cartSelectList(SqlSession session, String memberId);
-	
-	//Cart 항목삭제/전체삭제/선택삭제
-	int cartObjDelete(SqlSession session, Map param);
-	int cartObjDelete(SqlSession session, List<String> param);
-	
-	//cart bookAmount update
-	int cartBookAmountUpdate(SqlSession session, Map param);
-	
-	//cart usedCoupon update
-	int cartCouponUpdate(SqlSession session, Map param);
 }

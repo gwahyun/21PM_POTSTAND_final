@@ -273,37 +273,7 @@ public class MemberServiceImpl implements MemberService{
 		return dao.qnaSelectCount(session, memberId);
 	}
 
-	//카트 조회
-	@Override
-	public List<Cart> cartSelectList(String memberId) {
-		return dao.cartSelectList(session, memberId);
-	}
-
-	//카트 항목 삭제 / 전체삭제
-	@Override
-	public int cartObjDelete(Map param) {
-		return dao.cartObjDelete(session, param);
-	}
-	
-	//카트 선택삭제
-	@Override
-	public int cartObjDelete(List<String> param) {
-		return dao.cartObjDelete(session, param);
-	}
-	
-	//카트 bookAmount update
-	@Override
-	public int cartBookAmountUpdate(Map param) {
-		return dao.cartBookAmountUpdate(session, param);
-	}
-
-
-	@Override
-	public int cartCouponUpdate(Map param) {
-		return dao.cartCouponUpdate(session, param);
-	}
-
-	
+		
 
 	
 	
