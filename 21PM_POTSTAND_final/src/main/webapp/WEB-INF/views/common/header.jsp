@@ -314,7 +314,7 @@
 		<div class="container flex flex-start p-5 mx-auto">
 	        <nav class="md:mr-auto flex flex-wrap items-center text-base">
 	          <a href="${path}" class="mr-5 hover:text-gray-900">HOME</a>
-	          <a href="#" class="mr-5 hover:text-gray-900">BOOK</a>
+	          <a href="${path}/book/booklist.do" class="mr-5 hover:text-gray-900">BOOK</a>
 	          <a href="${path }/event/eventlist.do" class="mr-5 hover:text-gray-900">EVENT</a>
 	        </nav>
       	</div>
