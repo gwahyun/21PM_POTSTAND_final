@@ -1,21 +1,14 @@
 package com.kh.potstand.order.model.dao;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
-import com.kh.potstand.admin.model.vo.Notice;
-import com.kh.potstand.admin.model.vo.Qna;
-import com.kh.potstand.book.model.vo.Review;
-import com.kh.potstand.event.model.vo.Coupon;
-import com.kh.potstand.member.model.vo.Address;
-import com.kh.potstand.member.model.vo.Heart;
 import com.kh.potstand.member.model.vo.Member;
-import com.kh.potstand.member.model.vo.Point;
 import com.kh.potstand.order.model.vo.Cart;
 
 import lombok.extern.slf4j.Slf4j;
@@ -50,13 +43,27 @@ public class OrderDaoImpl implements OrderDao{
 	public int cartBookAmountUpdate(SqlSession session, Map param) {
 		return session.update("cart.cartBookAmountUpdate",param);
 	}
-
+	
+	//쿠폰 사용여부 업데이트
 	@Override
 	public int cartCouponUpdate(SqlSession session, Map param) {
-		System.out.println(param);
 		return session.update("cart.cartCouponUpdate",param);
 	}
+	
+	
+	//구매내역 넘어갈때 카트에서 선택된거만 넘겨줌
+	@Override
+	public List<Cart> cartSelectList(SqlSession session, List<Integer> cartNo) {
+		List<Cart> cartList = new ArrayList();
+		for(int no : cartNo) {
+			cartList.add(session.selectOne("cart.selectCartNo",no));
+		}
+		return cartList;
+	}
 
+
+
+	
 	
 
 	
