@@ -27,6 +27,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.kh.potstand.book.model.vo.Review;
 import com.kh.potstand.common.AES256Util;
 import com.kh.potstand.common.PageFactory;
+import com.kh.potstand.event.model.vo.Coupon;
 import com.kh.potstand.member.model.service.MemberService;
 import com.kh.potstand.member.model.vo.Address;
 import com.kh.potstand.member.model.vo.Heart;
@@ -258,9 +259,10 @@ public class MemberController {
 	//마이페이지 전환
 	@RequestMapping("/member/memberMypage.do")
 	public ModelAndView memberMypage(ModelAndView mv, HttpSession session) {
-		
-		List<Point> pointList=service.memberPointSelect(((Member)(session.getAttribute("loginMember"))).getMemberId());
+		String memberId=((Member)(session.getAttribute("loginMember"))).getMemberId();
+		List<Point> pointList=service.memberPointSelect(memberId);
 		int totalPoint=0; //잔여 포인트
+		int totalCoupon=service.memberCouponListCount(memberId);
 		for(Point p : pointList) {
 			if(p.getUseLog().contains("구입")) {
 				totalPoint+=p.getPoint();
@@ -269,6 +271,7 @@ public class MemberController {
 			}
 		}
 		mv.addObject("mypageTotalPoint", totalPoint);
+		mv.addObject("mypageTotalCoupon", totalCoupon);
 		mv.setViewName("member/memberMypage");
 		return mv;
 	}
@@ -421,8 +424,7 @@ public class MemberController {
 		//페이징처리해서 리스트에 담기
 		List<Point> list=service.memberPointSelect(memberId,cPage,numPerpage);
 		mv.addObject("totalPoint", totalPoint);
-		mv.addObject("pageBar", PageFactory.getPageBar(totalData, cPage, numPerpage,5,"memberPoint.do",
-				"memberId="+memberId));
+		mv.addObject("pageBar", PageFactory.getPageBar(totalData, cPage, numPerpage,5,"memberPoint.do"));
 		mv.addObject("list", list);
 		mv.setViewName("member/memberPoint");
 		return mv;
@@ -438,8 +440,7 @@ public class MemberController {
 		int totalData=service.memberHeartListCount(memberId);
 		//페이징처리해서 리스트에 담기
 		List<Heart> list=service.memberHeartListSelect(memberId,cPage,numPerpage);
-		mv.addObject("pageBar", PageFactory.getPageBar(totalData, cPage, numPerpage,5,"memberHeartList.do",
-				"memberId="+memberId));
+		mv.addObject("pageBar", PageFactory.getPageBar(totalData, cPage, numPerpage,5,"memberHeartList.do"));
 		mv.addObject("list", list);
 		mv.setViewName("member/memberHeartList");
 		
@@ -536,8 +537,7 @@ public class MemberController {
 		List<Review> list=service.memberReviewListSelect(param,cPage,numPerpage);
 		mv.addObject("totalData", totalData);
 		mv.addObject("list", list);
-		mv.addObject("pageBar", PageFactory.getPageBar(totalData, cPage, numPerpage,5,"memberMyReview.do",
-				"memberId="+param.get("memberId")));
+		mv.addObject("pageBar", PageFactory.getPageBar(totalData, cPage, numPerpage,5,"memberMyReview.do"));
 		mv.setViewName("member/memberMyReview");
 		return mv;
 	}
@@ -551,7 +551,7 @@ public class MemberController {
 			msg="리뷰를 삭제하였습니다.";
 		}
 		mv.addObject("msg",msg);
-		mv.addObject("loc","/member/memberMyReview.do?memberId="+param.get("memberId"));
+		mv.addObject("loc","/member/memberMyReview.do");
 		mv.setViewName("common/msg");
 		return mv;
 	}
@@ -565,8 +565,41 @@ public class MemberController {
 			msg="리뷰를 수정하였습니다.";
 		}
 		mv.addObject("msg",msg);
-		mv.addObject("loc","/member/memberMyReview.do?memberId="+param.get("memberId"));
+		mv.addObject("loc","/member/memberMyReview.do");
 		mv.setViewName("common/msg");
 		return mv;
 	}
+	
+	//마이페이지 - 사용가능 쿠폰
+	@RequestMapping("/member/memberCouponListSelect.do")
+	public ModelAndView memberCouponListSelect(ModelAndView mv, HttpSession session,
+			@RequestParam(value="cPage",defaultValue="1") int cPage,
+			@RequestParam(value="numPerpage",defaultValue="10") int numPerpage) {
+		String memberId=((Member)session.getAttribute("loginMember")).getMemberId();
+		int totalData=service.memberCouponListCount(memberId);
+		List<Coupon> list=service.memberCouponListSelect(memberId,cPage,numPerpage);
+		
+		mv.addObject("totalData", totalData);
+		mv.addObject("list", list);
+		mv.addObject("pageBar", PageFactory.getPageBar(totalData, cPage, numPerpage,5,"memberCouponListSelect.do"));
+		mv.setViewName("member/memberCouponList");
+		return mv;
+	}
+		
+	//마이페이지 - 기간만료 쿠폰
+	@RequestMapping("/member/memberEndCouponListSelect.do")
+	public ModelAndView memberEndCouponListSelect(ModelAndView mv, HttpSession session,
+			@RequestParam(value="cPage",defaultValue="1") int cPage,
+			@RequestParam(value="numPerpage",defaultValue="10") int numPerpage) {
+		String memberId=((Member)session.getAttribute("loginMember")).getMemberId();
+		int EndtotalData=service.memberEndCouponListCount(memberId); //기간만료 쿠폰개수
+		int totalData=service.memberCouponListCount(memberId); //사용가능 쿠폰개수
+		List<Coupon> list=service.memberEndCouponListSelect(memberId,cPage,numPerpage);
+			
+		mv.addObject("totalData", totalData);
+		mv.addObject("list", list);
+		mv.addObject("pageBar", PageFactory.getPageBar(EndtotalData, cPage, numPerpage,5,"memberEndCouponListSelect.do"));
+		mv.setViewName("member/memberEndCouponList");
+		return mv;
+	}	
 }

@@ -44,7 +44,7 @@
 	            	<div class="pl-5 text-xl">
 	            		<ul>
 			                <li class="py-2"><a href="#">주문목록/배송조회</a></li>
-			                <li class="py-2"><a href="#">쿠폰</a></li>
+			                <li class="py-2"><a href="${path}/member/memberCouponListSelect.do">쿠폰</a></li>
 			                <li class="py-2"><a href="${path}/member/memberPoint.do">적립금</a></li>
 			            </ul>
 	            	</div>
@@ -309,7 +309,7 @@
     		if(oldPwResult && newPwResult && newPw2Result){ //약관동의가 되어있으면 가입
     			return true;
     		} else{
-    			alert('비밀번호를 확인');
+    			alert('비밀번호를 확인하세요');
     			return false;
     		}
     	}

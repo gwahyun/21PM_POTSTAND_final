@@ -34,7 +34,6 @@ import org.xml.sax.InputSource;
 
 import com.kh.potstand.book.model.vo.Book;
 import com.kh.potstand.book.model.vo.Sort;
-
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
