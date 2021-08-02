@@ -126,9 +126,9 @@
 									<td>${l.bookPub }</td>
 									<td style="	text-align: center;">${l.bookCost }</td>
 									<td style="	text-align: center;"><fmt:formatDate value="${l.bookDate }" pattern="yyyy년MM월dd일"/></td>
-									<td style="	text-align: center;"><a class="update-btn" href="bookEdit.jsp?bookNo=4">수정</a></td>
+									<td style="	text-align: center;"><a class="update-btn" href="#">수정</a></td>
 									
-									<td style="	text-align: center;"><a class="update-btn" href="/bookin/book/bookDelete.kh?bookNo=4" style="background-color:#ff6b6b">삭제</a></td>
+									<td style="	text-align: center;"><a class="update-btn" href="#" style="background-color:#ff6b6b">삭제</a></td>
 									
 								</tr>
 							</c:forEach>

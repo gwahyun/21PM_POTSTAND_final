@@ -96,7 +96,7 @@
                                     <td><fmt:formatDate value="${r.requestDate }" pattern="yyyy년MM월dd일"></fmt:formatDate></td>
                                     <td><fmt:formatDate value="${r.responseDate }" pattern="yyyy년MM월dd일"></fmt:formatDate></td>
                                     <td>${r.status }</td>
-                                    <td><a class="update-btn" href="/bookin/book/bookDetail.jsp?no=10219">상품정보 이동</a></td>
+                                    <td><a class="update-btn" href="#">상품정보 이동</a></td>
                                     <td>
                                     	<c:choose>
                                     		<c:when test="${r.status == 'Y'}">
