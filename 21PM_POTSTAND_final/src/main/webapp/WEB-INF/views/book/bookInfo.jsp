@@ -165,71 +165,44 @@
         <div class="mx-10 mb-2 p-5">
           	<c:if test="${bookInfo.getIntroMv()!=null}">
 	          	<h1 class="sm:text-3xl text-2xl font-medium title-font text-gray-900 my-10">북트레일러</h1>
-	          	<h3 class="leading-relaxed text-xl"><c:out value="${bookInfo.getIntroMv()}"/></h3>
+	          	<h3 class="leading-relaxed text-xl"><c:out value="${bookInfo.getIntroMv()}" escapeXml="false"/></h3>
           	</c:if>
           	<c:if test="${bookInfo.getBookIntro()!=null}">
 	          	<h1 class="sm:text-3xl text-2xl font-medium title-font text-gray-900 my-10">책소개</h1>
-          		<h3 class="leading-relaxed text-xl"><c:out value="${bookInfo.getBookIntro()}"/></h3>
+          		<h3 class="leading-relaxed text-xl"><c:out value="${bookInfo.getBookIntro()}" escapeXml="false"/></h3>
           	</c:if>
           	<c:if test="${bookInfo.getWriterIntro()!=null}">
           		<div class="border-b-4 border-gray-300 my-10"></div>
           		<h1 class="sm:text-3xl text-2xl font-medium title-font text-gray-900 my-10"> 저자 소개</h1>
-          		<h3 class="leading-relaxed text-xl"><c:out value="${bookInfo.getWriterIntro()}"/></h3>
+          		<h3 class="leading-relaxed text-xl"><c:out value="${bookInfo.getWriterIntro()}" escapeXml="false"/></h3>
           	</c:if>
           	<!-- 상세소개 내부 구분선 -->
           	<c:if test="${bookInfo.getBookIndex()!=null}">
           		<div class="border-b-4 border-gray-300 my-10"></div>
           		<h1 class="sm:text-3xl text-2xl font-medium title-font text-gray-900 my-10">목차</h1>
-          		<h3 class="leading-relaxed text-xl"><c:out value="${bookInfo.getBookIndex()}"/></h3>
+          		<h3 class="leading-relaxed text-xl"><c:out value="${bookInfo.getBookIndex()} " escapeXml="false"/></h3>
           	</c:if>
 			<!-- 상세소개 내부 구분선 -->
 	        <c:if test="${bookInfo.getPubReview()!=null}">
 	          	<div class="border-b-4 border-gray-300 my-10"></div>
           		<h1 class="sm:text-3xl text-2xl font-medium title-font text-gray-900 my-10">출판사 서평</h1>
-          		<h3 class="leading-relaxed text-xl"><c:out value="${bookInfo.getPubReview()}" escapeXml=""/></h3>
+          		<h3 class="leading-relaxed text-xl"><c:out value="${bookInfo.getPubReview()}" escapeXml="false"/></h3>
          	</c:if>
           	<!-- 상세소개 내부 구분선 -->
           	<c:if test="${bookInfo.getRecommand()!=null}">
           		<div class="border-b-4 border-gray-300 my-10"></div>
           		<h1 class="sm:text-3xl text-2xl font-medium title-font text-gray-900 my-10"> 추천의 말</h1>
-          		<h3 class="leading-relaxed text-xl"><c:out value="${bookInfo.getRecommand()}"/></h3>
+          		<h3 class="leading-relaxed text-xl"><c:out value="${bookInfo.getRecommand()}" escapeXml="false"/></h3>
           	</c:if>
           	<c:if test="${bookInfo.getIntroMv()!=null}">
           		<h1 class="sm:text-3xl text-2xl font-medium title-font text-gray-900 my-10">북트레일러</h1>
-          		<h3 class="leading-relaxed text-xl"><c:out value="${bookInfo.getIntroMv()}"/></h3>
-          	</c:if>
-          	<c:if test="${bookInfo.getBookIntro()!=null}">
-	          	<h1 class="sm:text-3xl text-2xl font-medium title-font text-gray-900 my-10">책소개</h1>
-          		<h3 class="leading-relaxed text-xl"><c:out value="${bookInfo.getBookIntro()}"/></h3>
-          	</c:if>
-          	<c:if test="${bookInfo.getWriterIntro()!=null}">
-          		<div class="border-b-4 border-gray-300 my-10"></div>
-          			<h1 class="sm:text-3xl text-2xl font-medium title-font text-gray-900 my-10">저자 소개</h1>
-          			<h3 class="leading-relaxed text-xl"><c:out value="${bookInfo.getWriterIntro()}"/></h3>
-			</c:if>
-	        <!-- 상세소개 내부 구분선 -->
-	        <c:if test="${bookInfo.getBookIndex()!=null}">
-		    	<div class="border-b-4 border-gray-300 my-10"></div>
-		        <h1 class="sm:text-3xl text-2xl font-medium title-font text-gray-900 my-10">목차</h1>
-		        <h3 class="leading-relaxed text-xl"><c:out value="${bookInfo.getBookIndex()}"/></h3>
-	        </c:if>
-	        <!-- 상세소개 내부 구분선 -->
-	        <c:if test="${bookInfo.getPubReview()!=null}">
-	          	<div class="border-b-4 border-gray-300 my-10"></div>
-	          		<h1 class="sm:text-3xl text-2xl font-medium title-font text-gray-900 my-10">출판사 서평</h1>
-	          		<h3 class="leading-relaxed text-xl"><c:out value="${bookInfo.getPubReview()}"/></h3>
-			</c:if>
-	        <!-- 상세소개 내부 구분선 -->
-	        <c:if test="${bookInfo.getRecommand()!=null}">
-	          	<div class="border-b-4 border-gray-300 my-10"></div>
-          			<h1 class="sm:text-3xl text-2xl font-medium title-font text-gray-900 my-10">추천의 말</h1>
-          			<h3 class="leading-relaxed text-xl"><c:out value="${bookInfo.getRecommand()}"/></h3>
+          		<h3 class="leading-relaxed text-xl"><c:out value="${bookInfo.getIntroMv()}" escapeXml="false"/></h3>
           	</c:if>
           	<!-- 상세소개 내부 구분선 -->
           	<c:if test="${bookInfo.getBookExtract()!=null}">
           		<div class="border-b-4 border-gray-300 my-10"></div>
           			<h1 class="sm:text-3xl text-2xl font-medium title-font text-gray-900 my-10">책 속으로</h1>
-          			<h3 class="leading-relaxed text-xl"><c:out value="${bookInfo.getBookExtract()}"/></h3>
+          			<h3 class="leading-relaxed text-xl"><c:out value="${bookInfo.getBookExtract()}" escapeXml="false"/></h3>
           	</c:if>
           	<c:if test="${review!=null}">
           	<!-- review 보여주고 쓰는 화면 -->
