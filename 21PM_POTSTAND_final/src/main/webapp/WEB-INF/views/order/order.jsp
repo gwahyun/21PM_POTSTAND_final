@@ -6,12 +6,47 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
 <c:set var="path" value="${pageContext.request.contextPath}" />
+<c:forEach var="a" items="${memberInfo.addresses}">
+	<c:if test="${a.defaultAddr eq 'Y'}">
+		<c:set var="defAddr" value="${a}"/>
+	</c:if>
+</c:forEach>
+<c:if test="${fn:length(memberInfo.memberPhone)==11}">
+	<c:set var="phone1" value="${fn:substring(memberInfo.memberPhone,0,3)}"/>
+	<c:set var="phone2" value="${fn:substring(memberInfo.memberPhone,3,7)}"/>
+	<c:set var="phone3" value="${fn:substring(memberInfo.memberPhone,7,11)}"/>
+</c:if> 
+<c:if test="${fn:length(memberInfo.memberPhone)==10}">
+	<c:set var="phone1" value="${fn:substring(memberInfo.memberPhone,0,3)}"/>
+	<c:set var="phone2" value="${fn:substring(memberInfo.memberPhone,3,6)}"/>
+	<c:set var="phone3" value="${fn:substring(memberInfo.memberPhone,6,10)}"/>
+</c:if>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"
 	integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
 	crossorigin="anonymous"></script>
 <!-- iamport.payment.js -->
 <script type="text/javascript"
 	src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
+	<script language="javascript">
+		// opener관련 오류가 발생하는 경우 아래 주석을 해지하고, 사용자의 도메인정보를 입력합니다. ("팝업API 호출 소스"도 동일하게 적용시켜야 합니다.)
+		//document.domain = "abc.go.kr";
+		function goPopup(){
+			// 호출된 페이지(jusopopup.jsp)에서 실제 주소검색URL(https://www.juso.go.kr/addrlink/addrLinkUrl.do)를 호출하게 됩니다.
+	    	var pop = window.open("${path}/member/jusoPopup.do","pop","width=570,height=420, scrollbars=yes, resizable=yes"); 
+	    
+			// 모바일 웹인 경우, 호출된 페이지(jusopopup.jsp)에서 실제 주소검색URL(https://www.juso.go.kr/addrlink/addrMobileLinkUrl.do)를 호출하게 됩니다.
+	    	//var pop = window.open("/popup/jusoPopup.jsp","pop","scrollbars=yes, resizable=yes"); 
+		}
+		/** API 서비스 제공항목 확대 (2017.02) **/
+		function jusoCallBack(roadFullAddr,roadAddrPart1,addrDetail,roadAddrPart2,engAddr, jibunAddr, zipNo, admCd, rnMgtSn, bdMgtSn
+							, detBdNmList, bdNm, bdKdcd, siNm, sggNm, emdNm, liNm, rn, udrtYn, buldMnnm, buldSlno, mtYn, lnbrMnnm, lnbrSlno, emdNo){
+			// 팝업페이지에서 주소입력한 정보를 받아서, 현 페이지에 정보를 등록합니다.
+			$("#roadAddrPart1").val(roadAddrPart1);
+			$("#roadAddrPart2").val(roadAddrPart2);
+			$("#addrDetail").val(addrDetail);
+			$("#zipNo").val(zipNo);
+		}
+	</script>
 <jsp:include page="/WEB-INF/views/common/header.jsp" />
 <!------------------------------------------------------------------------------------------------------------------------------------------------------------->
 <section class="mx-80">
@@ -24,9 +59,18 @@
 		<div class="content-container">
 			<div class="cart-list w-full border border-solid border-gray-400 p-4">
 				<h3
-					class="text-xl font-bold pl-2 border-l-4 border-blue-400 border-solid my-3 ">
+					class="inline-block text-xl font-bold pl-2 border-l-4 border-blue-400 border-solid my-3 ">
 					상품확인 : ${fn:length(cartList)} 건</h3>
-
+				<span class="inline-block text-xs ml-4">상품정보 변경을 원하시면 →</span>
+				<button class="bg-gray-300 
+                			border border-solid border-gray-400 
+                			py-1 px-1 
+                			focus:outline-none 
+                			hover:bg-red-200 
+	          				hover:text-white rounded 
+	          				font-bold text-xs
+	          				mt-4 md:mt-0"
+	          			onclick="location.assign('${path}/member/cartList.do')">장바구니로</button>
 				<!-- 카트 항목 출력 -->
 				<c:forEach var="cart" items="${cartList}" varStatus="i">
 					<div
@@ -120,19 +164,15 @@
 
 							<div class="w-6/12">
 								<c:choose>
-
 									<c:when
 										test="${fn:length(cart.coupon)==1 and empty cart.coupon[0].couponEnd}">
 										<label class="coupon text-base font-bold mt-4 block">사용
 											가능한 쿠폰이 없습니다.</label>
 									</c:when>
-
-
-
 									<c:otherwise>
 										<label class="coupon text-sm font-bold  block mt-1">
-											사용 가능 쿠폰</label>
-										<select name="couponData" class="text-sm">
+											사용 쿠폰</label>
+										 <select name="couponData" class="text-sm appearance-none" disabled="disabled">
 											<option value="${cart.cartNo}:0:0">쿠폰 사용 안함</option>
 											<c:forEach var="cp" items="${cart.coupon}">
 												<c:if test="${cp.couponEnd eq 'N'}">
@@ -154,18 +194,6 @@
 												</c:if>
 											</c:forEach>
 										</select>
-
-										<button
-											class="inline-flex items-center 
-						                			bg-gray-300 
-						                			border border-solid border-gray-400 
-						                			p-1 mb-1 
-						                			focus:outline-none 
-						                			hover:bg-red-200 
-							          				hover:text-white rounded 
-							          				text-sm 
-							          				mt-4 md:mt-0"
-											onclick="fn_discount(event);">쿠폰적용</button>
 									</c:otherwise>
 								</c:choose>
 							</div>
@@ -246,36 +274,29 @@
 					<h3 class="text-base font-bold border-l-4 border-red-400 border-solid m-2 pl-3">배송주소</h3>
 					<div class="ml-6 border border-gray-400 border-solid">
 						<label class="inline-block text-sm mr-3 w-20">우편번호</label>
-						<input class="text-xs w-3/12 mr-3 border border-gray-400 border-solid" type="text" name="postNo" value="우편번호">
-						<button class="inline-block w-1/12 text-xs border border-gray-400 border-solid">주소찾기</button>
+						<input id="postNo" class="text-xs w-3/12 mr-3 border border-gray-400 border-solid" type="text" name="postNo" value="${defAddr.postNo}">
+						<button class="inline-block w-1/12 text-xs border border-gray-400 border-solid" onclick="goPopup();">주소찾기</button>
 					</div>
 					<div class="ml-6 border border-gray-400 border-solid">
 						<label class="inline-block text-sm mr-3 w-20">도로명 주소</label>
-						<input class="text-xs w-8/12 mr-3 border border-gray-400 border-solid" type="text" name="roadAddr" value="도로명주소">
+						<input id="roadAddrPart1" class="text-xs w-8/12 mr-3 border border-gray-400 border-solid" type="text" name="roadAddr1" value="${defAddr.roadAddr}">
 					</div>
 					<div class="ml-6 border border-gray-400 border-solid">
-						<label class="inline-block text-sm mr-3 w-20">지번 주소</label>
-						<input class="text-xs w-8/12 mr-3 border border-gray-400 border-solid" type="text" name="oldAddr" value="지번주소">
-						<button class="inline-block w-2/12 text-xs border border-gray-400 border-solid">주소록에 추가</button>
+						<label class="inline-block text-sm mr-3 w-20">상세주소</label>
+						<input id="addrDetail" class="text-xs w-5/12 mr-3 border border-gray-400 border-solid" type="text" name="addrDetail" value="${defAddr.oldAddr}">
+						<input id="roadAddrPart2" class="text-xs w-5/12 mr-3 border border-gray-400 border-solid" type="text" name="roadAddr2" value="${defAddr.detailAddr}">
+						<button class="inline-block ml-3 w-2/12 text-xs border border-gray-400 border-solid">주소록에 추가</button>
 					</div>
 				</div>
 				<div class="phone">
 				<h3 class="text-base font-bold border-l-4 border-red-400 border-solid m-2 pl-3">연락처</h3>
 					<div class="ml-6 border border-gray-400 border-solid">
 						<label class="inline-block text-sm mr-3 w-20">휴대폰</label>
-						<input class="text-xs w-1/12 border border-gray-400 border-solid" type="text" name="phone1" value="010">
+						<input class="text-xs w-1/12 border border-gray-400 border-solid" type="text" name="phone1" value="${phone1}">
 						-
-						<input class="text-xs w-1/12 border border-gray-400 border-solid" type="text" name="phone2" value="0000">
+						<input class="text-xs w-1/12 border border-gray-400 border-solid" type="text" name="phone2" value="${phone2}">
 						-
-						<input class="text-xs w-1/12 border border-gray-400 border-solid" type="text" name="phone3" value="0000">
-					</div>
-					<div class="ml-6 border border-gray-400 border-solid">
-						<label class="inline-block text-sm mr-3 w-20">일반전화</label>
-						<input class="text-xs w-1/12 border border-gray-400 border-solid" type="text" name="call1" value="02">
-						-
-						<input class="text-xs w-1/12 border border-gray-400 border-solid" type="text" name="call2" value="000">
-						-
-						<input class="text-xs w-1/12 border border-gray-400 border-solid" type="text" name="call3" value="0000">
+						<input class="text-xs w-1/12 border border-gray-400 border-solid" type="text" name="phone3" value="${phone3}">
 					</div>
 				</div>
 			</div>
@@ -283,10 +304,84 @@
 		
 	</div>
 	<div
-		class="pay-container my-5 w-full border border-solid border-gray-400 p-4 flex h-40">
-		<div class="pay-info w-4/12 mr-2 border border-solid border-gray-400"></div>
-		<div
-			class="pay-option w-8/12 ml-2 border border-solid border-gray-400"></div>
+		class="pay-container my-5 w-full border border-solid border-gray-400 p-4">
+		<div class="w-full flex">
+			<h3	class="text-xl font-bold pl-2 border-l-4 border-blue-400 border-solid my-3 w-8/12">결제방법</h3>
+			<h3	class="text-xl font-bold pl-2 border-l-4 border-blue-400 border-solid my-3 w-4/12">추가입력사항</h3>
+		</div>
+		<div class="flex">
+			<div class="payMethodSelect w-8/12 mx-1 border border-solid border-gray-400">
+				<ul class="w-full flex flex-wrap">
+					<li class="w-3/12">
+						<label for="card" class="flex w-full h-full border border-gray-400 border-solid justify-center items-center py-2">
+							<input id="card" class="method-radio appearance-none" type="radio" name="payMethodSelected" value="card">
+							<span>
+								신용카드
+							</span>
+						</label>
+					</li>
+					<li class="w-3/12">
+						<label for="trans" class="flex w-full h-full border border-gray-400 border-solid justify-center items-center py-2">
+							<input id="trans" class="method-radio appearance-none" type="radio" name="payMethodSelected" value="trans">
+							<span>
+								실시간 계좌이체
+							</span>
+						</label>
+					</li>
+					<li class="w-3/12">
+						<label for="vbank" class="flex w-full h-full border border-gray-400 border-solid justify-center items-center py-2">
+							<input id="vbank" class="method-radio appearance-none" type="radio" name="payMethodSelected" value="vbank">
+							<span>
+								가상계좌
+							</span>
+						</label>
+					</li>
+					<li class="w-3/12">
+						<label for="phone" class="flex w-full h-full border border-gray-400 border-solid justify-center items-center py-2">
+							<input id="phone" class="method-radio appearance-none" type="radio" name="payMethodSelected" value="phone">
+							<span>
+								휴대폰 소액결제
+							</span>
+						</label>
+					</li>
+					<li class="w-3/12">
+						<label for="samsung" class="flex w-full h-full border border-gray-400 border-solid justify-center items-center py-2">
+							<input id="samsung" class="method-radio appearance-none" type="radio" name="payMethodSelected" value="samsung">
+							<span>
+								삼성페이
+							</span>
+						</label>
+					</li>
+					<li class="w-3/12">
+						<label for="kakaopay" class="flex w-full h-full border border-gray-400 border-solid justify-center items-center py-2">
+							<input id="kakaopay" class="method-radio appearance-none" type="radio" name="payMethodSelected" value="kakaopay">
+							<span>
+								카카오페이
+							</span>
+						</label>
+					</li>
+					<li class="w-3/12">
+						<label for="naverpay" class="flex w-full h-full border border-gray-400 border-solid justify-center items-center py-2">
+							<input id="naverpay" class="method-radio appearance-none" type="radio" name="payMethodSelected" value="naverpay">
+							<span>
+								네이버페이
+							</span>
+						</label>
+					</li>
+					<li class="w-3/12">
+						<label for="tosspay" class="flex w-full h-full border border-gray-400 border-solid justify-center items-center py-2">
+							<input id="tosspay" class="method-radio appearance-none" type="radio" name="payMethodSelected" value="tosspay">
+							<span>
+								토스간편결제
+							</span>
+						</label>
+					</li>
+				</ul>		
+			</div>
+			<div class="pay-info w-4/12 mx-1 border border-solid border-gray-400">
+				
+			</div>
+		</div>
 	</div>
 </section>
 <jsp:include page="/WEB-INF/views/common/footer.jsp" />
@@ -342,13 +437,13 @@ function requestPay() {
       buyer_postcode: "01181"
   }, function (rsp) { // callback
       if (rsp.success) {
-          ...,
+          
           // 결제 성공 시 로직,
-          ...
+          
       } else {
-          ...,
+          
           // 결제 실패 시 로직,
-          ...
+          
       }
   });
 }
@@ -446,5 +541,22 @@ function requestPay() {
 		fn_priceCalc();
 	});
 	
+	$(".method-radio").click((e)=>{
+		if($(e.target).is(":checked")){
+			$(".method-radio").parents("label").removeClass("bg-red-400");
+			$(".method-radio").parents("label").removeClass("text-white");
+			$(".method-radio").parents("label").removeClass("font-bold");
+			$(".method-radio").parents("label").removeClass("border-4");
+			$(".method-radio").parents("label").removeClass("border-red-600");
+			$(".method-radio").parents("label").removeClass("border-solid");
+	
+			$(e.target).parents("label").addClass("bg-red-400");
+			$(e.target).parents("label").addClass("text-white");
+			$(e.target).parents("label").addClass("font-bold");
+			$(e.target).parents("label").addClass("border-4");
+			$(e.target).parents("label").addClass("border-red-600");
+			$(e.target).parents("label").addClass("border-solid");
+		}		
+	});
 	
 </script>
