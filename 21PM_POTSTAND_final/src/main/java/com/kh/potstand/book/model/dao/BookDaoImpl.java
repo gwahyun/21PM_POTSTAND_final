@@ -56,6 +56,16 @@ public class BookDaoImpl implements BookDao {
 	public int selectSortBookCount(SqlSession session, String sortNo) {
 		return session.selectOne("book.selectSortBookCount", sortNo);
 	}
+
+	@Override
+	public Book selectBookInfo(SqlSession session, int no) {
+		return session.selectOne("book.selectBookInfo", no);
+	}
+
+	@Override
+	public List<Review> selectBookReview(SqlSession session, int no) {
+		return session.selectList("book.selectBookReview", no);
+	}
 	
 	
 }

@@ -30,6 +30,11 @@ public class BookServiceImpl implements BookService {
 		return dao.selectBookCount(session);
 	}
 
+	@Override
+	public Book selectBookInfo(int no) {
+		return dao.selectBookInfo(session, no);
+	}
+	
 	//sort LV1~LV4
 	@Override
 	public List<Sort> selectSortLv1List() {
@@ -61,6 +66,11 @@ public class BookServiceImpl implements BookService {
 	@Override
 	public int selectSortBookCount(String sortNo) {
 		return dao.selectSortBookCount(session,sortNo);
+	}
+
+	@Override
+	public List<Review> selectBookReview(int no) {
+		return dao.selectBookReview(session, no);
 	}
 
 }
