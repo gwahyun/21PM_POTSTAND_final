@@ -429,6 +429,12 @@ public class AdminDaoImpl implements AdminDao {
 		// TODO Auto-generated method stub
 		return session.selectList("admin.eventBookSelectList", param, new RowBounds((cPage-1)*numPerpage, numPerpage));
 	}
+
+	@Override
+	public int cartInsert(SqlSessionTemplate session, Map param) {
+		// TODO Auto-generated method stub
+		return session.insert("admin.cartInsert", param);
+	}
 	
 	
 	

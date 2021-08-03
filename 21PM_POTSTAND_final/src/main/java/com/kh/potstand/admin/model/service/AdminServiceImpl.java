@@ -404,6 +404,12 @@ public class AdminServiceImpl implements AdminService {
 		// TODO Auto-generated method stub
 		return dao.eventBookSelectList(session,param,cPage,numPerpage);
 	}
+
+	@Override
+	public int cartInsert(Map param) {
+		// TODO Auto-generated method stub
+		return dao.cartInsert(session,param);
+	}
 	
 	
 	

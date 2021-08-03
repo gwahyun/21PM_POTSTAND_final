@@ -657,5 +657,9 @@
 		 </choose>
 	</select>
 
+	<!-- 충돌날까봐 카트 일단 여기가 넣음 -->
+	<insert id="cartInsert">
+		insert into cart values(seq_cart.nextval,#{memberId},#{bookCode},#{quant},null)
+	</insert>
  	
 </mapper>
