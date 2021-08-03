@@ -54,6 +54,17 @@
 			<mapping path="/admin/*"/>
 			<beans:bean class="com.kh.potstand.admin.controller.AdminCheckLoginInterceptor"></beans:bean>
 		  </interceptor>
+		  <interceptor>
+			<mapping path="/member/*"/>
+			<exclude-mapping path="/member/memberLog*.do"/>
+			<exclude-mapping path="/member/memberEnroll*.do"/>
+			<exclude-mapping path="/member/jusoPopup.do"/>
+			<exclude-mapping path="/member/memberSearchId.do"/>
+			<exclude-mapping path="/member/memberResetPwd.do"/>
+			<exclude-mapping path="/member/memberCheckId.do"/>
+			<exclude-mapping path="/member/memberCheckEmail.do"/>
+			<beans:bean class="com.kh.potstand.member.controller.MemberCheckInterceptor"></beans:bean>
+		  </interceptor>
 	</interceptors>
 	
 </beans:beans>
