@@ -15,35 +15,27 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.48.4/codemirror.css">
 <link rel="stylesheet" href="https://uicdn.toast.com/editor/2.0.0/toastui-editor.min.css">
     <!------------------------------------------------------------------------------------------------------------------------------------------------------------->
-<section class="text-gray-600 body-font overflow-hidden">
-     <div class="container p-5 mx-auto">
-     <div><h1 class="sm:text-3xl
-            text-2xl
-            font-medium
-            title-font
-            mb-2
-            text-gray-900">고객센터</h1></div>
-            <div class="h-1 w-20 bg-red-500 rounded mb-10"></div>
-       
+<section class="mx-80">
+        <div><h1 class="text-4xl font-bold m-5 text-center">1:1문의하기</h1></div>
         <div class="nav-container flex">
-            <div id="notice-nav" class="text-center bg-gray-400 border-0 py-1 px-3 focus:outline-none hover:bg-red-500
-            text-lg text-white rounded text-base mt-4 md:mt-0 cursor-pointer font-bold w-4/12"><a href="${path}/notice/noticeSelectList.do">공지사항</a></div>
-            <div id="qna-nav" class="text-center bg-red-500 border-0 py-1 px-3 focus:outline-none hover:bg-red-500
-            text-lg text-white rounded text-base mt-4 md:mt-0 cursor-pointer font-bold w-4/12">1:1문의하기</div>
-            <div id="myqna-nav" class="text-center bg-gray-400 border-0 py-1 px-3 focus:outline-none hover:bg-red-500
-            text-lg text-white rounded text-base mt-4 md:mt-0 cursor-pointer font-bold w-4/12"><a href="${path}/qna/myQnaList.do">내 문의내역</a></div>
+            <div id="notice-nav" class="text-center bg-gray-400 border-0 py-1 px-3 focus:outline-none hover:bg-blue-400 
+	          		text-white rounded text-base mt-4 md:mt-0 cursor-pointer font-bold w-4/12"><a href="${path}/notice/noticeSelectList.do">공지사항</a></div>
+            <div id="qna-nav" class="text-center bg-blue-500 border-0 py-1 px-3 focus:outline-none hover:bg-blue-400 
+	          		text-white rounded text-base mt-4 md:mt-0 cursor-pointer font-bold w-4/12">1:1문의하기</div>
+            <div id="myqna-nav" class="text-center bg-gray-400 border-0 py-1 px-3 focus:outline-none hover:bg-blue-400 
+	          		text-white rounded text-base mt-4 md:mt-0 cursor-pointer font-bold w-4/12"><a href="${path}/qna/myQnaList.do">내 문의내역</a></div>
         </div>
         <div class="qna-container">
         	<form id="qnaWriteEnd" method="post" action="${path}/qna/qnaWriteEnd.do">
 	            <div class="qna-title flex m-8">
 	            	<label class="text-2xl">분류</label>
-	            	<select name="qnaSort" class="border-transparent focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent mx-5 w-1/12">
+	            	<select name="qnaSort" class="mx-5 border-solid border border-gray-300 w-1/12">
 	                	<option value="상품문의">상품문의</option>
 	                	<option value="교환">교환</option>
 	                	<option value="반품">반품</option>
 	                </select>
 	                <label class="text-2xl mx-4">제목</label><input type="text" name="qnaTitle" 
-	                class="border-solid border-b-4 border-gray-300 w-9/12 outline-none text-lg focus:border-b-4 focus:border-red-400 easy-in-out" required>
+	                class="border-solid border border-gray-300 w-9/12" required>
 	            </div>
 	            <div class="qna-content  flex m-8">
 	                 <label class="text-2xl">내용</label><div id="editor" class="ml-5 border-solid border border-gray-300 w-11/12"></div>
@@ -51,21 +43,19 @@
 	                 <input type="hidden" name="memberId" id="memberId" value="${loginMember.memberId}">
 	            </div>
 	            <div class="btn-area flex justify-center">
-	            <button class=" inline-flex items-center bg-gray-100 border-0 py-2 px-6 focus:outline-none hover:bg-red-400 
-	          		hover:text-white rounded text-base text-lg mr-10" onclick="qnaInsert();">
+	                <button type="button" class="inline-flex items-center bg-gray-300 border border-solid border-gray-400 py-3 px-5 m-3 focus:outline-none hover:bg-red-200 
+	          		hover:text-white rounded text-base mt-4 md:mt-0" onclick="qnaInsert();">
 	            		등록하기
-	            		</svg>
-          		</button>
-	            <div class="btn-area flex justify-center">
-	            <button class=" inline-flex items-center bg-gray-100 border-0 py-2 px-6 focus:outline-none hover:bg-red-400 
-	          		hover:text-white rounded text-base text-lg" onclick="location.assign('${pageContext.request.contextPath}/notice/noticeSelectList.do');">
+          			</button>
+	                <button type="button" class="inline-flex items-center bg-gray-300 border border-solid border-gray-400 py-3 px-5 m-3 focus:outline-none hover:bg-red-200 
+	          		hover:text-white rounded text-base mt-4 md:mt-0" 
+	          		onclick="location.assign('${pageContext.request.contextPath}/notice/noticeSelectList.do');">
 	            		돌아가기
-          		</button>
-	               
+          			</button>
 	            </div>
 	        </form>
         </div>
-        </div>
+        
     </section>
     <!------------------------------------------------------------------------------------------------------------------------------------------------------------->
      <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
