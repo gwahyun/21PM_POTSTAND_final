@@ -17,6 +17,7 @@ import com.kh.potstand.book.model.vo.Sort;
 import com.kh.potstand.event.model.vo.Event;
 import com.kh.potstand.member.model.vo.Address;
 import com.kh.potstand.member.model.vo.Member;
+import com.kh.potstand.order.model.vo.Cart;
 
 public interface AdminDao {
 
@@ -147,4 +148,8 @@ public interface AdminDao {
 	List<Book> eventBookSelectList(SqlSessionTemplate session, Map param, int cPage, int numPerpage);
 
 	int cartInsert(SqlSessionTemplate session, Map param);
+
+	Cart cartSelectDistinct(SqlSessionTemplate session, Map param);
+
+	int cartSelectOnePlus(SqlSessionTemplate session, Map param);
 }

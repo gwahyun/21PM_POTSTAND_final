@@ -20,6 +20,7 @@ import com.kh.potstand.book.model.vo.Sort;
 import com.kh.potstand.event.model.vo.Event;
 import com.kh.potstand.member.model.vo.Address;
 import com.kh.potstand.member.model.vo.Member;
+import com.kh.potstand.order.model.vo.Cart;
 
 @Service
 public class AdminServiceImpl implements AdminService {
@@ -409,6 +410,18 @@ public class AdminServiceImpl implements AdminService {
 	public int cartInsert(Map param) {
 		// TODO Auto-generated method stub
 		return dao.cartInsert(session,param);
+	}
+
+	@Override
+	public Cart cartSelectDistinct(Map param) {
+		// TODO Auto-generated method stub
+		return dao.cartSelectDistinct(session,param);
+	}
+
+	@Override
+	public int cartSelectOnePlus(Map param) {
+		// TODO Auto-generated method stub
+		return dao.cartSelectOnePlus(session,param);
 	}
 	
 	
