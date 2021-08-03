@@ -7,9 +7,70 @@
  <link href="${path}/resources/static/tailwind.css" type="text/css" rel="stylesheet"/>     
  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>  
 <section>
-                        상품목록
-                        <br>
-                        <button id="parentSubmit" class="update-btn" style="background: blue">보내기</button>
+<link rel="stylesheet" type="text/css" href="${path }/resources/css/adminStyle.css"/>
+                        <div class="admin-content_area">
+                      			  <button id="parentSubmit" class="submit-btn" style="background: grey">보내기</button>
+						</div>
+                        
+	                    <div class="admin-content_title">상품 목록 (총 ${count } 권)
+		                   <select id="searchType">
+								<option value="no" >상품번호</option>
+								<option value="name">제목</option>
+								<option value="writer">저자</option>
+								<option value="price">가격</option>
+							</select>
+					
+					<div id="search-no">
+						<form action="${path }/admin/eventSelectBook" method="post">
+							<input type="text" name="searchKeyword" size="40" placeholder="검색할 책의 번호를 입력해주세요">
+							<input type="hidden" name="searchType" value="book_code">
+							<button class="update-btn" type="submit">조회</button>
+						</form>
+					</div>
+			  
+					<div id="search-name">
+						<form action="${path }/admin/eventSelectBook" method="post">
+							<input type="text" name="searchKeyword" size="40" placeholder="검색할 책의 제목을 입력해주세요">
+							<input type="hidden" name="searchType" value="book_title">
+							<button class="update-btn" type="submit">조회</button>
+						</form>
+					</div>
+					
+						<div id="search-writer">
+						<form action="${path }/admin/eventSelectBook" method="post">
+							<input type="text" name="searchKeyword" size="40" placeholder="검색할 책의 저자를 입력해주세요">
+							<input type="hidden" name="searchType" value="book_writer">
+							<button class="update-btn" type="submit">조회</button>
+						</form>
+					</div>
+					<div id="search-price">
+						<form action="${path }/admin/eventSelectBook" method="post">
+							<input type="text" name="searchKeyword" size="40" placeholder="검색할 가격을 입력해주세요">
+							<input type="hidden" name="searchType" value="book_cost">
+							<button class="update-btn" type="submit">조회</button>
+						</form>
+					</div>    
+				 <script>
+                    
+                    $("#searchType").change(e=>{
+                   	 const no=$("#search-no");
+                   	 const name=$("#search-name");
+                   	 const writer=$("#search-writer");
+                   	 const price=$("#search-price");
+                   	no.css("display","none");
+                   	name.css("display","none");
+                   	writer.css("display","none");
+                   	price.css("display","none");
+                   	
+                   	 $("#search-"+$(e.target).val()).css("display","inline-block");
+                   	 
+                    });
+                    $(function(){
+                   	 $("#searchType").change();
+                    });
+                   </script>
+				
+                </div>
                     <c:if test="${list.size() >= 1}">
           			
 	                    <table >
@@ -57,6 +118,7 @@
                     <c:if test="${list.size() == 0}">
 	                    <span class="no_Data">데이터가 없습니다</span>
                     </c:if>
+                     <div class="pageBar flex my-5">${pageBar}</div>
                     
 </section>
 		<script>

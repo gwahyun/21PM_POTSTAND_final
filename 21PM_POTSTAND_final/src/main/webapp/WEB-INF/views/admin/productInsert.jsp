@@ -15,7 +15,7 @@
 				</div>
 			</div>
 		</div>
-		<form action="${path }/admin/productInsertEnd" method="get" enctype="multipart/form-data" onsubmit="return categoryCheck();">
+		<form action="${path }/admin/productInsertEnd" method="post" enctype="multipart/form-data" onsubmit="return categoryCheck();">
 		<div class="admin-content_area">
 			<div class="admin-content">
 				<div class="admin-content_title">
@@ -24,14 +24,14 @@
 				<div class="align-row choice-genre-area">
 					<div class="choice-genre top-genre">
 						<ul>
-							<li>여행/지도</li>
 							<li>경제/경영</li>
-							<li>컴퓨터/IT</li>
-							<li>만화</li>
+							<li>사회</li>
+							<li>종교</li>
 							<li>소설</li>
 							<li>시/에세이</li>
 							<li>예술/대중문화</li>
-							<li>잡지</li>
+							<li>인문</li>
+							<li>역사/문화</li>
 						</ul>
 					</div>
 					<div class="choice-genre child-genre">
@@ -47,6 +47,7 @@
 					<span class="show_genre1"></span>
 					<span class="show_genre2"></span>
 					<span class="show_genre3"></span>
+					<span class="show_genre4"></span>
 				</div>
 				
 				<script>
@@ -252,78 +253,6 @@
 			
 				childList=[];
 				
-					childList.push('국내여행');
-					gchildList=[];
-					
-						gchildList.push('전국여행')
-					
-						gchildList.push('강원/영동')
-					
-						gchildList.push('충청도')
-					
-						gchildList.push('경상도/영남')
-					
-						gchildList.push('전라도/호남')
-					
-						gchildList.push('제주도')
-					
-						gchildList.push('서울/경기')
-					
-						map.set('국내여행', gchildList);
-					
-				
-					childList.push('해외여행');
-					gchildList=[];
-					
-						gchildList.push('세계여행')
-					
-						gchildList.push('유럽여행')
-					
-						gchildList.push('미국/캐나다/중남미')
-					
-						gchildList.push('일본여행')
-					
-						gchildList.push('중국여행')
-					
-						gchildList.push('인도/아시아여행')
-					
-						gchildList.push('기타여행')
-					
-						map.set('해외여행', gchildList);
-					
-				
-					childList.push('테마여행');
-					gchildList=[];
-					
-						gchildList.push('역사/문학기행')
-					
-						gchildList.push('배낭여행')
-					
-						gchildList.push('맛집여행')
-					
-						gchildList.push('체험학습/가족여행')
-					
-						gchildList.push('기타')
-					
-						map.set('테마여행', gchildList);
-					
-				
-					childList.push('지도/지리');
-					gchildList=[];
-					
-						gchildList.push('지리일반/지리학')
-					
-						gchildList.push('국내지도')
-					
-						gchildList.push('해외지도')
-					
-						map.set('지도/지리', gchildList);
-					
-				
-				map.set('여행/지도', childList);
-			
-				childList=[];
-				
 					childList.push('경제');
 					gchildList=[];
 					
@@ -412,163 +341,139 @@
 			
 				childList=[];
 				
-					childList.push('웹/컴퓨터입문/활용');
+					childList.push('정치/외교');
 					gchildList=[];
 					
-						gchildList.push('웹/홈페이지')
+						gchildList.push('정치일반')
 					
-						gchildList.push('컴퓨터입문/활용')
+						gchildList.push('각국정치')
 					
-						gchildList.push('컴퓨터게임')
+						gchildList.push('외교/국제관계')
 					
-						map.set('웹/컴퓨터입문/활용', gchildList);
+						map.set('정치/외교', gchildList);
 					
 				
-					childList.push('IT 전문서');
+					childList.push('행정/정책');
 					gchildList=[];
 					
-						gchildList.push('개발/OS/데이터베이스')
+						gchildList.push('행정학일반')
 					
-						gchildList.push('프로그래밍언어')
+						gchildList.push('행정일반/관리')
 					
-						gchildList.push('네트워크보안')
+						gchildList.push('정책/지방자치')
 					
-						gchildList.push('컴퓨터공학')
-					
-						map.set('IT 전문서', gchildList);
+						map.set('행정/정책', gchildList);
 					
 				
-					childList.push('그래픽/멀티미디어');
+					childList.push('국방/군사/경찰');
 					gchildList=[];
 					
-						gchildList.push('3DS/MAX')
+						gchildList.push('국방/군사 일반')
 					
-						gchildList.push('그래픽일반/자료집 ')
+						gchildList.push('전쟁 ')
 					
-						gchildList.push('그래픽툴/저작툴 ')
+						gchildList.push('경찰/범죄 ')
 					
-						gchildList.push('기타')
-					
-						map.set('그래픽/멀티미디어', gchildList);
+						map.set('국방/군사/경찰', gchildList);
 					
 				
-					childList.push('오피스활용도서');
+					childList.push('법');
 					gchildList=[];
 					
-						gchildList.push('MS Excel')
+						gchildList.push('법학일반')
 					
-						gchildList.push('MS Word')
+						gchildList.push('민법/형법/상법')
 					
-						gchildList.push('MS PowerPoint')
+						gchildList.push('소송/판례')
 					
-						gchildList.push('기타')
+						gchildList.push('헌법')
+						
+						gchildList.push('국제법')
+						
+						gchildList.push('기타법/법률')
 					
-						map.set('오피스활용도서', gchildList);
+						map.set('법', gchildList);
 					
 				
-					childList.push('컴퓨터수험서');
+					childList.push('사회학');
 					gchildList=[];
 					
-						gchildList.push('정보처리')
+						gchildList.push('사회학일반')
 					
-						gchildList.push('컴퓨터활용능력')
+						gchildList.push('사회이론/사상')
 					
-						gchildList.push('워드프로세스')
+						gchildList.push('각국사회/문화')
 					
-						gchildList.push('컴퓨터수험서기타')
+						gchildList.push('여성학')
 					
-						map.set('컴퓨터수험서', gchildList);
+						map.set('사회학', gchildList);
+						
+					childList.push('사회복지');
+					gchildList=[];
+					
+						gchildList.push('사회문제일반')
+					
+						gchildList.push('사회복지이론')
+					
+						gchildList.push('여성복지')
+					
+						gchildList.push('노인복지')
+						
+						gchildList.push('아동복지')
+						
+						gchildList.push('장애인복지')
+					
+						map.set('사회복지', gchildList);
+						
+					childList.push('언론/신문/방송');
+					gchildList=[];
+					
+						gchildList.push('언론일반')
+					
+						gchildList.push('언론이론')
+					
+						gchildList.push('신문/방송/출판')
+					
+						map.set('언론/신문/방송', gchildList);
 					
 				
-				map.set('컴퓨터/IT', childList);
+				map.set('사회', childList);
 			
 				childList=[];
 				
-					childList.push('교양만화');
-					gchildList=[];
-					
-						map.set('교양만화', gchildList);
 					
 				
-					childList.push('드라마');
+					childList.push('종교일반');
 					gchildList=[];
 					
-						map.set('드라마', gchildList);
+						map.set('종교일반', gchildList);
 					
 				
-					childList.push('성인만화');
+					childList.push('기독교(개신교)');
 					gchildList=[];
 					
-						map.set('성인만화', gchildList);
+						map.set('기독교(개신교)', gchildList);
 					
 				
-					childList.push('순정만화');
+					childList.push('가톨릭');
 					gchildList=[];
 					
-						map.set('순정만화', gchildList);
+						map.set('가톨릭', gchildList);
 					
 				
-					childList.push('스포츠만화');
+					childList.push('불교');
 					gchildList=[];
 					
-						map.set('스포츠만화', gchildList);
+						map.set('불교', gchildList);
 					
 				
-					childList.push('SF/판타지');
+					childList.push('기타');
 					gchildList=[];
 					
-						map.set('SF/판타지', gchildList);
+						map.set('기타', gchildList);
 					
 				
-					childList.push('액션/무협만화');
-					gchildList=[];
-					
-						map.set('액션/무협만화', gchildList);
-					
-				
-					childList.push('명랑/코믹만화');
-					gchildList=[];
-					
-						map.set('명랑/코믹만화', gchildList);
-					
-				
-					childList.push('공포/추리');
-					gchildList=[];
-					
-						map.set('공포/추리', gchildList);
-					
-				
-					childList.push('학원만화');
-					gchildList=[];
-					
-						map.set('학원만화', gchildList);
-					
-				
-					childList.push('웹툰/카툰에세이');
-					gchildList=[];
-					
-						map.set('웹툰/카툰에세이', gchildList);
-					
-				
-					childList.push('기타만화');
-					gchildList=[];
-					
-						map.set('기타만화', gchildList);
-					
-				
-					childList.push('일본어판 만화');
-					gchildList=[];
-					
-						map.set('일본어판 만화', gchildList);
-					
-				
-					childList.push('영문판 만화');
-					gchildList=[];
-					
-						map.set('영문판 만화', gchildList);
-					
-				
-				map.set('만화', childList);
+				map.set('종교', childList);
 			
 				childList=[];
 				
@@ -824,137 +729,171 @@
 			
 				childList=[];
 				
-					childList.push('여성/패션/리빙');
+					childList.push('인문일반');
 					gchildList=[];
 					
-						gchildList.push('여성/패션')
+						gchildList.push('교양인문')
 					
-						gchildList.push('건강/요리')
+						gchildList.push('인문학이론')
 					
-						gchildList.push('리빙/인테리어')
+						gchildList.push('독서/글쓰기')
 					
-						gchildList.push('결혼/육아')
-					
-						map.set('여성/패션/리빙', gchildList);
+						map.set('인문일반', gchildList);
 					
 				
-					childList.push('인문/사회/종교');
+					childList.push('심리');
 					gchildList=[];
 					
-						gchildList.push('시사/사회')
+						gchildList.push('교양심리')
 					
-						gchildList.push('경제/경영')
+						gchildList.push('심리학일반')
 					
-						gchildList.push('종교')
-					
-						gchildList.push('행정/고시/정치')
-					
-						map.set('인문/사회/종교', gchildList);
+						map.set('심리', gchildList);
 					
 				
-					childList.push('문예/교양지');
+					childList.push('교육학');
 					gchildList=[];
 					
-						gchildList.push('문예')
+						gchildList.push('교육학의이해')
 					
-						gchildList.push('출판')
+						gchildList.push('교육학일반')
 					
-						gchildList.push('교양')
-					
-						map.set('문예/교양지', gchildList);
+						map.set('교육학', gchildList);
 					
 				
-					childList.push('자연/공학');
+					childList.push('철학');
 					gchildList=[];
 					
-						gchildList.push('기계/자동차')
+						gchildList.push('교양철학')
 					
-						gchildList.push('의학/건강')
+						gchildList.push('철학일반')
 					
-						gchildList.push('농학/원예')
+						gchildList.push('서양철학')
 					
-						gchildList.push('자연과학')
+						gchildList.push('동양철학')
 					
-						gchildList.push('기타')
+						gchildList.push('한국철학')
 					
-						map.set('자연/공학', gchildList);
+						map.set('철학', gchildList);
 					
 				
-					childList.push('컴퓨터/게임/그래픽');
+					childList.push('문학론');
 					gchildList=[];
 					
-						gchildList.push('그래픽')
+						gchildList.push('문학의이해')
 					
-						gchildList.push('컴퓨터')
+						gchildList.push('문학이론')
 					
-						gchildList.push('웹')
+						gchildList.push('문학사')
 					
-						gchildList.push('게임(Game)')
+						gchildList.push('문학비평/평론')
 					
-						map.set('컴퓨터/게임/그래픽', gchildList);
+						map.set('문학론', gchildList);
 					
 				
-					childList.push('어학/교육');
+					childList.push('언어학/기호학');
 					gchildList=[];
 					
-						gchildList.push('아동학습')
+						gchildList.push('언어학일반')
 					
-						gchildList.push('중고학습')
+						gchildList.push('기호학일반')
 					
-						gchildList.push('어학')
-					
-						gchildList.push('방송교재')
-					
-						map.set('어학/교육', gchildList);
+						map.set('언어학/기호학', gchildList);
 					
 				
-					childList.push('예술/대중문화');
+					childList.push('종교학');
 					gchildList=[];
 					
-						gchildList.push('영화/공연')
+						gchildList.push('종교학의이해')
 					
-						gchildList.push('사진')
+						gchildList.push('종교사')
 					
-						gchildList.push('음악/미술')
+						gchildList.push('종교비평/비교종교학')
 					
-						gchildList.push('방송/연예')
-					
-						gchildList.push('기타')
-					
-						map.set('예술', gchildList);
+						map.set('종교학', gchildList);
 					
 				
-					childList.push('취미/여행');
+					childList.push('신화');
 					gchildList=[];
 					
-						gchildList.push('레저/스포츠')
+						gchildList.push('신화의 이해')
 					
-						gchildList.push('여행')
+						gchildList.push('그리스로마신화')
 					
-						gchildList.push('바둑/낚시/등산')
+						gchildList.push('서양신화')
 					
-						gchildList.push('기타')
+						gchildList.push('동양신화')
+						
+						gchildList.push('한국신화')
 					
-						map.set('취미/여행', gchildList);
+						map.set('신화', gchildList);
 					
+				map.set('인문', childList);
 				
-					childList.push('외국잡지');
+				childList=[];
+				
+					childList.push('인문일반');
 					gchildList=[];
 					
-						gchildList.push('Fashion & Living')
+						gchildList.push('역사의이해')
 					
-						gchildList.push('Entertainment')
+						gchildList.push('역사학이론/비평')
 					
-						gchildList.push('News & Economy')
+						gchildList.push('정치/경제사')
+						
+						gchildList.push('문명사')
+						
+						gchildList.push('고고학/문화인류학')
+						
+						gchildList.push('전쟁사')
+						
+						gchildList.push('인물사')
+						
+						gchildList.push('생활/풍속사')
+						
+						gchildList.push('문화사일반')
 					
-						gchildList.push('Art & Design')
+						map.set('인문일반', gchildList);
+						
+					childList.push('세계사');
+					gchildList=[];
 					
-						gchildList.push('기타외국잡지')
+						gchildList.push('세계역사/문화일반')
 					
-						map.set('외국잡지', gchildList);
+						gchildList.push('시대별 역사/문화')
 					
-				
-				map.set('잡지', childList);
+						map.set('세계사', gchildList);
+						
+					childList.push('서양사');
+					gchildList=[];
+					
+						gchildList.push('서양역사/문화일반')
+					
+						map.set('서양사', gchildList);
+						
+					childList.push('동양사');
+					gchildList=[];
+					
+						gchildList.push('동양역사/문화일반')
+					
+						map.set('동양사', gchildList);
+						
+					childList.push('한국사');
+					gchildList=[];
+					
+						gchildList.push('한국사일반')
+					
+						gchildList.push('고중세사')
+						
+						gchildList.push('근현대사')
+						
+						gchildList.push('한국문화')
+						
+						gchildList.push('한국역사인물')
+					
+						map.set('한국사', gchildList);
+					
+				map.set('역사/문화', childList);
 			
 
 			let ch_genre_li;
@@ -976,7 +915,7 @@
 						top_genre_list[j].style.color="rgba(0,0,0,0.8)";
 					}
 					this.style.color="#ff9f43";
-					if(this.innerHTML=='만화' || this.innerHTML=='시/에세이'){
+					if(this.innerHTML=='종교' || this.innerHTML=='시/에세이'){
 						isTwo=true;
 					}
 					ch_genre_li=map.get(this.innerHTML);

@@ -17,30 +17,6 @@
             </div>
         </div>
         
-    <!-- 	<form action="#" method="post"> -->
-    <!-- 		<div class="admin-content_area"> -->
-    <!-- 			<div class="admin-content"> -->
-    <!-- 				<div class="admin-content_title"> -->
-    <!-- 					검색 -->
-    <!-- 				</div> -->
-    <!-- 				<div class="admin-search"> -->
-    <!-- 					<div>책 번호</div> -->
-    <!-- 					<input type='number' name="bookNo"> -->
-    <!-- 				</div> -->
-    <!-- 				<div class="admin-search"> -->
-    <!-- 					<div>책 제목</div> -->
-    <!-- 					<input type='text' name="bookTitle" > -->
-    <!-- 				</div> -->
-    <!-- 				<div class="admin-search"> -->
-    <!-- 					<div>작성자</div> -->
-    <!-- 					<input type='text' name="bookAuthor" > -->
-    <!-- 				</div> -->
-    <!-- 			</div> -->
-    <!-- 		</div> -->
-    <!-- 		<button class="submit-btn">검색</button> -->
-    <!-- 	</form> -->
-        
-        
         <div class="admin-content_area">
             <div class="admin-content">
                 <div class="admin-content_title">리뷰 목록</div>
@@ -78,7 +54,7 @@
                                       	  		</div>
                                     </td>
                                     <td><fmt:formatDate value="${r.reviewDate }" pattern="yyyy년MM월dd일"/></td>
-                                    <td><a class="update-btn" href="/bookin/book/bookDetail.jsp?no=10219">상품정보 이동</a></td>
+                                    <td><a class="update-btn" href="#">상품정보 이동</a></td>
                                     <td><button class="update-btn" onclick="reviewDelete(${r.reviewNo});" style="background-color: #FF5A5A;;">삭제</button></td>
                                 </tr>
                             </c:forEach>

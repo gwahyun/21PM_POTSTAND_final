@@ -1,6 +1,7 @@
 package com.kh.potstand.book.model.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.kh.potstand.book.model.dao.BookDaoImpl;
 import com.kh.potstand.book.model.vo.Book;
+import com.kh.potstand.book.model.vo.Review;
 import com.kh.potstand.book.model.vo.Sort;
 
 @Service
@@ -29,6 +31,11 @@ public class BookServiceImpl implements BookService {
 		return dao.selectBookCount(session);
 	}
 
+	@Override
+	public Book selectBookInfo(int no) {
+		return dao.selectBookInfo(session, no);
+	}
+	
 	//sort LV1~LV4
 	@Override
 	public List<Sort> selectSortLv1List() {
@@ -61,5 +68,23 @@ public class BookServiceImpl implements BookService {
 	public int selectSortBookCount(String sortNo) {
 		return dao.selectSortBookCount(session,sortNo);
 	}
+
+	@Override
+	public List<Review> selectBookReview(int no) {
+		return dao.selectBookReview(session, no);
+	}
+	//리뷰 총 개수
+	@Override
+	public int selectBookReviewCount(int no) {
+		return dao.selectBookReviewCount(session, no);
+	}
+
+	//책 찜등록
+	@Override
+	public int bookHeartInsert(Map param) {
+		return dao.bookHeartInsert(session,param);
+	}
+	
+	
 
 }

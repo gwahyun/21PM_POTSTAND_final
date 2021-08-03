@@ -39,31 +39,30 @@
 						<thead>
 							<tr>
 								<th style="width:10%">구매일</th>
+								<th style="width:10%">결제자</th>
 								<th style="width:5%">상품번호</th>
 								<th style="width:40%">상품</th>
 								<th style="width:5%">구매번호</th>
 								<th style="width:5%">수량</th>
-								<th style="width:5%">정가</th>
-								<th style="width:5%">할인가</th>
 								<th style="width:5%">판매가</th>
 							</tr>
 						</thead>
 						<tbody>
 						
-							<tr>
-								<td style="	text-align: center;">2021-07-20</td>
-								<td>10241</td>
-								<td>네이버</td>
-								<td>161</td>
-								<td>1</td>
-								<td style="	text-align: center;">50,000</td>
-								<td style="	text-align: center;">40,000</td>
-								<td style="	text-align: center;">40,000</td>
-							</tr>
-						
+							<c:forEach items="${list }" var="l">
+								<tr>
+									<td style="	text-align: center;"><fmt:formatDate value="${l.creditDate }"/> </td>
+									<td>${l.memberId }</td>
+									<td>${l.productNo }</td>
+									<td>네이버</td>
+									<td>${l.creditNo }</td>
+									<td>${l.stock }</td>
+									<td style="	text-align: center;">${l.price }</td>
+								</tr>
+							</c:forEach>
 						</tbody>
 					</table>
-					<div style="text-align: right; padding : 1rem">합계 40,000원</div>
+					<div style="text-align: right; padding : 1rem">합계 ${sumPrice }</div>
 	
 				</div>
 			</div>
@@ -127,21 +126,7 @@
 	
 	const labels = [
 		
-		'21-07-14',
-		
-		'21-07-15',
-		
-		'21-07-16',
-		
-		'21-07-17',
-		
-		'21-07-18',
-		
-		'21-07-19',
-		
-		'21-07-20',
-		
-		'21-07-21',
+		${c}
 		
 		];
 	const data = {
@@ -154,21 +139,7 @@
 			    borderColor: '#ff9f43',
 			    data: [
 			    	
-					0,
-					
-					0,
-					
-					0,
-					
-					0,
-					
-					0,
-					
-					0,
-					
-					40000,
-					
-					0,
+				${d}
 					
 			    	],
 	       	},
@@ -179,21 +150,7 @@
 			    borderColor: '#ff6b6b',
 			    data: [
 			    	
-					0,
-					
-					0,
-					
-					0,
-					
-					0,
-					
-					0,
-					
-					0,
-					
-					1,
-					
-					0,
+					${e}
 					
 			    	],
 		 	}

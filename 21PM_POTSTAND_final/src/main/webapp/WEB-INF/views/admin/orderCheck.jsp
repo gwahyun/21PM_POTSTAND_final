@@ -14,7 +14,7 @@
                         </div>
                     </div>
                 </div>
-                <form action="${path }/admin/orderSelectList" method="get">
+                <form action="${path }/admin/orderSelectList" method="post">
                 
                 <div class="admin-content_area">
                     <div class="admin-content">

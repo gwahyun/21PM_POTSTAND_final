@@ -47,4 +47,24 @@
 
 	<!-- scheduler 어노테이션 -->
 	<task:annotation-driven/>
+	
+	<!-- 인터셉터  -->
+	<interceptors>
+		  <interceptor>
+			<mapping path="/admin/*"/>
+			<beans:bean class="com.kh.potstand.interceptor.AdminCheckLoginInterceptor"></beans:bean>
+		  </interceptor>
+		  <interceptor>
+			<mapping path="/member/*"/>
+			<exclude-mapping path="/member/memberLog*.do"/>
+			<exclude-mapping path="/member/memberEnroll*.do"/>
+			<exclude-mapping path="/member/jusoPopup.do"/>
+			<exclude-mapping path="/member/memberSearchId.do"/>
+			<exclude-mapping path="/member/memberResetPwd.do"/>
+			<exclude-mapping path="/member/memberCheckId.do"/>
+			<exclude-mapping path="/member/memberCheckEmail.do"/>
+			<beans:bean class="com.kh.potstand.interceptor.MemberCheckInterceptor"></beans:bean>
+		  </interceptor>
+	</interceptors>
+	
 </beans:beans>

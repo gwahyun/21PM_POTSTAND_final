@@ -1,12 +1,14 @@
 package com.kh.potstand.book.model.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 import com.kh.potstand.book.model.vo.Book;
+import com.kh.potstand.book.model.vo.Review;
 import com.kh.potstand.book.model.vo.Sort;
 
 @Repository
@@ -54,6 +56,28 @@ public class BookDaoImpl implements BookDao {
 	@Override
 	public int selectSortBookCount(SqlSession session, String sortNo) {
 		return session.selectOne("book.selectSortBookCount", sortNo);
+	}
+
+	@Override
+	public Book selectBookInfo(SqlSession session, int no) {
+		return session.selectOne("book.selectBookInfo", no);
+	}
+
+	@Override
+	public List<Review> selectBookReview(SqlSession session, int no) {
+		return session.selectList("book.selectBookReview", no);
+	}
+
+	//리뷰 총 개수
+	@Override
+	public int selectBookReviewCount(SqlSession session, int no) {
+		return session.selectOne("book.selectBookReviewCount", no);
+	}
+
+	//내 찜등록
+	@Override
+	public int bookHeartInsert(SqlSession session, Map param) {
+		return session.insert("book.bookHeartInsert", param);
 	}
 	
 	

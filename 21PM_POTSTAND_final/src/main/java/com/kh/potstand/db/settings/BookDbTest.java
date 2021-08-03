@@ -1,5 +1,6 @@
 package com.kh.potstand.db.settings;
 
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringReader;
@@ -34,6 +35,7 @@ import org.xml.sax.InputSource;
 
 import com.kh.potstand.book.model.vo.Book;
 import com.kh.potstand.book.model.vo.Sort;
+
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -45,19 +47,18 @@ public class BookDbTest {
 
 	@RequestMapping("/db/bookSetting.do")
 	public ModelAndView bookSetting(ModelAndView mv, HttpServletRequest request) throws Exception {
-
+		
 		List<Sort> cateList = getCategoryList();
 		SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
 		int count=0;
 		// 카테고리 리스트의 길이만큼 반복합니다
-		for (int i = 0; i < 10; i++) {
-			System.out.println("category : "+cateList.get(i));
+		for (int i = 0; i < cateList.size(); i++) {
 			// 카테고리 리스트의 장르 번호로 100개씩 조회, 필수조건은 목차=1로 고정
 			URL url = new URL("https://openapi.naver.com/v1/search/book_adv.xml?&display=100&start=1&d_catg="
 					+ cateList.get(i).getSortNo() + "&d_cont=1");
 			HttpURLConnection httpConn = (HttpURLConnection) url.openConnection();
 			httpConn.setRequestMethod("GET");
-			// api 키값 설정
+		// api 키값 설정
 			httpConn.setRequestProperty("X-Naver-Client-Id", "qXiAJkWqOslcYfvlzaPf");
 			httpConn.setRequestProperty("X-Naver-Client-Secret", "iMyCEe178O");
 
@@ -75,7 +76,7 @@ public class BookDbTest {
 
 			try {
 				// api의 response를 String result로 가져옵니다
-				String result = response.replace("<hr>", "").replace("<b>", "").replace("</b>", "");
+			String result = response.replace("<hr>", "").replace("<b>", "").replace("</b>", "");
 				InputSource is = new InputSource(new StringReader(result));
 
 				// xml형식을 읽을 수 있게 문서를 빌드합니다
@@ -111,13 +112,13 @@ public class BookDbTest {
 							b.setBookWriter(node.getTextContent());
 							break;
 						case "price":
-							b.setBookCost(Integer.parseInt(node.getTextContent()));
+					b.setBookCost(Integer.parseInt(node.getTextContent()));
 							break;
 						case "publisher":
-							b.setBookPub(node.getTextContent());
+						b.setBookPub(node.getTextContent());
 							break;
-						case "pubdate":
-							b.setBookDate(new java.sql.Date(format.parse(node.getTextContent()).getTime()));
+					case "pubdate":
+						b.setBookDate(new java.sql.Date(format.parse(node.getTextContent()).getTime()));
 							break;
 						}
 					}
@@ -130,6 +131,7 @@ public class BookDbTest {
 			}
 			System.out.println(count + "건 insert");
 		}
+
 		CrowlingLink();
 		mv.addObject("msg", "성공.");
 		mv.addObject("loc", "/dbpage");

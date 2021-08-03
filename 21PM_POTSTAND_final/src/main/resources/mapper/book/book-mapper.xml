@@ -39,7 +39,14 @@
 		<result column="LV3" property="lv3"/>
 		<result column="LV4" property="lv4"/>		
 	</resultMap>
-	
+	<resultMap type="review" id="reviewMap">
+ 		<id column="review_no" property="reviewNo"/>
+ 		<result column="book_code" property="bookCode"/>
+ 		<result column="member_id" property="memberId"/>
+ 		<result column="point" property="point"/>
+ 		<result column="review_content" property="reviewContent"/>
+ 		<result column="review_date" property="reviewDate"/>
+ 	</resultMap>
 	<select id="selectSortLv1List" resultMap="sortMap">
 		SELECT * FROM SORT WHERE LV2 IS NULL AND LV3 IS NULL AND LV4 IS NULL
 	</select>
@@ -60,4 +67,19 @@
 	<select id="selectSortBookCount" resultType="_int">
 		SELECT COUNT(*) FROM BOOK WHERE SORT_NO LIKE #{sortNo}||'%'
 	</select>
+	
+	<select id="selectBookInfo" resultMap="bookMap">
+		select * from book where book_code=#{no}
+	</select>
+	<select id="selectBookReview" resultMap="reviewMap">
+		select * from review where book_code=#{no}
+	</select>
+	
+	<select id="selectBookReviewCount" resultType="_int">
+		SELECT COUNT(*) FROM REVIEW WHERE book_code=#{no}
+	</select>
+	
+	<insert id="bookHeartInsert">
+		INSERT INTO HEART VALUES(SEQ_HEART.NEXTVAL,#{bookCode},#{memberId})
+	</insert>
 </mapper>

@@ -22,6 +22,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -32,13 +33,14 @@ import com.kh.potstand.admin.model.vo.Faq;
 import com.kh.potstand.admin.model.vo.Notice;
 import com.kh.potstand.admin.model.vo.Qna;
 import com.kh.potstand.admin.model.vo.Request;
-import com.kh.potstand.admin.model.vo.Review;
 import com.kh.potstand.book.model.vo.Book;
+import com.kh.potstand.book.model.vo.Review;
 import com.kh.potstand.common.AES256Util;
 import com.kh.potstand.common.PageFactory;
 import com.kh.potstand.event.model.vo.Event;
 import com.kh.potstand.member.model.vo.Address;
 import com.kh.potstand.member.model.vo.Member;
+import com.kh.potstand.order.model.vo.Cart;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -63,25 +65,72 @@ public class AdminController {
 
 	@RequestMapping("/admin/adminMain")
 	
-	public ModelAndView adminMain(ModelAndView mv) {
+	public ModelAndView adminMain(
+			@RequestParam(value="startDate",defaultValue="") String startDate,
+			ModelAndView mv) {
 		//차트
-		String[] str = new String[7];
-		str[0] = "21-07-31";
-		str[1] = "21-08-01";
-		str[2] = "21-08-02";
-		str[3] = "21-08-03";
-		str[4] = "21-08-04";
-		str[5] = "21-08-05";
-		str[6] = "21-08-06";
+		List<String> dateList = service.dateList(startDate);
+		//날짜
 		String c = "";
-		for(int i=0; i<str.length; i++) {
-			c += "'"+str[i]+"',"+"\n\n";
+		//매출
+		String d = "";
+		//수량
+		String e = "";
+		for(String str : dateList) {
+			
+			c += "'"+str+"',";
+			d += service.priceDateList(str)+",";
+			e += service.amountDateList(str)+",";
 		}
-		mv.addObject("c", c);
+		//System.out.println(dateList);
+		mv.addObject("c",c);
+		mv.addObject("d", d);
+		mv.addObject("e", e);
+		//신규 주문,주문확인 등등
+		Map<String,String> map = service.dateOne();
+		mv.addObject("startDate", map.get("일주일"));
+		mv.addObject("endDate", map.get("오늘"));
+		
 		//최신 리뷰,문의 등등
 		mv.addObject("answerNo", service.answerNo());
 		mv.addObject("newReview", service.newReview());
 		mv.setViewName("admin/adminMain");
+		
+		/* count들 갖고 올것
+		 * Map<String,Object> count = service.orderCountMap();
+		 * mv.addObject("count1",count.get("count1"));
+		 * mv.addObject("count2",count.get("count2"));
+		 * mv.addObject("count3",count.get("count3"));
+		 * mv.addObject("count4",count.get("count1"));
+		 */
+		return mv;
+	}
+	
+	@RequestMapping("/admin/calSelect")
+	public ModelAndView calSelect(
+			@RequestParam(value="startDate",defaultValue="") String startDate,
+			ModelAndView mv) {
+		//차트
+		List<String> dateList = service.dateList(startDate);
+		//날짜
+		String c = "";
+		//매출
+		String d = "";
+		//수량
+		String e = "";
+		for(String str : dateList) {
+			
+			c += "'"+str+"',";
+			d += service.priceDateList(str)+",";
+			e += service.amountDateList(str)+",";
+		}
+		//System.out.println(dateList);
+		mv.addObject("c",c);
+		mv.addObject("d", d);
+		mv.addObject("e", e);
+		mv.addObject("sumPrice",service.sumPrice(startDate));
+		mv.addObject("list", service.creditDateList(startDate));
+		mv.setViewName("admin/calSelect");
 		return mv;
 	}
 	
@@ -124,13 +173,6 @@ public class AdminController {
 		return mv;
 	}
 	
-	@RequestMapping("/admin/orderCheck")
-	public ModelAndView orderCheck(ModelAndView mv) {
-		
-		mv.setViewName("admin/orderCheck");
-		return mv;
-	}
-
 	@RequestMapping("/admin/qnaManager")
 	public ModelAndView qnaManager(
 			@RequestParam(value ="cPage",defaultValue="1") int cPage,
@@ -183,9 +225,7 @@ public class AdminController {
 	
 	@RequestMapping("/admin/qnaAnswer")
 	public String qnaAnswer(@RequestParam Map param,HttpSession session) {
-		/* Member m = (Member)session.getAttribute("loginMember");
-		param.put("memberId", m.getMemberId()); */
-		param.put("memberId", "admin");
+		param.put("memberId", ((Member)session.getAttribute("loginMember")).getMemberId());
 		int result = service.qnaAnswer(param);
 		return result>0?"true":"false";
 	}
@@ -194,9 +234,7 @@ public class AdminController {
 	
 	@RequestMapping("/admin/qnaInsert")
 	public ModelAndView qnaInsert(ModelAndView mv,@RequestParam Map param,HttpSession session) {
-		/* Member m = (Member)session.getAttribute("loginMember");
-		param.put("memberId", m.getMemberId()); */
-		param.put("memberId", "admin");
+		param.put("memberId", ((Member)session.getAttribute("loginMember")).getMemberId());
 		int result = service.qnaInsert(param);
 		mv.addObject("msg", result>0?"등록 성공":"등록 실패");
 		mv.addObject("loc", "/admin/qnaManager");
@@ -245,9 +283,7 @@ public class AdminController {
 	
 	@RequestMapping("/admin/noticeInsertEnd")
 	public ModelAndView noticeInsertEnd(ModelAndView mv,@RequestParam Map param,HttpSession session) {
-		/* Member m = (Member)session.getAttribute("loginMember");
-		param.put("memberId", m.getMemberId()); */
-		param.put("memberId", "admin");
+		param.put("memberId", ((Member)session.getAttribute("loginMember")).getMemberId());
 		int result = service.noticeInsert(param);
 		mv.addObject("msg", result>0?"등록 되었습니다!":"등록 실패하였습니다!");
 		mv.addObject("loc","/admin/noticeSelect");
@@ -265,9 +301,7 @@ public class AdminController {
 	
 	@RequestMapping("/admin/noticeUpdateEnd")
 	public ModelAndView noticeUpdateEnd(ModelAndView mv,@RequestParam Map param,HttpSession session) {
-		/* Member m = (Member)session.getAttribute("loginMember");
-		param.put("memberId", m.getMemberId()); */
-		param.put("memberId", "admin");
+		param.put("memberId", ((Member)session.getAttribute("loginMember")).getMemberId());
 		int result = service.noticeUpdateEnd(param);
 		mv.addObject("msg", result>0?"수정 되었습니다!":"수정 실패하였습니다!");
 		mv.addObject("loc","/admin/noticeSelect");
@@ -435,10 +469,17 @@ public class AdminController {
 	
 	@RequestMapping("/admin/eventSelectBook")
 	public ModelAndView eventSelectBook(
+			@RequestParam(value ="cPage",defaultValue="1") int cPage,
+			@RequestParam(value="numPerpage",defaultValue="300") int numPerpage,
 			@RequestParam Map param,
-			ModelAndView mv) {
-		List<Book> list = service.productSelectList(param);
+			ModelAndView mv,
+			@RequestParam(value="searchKeyword",defaultValue="") String searchKeyword,
+			@RequestParam(value="searchType",defaultValue="") String searchType) {
+		int totalData = service.eventSelectCount(param);
+		List<Book> list = service.eventBookSelectList(param,cPage,numPerpage);
 		mv.addObject("list", list);
+		mv.addObject("pageBar", PageFactory.getPageBar(totalData, cPage, numPerpage,5,"eventSelectBook","searchType="+searchType+"&searchKeyword="+searchKeyword));
+		mv.addObject("count", totalData);
 		mv.setViewName("admin/eventSelectBook");
 		return mv;
 	}
@@ -524,12 +565,7 @@ public class AdminController {
 		return mv;
 	}
 	
-	@RequestMapping("/admin/calSelect")
-	public ModelAndView calSelect(ModelAndView mv) {
-		
-		mv.setViewName("admin/calSelect");
-		return mv;
-	}
+	
 	
 	@RequestMapping("/admin/memberSelect")
 	public ModelAndView memberSelect(
@@ -751,12 +787,33 @@ public class AdminController {
 		
 		List<Credit> list = session.selectList("admin.orderSelectList", param);
 		int count = session.selectOne("admin.orderSelectListCount", param);
-		System.out.println(list);
 		mv.addObject("list", list);
 		mv.addObject("count", count);
 		mv.setViewName("admin/orderCheck");
 		return mv;
 	}
+	
+	//카트 부분인데 충돌날까봐 일단 여기다 둠
+	@RequestMapping("/cartInsert.do")
+	@ResponseBody
+	public boolean cartInsert(
+			@RequestParam Map param,
+			HttpSession session,
+			String bookCode
+			) {
+		int result = 0;
+		param.put("memberId", ((Member)session.getAttribute("loginMember")).getMemberId());
+		Cart c = service.cartSelectDistinct(param);
+		
+		if(c==null) {
+			result = service.cartInsert(param);
+		}else {
+			result = service.cartSelectOnePlus(param);
+		}
+		return result>0?true:false;
+	}
+	
+	
 	
 	
 	

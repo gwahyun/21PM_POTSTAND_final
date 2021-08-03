@@ -218,8 +218,10 @@
  		<id column="review_no" property="reviewNo"/>
  		<result column="book_code" property="bookCode"/>
  		<result column="member_id" property="memberId"/>
+ 		<result column="point" property="point"/>
  		<result column="review_content" property="reviewContent"/>
  		<result column="review_date" property="reviewDate"/>
+ 		<association property="book" resultMap="bookMap"/>
  	</resultMap>
  	
  	<delete id="reviewDelete">
@@ -327,6 +329,20 @@
  	<select id="productSelectListNopage" resultMap="bookMap">
  		select * from book
  		join sort using(sort_no)
+ 	</select>
+ 	
+ 	<select id="eventBookSelectList" resultMap="bookMap">
+ 		select * from book
+ 		<if test="searchType != null and searchKeyword != '' and searchKeyword != null">
+   					where ${searchType} like '%'||#{searchKeyword}||'%'
+		</if>
+ 	</select>
+ 	
+ 	<select id="eventSelectCountParam" resultType="int">
+ 		select count(*) from book
+ 		<if test="searchType != null and searchKeyword != '' and searchKeyword != null">
+   					where ${searchType} like '%'||#{searchKeyword}||'%'
+		</if>
  	</select>
  		
  		
@@ -516,7 +532,54 @@
  	</update>
  	
 
-  	<!-- 결제 연습 -->
+  
+  	
+  	<!-- 상품 등록 sql문 -->
+  	<select id="bookGenreSelectOne" resultMap="sortMap">
+  		 select * from sort
+   		 where lv2 = #{bookGenre} or lv3 = #{bookGenre} or lv4 = #{bookGenre}
+  	</select>
+  	
+  	<insert id="productInsertEnd"  parameterType="book">
+  		insert into book values(seq_book.nextval, #{sort.sortNo}, #{bookTitle}, #{bookWriter}, #{bookPub}, #{bookCost}, #{bookPub} , #{bookCover}, #{bookDate}, #{bookStock}, #{bookLink},#{writerIntro}, #{bookIntro}, #{bookIndex}, #{pubReview}, #{bookExtract}, #{recommand}, #{introMv})
+  	</insert>
+  	
+  	<!-- db 세팅할 때 book_code / Link 가져오는 select문 -->
+  	<select id="selectBCAndBL" resultType="HashMap">
+  		SELECT BOOK_CODE, BOOK_LINK FROM BOOK
+  	</select>
+ 	
+ 	<!-- 차트에 필요한 날짜 -->
+ 	<select id="dateOne" resultType="HashMap">
+ 		SELECT  TO_CHAR(SYSDATE-6, 'YY-MM-DD') AS 일주일, TO_CHAR(SYSDATE, 'YY-MM-DD') AS 오늘
+    	FROM DUAL
+ 	</select>
+ 	
+ 	<!-- 차트에 필요할 날짜 -->
+	<select id="startDate" resultType="String">
+		 select to_char(to_date(
+		 <choose>
+		 	<when test="startDateStr == null">
+		 		${startDate}
+		 	</when>
+		 	<otherwise>
+		 		#{startDateStr}
+		 	</otherwise>
+		 </choose>
+		,'YY-MM-DD') + (LEVEL-1),'YY-MM-DD') dates
+ 		 from dual CONNECT BY LEVEL <![CDATA[<]]>= (to_date(SYSDATE,'YY-MM-DD') - to_date(
+ 			 <choose>
+		 	<when test="startDateStr == null">
+		 		${startDate}
+		 	</when>
+		 	<otherwise>
+		 		#{startDateStr}
+		 	</otherwise>
+		 </choose>
+ 		 ,'YY-MM-DD') + 1)
+	</select>
+	
+		<!-- 결제 연습 -->
   	<select id="orderSelectList" resultMap="creditMap">
   		select * from credit
   		where 1 = 1
@@ -559,20 +622,82 @@
   		<result column="PHONE" property="phone"></result>
   		<result column="PRICE" property="price"></result>
   	</resultMap>
-  	
-  	<!-- 상품 등록 sql문 -->
-  	<select id="bookGenreSelectOne" resultMap="sortMap">
-  		 select * from sort
-   		 where lv2 = #{bookGenre} or lv3 = #{bookGenre} or lv4 = #{bookGenre}
-  	</select>
-  	
-  	<insert id="productInsertEnd"  parameterType="book">
-  		insert into book values(seq_book.nextval, #{sort.sortNo}, #{bookTitle}, #{bookWriter}, #{bookPub}, #{bookCost}, #{bookPub} , #{bookCover}, #{bookDate}, #{bookStock}, #{bookLink},#{writerIntro}, #{bookIntro}, #{bookIndex}, #{pubReview}, #{bookExtract}, #{recommand}, #{introMv})
-  	</insert>
-  	
-  	<!-- db 세팅할 때 book_code / Link 가져오는 select문 -->
-  	<select id="selectBCAndBL" resultType="HashMap">
-  		SELECT BOOK_CODE, BOOK_LINK FROM BOOK
-  	</select>
+	
+	<select id="priceDateList" resultType="int">
+		select nvl(sum(price),0) from credit where to_date(creditdate,'YY-MM-DD') = #{str}
+	</select>
+	
+	<select id="amountDateList" resultType="int">
+		select nvl(sum(stock),0) from credit where to_date(creditdate,'YY-MM-DD') = #{str}
+	</select>
+	
+	<select id="creditDateList" resultMap="creditMap">
+			select * from credit where to_date(creditdate,'YY-MM-DD') >= 
+		 <choose>
+		 	<when test="startDateStr == null">
+		 		${startDate}
+		 	</when>
+		 	<otherwise>
+		 		#{startDateStr}
+		 	</otherwise>
+		 </choose>
+	</select>
+	
+	
+	<!-- 정산관리  -->
+	<select id="sumPrice" resultType="int">
+		select nvl(sum(price),0) from credit where to_date(creditdate,'YY-MM-DD') >= 
+		 <choose>
+		 	<when test="startDateStr == null">
+		 		${startDate}
+		 	</when>
+		 	<otherwise>
+		 		#{startDateStr}
+		 	</otherwise>
+		 </choose>
+	</select>
+
+	<!-- 충돌날까봐 카트 일단 여기가 넣음 -->
+	
+	<!-- 중복인지 확인 하는 문 -->
+	<select id="cartSelectDistinct" resultMap="cartMap">
+		select * from cart 
+    		where member_id = #{memberId} and book_code = #{bookCode}
+	</select>
+	
+	<!-- 중복이면 원래 있던 데이터에서 수량 + 해줌 -->
+	<update id="cartSelectOnePlus">
+		update cart
+   	 		set book_amount = book_amount + #{quant}
+      		  where member_id = #{memberId} and book_code = #{bookCode}
+
+	</update>
+	
+	<!-- 중복아니면 카트 삽입하는 문 -->
+	<insert id="cartInsert">
+		insert into cart values(seq_cart.nextval,#{memberId},#{bookCode},#{quant},null)
+	</insert>
+	
+	<resultMap type="coupon" id="couponMap">
+		<id column="COUPON_NO" property="couponNo"/>
+		<result column="MEMBER_ID" property="memberId"/>
+		<result column="START_DATE" property="startDate"/>
+		<result column="VAL_DATE" property="valDate"/>
+		<result column="USED_DATE" property="usedDate"/>
+		<result column="COUPON_END" property="couponEnd"/>
+		<result column="COUPON_AMOUNT" property="couponAmount"/>
+		<association column="EVENT_NO" property="event" select="selectEventByPK"/>
+	</resultMap>
+	
+	
+	<resultMap type="cart" id="cartMap">
+		<id column="CART_NO" property="cartNo"/>
+		<result column="MEMBER_ID" property="memberId"/>
+		<result column="BOOK_AMOUNT" property="bookAmount"/>
+		<result column="USED_COUPON_NO" property="usedCouponNo"/>
+		<association property="book" resultMap="bookMap"/>	
+		<collection property="coupon" resultMap="couponMap"/>
+	</resultMap>
+	
  	
 </mapper>

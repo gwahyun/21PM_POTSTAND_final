@@ -6,16 +6,18 @@ import java.util.Map;
 import org.mybatis.spring.SqlSessionTemplate;
 
 import com.kh.potstand.admin.model.vo.Answer;
+import com.kh.potstand.admin.model.vo.Credit;
 import com.kh.potstand.admin.model.vo.Faq;
 import com.kh.potstand.admin.model.vo.Notice;
 import com.kh.potstand.admin.model.vo.Qna;
 import com.kh.potstand.admin.model.vo.Request;
-import com.kh.potstand.admin.model.vo.Review;
 import com.kh.potstand.book.model.vo.Book;
+import com.kh.potstand.book.model.vo.Review;
 import com.kh.potstand.book.model.vo.Sort;
 import com.kh.potstand.event.model.vo.Event;
 import com.kh.potstand.member.model.vo.Address;
 import com.kh.potstand.member.model.vo.Member;
+import com.kh.potstand.order.model.vo.Cart;
 
 public interface AdminDao {
 
@@ -128,4 +130,26 @@ public interface AdminDao {
 	Sort bookGenreSelectOne(SqlSessionTemplate session, String bookGenre);
 
 	int productInsertEnd(SqlSessionTemplate session, Book b);
+
+	Map<String, String> dateOne(SqlSessionTemplate session);
+
+	List<String> startDate(SqlSessionTemplate session, String startDate);
+
+	int priceDateList(SqlSessionTemplate session, String str);
+
+	int amountDateList(SqlSessionTemplate session, String str);
+
+	int sumPrice(SqlSessionTemplate session, String startDate);
+
+	List<Credit> creditDateList(SqlSessionTemplate session, String startDate);
+
+	int eventSelectCount(SqlSessionTemplate session, Map param);
+
+	List<Book> eventBookSelectList(SqlSessionTemplate session, Map param, int cPage, int numPerpage);
+
+	int cartInsert(SqlSessionTemplate session, Map param);
+
+	Cart cartSelectDistinct(SqlSessionTemplate session, Map param);
+
+	int cartSelectOnePlus(SqlSessionTemplate session, Map param);
 }

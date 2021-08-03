@@ -4,16 +4,18 @@ import java.util.List;
 import java.util.Map;
 
 import com.kh.potstand.admin.model.vo.Answer;
+import com.kh.potstand.admin.model.vo.Credit;
 import com.kh.potstand.admin.model.vo.Faq;
 import com.kh.potstand.admin.model.vo.Notice;
 import com.kh.potstand.admin.model.vo.Qna;
 import com.kh.potstand.admin.model.vo.Request;
-import com.kh.potstand.admin.model.vo.Review;
 import com.kh.potstand.book.model.vo.Book;
+import com.kh.potstand.book.model.vo.Review;
 import com.kh.potstand.book.model.vo.Sort;
 import com.kh.potstand.event.model.vo.Event;
 import com.kh.potstand.member.model.vo.Address;
 import com.kh.potstand.member.model.vo.Member;
+import com.kh.potstand.order.model.vo.Cart;
 
 public interface AdminService {
 
@@ -126,6 +128,28 @@ public interface AdminService {
 	Sort bookGenreSelectOne(String bookGenre);
 
 	int productInsertEnd(Book b);
+
+	Map<String, String> dateOne();
+
+	List<String> dateList(String startDate);
+
+	int priceDateList(String str);
+
+	int amountDateList(String str);
+
+	int sumPrice(String startDate);
+
+	List<Credit> creditDateList(String startDate);
+
+	int eventSelectCount(Map param);
+
+	List<Book> eventBookSelectList(Map param, int cPage, int numPerpage);
+
+	int cartInsert(Map param);
+
+	Cart cartSelectDistinct(Map param);
+
+	int cartSelectOnePlus(Map param);
 
 
 

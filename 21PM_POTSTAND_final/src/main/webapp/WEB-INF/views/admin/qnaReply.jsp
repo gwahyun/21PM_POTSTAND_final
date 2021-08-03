@@ -11,9 +11,24 @@
 <c:set var="path" value="${pageContext.request.contextPath }"/>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.48.4/codemirror.min.css"/>
 <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css"/>
+<%-- <link href="${path}/resources/static/tailwind.css" type="text/css" rel="stylesheet"/> --%>
 </head>
 <body>
-	<table>
+	<section class="mx-80">
+	<div class="myqna-container">
+	            <div class="myqna-title flex mt-10 pb-2 border-solid border-b border-gray-300 items-baseline">
+	               <h1 class="text-2xl w-6/12 ">제목 : 아 처리훼댈뤠궤~~~~~~50</h1>
+	               <h3 class="text-base w-2/12 ">분류 : ${q.qnaSort }</h3>
+	               <h3 class="text-base w-2/12 ">작성자 : ${q.memberId }</h3>
+	               <h3 class="text-base w-2/12 ">등록날짜 : <fmt:formatDate value="${q.qnaDate }" pattern="yyyy년MM월dd일"/></h3>
+	            </div>
+	            <div class="myqna-content border-solid border-b  border-gray-300 my-5 h-2/5">
+	                <div id="viewer" ></div>
+	            </div>
+	        </div>
+	        
+	        </section>
+	<%-- <table>
 		<tr>
 			<td>제목</td>
 			<td>${q.qnaTitle }</td>
@@ -26,8 +41,8 @@
 			<td>등록일</td>
 			<td><fmt:formatDate value="${q.qnaDate }" pattern="yyyy년MM월dd일"/></td>
 		</tr>
-	</table>
-	<div id="viewer" style="border: 1px solid black; width: 100%;"  ></div>
+	</table> --%>
+	
 	 <!-- onsubmit="fn_btn();" -->
 		<input type="hidden" name="qnaNo" value="${q.qnaNo }">
 		<textarea style="margin-top : 30px;" rows="10" cols="40" name="answerContent" required=""></textarea>
