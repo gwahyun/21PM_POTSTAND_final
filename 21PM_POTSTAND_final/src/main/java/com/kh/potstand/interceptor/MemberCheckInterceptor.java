@@ -1,4 +1,4 @@
-package com.kh.potstand.member.controller;
+package com.kh.potstand.interceptor;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

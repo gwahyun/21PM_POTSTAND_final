@@ -52,7 +52,7 @@
 	<interceptors>
 		  <interceptor>
 			<mapping path="/admin/*"/>
-			<beans:bean class="com.kh.potstand.admin.controller.AdminCheckLoginInterceptor"></beans:bean>
+			<beans:bean class="com.kh.potstand.interceptor.AdminCheckLoginInterceptor"></beans:bean>
 		  </interceptor>
 		  <interceptor>
 			<mapping path="/member/*"/>
@@ -63,7 +63,7 @@
 			<exclude-mapping path="/member/memberResetPwd.do"/>
 			<exclude-mapping path="/member/memberCheckId.do"/>
 			<exclude-mapping path="/member/memberCheckEmail.do"/>
-			<beans:bean class="com.kh.potstand.member.controller.MemberCheckInterceptor"></beans:bean>
+			<beans:bean class="com.kh.potstand.interceptor.MemberCheckInterceptor"></beans:bean>
 		  </interceptor>
 	</interceptors>
 	
