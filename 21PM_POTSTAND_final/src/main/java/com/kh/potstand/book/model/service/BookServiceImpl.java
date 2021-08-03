@@ -1,6 +1,7 @@
 package com.kh.potstand.book.model.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -72,5 +73,18 @@ public class BookServiceImpl implements BookService {
 	public List<Review> selectBookReview(int no) {
 		return dao.selectBookReview(session, no);
 	}
+	//리뷰 총 개수
+	@Override
+	public int selectBookReviewCount(int no) {
+		return dao.selectBookReviewCount(session, no);
+	}
+
+	//책 찜등록
+	@Override
+	public int bookHeartInsert(Map param) {
+		return dao.bookHeartInsert(session,param);
+	}
+	
+	
 
 }

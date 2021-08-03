@@ -18,32 +18,43 @@
             	<h1 class="text-gray-900 text-3xl title-font font-medium mb-1"><c:out value="${bookInfo.getBookTitle()}"/></h1>
             	<div class="flex mb-4">
               		<span class="flex items-center">
-	                	<svg fill="currentColor" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" 
-	                	stroke-width="2" class="w-4 h-4 text-red-500" viewBox="0 0 24 24">
-	                  		<path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 
-	                  		9.27l6.91-1.01L12 2z"></path>
-	                	</svg>
-	                	<svg fill="currentColor" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" 
-	                	stroke-width="2" class="w-4 h-4 text-red-500" viewBox="0 0 24 24">
-	                  		<path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 
-	                  		9.27l6.91-1.01L12 2z"></path>
-	                	</svg>
-	                	<svg fill="currentColor" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" 
-	                	stroke-width="2" class="w-4 h-4 text-red-500" viewBox="0 0 24 24">
-	                  		<path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 
-	                  		9.27l6.91-1.01L12 2z"></path>
-	                	</svg>
-	                	<svg fill="currentColor" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" 
-	                	stroke-width="2" class="w-4 h-4 text-red-500" viewBox="0 0 24 24">
-	                  		<path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 
-	                  		9.27l6.91-1.01L12 2z"></path>
-	                	</svg>
-	                	<svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
-	                	class="w-4 h-4 text-red-500" viewBox="0 0 24 24">
-	                  		<path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 
-	                  		9.27l6.91-1.01L12 2z"></path>
-	                	</svg>
-	                	<span class="text-gray-600 ml-3">리뷰 4 건</span>
+              			<c:if test="${reviewAvg==0 }">
+              				<c:forEach begin="0" end="4" step="1">
+              					<img src="${path}/resources/img/star_off.png" alt="" class="w-4 h-4 mr-1">
+              				</c:forEach>
+              			</c:if>
+              			<c:if test="${reviewAvg==1 }">
+              				<img src="${path}/resources/img/star_on.png" alt="" class="w-4 h-4 mr-1">
+              				<c:forEach begin="0" end="3" step="1">
+              					<img src="${path}/resources/img/star_off.png" alt="" class="w-4 h-4 mr-1">
+              				</c:forEach>			
+              			</c:if>
+              			<c:if test="${reviewAvg==2 }">
+              				<img src="${path}/resources/img/star_on.png" alt="" class="w-4 h-4 mr-1">
+              				<img src="${path}/resources/img/star_on.png" alt="" class="w-4 h-4 mr-1">
+              				<c:forEach begin="0" end="2" step="1">
+              					<img src="${path}/resources/img/star_off.png" alt="" class="w-4 h-4 mr-1">
+              				</c:forEach>
+              			</c:if>
+              			<c:if test="${reviewAvg==3 }">
+              				<c:forEach begin="0" end="2" step="1">
+              					<img src="${path}/resources/img/star_on.png" alt="" class="w-4 h-4 mr-1">
+              				</c:forEach>
+              				<img src="${path}/resources/img/star_off.png" alt="" class="w-4 h-4 mr-1">
+              				<img src="${path}/resources/img/star_off.png" alt="" class="w-4 h-4 mr-1">
+              			</c:if>
+              			<c:if test="${reviewAvg==4 }">
+              				<c:forEach begin="0" end="3" step="1">
+              					<img src="${path}/resources/img/star_on.png" alt="" class="w-4 h-4 mr-1">
+              				</c:forEach>
+              				<img src="${path}/resources/img/star_off.png" alt="" class="w-4 h-4 mr-1">
+              			</c:if>
+              			<c:if test="${reviewAvg==5 }">
+              				<c:forEach begin="0" end="4" step="1">
+              					<img src="${path}/resources/img/star_on.png" alt="" class="w-4 h-4 mr-1">
+              				</c:forEach>
+              			</c:if>
+	                	<span class="text-gray-600 ml-3">리뷰 ${reviewCount } 건</span>
               		</span>
               		<span class="flex ml-3 pl-3 py-2 border-l-2 border-gray-200 space-x-2s">
                 		<a class="text-gray-500">
@@ -119,9 +130,10 @@
 		                <span id="sumPrice" class="title-font font-medium text-2xl text-gray-900"></span>원
 					            
               		</div>
-              		<button class=" flex text-white bg-gray-300 border-0 py-4 px-4 focus:outline-none rounded">
+              		<button class=" flex text-white bg-gray-300 border-0 py-4 px-4 focus:outline-none rounded"
+              		onclick="fn_book_bookHeart(event)">
                 		<svg fill="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-10 
-                		h-10 fill-current text-red-500" viewBox="0 0 24 24">
+                		h-10 fill-current" viewBox="0 0 24 24">
                   			<path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 
                   			1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"></path>
                 		</svg>
@@ -151,104 +163,37 @@
         <!-- 구분선 -->
         <div class="border-b-4 border-red-500 mt-10"></div>
         <div class="mx-10 mb-2 p-5">
-          <c:if test="${bookInfo.getIntroMv()!=null}">
-          		<h1
-            class="
-              sm:text-3xl
-              text-2xl
-              font-medium
-              title-font
-              text-gray-900
-              my-10
-            "
-          >
-            북트레일러
-          </h1>
-          <h3 class="leading-relaxed text-xl"><c:out value="${bookInfo.getIntroMv()}"/></h3>
-          </c:if>
-          <c:if test="${bookInfo.getBookIntro()!=null}">
-	          <h1
-	            class="
-	              sm:text-3xl
-	              text-2xl
-	              font-medium
-	              title-font
-	              text-gray-900
-	              my-10
-	            "
-	          >
-	            책소개
-	          </h1>
-          	<h3 class="leading-relaxed text-xl"><c:out value="${bookInfo.getBookIntro()}"/></h3>
-          </c:if>
-          <c:if test="${bookInfo.getWriterIntro()!=null}">
-          	<div class="border-b-4 border-gray-300 my-10"></div>
-          		<h1
-            class="
-              sm:text-3xl
-              text-2xl
-              font-medium
-              title-font
-              text-gray-900
-              my-10
-            "
-          >
-            저자 소개
-         	 </h1>
-          	<h3 class="leading-relaxed text-xl"><c:out value="${bookInfo.getWriterIntro()}"/></h3>
-          </c:if>
-          <!-- 상세소개 내부 구분선 -->
-          <c:if test="${bookInfo.getBookIndex()!=null}">
-          <div class="border-b-4 border-gray-300 my-10"></div>
-          <h1
-            class="
-              sm:text-3xl
-              text-2xl
-              font-medium
-              title-font
-              text-gray-900
-              my-10
-            "
-          >
-            목차
-          </h1>
-          <h3 class="leading-relaxed text-xl"><c:out value="${bookInfo.getBookIndex()}"/></h3>
-          </c:if>
-          
-          <!-- 상세소개 내부 구분선 -->
-          <c:if test="${bookInfo.getPubReview()!=null}">
-          <div class="border-b-4 border-gray-300 my-10"></div>
-          		<h1
-            class="
-              sm:text-3xl
-              text-2xl
-              font-medium
-              title-font
-              text-gray-900
-              my-10
-            "
-          >
-            출판사 서평
-          </h1>
-          <h3 class="leading-relaxed text-xl"><c:out value="${bookInfo.getPubReview()}" escapeXml=""/></h3>
-         </c:if>
-          <!-- 상세소개 내부 구분선 -->
-          <c:if test="${bookInfo.getRecommand()!=null}">
-          <div class="border-b-4 border-gray-300 my-10"></div>
-          		<h1
-            class="
-              sm:text-3xl
-              text-2xl
-              font-medium
-              title-font
-              text-gray-900
-              my-10
-            "
-          >
-            추천의 말
-          </h1>
-          <h3 class="leading-relaxed text-xl"><c:out value="${bookInfo.getRecommand()}"/></h3>
-          </c:if>
+          	<c:if test="${bookInfo.getIntroMv()!=null}">
+	          	<h1 class="sm:text-3xl text-2xl font-medium title-font text-gray-900 my-10">북트레일러</h1>
+	          	<h3 class="leading-relaxed text-xl"><c:out value="${bookInfo.getIntroMv()}"/></h3>
+          	</c:if>
+          	<c:if test="${bookInfo.getBookIntro()!=null}">
+	          	<h1 class="sm:text-3xl text-2xl font-medium title-font text-gray-900 my-10">책소개</h1>
+          		<h3 class="leading-relaxed text-xl"><c:out value="${bookInfo.getBookIntro()}"/></h3>
+          	</c:if>
+          	<c:if test="${bookInfo.getWriterIntro()!=null}">
+          		<div class="border-b-4 border-gray-300 my-10"></div>
+          		<h1 class="sm:text-3xl text-2xl font-medium title-font text-gray-900 my-10"> 저자 소개</h1>
+          		<h3 class="leading-relaxed text-xl"><c:out value="${bookInfo.getWriterIntro()}"/></h3>
+          	</c:if>
+          	<!-- 상세소개 내부 구분선 -->
+          	<c:if test="${bookInfo.getBookIndex()!=null}">
+          		<div class="border-b-4 border-gray-300 my-10"></div>
+          		<h1 class="sm:text-3xl text-2xl font-medium title-font text-gray-900 my-10">목차</h1>
+          		<h3 class="leading-relaxed text-xl"><c:out value="${bookInfo.getBookIndex()}"/></h3>
+          	</c:if>
+			<!-- 상세소개 내부 구분선 -->
+	        <c:if test="${bookInfo.getPubReview()!=null}">
+	          	<div class="border-b-4 border-gray-300 my-10"></div>
+          		<h1 class="sm:text-3xl text-2xl font-medium title-font text-gray-900 my-10">출판사 서평</h1>
+          		<h3 class="leading-relaxed text-xl"><c:out value="${bookInfo.getPubReview()}" escapeXml=""/></h3>
+         	</c:if>
+          	<!-- 상세소개 내부 구분선 -->
+          	<c:if test="${bookInfo.getRecommand()!=null}">
+          		<div class="border-b-4 border-gray-300 my-10"></div>
+          		<h1 class="sm:text-3xl text-2xl font-medium title-font text-gray-900 my-10"> 추천의 말</h1>
+          		<h3 class="leading-relaxed text-xl"><c:out value="${bookInfo.getRecommand()}"/></h3>
+          	</c:if>
           	<c:if test="${bookInfo.getIntroMv()!=null}">
           		<h1 class="sm:text-3xl text-2xl font-medium title-font text-gray-900 my-10">북트레일러</h1>
           		<h3 class="leading-relaxed text-xl"><c:out value="${bookInfo.getIntroMv()}"/></h3>
@@ -292,45 +237,62 @@
         </div>
 	</div>
 </section>
+<script>
+	let quant = 0;
+	window.addEventListener("load",function(){
+		var price = Number($("#bookCost").val());
+		//적립금
+		$("#savings").html(price/50);
+		//총가격
+		$("#sumPrice").html(price);
+		$("input[type=number]").change(e=>{
+			if($(e.target).val()==0){
+				alert("최소 1권 이상이어야 합니다");
+				$(e.target).val("1");
+			}else{
+			quant = Number($(e.target).val());
+			var resultPrice= price * Number($(e.target).val());
+			$("#sumPrice").html(resultPrice);
+				
+			}
+		});
+	});
+	
+	function goCart(){
+		var bookCode = $("input[name=bookCode]").val();
+		//매핑 주소 AdminController에 있습니다 충돌 날까봐 일단 뒀어요
+		$.get("${path}/cartInsert.do?bookCode="+bookCode+"&quant="+quant,data=>{
+			if(data){
+				if(confirm("장바구니에 담겼습니다. 이동하시겠습니까?")){
+					location.assign("${path}/member/cartList.do");
+				}
+			}else{
+				alert("장바구니 왜 실패지?");
+			}	
+		});
+	}
+	
+	function fn_book_bookHeart(e){
+		if('${loginMember.memberId}'==''){
+			alert('로그인후 이용이 가능합니다.');
+			location.assign('${path}/member/memberLogin.do');
+		}else{
+			$.ajax({
+				type:"post",
+				url:"${path}/book/bookHeartInsert.do",
+				data:{
+					"memberId":'${loginMember.memberId}',
+					"bookCode":'${bookInfo.bookCode}'
+				},
+				success:data=>{
+					if(data>0){
+						
+					}else{
+						
+					}
+				}
+			});
+		}
+	}
+</script>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
-	<script>
-              let quant = 0;
-              	window.addEventListener("load",function(){
-              		var price = Number($("#bookCost").val());
-              		//적립금
-              		$("#savings").html(price/50);
-              		//총가격
-              		$("#sumPrice").html(price);
-              		$("input[type=number]").change(e=>{
-              			if($(e.target).val()==0){
-              				alert("최소 1권 이상이어야 합니다");
-              				$(e.target).val("1");
-              			}else{
-              			quant = Number($(e.target).val());
-              			var resultPrice= price * Number($(e.target).val());
-              			$("#sumPrice").html(resultPrice);
-              				
-              			}
-              		})
-              		
-              	})
-              	
-              	function goCart(){
-              			var bookCode = $("input[name=bookCode]").val();
-              			//매핑 주소 AdminController에 있습니다 충돌 날까봐 일단 뒀어요
-              			$.get("${path}/cartInsert.do?bookCode="+bookCode+"&quant="+quant,data=>{
-              				if(data){
-                			if(confirm("장바구니에 담겼습니다. 이동하시겠습니까?")){
-                				location.assign("${path}/member/cartList.do");
-                			}
-              					
-              				}else{
-              					alert("장바구니 왜 실패지?");
-              				}
-              				
-              			})
-              		
-
-
-              		}
-     </script>		    
