@@ -56,7 +56,9 @@
 		        			<div class="flex mx-8 h-64">
 		        				<div class="w-4/5 h-full p-2 flex flex-col">
 		        					<div class="flex flex-col justify-center h-1/4">
-		        						<h3 class="text-xl font-semibold">${r.book.bookTitle }</h3>
+		        						<a href="${path }/book/bookinfo.do?no=${r.book.bookCode}">
+		        							<h3 class="text-xl font-semibold">${r.book.bookTitle }</h3>
+		        						</a>
 		        					</div>
 		        					<div class="h-1/4 flex">
 		        						<c:if test="${r.point==1 }">

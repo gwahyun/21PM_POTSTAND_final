@@ -87,8 +87,10 @@
 		        			</div>
 		        			<div class="w-5/12 border-t-2 h-52 p-2 flex-col content-between">
 		        				<div class="h-1/3">
-		        					<h3 class="text-2xl font-bold pb-4 pt-4">${h.book.bookTitle }</h3>
-		        					<h4 class="text-xl font-semibold">${h.book.bookWriter }</h4>
+		        					<a href="${path }/book/bookinfo.do?no=${h.book.bookCode}">
+		        						<h3 class="text-2xl font-bold pb-4 pt-4">${h.book.bookTitle }</h3>
+		        					</a>
+		        					<h4 class="text-xl">${h.book.bookWriter }</h4>
 		        				</div>
 		        				<div class="h-2/3 flex items-end pb-8">
 		        					<button class="border bg-red-500 text-gray-100 rounded-full tracking-wide font-semibold 

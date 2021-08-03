@@ -72,13 +72,6 @@
 						</dd>
 						<dd class="px-5 py-24">
 							<div><a href="#" class="text-5xl">0</a></div>
-							<div class="text-2xl">주문확인</div>
-						</dd>
-						<dd class="px-5 py-24">
-							<img class="w-20" src="${path }/resources/img/myInfo_next.png">
-						</dd>
-						<dd class="px-5 py-24">
-							<div><a href="#" class="text-5xl">0</a></div>
 							<div class="text-2xl">배송중</div>
 						</dd>
 						<dd class="px-5 py-24">
