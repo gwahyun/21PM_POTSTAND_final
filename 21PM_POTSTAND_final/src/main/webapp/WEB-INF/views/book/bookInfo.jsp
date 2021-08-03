@@ -232,17 +232,23 @@
 	});
 	
 	function goCart(){
-		var bookCode = $("input[name=bookCode]").val();
-		//매핑 주소 AdminController에 있습니다 충돌 날까봐 일단 뒀어요
-		$.get("${path}/cartInsert.do?bookCode="+bookCode+"&quant="+quant,data=>{
-			if(data){
-				if(confirm("장바구니에 담겼습니다. 이동하시겠습니까?")){
-					location.assign("${path}/member/cartList.do");
-				}
-			}else{
-				alert("장바구니 왜 실패지?");
-			}	
-		});
+		if('${loginMember.memberId}'==''){
+			alert('로그인후 이용이 가능합니다.');
+			location.assign('${path}/member/memberLogin.do');
+		}else{
+			var bookCode = $("input[name=bookCode]").val();
+			//매핑 주소 AdminController에 있습니다 충돌 날까봐 일단 뒀어요
+			$.get("${path}/cartInsert.do?bookCode="+bookCode+"&quant="+quant,data=>{
+				if(data){
+					if(confirm("장바구니에 담겼습니다. 이동하시겠습니까?")){
+						location.assign("${path}/member/cartList.do");
+					}
+				}else{
+					alert("장바구니 왜 실패지?");
+				}	
+			});
+		}
+	
 	}
 	
 	function fn_book_bookHeart(e){
