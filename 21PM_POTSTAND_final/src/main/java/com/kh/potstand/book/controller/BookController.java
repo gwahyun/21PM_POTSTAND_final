@@ -39,6 +39,7 @@ public class BookController {
 	public ModelAndView selectBookInfo(
 			@RequestParam(value="no") int no, ModelAndView mv) {
 		mv.addObject("bookInfo", service.selectBookInfo(no));
+		mv.addObject("review", service.selectBookReview(no));
 		mv.setViewName("book/bookInfo");
 		
 		return mv;

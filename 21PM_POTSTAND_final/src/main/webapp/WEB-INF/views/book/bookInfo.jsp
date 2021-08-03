@@ -183,7 +183,7 @@
                   </span>
                 </div>
                 <span class="title-font font-medium text-2xl text-gray-900"
-                  > <c:out value="${bookInfo.getBookCost()}"/></span
+                  ><fmt:formatNumber type="currency" value="${bookInfo.getBookCost()}"/></span
                 >
               </div>
             </div>
@@ -514,6 +514,9 @@
             책 속으로
           </h1>
           <h3 class="leading-relaxed text-xl"><c:out value="${bookInfo.getBookExtract()}"/></h3>
+          	</c:if>
+          	<c:if test="${review!=null}">
+          	<!-- review 보여주고 쓰는 화면 -->
           	</c:if>
         </div>
       </div>

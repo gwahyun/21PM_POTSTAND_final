@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.session.SqlSession;
 
 import com.kh.potstand.book.model.vo.Book;
+import com.kh.potstand.book.model.vo.Review;
 import com.kh.potstand.book.model.vo.Sort;
 
 public interface BookDao {
@@ -12,6 +13,7 @@ public interface BookDao {
 	public List<Book> selectBookList(SqlSession session, int cPage, int numPerpage);
 	public int selectBookCount(SqlSession session);
 	public Book selectBookInfo(SqlSession session, int no);
+	public List<Review> selectBookReview(SqlSession session, int no);
 	
 	//sort LV1~LV4
 	List<Sort> selectSortLv1List(SqlSession session);

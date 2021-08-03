@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.kh.potstand.book.model.dao.BookDaoImpl;
 import com.kh.potstand.book.model.vo.Book;
+import com.kh.potstand.book.model.vo.Review;
 import com.kh.potstand.book.model.vo.Sort;
 
 @Service
@@ -65,6 +66,11 @@ public class BookServiceImpl implements BookService {
 	@Override
 	public int selectSortBookCount(String sortNo) {
 		return dao.selectSortBookCount(session,sortNo);
+	}
+
+	@Override
+	public List<Review> selectBookReview(int no) {
+		return dao.selectBookReview(session, no);
 	}
 
 }
