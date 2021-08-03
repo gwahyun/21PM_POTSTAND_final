@@ -479,7 +479,7 @@
           >
             출판사 서평
           </h1>
-          <h3 class="leading-relaxed text-xl"><c:out value="${bookInfo.getPubReview()}"/></h3>
+          <h3 class="leading-relaxed text-xl"><c:out value="${bookInfo.getPubReview()}" escapeXml=""/></h3>
          </c:if>
           <!-- 상세소개 내부 구분선 -->
           <c:if test="${bookInfo.getRecommand()!=null}">
