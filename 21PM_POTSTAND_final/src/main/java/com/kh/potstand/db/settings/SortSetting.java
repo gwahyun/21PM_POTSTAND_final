@@ -34,9 +34,9 @@ public class SortSetting {
 
 		//Context Root
 		String path = request.getSession().getServletContext().getRealPath("/"); 
-		System.out.println(path);
+		
 		//path = path.substring(0,path.lastIndexOf("target"));
-		File category = new File(path+"temp\\category.txt");
+		File category = new File("C:\\Users\\Jang\\git\\21PM_POTSTAND_final\\21PM_POTSTAND_final\\src\\main\\webapp\\temp\\category.txt");
 
 		
 		
