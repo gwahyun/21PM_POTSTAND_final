@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import com.kh.potstand.book.model.vo.Book;
 import com.kh.potstand.book.model.vo.Review;
 import com.kh.potstand.book.model.vo.Sort;
+import com.kh.potstand.member.model.vo.Heart;
 
 @Repository
 public class BookDaoImpl implements BookDao {
@@ -78,6 +79,18 @@ public class BookDaoImpl implements BookDao {
 	@Override
 	public int bookHeartInsert(SqlSession session, Map param) {
 		return session.insert("book.bookHeartInsert", param);
+	}
+
+	//찜등록 여부 확인
+	@Override
+	public Heart bookHeartCheckSelect(SqlSession session, Map param) {
+		return session.selectOne("book.bookHeartCheckSelect", param);
+	}
+
+	//책 찜삭제
+	@Override
+	public int bookHeartDelete(SqlSession session, Map param) {
+		return session.delete("book.bookHeartDelete",param);
 	}
 	
 	

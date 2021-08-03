@@ -133,7 +133,7 @@
               		<button class=" flex text-white bg-gray-300 border-0 py-4 px-4 focus:outline-none rounded"
               		onclick="fn_book_bookHeart(event)">
                 		<svg fill="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-10 
-                		h-10 fill-current" viewBox="0 0 24 24">
+                		h-10 fill-current <c:if test="${heartCheck!=null }">text-red-500</c:if>" viewBox="0 0 24 24" id="heartBtn">
                   			<path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 
                   			1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"></path>
                 		</svg>
@@ -247,26 +247,49 @@
 	
 	}
 	
+	//책 찜등록/삭제
 	function fn_book_bookHeart(e){
 		if('${loginMember.memberId}'==''){
 			alert('로그인후 이용이 가능합니다.');
 			location.assign('${path}/member/memberLogin.do');
 		}else{
-			$.ajax({
-				type:"post",
-				url:"${path}/book/bookHeartInsert.do",
-				data:{
-					"memberId":'${loginMember.memberId}',
-					"bookCode":'${bookInfo.bookCode}'
-				},
-				success:data=>{
-					if(data>0){
-						
-					}else{
-						
+			if($("#heartBtn").hasClass('text-red-500')){
+				//이미 찜이 되어있을경우
+				$.ajax({
+					type:"post",
+					url:"${path}/book/bookHeartDelete.do",
+					data:{
+						"memberId":'${loginMember.memberId}',
+						"bookCode":'${bookInfo.bookCode}'
+					},
+					success:data=>{
+						if(data=>0){
+							alert('찜목록에서 제거되었습니다.');
+							location.reload();
+						}else{
+							alert('찜목록 제거를 실패했습니다. 관리자에게 문의하세요.');
+						}
 					}
-				}
-			});
+				});
+			}else{
+				//찜이 되어있지 않을경우
+				$.ajax({
+					type:"post",
+					url:"${path}/book/bookHeartInsert.do",
+					data:{
+						"memberId":'${loginMember.memberId}',
+						"bookCode":'${bookInfo.bookCode}'
+					},
+					success:data=>{
+						if(data>0){
+							alert('찜목록에 등록되었습니다.');
+							location.reload();
+						}else{
+							alert('찜목록에 등록을 실패했습니다. 관리자에게 문의하세요.');
+						}
+					}
+				});
+			}	
 		}
 	}
 </script>

@@ -1,17 +1,23 @@
 package com.kh.potstand.book.controller;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.potstand.book.model.service.BookService;
 import com.kh.potstand.book.model.vo.Review;
 import com.kh.potstand.common.PageFactory;
+import com.kh.potstand.member.model.vo.Heart;
+import com.kh.potstand.member.model.vo.Member;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -39,7 +45,7 @@ public class BookController {
 	
 	@RequestMapping("/book/bookinfo.do")
 	public ModelAndView selectBookInfo(
-			@RequestParam(value="no") int no, ModelAndView mv) {
+			@RequestParam(value="no") int no, ModelAndView mv, HttpSession session) {
 		int reviewCount=service.selectBookReviewCount(no); //리뷰 총 개수
 		List<Review> reviewList=service.selectBookReview(no); //리뷰 리스트
 		int reviewSum=0; //리뷰 별점 합
@@ -49,6 +55,15 @@ public class BookController {
 				reviewSum+=r.getPoint();
 				reviewAvg=Math.round(reviewSum/reviewCount); //리뷰 별점 평균
 			}
+		}
+		//로그인되어있는 아이디가 이책을 찜했는지 확인
+		Member m=(Member)session.getAttribute("loginMember");
+		if(m!=null) { 
+			Map param=new HashMap();
+			param.put("memberId", m.getMemberId());
+			param.put("bookCode", no);
+			Heart h=service.bookHeartCheckSelect(param);
+			mv.addObject("heartCheck", h);
 		}
 		mv.addObject("bookInfo", service.selectBookInfo(no));
 		mv.addObject("reviewCount", reviewCount);
@@ -78,7 +93,16 @@ public class BookController {
 	
 	//책 찜등록
 	@RequestMapping("/book/bookHeartInsert.do")
+	@ResponseBody
 	public int bookHeartInsert(@RequestParam Map param) {
 		return service.bookHeartInsert(param);
+		
+	}
+	
+	//책 찜삭제
+	@RequestMapping("/book/bookHeartDelete.do")
+	@ResponseBody
+	public int bookHeartDelete(@RequestParam Map param) {
+			return service.bookHeartDelete(param);
 	}
 }
