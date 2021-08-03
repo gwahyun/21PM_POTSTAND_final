@@ -310,8 +310,8 @@
 			<h3	class="text-xl font-bold pl-2 border-l-4 border-blue-400 border-solid my-3 w-4/12">추가입력사항</h3>
 		</div>
 		<div class="flex">
-			<div class="payMethodSelect w-8/12 mx-1 border border-solid border-gray-400">
-				<ul class="w-full flex flex-wrap">
+			<div class="payMethodSelect w-8/12 mx-1 ">
+				<ul class="w-full flex flex-wrap h-3/4">
 					<li class="w-3/12">
 						<label for="card" class="flex w-full h-full border border-gray-400 border-solid justify-center items-center py-2">
 							<input id="card" class="method-radio appearance-none" type="radio" name="payMethodSelected" value="card">
@@ -345,41 +345,65 @@
 						</label>
 					</li>
 					<li class="w-3/12">
-						<label for="samsung" class="flex w-full h-full border border-gray-400 border-solid justify-center items-center py-2">
+						<label for="samsung" class="flex w-full h-full border border-gray-400 border-solid justify-center items-center">
 							<input id="samsung" class="method-radio appearance-none" type="radio" name="payMethodSelected" value="samsung">
-							<span>
-								삼성페이
-							</span>
+							<img src="${path}/resources/img/samsungpay.png" class="w-5/12">
 						</label>
 					</li>
 					<li class="w-3/12">
-						<label for="kakaopay" class="flex w-full h-full border border-gray-400 border-solid justify-center items-center py-2">
+						<label for="kakaopay" class="flex w-full h-full border border-gray-400 border-solid justify-center items-center ">
 							<input id="kakaopay" class="method-radio appearance-none" type="radio" name="payMethodSelected" value="kakaopay">
-							<span>
-								카카오페이
-							</span>
+							<img src="https://image.yes24.com/sysimage/common/icon/ico_kakaopay.gif" class="w-4/12">
 						</label>
 					</li>
 					<li class="w-3/12">
-						<label for="naverpay" class="flex w-full h-full border border-gray-400 border-solid justify-center items-center py-2">
+						<label for="naverpay" class="flex w-full h-full border border-gray-400 border-solid justify-center items-center ">
 							<input id="naverpay" class="method-radio appearance-none" type="radio" name="payMethodSelected" value="naverpay">
-							<span>
-								네이버페이
-							</span>
+							<img src="https://image.yes24.com/sysimage/common/icon/ico_naverPay.gif" class="w-6/12">
 						</label>
 					</li>
 					<li class="w-3/12">
-						<label for="tosspay" class="flex w-full h-full border border-gray-400 border-solid justify-center items-center py-2">
+						<label for="tosspay" class="flex w-full h-full border border-gray-400 border-solid justify-center items-center">
 							<input id="tosspay" class="method-radio appearance-none" type="radio" name="payMethodSelected" value="tosspay">
-							<span>
-								토스간편결제
-							</span>
+							<img src="https://wp-blog.toss.im/wp-content/uploads/2019/01/BI_L.png" class="w-6/12 ">
 						</label>
 					</li>
-				</ul>		
+				</ul>
+				<div class="w-full flex justify-center align-middle h-1/4 pt-5">		
+					<button class="border border-solid border-gray-400 w-3/12 bg-green-200">결제하기</button>
+				</div>
 			</div>
-			<div class="pay-info w-4/12 mx-1 border border-solid border-gray-400">
-				
+			<div class="pay-info w-4/12 mx-1 border border-solid border-gray-400 text-sm">
+				<div class="w-full mt-2 mb-4 pl-4 pr-2">
+					<span class="inline-block w-3/12">영수증</span>
+					<label class="inline-block w-4/12">
+						<input type="radio" name="billprice" value="Y">
+						가격표시
+					</label>
+					<label class="inline-block w-4/12">
+						<input type="radio" name="billprice" value="N">
+						표시안함
+					</label>
+				</div>
+				<div class="w-full flex mb-4 pl-4 pr-2">
+					<span class="inline-block w-3/12">택배사에게<br>메세지</span>
+					<input class="w-9/12 border border-solid border-gray-400" type="text" name="post-message" value="">
+				</div>
+				<div class="w-full flex mb-2 pl-4 pr-2">
+					<span class="inline-block w-3/12">받는분에게<br>메세지</span>
+					<input class="w-9/12 border border-solid border-gray-400" type="text" name="post-message" value="">
+				</div>
+				<div class="w-full bg-blue-100 flex pl-4 pr-2 pt-3 pb-3">
+					<span class="inline-block w-3/12 text-blue-600 text-xl font-bold">결제금액</span>
+					<span id="final-price" class="w-9/12 text-red-600 text-xl font-bold text-right pr-9"></span>
+				</div>
+				<div class="w-full mt-4 mb-4 pl-4 pr-2">
+					<span class="inline-block w-full text-sm font-bold">주문하실 상품, 가격, 배송정보, 할인정보 등을 <br>확인하였으며, 구매에 동의하시겠습니까?</span>
+ 					<label class="inline-block w-full text-xs font-bold mt-3 align-middle">
+ 					<input type="checkbox" name="trade-agree">
+ 						동의합니다. (전자상거래법 제 8조 제2항)
+ 					</label>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -496,6 +520,7 @@ function requestPay() {
 			$("#sale-price>.money").text(discountPrice.toLocaleString('ko-KR',{style:'currency',currency:'KRW'}));
 			
 			$("#total>.money").text(totalPrice.toLocaleString('ko-KR',{style:'currency',currency:'KRW'}));
+			$("#final-price").text(totalPrice.toLocaleString('ko-KR',{style:'currency',currency:'KRW'}));
 		
 	}
 
