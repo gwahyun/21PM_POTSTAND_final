@@ -77,20 +77,22 @@
 		<!-- 카드 시작 -->
 			<c:forEach var="l" items="${bookList}">
 	 			<div class="xl:1/5 md:w-1/5 p-4">
-	            	<div class="bg-gray-100 p-6 rounded-lg">
-	              		<img class="h-45 rounded w-full object-contain object-center mb-6" 
-	              		src=<c:out value="${l.getBookCover()}"/> alt="content"/>
-	              		<h3 class="tracking-widest text-red-500 text-sm font-medium title-font">
-	              			<c:out value="${l.getBookPub()}"/>
-	              		</h3>
-	              		<h2 class="text-lg text-gray-900 font-medium title-font">
-	                		<c:out value="${l.getBookTitle()}"/>
-	              		</h2>
-	              		<h3 class="tracking-widest text-red-500 text-sm font-medium title-font mb-4 truncate">
-	           				<c:out value="${l.getBookWriter()}"/>
-	              		</h3>
-	              		<p class="leading-relaxed text-base"><fmt:formatNumber type="currency" value="${l.getBookCost()}"/></p>
-	            	</div>
+	 				<a href="${path }/book/bookinfo.do?no=${l.getBookCode()}">
+		            	<div class="bg-gray-100 p-6 rounded-lg">
+		              		<img class="h-45 rounded w-full object-contain object-center mb-6" 
+		              		src=<c:out value="${l.getBookCover()}"/> alt="content"/>
+		              		<h3 class="tracking-widest text-red-500 text-sm font-medium title-font">
+		              			<c:out value="${l.getBookPub()}"/>
+		              		</h3>
+		              		<h2 class="text-lg text-gray-900 font-medium title-font">
+		                		<c:out value="${l.getBookTitle()}"/>
+		              		</h2>
+		              		<h3 class="tracking-widest text-red-500 text-sm font-medium title-font mb-4 truncate">
+		           				<c:out value="${l.getBookWriter()}"/>
+		              		</h3>
+		              		<p class="leading-relaxed text-base"><fmt:formatNumber type="currency" value="${l.getBookCost()}"/></p>
+		            	</div>
+	            	</a>
 	          	</div>
 			</c:forEach>	
 		</div>
