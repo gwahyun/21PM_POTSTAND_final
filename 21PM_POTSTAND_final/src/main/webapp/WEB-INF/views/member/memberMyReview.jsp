@@ -234,11 +234,6 @@
     		
     	}
     	
-    	//리뷰 수정
-    	function fn_myReview_reviewUpdateEnd(){
-    		
-    	}
-    	
     	//리뷰 삭제
     	function fn_myReview_reviewDelete(){
     		if(confirm("정말 삭제하시겠습니까?")){

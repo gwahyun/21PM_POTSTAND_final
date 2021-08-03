@@ -1,6 +1,7 @@
 package com.kh.potstand.book.model.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.kh.potstand.book.model.vo.Book;
 import com.kh.potstand.book.model.vo.Review;
@@ -22,4 +23,10 @@ public interface BookService {
 	//카테고리 선택 책리스트
 	List<Book> selectSortBookList(String sortNo, int cPage, int numPerpage);
 	int selectSortBookCount(String sortNo);
+	
+	//리뷰 총 개수
+	int selectBookReviewCount(int no);
+	
+	//책 찜등록
+	int bookHeartInsert(Map param);
 }

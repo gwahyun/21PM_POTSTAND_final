@@ -1,6 +1,7 @@
 package com.kh.potstand.book.model.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 
@@ -24,4 +25,11 @@ public interface BookDao {
 	//카테고리 선택 책리스트
 	List<Book> selectSortBookList(SqlSession session, String sortNo, int cPage, int numPerpage);
 	int selectSortBookCount(SqlSession session, String sortNo);
+	
+	//리뷰 총 개수
+	int selectBookReviewCount(SqlSession session, int no);
+	
+	//책 찜등록
+	int bookHeartInsert(SqlSession session, Map param);
+	
 }

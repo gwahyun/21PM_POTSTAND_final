@@ -18,32 +18,43 @@
             	<h1 class="text-gray-900 text-3xl title-font font-medium mb-1"><c:out value="${bookInfo.getBookTitle()}"/></h1>
             	<div class="flex mb-4">
               		<span class="flex items-center">
-	                	<svg fill="currentColor" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" 
-	                	stroke-width="2" class="w-4 h-4 text-red-500" viewBox="0 0 24 24">
-	                  		<path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 
-	                  		9.27l6.91-1.01L12 2z"></path>
-	                	</svg>
-	                	<svg fill="currentColor" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" 
-	                	stroke-width="2" class="w-4 h-4 text-red-500" viewBox="0 0 24 24">
-	                  		<path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 
-	                  		9.27l6.91-1.01L12 2z"></path>
-	                	</svg>
-	                	<svg fill="currentColor" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" 
-	                	stroke-width="2" class="w-4 h-4 text-red-500" viewBox="0 0 24 24">
-	                  		<path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 
-	                  		9.27l6.91-1.01L12 2z"></path>
-	                	</svg>
-	                	<svg fill="currentColor" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" 
-	                	stroke-width="2" class="w-4 h-4 text-red-500" viewBox="0 0 24 24">
-	                  		<path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 
-	                  		9.27l6.91-1.01L12 2z"></path>
-	                	</svg>
-	                	<svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
-	                	class="w-4 h-4 text-red-500" viewBox="0 0 24 24">
-	                  		<path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 
-	                  		9.27l6.91-1.01L12 2z"></path>
-	                	</svg>
-	                	<span class="text-gray-600 ml-3">리뷰 4 건</span>
+              			<c:if test="${reviewAvg==0 }">
+              				<c:forEach begin="0" end="4" step="1">
+              					<img src="${path}/resources/img/star_off.png" alt="" class="w-4 h-4 mr-1">
+              				</c:forEach>
+              			</c:if>
+              			<c:if test="${reviewAvg==1 }">
+              				<img src="${path}/resources/img/star_on.png" alt="" class="w-4 h-4 mr-1">
+              				<c:forEach begin="0" end="3" step="1">
+              					<img src="${path}/resources/img/star_off.png" alt="" class="w-4 h-4 mr-1">
+              				</c:forEach>			
+              			</c:if>
+              			<c:if test="${reviewAvg==2 }">
+              				<img src="${path}/resources/img/star_on.png" alt="" class="w-4 h-4 mr-1">
+              				<img src="${path}/resources/img/star_on.png" alt="" class="w-4 h-4 mr-1">
+              				<c:forEach begin="0" end="2" step="1">
+              					<img src="${path}/resources/img/star_off.png" alt="" class="w-4 h-4 mr-1">
+              				</c:forEach>
+              			</c:if>
+              			<c:if test="${reviewAvg==3 }">
+              				<c:forEach begin="0" end="2" step="1">
+              					<img src="${path}/resources/img/star_on.png" alt="" class="w-4 h-4 mr-1">
+              				</c:forEach>
+              				<img src="${path}/resources/img/star_off.png" alt="" class="w-4 h-4 mr-1">
+              				<img src="${path}/resources/img/star_off.png" alt="" class="w-4 h-4 mr-1">
+              			</c:if>
+              			<c:if test="${reviewAvg==4 }">
+              				<c:forEach begin="0" end="3" step="1">
+              					<img src="${path}/resources/img/star_on.png" alt="" class="w-4 h-4 mr-1">
+              				</c:forEach>
+              				<img src="${path}/resources/img/star_off.png" alt="" class="w-4 h-4 mr-1">
+              			</c:if>
+              			<c:if test="${reviewAvg==5 }">
+              				<c:forEach begin="0" end="4" step="1">
+              					<img src="${path}/resources/img/star_on.png" alt="" class="w-4 h-4 mr-1">
+              				</c:forEach>
+              			</c:if>
+	                	<span class="text-gray-600 ml-3">리뷰 ${reviewCount } 건</span>
               		</span>
               		<span class="flex ml-3 pl-3 py-2 border-l-2 border-gray-200 space-x-2s">
                 		<a class="text-gray-500">
@@ -131,9 +142,10 @@
 		                <span class="mr-3 align-middle">총액</span>
 		                <span class="title-font font-medium text-2xl text-gray-900">15,000원</span>
               		</div>
-              		<button class=" flex text-white bg-gray-300 border-0 py-4 px-4 focus:outline-none rounded">
+              		<button class=" flex text-white bg-gray-300 border-0 py-4 px-4 focus:outline-none rounded"
+              		onclick="fn_book_bookHeart(event)">
                 		<svg fill="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-10 
-                		h-10 fill-current text-red-500" viewBox="0 0 24 24">
+                		h-10 fill-current" viewBox="0 0 24 24">
                   			<path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 
                   			1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"></path>
                 		</svg>
@@ -206,4 +218,28 @@
         </div>
 	</div>
 </section>
+<script>
+	function fn_book_bookHeart(e){
+		if('${loginMember.memberId}'==''){
+			alert('로그인후 이용이 가능합니다.');
+			location.assign('${path}/member/memberLogin.do');
+		}else{
+			$.ajax({
+				type:"post",
+				url:"${path}/book/bookHeartInsert.do",
+				data:{
+					"memberId":'${loginMember.memberId}',
+					"bookCode":'${bookInfo.bookCode}'
+				},
+				success:data=>{
+					if(data>0){
+						
+					}else{
+						
+					}
+				}
+			});
+		}
+	}
+</script>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>

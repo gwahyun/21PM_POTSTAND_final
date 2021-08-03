@@ -74,4 +74,12 @@
 	<select id="selectBookReview" resultMap="reviewMap">
 		select * from review where book_code=#{no}
 	</select>
+	
+	<select id="selectBookReviewCount" resultType="_int">
+		SELECT COUNT(*) FROM REVIEW WHERE book_code=#{no}
+	</select>
+	
+	<insert id="bookHeartInsert">
+		INSERT INTO HEART VALUES(SEQ_HEART.NEXTVAL,#{bookCode},#{memberId})
+	</insert>
 </mapper>
