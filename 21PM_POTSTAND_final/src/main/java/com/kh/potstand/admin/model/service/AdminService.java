@@ -144,6 +144,8 @@ public interface AdminService {
 
 	List<Book> eventBookSelectList(Map param, int cPage, int numPerpage);
 
+	int cartInsert(Map param);
+
 
 
 

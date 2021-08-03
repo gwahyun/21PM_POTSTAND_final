@@ -145,4 +145,6 @@ public interface AdminDao {
 	int eventSelectCount(SqlSessionTemplate session, Map param);
 
 	List<Book> eventBookSelectList(SqlSessionTemplate session, Map param, int cPage, int numPerpage);
+
+	int cartInsert(SqlSessionTemplate session, Map param);
 }

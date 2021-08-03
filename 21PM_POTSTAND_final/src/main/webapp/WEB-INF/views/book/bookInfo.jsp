@@ -88,7 +88,9 @@
                   			flex items-center justify-center">
                   			</span>
                 		</div>
-                		<span class="title-font font-medium text-2xl text-gray-900">
+                		<span  class="title-font font-medium text-2xl text-gray-900">
+                			<input id="bookCost" type="hidden" value="${bookInfo.getBookCost() }">
+                			<input name="bookCode" type="hidden" value="${bookInfo.bookCode }">
                 			<fmt:formatNumber type="currency" value="${bookInfo.getBookCost()}"/>
                 		</span>
               		</div>
@@ -100,7 +102,7 @@
                   			<span class="absolute right-0 top-0 h-full w-10 text-center text-gray-600 pointer-events-none 
                   			flex items-center justify-center"></span>
                 		</div>
-                		750원(정가의 5%)
+                		<div id ="savings" class="mr-3"></div>원(정가의 5%)
               		</div>
             	</div>
             	<div class="flex mt-6 items-center pb-5 border-b-2 border-gray-100 mb-5">
@@ -118,29 +120,15 @@
               		<div class="flex items-center">
 	                	<span class="mr-3">수량</span>
 	                	<div class="relative">
-                  			<select class="rounded border appearance-none border-gray-300 py-2 focus:outline-none
-                  			 focus:ring-2 focus:ring-red-200 focus:border-red-500 text-base pl-3 pr-10">
-                    			<option>1</option>
-                    			<option>2</option>
-			                    <option>3</option>
-			                    <option>4</option>
-			                    <option>5</option>
-			                    <option>직접입력</option>
-							</select>
-                  			<span class="absolute right-0 top-0 h-full w-10 text-center text-gray-600 pointer-events-none
-                  			 flex items-center justify-center">
-                    			<svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                    			 stroke-width="2" class="w-4 h-4" viewBox="0 0 24 24">
-                      				<path d="M6 9l6 6 6-6"></path>
-                    			</svg>
-                  			</span>
+                    			<input type="number" value="1">
                 		</div>
               		</div>
             	</div>
 				<div class="flex items-center justify-evenly">
               		<div class="flex justify-center items-center">
 		                <span class="mr-3 align-middle">총액</span>
-		                <span class="title-font font-medium text-2xl text-gray-900">15,000원</span>
+		                <span id="sumPrice" class="title-font font-medium text-2xl text-gray-900"></span>원
+					            
               		</div>
               		<button class=" flex text-white bg-gray-300 border-0 py-4 px-4 focus:outline-none rounded"
               		onclick="fn_book_bookHeart(event)">
@@ -150,8 +138,8 @@
                   			1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"></path>
                 		</svg>
               		</button>
-              		<button class="flex text-white bg-gray-300 border-0 py-4 px-4 focus:outline-none rounded">
-                		<svg class="fill-current text-white w-10" viewBox="0 -31 512.00033 512" 
+              		<button onclick="goCart();" class="flex text-white bg-gray-300 border-0 py-4 px-4 focus:outline-none rounded">
+                		<svg  class="fill-current text-white w-10" viewBox="0 -31 512.00033 512" 
                 		xmlns="http://www.w3.org/2000/svg">
                   			<g stroke>
                     			<path d="m166 300.003906h271.003906c6.710938 0 12.597656-4.4375 
@@ -175,6 +163,37 @@
         <!-- 구분선 -->
         <div class="border-b-4 border-red-500 mt-10"></div>
         <div class="mx-10 mb-2 p-5">
+          	<c:if test="${bookInfo.getIntroMv()!=null}">
+	          	<h1 class="sm:text-3xl text-2xl font-medium title-font text-gray-900 my-10">북트레일러</h1>
+	          	<h3 class="leading-relaxed text-xl"><c:out value="${bookInfo.getIntroMv()}"/></h3>
+          	</c:if>
+          	<c:if test="${bookInfo.getBookIntro()!=null}">
+	          	<h1 class="sm:text-3xl text-2xl font-medium title-font text-gray-900 my-10">책소개</h1>
+          		<h3 class="leading-relaxed text-xl"><c:out value="${bookInfo.getBookIntro()}"/></h3>
+          	</c:if>
+          	<c:if test="${bookInfo.getWriterIntro()!=null}">
+          		<div class="border-b-4 border-gray-300 my-10"></div>
+          		<h1 class="sm:text-3xl text-2xl font-medium title-font text-gray-900 my-10"> 저자 소개</h1>
+          		<h3 class="leading-relaxed text-xl"><c:out value="${bookInfo.getWriterIntro()}"/></h3>
+          	</c:if>
+          	<!-- 상세소개 내부 구분선 -->
+          	<c:if test="${bookInfo.getBookIndex()!=null}">
+          		<div class="border-b-4 border-gray-300 my-10"></div>
+          		<h1 class="sm:text-3xl text-2xl font-medium title-font text-gray-900 my-10">목차</h1>
+          		<h3 class="leading-relaxed text-xl"><c:out value="${bookInfo.getBookIndex()}"/></h3>
+          	</c:if>
+			<!-- 상세소개 내부 구분선 -->
+	        <c:if test="${bookInfo.getPubReview()!=null}">
+	          	<div class="border-b-4 border-gray-300 my-10"></div>
+          		<h1 class="sm:text-3xl text-2xl font-medium title-font text-gray-900 my-10">출판사 서평</h1>
+          		<h3 class="leading-relaxed text-xl"><c:out value="${bookInfo.getPubReview()}" escapeXml=""/></h3>
+         	</c:if>
+          	<!-- 상세소개 내부 구분선 -->
+          	<c:if test="${bookInfo.getRecommand()!=null}">
+          		<div class="border-b-4 border-gray-300 my-10"></div>
+          		<h1 class="sm:text-3xl text-2xl font-medium title-font text-gray-900 my-10"> 추천의 말</h1>
+          		<h3 class="leading-relaxed text-xl"><c:out value="${bookInfo.getRecommand()}"/></h3>
+          	</c:if>
           	<c:if test="${bookInfo.getIntroMv()!=null}">
           		<h1 class="sm:text-3xl text-2xl font-medium title-font text-gray-900 my-10">북트레일러</h1>
           		<h3 class="leading-relaxed text-xl"><c:out value="${bookInfo.getIntroMv()}"/></h3>
@@ -219,6 +238,40 @@
 	</div>
 </section>
 <script>
+	let quant = 0;
+	window.addEventListener("load",function(){
+		var price = Number($("#bookCost").val());
+		//적립금
+		$("#savings").html(price/50);
+		//총가격
+		$("#sumPrice").html(price);
+		$("input[type=number]").change(e=>{
+			if($(e.target).val()==0){
+				alert("최소 1권 이상이어야 합니다");
+				$(e.target).val("1");
+			}else{
+			quant = Number($(e.target).val());
+			var resultPrice= price * Number($(e.target).val());
+			$("#sumPrice").html(resultPrice);
+				
+			}
+		});
+	});
+	
+	function goCart(){
+		var bookCode = $("input[name=bookCode]").val();
+		//매핑 주소 AdminController에 있습니다 충돌 날까봐 일단 뒀어요
+		$.get("${path}/cartInsert.do?bookCode="+bookCode+"&quant="+quant,data=>{
+			if(data){
+				if(confirm("장바구니에 담겼습니다. 이동하시겠습니까?")){
+					location.assign("${path}/member/cartList.do");
+				}
+			}else{
+				alert("장바구니 왜 실패지?");
+			}	
+		});
+	}
+	
 	function fn_book_bookHeart(e){
 		if('${loginMember.memberId}'==''){
 			alert('로그인후 이용이 가능합니다.');

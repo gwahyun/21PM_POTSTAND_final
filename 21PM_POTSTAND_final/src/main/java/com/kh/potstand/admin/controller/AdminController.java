@@ -22,6 +22,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -790,6 +791,19 @@ public class AdminController {
 		mv.setViewName("admin/orderCheck");
 		return mv;
 	}
+	
+	//카트 부분인데 충돌날까봐 일단 여기다 둠
+	@RequestMapping("/cartInsert.do")
+	@ResponseBody
+	public boolean cartInsert(
+			@RequestParam Map param,
+			HttpSession session
+			) {
+		param.put("memberId", ((Member)session.getAttribute("loginMember")).getMemberId());
+		int result = service.cartInsert(param);
+		return result>0?true:false;
+	}
+	
 	
 	
 	
