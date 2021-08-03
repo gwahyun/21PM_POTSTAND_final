@@ -82,4 +82,19 @@
 	<insert id="bookHeartInsert">
 		INSERT INTO HEART VALUES(SEQ_HEART.NEXTVAL,#{bookCode},#{memberId})
 	</insert>
+	
+	<resultMap type="heart" id="heartMap">
+		<id column="heart_no" property="heartNo"/>
+		<result column="book_code" property="bookCode"/>
+		<result column="member_id" property="memberId"/>
+		<association property="book" resultMap="bookMap"/>
+	</resultMap>
+	
+	<select id="bookHeartCheckSelect" resultMap="heartMap">
+		SELECT * FROM HEART WHERE MEMBER_ID=#{memberId} AND BOOK_CODE=#{bookCode}
+	</select>
+	
+	<delete id="bookHeartDelete">
+		DELETE FROM HEART WHERE MEMBER_ID=#{memberId} AND BOOK_CODE=#{bookCode}
+	</delete>
 </mapper>

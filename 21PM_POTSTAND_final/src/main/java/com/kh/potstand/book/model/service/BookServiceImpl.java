@@ -11,6 +11,7 @@ import com.kh.potstand.book.model.dao.BookDaoImpl;
 import com.kh.potstand.book.model.vo.Book;
 import com.kh.potstand.book.model.vo.Review;
 import com.kh.potstand.book.model.vo.Sort;
+import com.kh.potstand.member.model.vo.Heart;
 
 @Service
 public class BookServiceImpl implements BookService {
@@ -83,6 +84,18 @@ public class BookServiceImpl implements BookService {
 	@Override
 	public int bookHeartInsert(Map param) {
 		return dao.bookHeartInsert(session,param);
+	}
+
+	//찜등록 여부 확인
+	@Override
+	public Heart bookHeartCheckSelect(Map param) {
+		return dao.bookHeartCheckSelect(session,param);
+	}
+	
+	//책 찜삭제
+	@Override
+	public int bookHeartDelete(Map param) {
+		return dao.bookHeartDelete(session,param);
 	}
 	
 	

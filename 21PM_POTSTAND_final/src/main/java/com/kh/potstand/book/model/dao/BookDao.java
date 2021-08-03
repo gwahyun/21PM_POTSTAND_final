@@ -8,6 +8,7 @@ import org.apache.ibatis.session.SqlSession;
 import com.kh.potstand.book.model.vo.Book;
 import com.kh.potstand.book.model.vo.Review;
 import com.kh.potstand.book.model.vo.Sort;
+import com.kh.potstand.member.model.vo.Heart;
 
 public interface BookDao {
 
@@ -31,5 +32,11 @@ public interface BookDao {
 	
 	//책 찜등록
 	int bookHeartInsert(SqlSession session, Map param);
+	
+	//찜등록 여부 확인
+	Heart bookHeartCheckSelect(SqlSession session, Map param);
+	
+	//책 찜삭제
+	int bookHeartDelete(SqlSession session, Map param);
 	
 }
