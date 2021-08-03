@@ -42,12 +42,6 @@ public class BookDaoImpl implements BookDao {
 	}
 
 	@Override
-	public Book selectBookInfo(SqlSession session, int no) {
-		
-		return session.selectOne("book.selectBookInfo", no);
-	}
-
-	@Override
 	public List<Sort> selectSortLv4List(SqlSession session) {
 		return session.selectList("book.selectSortLv4List");
 	}
@@ -61,12 +55,6 @@ public class BookDaoImpl implements BookDao {
 	@Override
 	public int selectSortBookCount(SqlSession session, String sortNo) {
 		return session.selectOne("book.selectSortBookCount", sortNo);
-	}
-
-	@Override
-	public List<Review> selectBookReview(SqlSession session, int no) {
-	
-		return session.selectList("book.selectBookReview", no);
 	}
 	
 	

@@ -10,9 +10,7 @@
 		<select id="selectSortByPK" resultMap="sortMap">
 		SELECT * FROM SORT WHERE SORT_NO=#{sortNo}
 	</select>
-	<select id="selectBookInfo" resultMap="bookMap">
-		select * from book where book_code=#{no}
-	</select>
+	
 	<resultMap type="book" id="bookMap">
 		<id column="BOOK_CODE" property="bookCode"/>
 		<result column="BOOK_TITLE" property="bookTitle"/>
@@ -69,9 +67,5 @@
 	
 	<select id="selectSortBookCount" resultType="_int">
 		SELECT COUNT(*) FROM BOOK WHERE SORT_NO LIKE #{sortNo}||'%'
-	</select>
-	
-	<select id="selectBookReview" resultMap="reviewMap">
-		select * from review where book_code=#{no}
 	</select>
 </mapper>

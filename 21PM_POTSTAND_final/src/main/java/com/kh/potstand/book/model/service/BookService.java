@@ -10,8 +10,6 @@ public interface BookService {
 
 	public List<Book> selectBookList(int cPage, int numPerpage);
 	public int selectBookCount();
-	public Book selectBookInfo(int no);
-	public List<Review> selectBookReview(int no);
 	
 	//sort LV1~LV4
 	List<Sort> selectSortLv1List();
