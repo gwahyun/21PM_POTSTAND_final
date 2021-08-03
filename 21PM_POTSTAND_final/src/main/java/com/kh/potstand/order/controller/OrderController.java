@@ -10,11 +10,13 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.gson.Gson;
 import com.kh.potstand.common.AES256Util;
 import com.kh.potstand.member.model.vo.Member;
 import com.kh.potstand.order.model.service.OrderService;
@@ -150,14 +152,26 @@ public class OrderController {
 	
 	@RequestMapping("/ajax/beforePayment.do")
 	@ResponseBody
-	public ModelAndView beforOrderPayment(ModelAndView mv, HttpSession session, Map param){
+	public String beforOrderPayment(HttpSession session, @RequestBody Map param){
+		Gson gson = new Gson();
 		try {
-			System.out.println(param.toString());
-
+			String memberId = ((Member)(session.getAttribute("loginMember"))).getMemberId();
+			/*{pg=html5_inicis, pay_method=card, merchant_uid=인서트 실행하고 리턴받아야됨, 
+			 * name=프랑켄슈타인 (현대판 프로메테우스)외 3건, amount=58340, buyer_email=000000@000000.com, 
+			 * buyer_name=회원3, 
+			 * buyer_tel=01031302309, 
+			 * buyer_addr=서울특별시 구로구 가마산로 77, buyer_postcode=08327, 
+			 * receiverName=회원3, receiverAddress=08327:서울특별시 구로구 가마산로 77:집:(구로동), 
+			 * message=, postMessage=, billPrice=Y, digital=false, 
+			 * cartNo=[27, 22, 29]}
+			 */
+			param.put("receiverAddress", ((String)param.get("receiverAddress")).replace(":"," "));
+			param.put("memberId", memberId);
+			param=service.beforOrderPayment(param);
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
-			return mv;
+			return gson.toJson(param);
 	}
 	
 	

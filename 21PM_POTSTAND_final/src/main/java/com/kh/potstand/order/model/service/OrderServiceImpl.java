@@ -69,6 +69,11 @@ public class OrderServiceImpl implements OrderService{
 		return dao.cartSelectList(session, cartNo);
 	}
 
+	@Override
+	public Map beforOrderPayment(Map param) {
+		return dao.beforOrderPayment(session, param);
+	}
+
 
 
 	

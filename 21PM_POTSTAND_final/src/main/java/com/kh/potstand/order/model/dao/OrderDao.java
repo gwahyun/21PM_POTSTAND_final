@@ -31,4 +31,6 @@ public interface OrderDao {
 	//cart usedCoupon update
 	int cartCouponUpdate(SqlSession session, Map param);
 	
+	//결제전 선 insert
+	Map beforOrderPayment(SqlSession session, Map param);
 }

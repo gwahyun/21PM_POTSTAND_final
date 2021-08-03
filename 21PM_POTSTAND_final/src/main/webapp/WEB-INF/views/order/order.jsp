@@ -439,10 +439,10 @@ function requestPay() {
 			cartNo.push(Number($(v).val()));
 		})
 		
-		var param={
-			pg: "html5_inicis",
+		var param=JSON.stringify({
+			pg:"html5_inicis",
 		    pay_method: $("input[name='payMethodSelected']").val(),
-		    merchant_uid: "인서트 실행하고 리턴받아야됨",
+		    merchant_uid: ,
 		    name: $($(".bookTitle").get(0)).text().trim()+"외 "+$(".bookTitle").length+"건",
 		    amount: realPrice,
 		    buyer_email: "${memberInfo.memberEmail}",
@@ -457,12 +457,13 @@ function requestPay() {
 		    billPrice: $("input[name='billprice']").val(),
 		    digital:false,
 		    cartNo:cartNo
-		}
+		});
 		
 		//주문 선입력
 		$.ajax({
 	          url: '${path}/ajax/beforePayment.do',
 	          method:'post',
+	          contentType:'application/json',
 	          dataType :'json',
 	          data: param,
 	          success:function(data){

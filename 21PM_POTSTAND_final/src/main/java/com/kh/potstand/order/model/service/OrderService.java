@@ -30,4 +30,5 @@ public interface OrderService {
 	//cart usedCoupon update
 	int cartCouponUpdate(Map param);
 	
+	Map beforOrderPayment(Map param);
 }
