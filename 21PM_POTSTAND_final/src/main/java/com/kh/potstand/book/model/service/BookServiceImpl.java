@@ -29,6 +29,11 @@ public class BookServiceImpl implements BookService {
 		return dao.selectBookCount(session);
 	}
 
+	@Override
+	public Book selectBookInfo(int no) {
+		return dao.selectBookInfo(session, no);
+	}
+	
 	//sort LV1~LV4
 	@Override
 	public List<Sort> selectSortLv1List() {

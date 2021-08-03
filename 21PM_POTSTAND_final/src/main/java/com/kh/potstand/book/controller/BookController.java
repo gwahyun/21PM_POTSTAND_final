@@ -35,6 +35,16 @@ public class BookController {
 		return mv;
 	}
 	
+	@RequestMapping("/book/bookinfo.do")
+	public ModelAndView selectBookInfo(
+			@RequestParam(value="no") int no, ModelAndView mv) {
+		mv.addObject("bookInfo", service.selectBookInfo(no));
+		mv.setViewName("book/bookInfo");
+		
+		return mv;
+	}
+	
+	
 	@RequestMapping("/book/sortBookList.do")
 	public ModelAndView selectSortBookList(String sortNo,
 			@RequestParam(value ="cPage",defaultValue="1") int cPage,
