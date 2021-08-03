@@ -165,7 +165,7 @@
         <div class="mx-10 mb-2 p-5">
           	<c:if test="${bookInfo.getIntroMv()!=null}">
 	          	<h1 class="sm:text-3xl text-2xl font-medium title-font text-gray-900 my-10">북트레일러</h1>
-	          	<h3 class="leading-relaxed text-xl"><c:out value="${bookInfo.getIntroMv()}" escapeXml="false"/></h3>
+	          	<h3 class="leading-relaxed text-xl"><iframe src="${bookInfo.getIntroMv()}"></iframe></h3>
           	</c:if>
           	<c:if test="${bookInfo.getBookIntro()!=null}">
 	          	<h1 class="sm:text-3xl text-2xl font-medium title-font text-gray-900 my-10">책소개</h1>
@@ -194,10 +194,6 @@
           		<h1 class="sm:text-3xl text-2xl font-medium title-font text-gray-900 my-10"> 추천의 말</h1>
           		<h3 class="leading-relaxed text-xl"><c:out value="${bookInfo.getRecommand()}" escapeXml="false"/></h3>
           	</c:if>
-          	<c:if test="${bookInfo.getIntroMv()!=null}">
-          		<h1 class="sm:text-3xl text-2xl font-medium title-font text-gray-900 my-10">북트레일러</h1>
-          		<h3 class="leading-relaxed text-xl"><c:out value="${bookInfo.getIntroMv()}" escapeXml="false"/></h3>
-          	</c:if>
           	<!-- 상세소개 내부 구분선 -->
           	<c:if test="${bookInfo.getBookExtract()!=null}">
           		<div class="border-b-4 border-gray-300 my-10"></div>
@@ -211,7 +207,7 @@
 	</div>
 </section>
 <script>
-	let quant = 0;
+	let quant = 1;
 	window.addEventListener("load",function(){
 		var price = Number($("#bookCost").val());
 		//적립금
