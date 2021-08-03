@@ -183,7 +183,7 @@
                   </span>
                 </div>
                 <span class="title-font font-medium text-2xl text-gray-900"
-                  > <c:out value="${bookInfo.getBookCost()}"/></span
+                  > <fmt:formatNumber type="currency" value="${bookInfo.getBookCost()}"/></span
                 >
               </div>
             </div>
@@ -248,7 +248,7 @@
                   >
                   </span>
                 </div>
-                3000원
+                <fmt:formatNumber type="currency" value="3000"/>
               </div>
             </div>
             <div
@@ -320,7 +320,7 @@
               <div class="flex justify-center items-center">
                 <span class="mr-3 align-middle">총액</span>
                 <span class="title-font font-medium text-2xl text-gray-900"
-                  >15,000원</span
+                  ><fmt:formatNumber type="currency" value="${bookInfo.getBookCost()}"/></span
                 >
               </div>
               <button
@@ -515,7 +515,153 @@
           </h1>
           <h3 class="leading-relaxed text-xl"><c:out value="${bookInfo.getBookExtract()}"/></h3>
           	</c:if>
+          	<!-- 리뷰 -->
+          	<c:if test="${reviewList!=null }">
+          	<div class="border-b-4 border-gray-300 my-10"></div>
+          		<h1
+            class="
+              sm:text-3xl
+              text-2xl
+              font-medium
+              title-font
+              text-gray-900
+              my-10
+            "
+          >
+            리뷰
+          </h1>
+          		       <c:if test="${reviewList!=null}">
+		        		<form action="${path}/member/memberReviewUpdate.do" onsubmit="return fn_myReview_reviewUpdateEnd()" method="post">
+			        		<div class="flex mx-8 h-72">
+			        			<input type="hidden" name="bookCode" value="${bookInfo.getBookCode() }"/>
+	        					<input type="hidden" name="memberId" value="${loginMember.memberId() }"/>
+	        					<input type="hidden" name="point" value="${r.getPoint() }"/>
+			        			<div class="w-full h-full p-2 flex flex-col">
+			        				<div class="h-1/6">
+			        					<h3 class="text-xl font-medium">${bookInfo.getBookTitle() }</h3>
+			        				</div>
+			        				<div class="h-1/6 flex">
+		        						<c:if test="${r.getPoint()==1 }">
+		        							<img src="${path}/resources/img/star_on.png" alt="" class="w-8 h-8 mr-1"
+		        							onclick="fn_myReview_point(event);">
+		        							<c:forEach begin="0" end="3">
+		        								<img src="${path}/resources/img/star_off.png" alt="" class="w-8 h-8 mr-1"
+		        								onclick="fn_myReview_point(event);">
+		        							</c:forEach>
+		        						</c:if>
+		        						<c:if test="${r.getPoint()==2 }">
+			        						<img src="${path}/resources/img/star_on.png" alt="" id="star" class="w-8 h-8 mr-1"
+			        						onclick="fn_myReview_point(event);">
+			        						<img src="${path}/resources/img/star_on.png" alt="" class="w-8 h-8 mr-1"
+			        						onclick="fn_myReview_point(event);">
+		        							<c:forEach begin="0" end="2">
+		        								<img src="${path}/resources/img/star_off.png" alt="" class="w-8 h-8 mr-1"
+		        								onclick="fn_myReview_point(event);">
+		        							</c:forEach>
+		        						</c:if>
+		        						<c:if test="${r.getPoint()==3 }">
+		        							<c:forEach begin="0" end="2">
+		        								<img src="${path}/resources/img/star_on.png" alt="" class="w-8 h-8 mr-1"
+		        								onclick="fn_myReview_point(event);">
+		        							</c:forEach>
+		        							<img src="${path}/resources/img/star_off.png" alt="" class="w-8 h-8 mr-1"
+		        							onclick="fn_myReview_point(event);">
+		        							<img src="${path}/resources/img/star_off.png" alt="" class="w-8 h-8 mr-1"
+		        							onclick="fn_myReview_point(event);">
+		        						</c:if>
+		        						<c:if test="${r.getPoint()==4 }">
+		        							<c:forEach begin="0" end="3">
+		        								<img src="${path}/resources/img/star_on.png" alt="" class="w-8 h-8 mr-1"
+		        								onclick="fn_myReview_point(event);">
+		        							</c:forEach>
+		        							<img src="${path}/resources/img/star_off.png" alt="" class="w-8 h-8 mr-1"
+		        							onclick="fn_myReview_point(event);">
+		        						</c:if>
+		        						<c:if test="${r.getPoint()==5 }">
+		        							<c:forEach begin="0" end="4">
+		        								<img src="${path}/resources/img/star_on.png" alt="" class="w-8 h-8 mr-1"
+		        								onclick="fn_myReview_point(event);">
+		        							</c:forEach>
+		        						</c:if>
+			        				</div>   
+			        				<div class="h-3/6">
+			        					<textarea name="reviewContent" class="w-full border h-full">${r.getReviewContent() }</textarea>
+			        				</div>   	
+			        				<div class="h-1/6 flex items-center">
+				        				<button class="border bg-white text-black rounded-full tracking-wide font-semibold 
+						        		focus:outline-none focus:shadow-outline hover:bg-red-600 shadow-lg cursor-pointer 
+						        		transition ease-in duration-300 hover:text-gray-100 w-14 h-8" type="button"
+						        		onclick="fn_myReview_reviewUpdateCancel(event);">취소</button>
+						        		<button class="border bg-red-500 text-gray-100 rounded-full tracking-wide font-semibold 
+						        		focus:outline-none focus:shadow-outline hover:bg-red-600 shadow-lg cursor-pointer 
+						        		transition ease-in duration-300 w-24 h-8" type="submit"">수정완료</button>
+				        			</div>				
+								</div>
+			        		</div>
+						</form>
+						</c:if>
+						</c:if>
+						</div>
         </div>
       </div>
     </section>
+    <script>
+    	//리뷰 수정창
+    	function fn_bookInfo_reviewUpdate(e){
+    		let reviewContainer=$(e.target).parent().parent().parent().parent().parent();
+    		let updateContainer=$(e.target).parent().parent().parent().parent().parent().next();
+    		reviewContainer.hide(); //기존 리뷰창 숨기기
+    		updateContainer.show(); //리뷰 수정창 보이기
+    	}
+    	
+    	//리뷰 수정창 나가기
+    	function fn_bookInfo_reviewUpdateCancel(e){
+    		let reviewContainer=$(e.target).parent().parent().parent().parent().parent().prev();
+    		let updateContainer=$(e.target).parent().parent().parent().parent().parent();
+    		reviewContainer.show(); //기존 리뷰창 보이기
+    		updateContainer.hide(); //리뷰 수정창 숨기기
+    	}
+    	
+    	//리뷰 별점 수정
+    	function fn_bookInfo_point(e){
+    		let starOff=[];
+    		let starOn=[];
+    		starOff=$(e.target).nextAll();
+    		starOn=$(e.target).prevAll();
+    		//이미지 누르는 별접으로 변경하는 로직
+    		for(var i=0; i<starOn.length; i++){
+    			starOn[i].src='${path}/resources/img/star_on.png';
+    		}
+    		$(e.target).attr("src",'${path}/resources/img/star_on.png');
+    		for(var i=0; i<starOff.length; i++){
+    			starOff[i].src='${path}/resources/img/star_off.png';
+    		}		
+    		//변경된 이미지에 맞춰 point값을 넣어줌
+    		if(starOn.length==0){
+    			$(e.target).parent().parent().parent().children().eq(2).val(1);
+    		}else if(starOn.length==1){
+    			$(e.target).parent().parent().parent().children().eq(2).val(2);
+    		}else if(starOn.length==2){
+    			$(e.target).parent().parent().parent().children().eq(2).val(3);
+    		}else if(starOn.length==3){
+    			$(e.target).parent().parent().parent().children().eq(2).val(4);
+    		}else{
+    			$(e.target).parent().parent().parent().children().eq(2).val(5);
+    		}
+    		
+    	}
+    	
+    	//리뷰 수정
+    	function fn_bookInfo_reviewUpdateEnd(){
+    		
+    	}
+    	
+    	//리뷰 삭제
+    	function fn_bookInfo_reviewDelete(){
+    		if(confirm("정말 삭제하시겠습니까?")){
+    			return true;
+    		}
+    		return false;
+    	}
+    </script>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>

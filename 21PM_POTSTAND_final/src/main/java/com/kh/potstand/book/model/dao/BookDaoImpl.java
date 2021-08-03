@@ -6,6 +6,7 @@ import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
+import com.kh.potstand.admin.model.vo.Review;
 import com.kh.potstand.book.model.vo.Book;
 import com.kh.potstand.book.model.vo.Sort;
 
@@ -60,6 +61,12 @@ public class BookDaoImpl implements BookDao {
 	@Override
 	public int selectSortBookCount(SqlSession session, String sortNo) {
 		return session.selectOne("book.selectSortBookCount", sortNo);
+	}
+
+	@Override
+	public List<Review> selectBookReview(SqlSession session, int no) {
+	
+		return session.selectList("book.selectBookReview", no);
 	}
 	
 	
