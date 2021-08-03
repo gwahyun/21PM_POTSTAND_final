@@ -2,8 +2,8 @@ package com.kh.potstand.book.model.service;
 
 import java.util.List;
 
-import com.kh.potstand.admin.model.vo.Review;
 import com.kh.potstand.book.model.vo.Book;
+import com.kh.potstand.book.model.vo.Review;
 import com.kh.potstand.book.model.vo.Sort;
 
 public interface BookService {

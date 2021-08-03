@@ -41,7 +41,7 @@
 		<result column="LV3" property="lv3"/>
 		<result column="LV4" property="lv4"/>		
 	</resultMap>
-	<resultMap type="myreview" id="reviewMap">
+	<resultMap type="review" id="reviewMap">
  		<id column="review_no" property="reviewNo"/>
  		<result column="book_code" property="bookCode"/>
  		<result column="member_id" property="memberId"/>
