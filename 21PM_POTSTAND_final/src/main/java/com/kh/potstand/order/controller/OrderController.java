@@ -125,7 +125,7 @@ public class OrderController {
 			return result;
 	}
 	
-	@RequestMapping("order/orderItems.do")
+	@RequestMapping("/order/orderItems.do")
 	@ResponseBody
 	public ModelAndView orderItems(ModelAndView mv, HttpSession session,
 									@RequestParam (value="cartNo") String param){
@@ -150,6 +150,16 @@ public class OrderController {
 			return mv;
 	}
 	
+	@RequestMapping("/ajax/beforPayment.do")
+	@ResponseBody
+	public ModelAndView beforOrderPayment(ModelAndView mv, @RequestParam (value="cartNo") int[] cartNo){
+		try {
+			System.out.println(cartNo.toString());
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+			return mv;
+	}
 	
 	
 }

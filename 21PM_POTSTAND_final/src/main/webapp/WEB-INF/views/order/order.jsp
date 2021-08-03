@@ -379,7 +379,7 @@
 				<div class="w-full mt-2 mb-4 pl-4 pr-2">
 					<span class="inline-block w-3/12">영수증</span>
 					<label class="inline-block w-4/12">
-						<input type="radio" name="billprice" value="Y">
+						<input type="radio" name="billprice" value="Y" checked>
 						가격표시
 					</label>
 					<label class="inline-block w-4/12">
@@ -393,7 +393,7 @@
 				</div>
 				<div class="w-full flex mb-2 pl-4 pr-2">
 					<span class="inline-block w-3/12">받는분에게<br>메세지</span>
-					<input class="w-9/12 border-b border-solid border-gray-400" type="text" name="post-message" value="">
+					<input class="w-9/12 border-b border-solid border-gray-400" type="text" name="message" value="">
 				</div>
 				<div class="w-full bg-blue-100 flex pl-4 pr-2 pt-3 pb-3">
 					<span class="inline-block w-3/12 text-blue-600 text-xl font-bold">결제금액</span>
@@ -430,44 +430,59 @@ function requestPay() {
 	}else{
 		
 		//****************************************client에서 parameter 조작됐는지 검사하는 로직 있어야됨**********************************
-		let bookTitle = $(".bookTitle");
+		//hidden value써서 대강 처리함
 		
-		console.log(bookTitle.get(0));
+		
+		let bookTitle = $(".bookTitle");
+		let cartNo=[];
+		$("input[name='cartNo']").each(function(i,v){
+			cartNo.push($(v).val());
+		})
+		
+		$.ajax({
+	          url: '${path}/ajax/beforePayment.do', 
+	          method: "post",
+	          headers: { "Content-Type": "application/json" },
+	          data: {"cartNo":cartNo},
+	          success:function(data){
+	        	  console.log("성공");
+	        	  console.log(data);
+	          }
+	      });
+		return;
+		
 		var param={
 			pg: "html5_inicis",
 		    pay_method: $("input[name='payMethodSelected']").val(),
 		    merchant_uid: "인서트 실행하고 리턴받아야됨",
-		    name: $($(".bookTitle").get(0)).text().trim()+"외 "+bookTitle.length+"건",
+		    name: $($(".bookTitle").get(0)).text().trim()+"외 "+$(".bookTitle").length+"건",
 		    amount: realPrice,
 		    buyer_email: "${memberInfo.memberEmail}",
 		    buyer_name: "${memberInfo.memberName}",
-		    buyer_tel: "${memberInfo.memberName}",
-		    buyer_addr: "${memberInfo.addresses.roadAddr}",
-		    buyer_postcode: "01181"
+		    buyer_tel: "${memberInfo.memberPhone}",
+		    buyer_addr: "${defAddr.roadAddr}",
+		    buyer_postcode: "${defAddr.postNo}",
+		    receiverName:$("input[name='receiver']").val(),
+		    receiverAddress:$("#postNo").val()+":"+$("#roadAddrPart1").val()+":"+$("#addrDetail").val()+":"+$("#roadAddrPart2").val(),
+		    message:$("input[name='message']").val(),
+		    postMessage:$("input[name='post-message']").val(),
+		    billPrice: $("input[name='billprice']").val(),
+		    digital:false,
+		    cartNo:cartNo
 		}
-		console.log(param);
-		return;
+	
+		
 	}
   // IMP.request_pay(param, callback) 호출
   
-  /* IMP.request_pay({ // param
-      pg: "html5_inicis",
-      pay_method: "card",
-      merchant_uid: "ORD20180131-0000011",
-      name: "노르웨이 회전 의자",
-      amount: 64900,
-      buyer_email: "gildong@gmail.com",
-      buyer_name: "홍길동",
-      buyer_tel: "010-4242-4242",
-      buyer_addr: "서울특별시 강남구 신사동",
-      buyer_postcode: "01181"
-  }, function (rsp) { // callback
+   IMP.request_pay(param,
+	function (rsp) { // callback
 	  if (rsp.success) { // 결제 성공 시: 결제 승인 또는 가상계좌 발급에 성공한 경우
 	      // jQuery로 HTTP 요청
 	      $.ajax({
 	          url: "https://www.myservice.com/payments/complete", // 가맹점 서버
 	          method: "POST",
-	          headers: { "Content-Type": "application/json" },
+	          dataType : "json",
 	          data: {
 	              imp_uid: rsp.imp_uid,
 	              merchant_uid: rsp.merchant_uid
@@ -478,7 +493,7 @@ function requestPay() {
 	} else {
 	      alert("결제에 실패하였습니다. 에러 내용: " +  rsp.error_msg);
 	}
-  });*/ 
+  }); 
 }
 
 
