@@ -16,8 +16,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.potstand.common.AES256Util;
-import com.kh.potstand.member.model.service.MemberService;
-import com.kh.potstand.member.model.vo.Address;
 import com.kh.potstand.member.model.vo.Member;
 import com.kh.potstand.order.model.service.OrderService;
 import com.kh.potstand.order.model.vo.Cart;
@@ -150,11 +148,12 @@ public class OrderController {
 			return mv;
 	}
 	
-	@RequestMapping("/ajax/beforPayment.do")
+	@RequestMapping("/ajax/beforePayment.do")
 	@ResponseBody
-	public ModelAndView beforOrderPayment(ModelAndView mv, @RequestParam (value="cartNo") int[] cartNo){
+	public ModelAndView beforOrderPayment(ModelAndView mv, HttpSession session, Map param){
 		try {
-			System.out.println(cartNo.toString());
+			System.out.println(param.toString());
+
 		}catch(Exception e) {
 			e.printStackTrace();
 		}

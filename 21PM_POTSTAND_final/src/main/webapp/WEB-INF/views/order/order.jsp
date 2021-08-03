@@ -436,20 +436,8 @@ function requestPay() {
 		let bookTitle = $(".bookTitle");
 		let cartNo=[];
 		$("input[name='cartNo']").each(function(i,v){
-			cartNo.push($(v).val());
+			cartNo.push(Number($(v).val()));
 		})
-		
-		$.ajax({
-	          url: '${path}/ajax/beforePayment.do', 
-	          method: "post",
-	          headers: { "Content-Type": "application/json" },
-	          data: {"cartNo":cartNo},
-	          success:function(data){
-	        	  console.log("성공");
-	        	  console.log(data);
-	          }
-	      });
-		return;
 		
 		var param={
 			pg: "html5_inicis",
@@ -470,8 +458,20 @@ function requestPay() {
 		    digital:false,
 		    cartNo:cartNo
 		}
-	
 		
+		//주문 선입력
+		$.ajax({
+	          url: '${path}/ajax/beforePayment.do',
+	          method:'post',
+	          dataType :'json',
+	          data: param,
+	          success:function(data){
+	        	  console.log("성공");
+	        	  console.log(data);
+	          }
+	      });
+		
+		return;
 	}
   // IMP.request_pay(param, callback) 호출
   
