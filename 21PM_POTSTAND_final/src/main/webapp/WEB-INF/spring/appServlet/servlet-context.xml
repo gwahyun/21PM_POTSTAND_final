@@ -47,4 +47,13 @@
 
 	<!-- scheduler 어노테이션 -->
 	<task:annotation-driven/>
+	
+	<!-- 인터셉터  -->
+	<interceptors>
+		  <interceptor>
+			<mapping path="/admin/*"/>
+			<beans:bean class="com.kh.potstand.admin.controller.AdminCheckLoginInterceptor"></beans:bean>
+		  </interceptor>
+	</interceptors>
+	
 </beans:beans>
