@@ -41,4 +41,25 @@
 		<result column="LV3" property="lv3"/>
 		<result column="LV4" property="lv4"/>		
 	</resultMap>
+	
+	<select id="selectSortLv1List" resultMap="sortMap">
+		SELECT * FROM SORT WHERE LV2 IS NULL AND LV3 IS NULL AND LV4 IS NULL
+	</select>
+	<select id="selectSortLv2List" resultMap="sortMap">
+		SELECT * FROM SORT WHERE LV2 IS NOT NULL AND LV3 IS NULL AND LV4 IS NULL
+	</select>
+	<select id="selectSortLv3List" resultMap="sortMap">
+		SELECT * FROM SORT WHERE LV2 IS NOT NULL AND LV3 IS NOT NULL AND LV4 IS NULL
+	</select>
+	<select id="selectSortLv4List" resultMap="sortMap">
+		SELECT * FROM SORT WHERE LV2 IS NOT NULL AND LV3 IS NOT NULL AND LV4 IS NOT NULL
+	</select>
+	
+	<select id="selectSortBookList" resultMap="bookMap">
+		SELECT * FROM BOOK WHERE SORT_NO LIKE #{sortNo}||'%'
+	</select>
+	
+	<select id="selectSortBookCount" resultType="_int">
+		SELECT COUNT(*) FROM BOOK WHERE SORT_NO LIKE #{sortNo}||'%'
+	</select>
 </mapper>

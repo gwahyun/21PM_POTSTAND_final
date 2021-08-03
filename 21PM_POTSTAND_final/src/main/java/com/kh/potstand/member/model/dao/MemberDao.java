@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.kh.potstand.admin.model.vo.Notice;
 import com.kh.potstand.admin.model.vo.Qna;
 import com.kh.potstand.book.model.vo.Review;
+import com.kh.potstand.event.model.vo.Coupon;
 import com.kh.potstand.member.model.vo.Address;
 import com.kh.potstand.member.model.vo.Heart;
 import com.kh.potstand.member.model.vo.Member;
@@ -85,6 +86,18 @@ public interface MemberDao {
 	
 	//내 리뷰 수정
 	int memberReviewUpdate(SqlSession session,Map param);
+	
+	//마이페이지 사용가능 쿠폰 리스트 총 개수
+	int memberCouponListCount(SqlSession session,String memberId);
+	
+	//마이페이지 사용가능 쿠폰 리스트
+	List<Coupon> memberCouponListSelect(SqlSession session,String memberId,int cPage,int numPerpage);
+	
+	//마이페이지 기간만료 쿠폰리스트 총 개수
+	int memberEndCouponListCount(SqlSession session,String memberId);
+		
+	//마이페이지 기간만료 쿠폰리스트
+	List<Coupon> memberEndCouponListSelect(SqlSession session,String memberId,int cPage,int numPerpage);
 	
 	//notice List 호출 (공지사항 페이지)
 	List<Notice> noticeSelectList(SqlSession session, int cPage, int numPerPage);

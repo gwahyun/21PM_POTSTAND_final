@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <jsp:include page="/WEB-INF/views/common/header.jsp"/>
 <c:set var="path" value="${pageContext.request.contextPath }"/>
 	<section class="body-font">
@@ -33,46 +34,59 @@
         	</div>
         	<div class="w-3/4 h-full px-5 py-8 flex flex-col content-center">
         		<div class="w-full">
-        			<h3 class="text-2xl font-semibold">적립금</h3>
+        			<h3 class="text-2xl font-semibold">쿠폰</h3>
         		</div>
         		<c:if test="${list=='[]' }">
         			<div class="flex justify-center mt-5">
-        				<h3 class="text-lg font-bold">적립금 적립/사용 내역이 없습니다.</h3>
+        				<h3 class="text-lg font-bold">사용가능한 쿠폰이 없습니다.</h3>
         			</div>
         		</c:if>
         		<c:if test="${list!='[]'}">
-        			<div class="flex w-full flex-col justify-center mt-5">
-        				<h2 class="mb-2">
-	        				잔여 적립금 : <span class="text-blue-500 font-semibold text-xl">${totalPoint }</span> point
-	        			</h2>
-        			</div>
-	        		<div class="flex w-full flex-col justify-center border" >
+        			<div class="flex w-full mt-5 border-b-4 mb-5">
+        				<div class="h-full border-b-4 border-red-500">
+			        		<h2 class="mb-2 font-semibold text-xl">
+			        			<a href="${path}/member/memberCouponListSelect.do">
+			        				사용가능<span class="text-blue-500">${totalData }</span>
+			        			</a>
+			        		</h2>
+		        		</div>
+		        		<div class="w-6"></div>
+		        		<div class="border-b-4 border-opacity-0 hover:border-opacity-100 hover:border-gray-500">
+			        		<h2 class="mb-2 text-gray-500 font-semibold text-xl">
+			        			<a href="${path}/member/memberEndCouponListSelect.do">
+			        				기간만료
+			        			</a>
+			        		</h2>
+		        		</div>
+	        		</div>
+	        		<div class="flex w-full flex-col justify-center border">
 	        			<div class="flex">
-	        				<div class="w-1/4 border h-11 p-2 bg-red-100 flex justify-center">
-	        					<h3 class="text-lg font-bold">날짜</h3>
+	        				<div class="w-1/5 border h-11 p-2 bg-red-100 flex justify-center">
+	        					<h3 class="text-lg font-bold">발행일</h3>
 		        			</div>
-		        			<div class="w-2/4 border h-11 p-2 bg-red-100 flex justify-center">
-		        				<h3 class="text-lg font-bold">내용</h3>
+		        			<div class="w-2/5 border h-11 p-2 bg-red-100 flex justify-center">
+		        				<h3 class="text-lg font-bold">쿠폰명</h3>
 		        			</div>
-		        			<div class="w-1/4 border h-11 p-2 bg-red-100 flex justify-center">
-	        					<h3 class="text-lg font-bold">사용/적립 포인트</h3>
+		        			<div class="w-1/5 border h-11 p-2 bg-red-100 flex justify-center">
+	        					<h3 class="text-lg font-bold">할인가</h3>
+		        			</div>
+		        			<div class="w-1/5 border h-11 p-2 bg-red-100 flex justify-center">
+	        					<h3 class="text-lg font-bold">만료일</h3>
 		        			</div>
 	        			</div>
-	        			<c:forEach items="${list }" var="p">
+	        			<c:forEach items="${list }" var="c">	
 		        			<div class="flex">
-		        				<div class="w-1/4 border h-11 p-2 flex justify-center">
-		        					<h4>${p.useDate }</h4>
+		        				<div class="w-1/5 border h-11 p-2 flex justify-center">
+		        					<h4>${c.startDate }</h4>
 			        			</div>
-			        			<div class="w-2/4 border h-11 p-2 flex justify-center">
-			        				<h4>${p.useLog }</h4>
+			        			<div class="w-2/5 border h-11 p-2 flex justify-center">
+			        				<h4>${c.event.eventTitle }</h4>
 			        			</div>
-			        			<div class="w-1/4 border h-11 p-2 flex justify-center">
-			        				<c:if test="${fn:contains(p.useLog,'사용') }">
-			        					<h4>-${p.point }</h4>		
-			        				</c:if>
-		        					<c:if test="${fn:contains(p.useLog,'구입') }">
-			        					<h4>+${p.point }</h4>
-			        				</c:if>
+			        			<div class="w-1/5 border h-11 p-2 flex justify-center">
+			        				<h4><fmt:formatNumber value="${c.event.discount}" type="percent"/></h4>
+			        			</div>
+			        			<div class="w-1/5 border h-11 p-2 flex justify-center">
+			        				<h4>${c.valDate}</h4>
 			        			</div>
 		        			</div>
 	        			</c:forEach>
@@ -82,7 +96,4 @@
 			</div>
 		</div>
     </section>
-    <script>
-    	
-    </script>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>

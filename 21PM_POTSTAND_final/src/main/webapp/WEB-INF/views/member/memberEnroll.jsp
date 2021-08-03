@@ -9,6 +9,7 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>회원가입-PotStand</title>
 	<link href="${path}/resources/static/tailwind.css" type="text/css" rel="stylesheet"/>
+	<link rel="icon" href="${path}/resources/img/favicon-32x32.png" type="image/x-icon">
 	<script src="${path }/resources/js/jquery-3.6.0.min.js"></script>
 	<script language="javascript">
 		// opener관련 오류가 발생하는 경우 아래 주석을 해지하고, 사용자의 도메인정보를 입력합니다. ("팝업API 호출 소스"도 동일하게 적용시켜야 합니다.)
