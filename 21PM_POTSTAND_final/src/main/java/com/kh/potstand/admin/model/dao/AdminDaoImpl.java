@@ -20,6 +20,7 @@ import com.kh.potstand.book.model.vo.Sort;
 import com.kh.potstand.event.model.vo.Event;
 import com.kh.potstand.member.model.vo.Address;
 import com.kh.potstand.member.model.vo.Member;
+import com.kh.potstand.order.model.vo.Cart;
 
 @Repository
 public class AdminDaoImpl implements AdminDao {
@@ -429,11 +430,24 @@ public class AdminDaoImpl implements AdminDao {
 		// TODO Auto-generated method stub
 		return session.selectList("admin.eventBookSelectList", param, new RowBounds((cPage-1)*numPerpage, numPerpage));
 	}
-
+	
+	//장바구니 추가 기능인데 나중에 카트 부분으로 옮겨야함
 	@Override
 	public int cartInsert(SqlSessionTemplate session, Map param) {
 		// TODO Auto-generated method stub
 		return session.insert("admin.cartInsert", param);
+	}
+
+	@Override
+	public Cart cartSelectDistinct(SqlSessionTemplate session, Map param) {
+		// TODO Auto-generated method stub
+		return session.selectOne("admin.cartSelectDistinct", param);
+	}
+
+	@Override
+	public int cartSelectOnePlus(SqlSessionTemplate session, Map param) {
+		// TODO Auto-generated method stub
+		return session.update("admin.cartSelectOnePlus", param);
 	}
 	
 	

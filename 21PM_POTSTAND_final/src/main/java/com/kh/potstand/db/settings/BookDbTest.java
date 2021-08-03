@@ -47,13 +47,12 @@ public class BookDbTest {
 
 	@RequestMapping("/db/bookSetting.do")
 	public ModelAndView bookSetting(ModelAndView mv, HttpServletRequest request) throws Exception {
-		/*
+		
 		List<Sort> cateList = getCategoryList();
 		SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
 		int count=0;
 		// 카테고리 리스트의 길이만큼 반복합니다
 		for (int i = 0; i < cateList.size(); i++) {
-
 			// 카테고리 리스트의 장르 번호로 100개씩 조회, 필수조건은 목차=1로 고정
 			URL url = new URL("https://openapi.naver.com/v1/search/book_adv.xml?&display=100&start=1&d_catg="
 					+ cateList.get(i).getSortNo() + "&d_cont=1");
@@ -132,7 +131,7 @@ public class BookDbTest {
 			}
 			System.out.println(count + "건 insert");
 		}
-		*/
+
 		CrowlingLink();
 		mv.addObject("msg", "성공.");
 		mv.addObject("loc", "/dbpage");

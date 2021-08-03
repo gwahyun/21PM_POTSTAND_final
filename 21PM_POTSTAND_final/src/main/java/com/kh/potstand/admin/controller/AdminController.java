@@ -40,6 +40,7 @@ import com.kh.potstand.common.PageFactory;
 import com.kh.potstand.event.model.vo.Event;
 import com.kh.potstand.member.model.vo.Address;
 import com.kh.potstand.member.model.vo.Member;
+import com.kh.potstand.order.model.vo.Cart;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -797,10 +798,18 @@ public class AdminController {
 	@ResponseBody
 	public boolean cartInsert(
 			@RequestParam Map param,
-			HttpSession session
+			HttpSession session,
+			String bookCode
 			) {
+		int result = 0;
 		param.put("memberId", ((Member)session.getAttribute("loginMember")).getMemberId());
-		int result = service.cartInsert(param);
+		Cart c = service.cartSelectDistinct(param);
+		
+		if(c==null) {
+			result = service.cartInsert(param);
+		}else {
+			result = service.cartSelectOnePlus(param);
+		}
 		return result>0?true:false;
 	}
 	

@@ -15,6 +15,7 @@ import com.kh.potstand.book.model.vo.Sort;
 import com.kh.potstand.event.model.vo.Event;
 import com.kh.potstand.member.model.vo.Address;
 import com.kh.potstand.member.model.vo.Member;
+import com.kh.potstand.order.model.vo.Cart;
 
 public interface AdminService {
 
@@ -145,6 +146,10 @@ public interface AdminService {
 	List<Book> eventBookSelectList(Map param, int cPage, int numPerpage);
 
 	int cartInsert(Map param);
+
+	Cart cartSelectDistinct(Map param);
+
+	int cartSelectOnePlus(Map param);
 
 
 

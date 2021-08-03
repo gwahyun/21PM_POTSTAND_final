@@ -49,10 +49,13 @@ public class BookController {
 		int reviewCount=service.selectBookReviewCount(no); //리뷰 총 개수
 		List<Review> reviewList=service.selectBookReview(no); //리뷰 리스트
 		int reviewSum=0; //리뷰 별점 합
-		for(Review r : reviewList) {
-			reviewSum+=r.getPoint();
+		int reviewAvg=0;
+		if(reviewList!=null) {
+			for(Review r : reviewList) {
+				reviewSum+=r.getPoint();
+				reviewAvg=Math.round(reviewSum/reviewCount); //리뷰 별점 평균
+			}
 		}
-		int reviewAvg=Math.round(reviewSum/reviewCount); //리뷰 별점 평균
 		//로그인되어있는 아이디가 이책을 찜했는지 확인
 		Member m=(Member)session.getAttribute("loginMember");
 		if(m!=null) { 
