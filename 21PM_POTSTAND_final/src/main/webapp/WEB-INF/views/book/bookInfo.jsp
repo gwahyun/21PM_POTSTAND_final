@@ -207,7 +207,7 @@
 	</div>
 </section>
 <script>
-	let quant = 0;
+	let quant = 1;
 	window.addEventListener("load",function(){
 		var price = Number($("#bookCost").val());
 		//적립금
