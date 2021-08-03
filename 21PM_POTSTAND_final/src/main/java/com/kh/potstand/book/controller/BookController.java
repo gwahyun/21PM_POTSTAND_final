@@ -20,6 +20,7 @@ public class BookController {
 	@Autowired
 	private BookService service;
 	
+	//책 전체 조회 페이지
 	@RequestMapping("/book/booklist.do")
 	public ModelAndView selectBookList(
 			@RequestParam(value ="cPage",defaultValue="1") int cPage,
@@ -35,6 +36,18 @@ public class BookController {
 		return mv;
 	}
 	
+	//책 상세조회 페이지
+	@RequestMapping("/book/bookinfo.do")
+	public ModelAndView selectBookInfo(
+			@RequestParam(value="no") int no, ModelAndView mv) {
+		mv.addObject("bookInfo", service.selectBookInfo(no));
+		mv.addObject("reviewList", service.selectBookReview(no));
+		mv.setViewName("book/bookInfo");
+		
+		return mv;
+	}
+	
+	//책 카테고리별 조회 페이지
 	@RequestMapping("/book/sortBookList.do")
 	public ModelAndView selectSortBookList(String sortNo,
 			@RequestParam(value ="cPage",defaultValue="1") int cPage,
@@ -50,4 +63,5 @@ public class BookController {
 		mv.setViewName("book/sortBookList");
 		return mv;
 	}
+
 }
