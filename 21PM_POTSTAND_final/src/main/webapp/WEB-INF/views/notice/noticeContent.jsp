@@ -9,23 +9,65 @@
   crossorigin="anonymous"></script>
 <jsp:include page="/WEB-INF/views/common/header.jsp"/>
     <!------------------------------------------------------------------------------------------------------------------------------------------------------------->
-<section class="mx-80">
-        <div><h1 class="text-4xl font-bold m-5 text-center">공지사항</h1></div>
-        <div class="nav-container flex">
-            <div id="notice-nav" class="text-center bg-blue-500 border-0 py-1 px-3 focus:outline-none hover:bg-blue-400 
-	          		text-white rounded text-base mt-4 md:mt-0 cursor-pointer font-bold w-4/12 ">공지사항</div>
-            <div id="qna-nav" class="text-center bg-gray-400 border-0 py-1 px-3 focus:outline-none hover:bg-blue-400 
-	          		text-white rounded text-base mt-4 md:mt-0 cursor-pointer font-bold w-4/12"><a href="${path}/qna/qnaWrite.do">1:1문의하기</a></div>
-            <div id="myqna-nav" class="text-center bg-gray-400 border-0 py-1 px-3 focus:outline-none hover:bg-blue-400 
-	          		text-white rounded text-base mt-4 md:mt-0 cursor-pointer font-bold w-4/12"><a href="${path}/qna/myQnaList.do">내 문의내역</a></div>
+ <section class="text-gray-600 body-font overflow-hidden">
+     <div class="container p-5 mx-auto">
+      <div><h1 class="sm:text-3xl
+            text-2xl
+            font-medium
+            title-font
+            mb-2
+            text-gray-900">고객센터</h1></div>
+            <div class="h-1 w-20 bg-red-500 rounded mb-10"></div>
+        
+         <div class="nav-container flex">
+            <div id="notice-nav" class="text-center
+            bg-gray-400
+            py-1
+            px-3
+            hover:bg-red-500
+            text-lg
+            text-white
+            rounded
+            mt-4
+            md:mt-0
+            cursor-pointer
+            font-bold
+            w-4/12">공지사항</div>
+            <div id="qna-nav" class="
+            text-center
+          text-lg
+          bg-gray-400
+          py-1
+          px-3
+          hover:bg-red-500
+          text-white
+          rounded
+          mt-4
+          md:mt-0
+          cursor-pointer
+          font-bold
+          w-4/12"><a href="${path}/qna/qnaWrite.do">1:1문의하기</a></div>
+            <div id="myqna-nav" class="text-center
+          bg-gray-400
+          text-lg
+          py-1
+          px-3
+          hover:bg-red-500
+          text-white
+          rounded
+          mt-4
+          md:mt-0
+          cursor-pointer
+          font-bold
+          w-4/12"><a href="${path}/qna/myQnaList.do">내 문의내역</a></div>
         </div>
-        <div class="notice-container my-10">
-            <div class="notice-title flex mt-10 pb-2 border-solid border-b border-gray-300 items-baseline">
-               <h1 class="text-3xl font-bold m-5 w-10/12"><c:out value="${notice.noticeTitle}"/></h1>
+        <div class="notice-container">
+            <div class="notice-title flex pb-2 border-solid border-b border-gray-300 items-baseline">
+               <h1 class="text-3xl font-bold my-5 w-10/12"><c:out value="${notice.noticeTitle}"/></h1>
                <h3 class="text-base w-1/12"><c:out value="${notice.memberId}"/></h3>
                <h3 class="text-base w-1/12"><fmt:formatDate pattern="yy/MM/dd" value="${notice.noticeDate}"/></h3>
             </div>
-            <div class="notice-content border-solid border-b  border-gray-300 my-5 h-2/5">
+            <div class="notice-content border-solid border-b  border-gray-300 my-5 h-2/5 leading-relaxed">
                  <c:out value="${notice.noticeContent}"/>
             </div>
             <button class=" inline-flex items-center bg-gray-200 border-0 py-1 px-3 focus:outline-none hover:bg-red-400 
@@ -36,7 +78,7 @@
 	            </svg>
           	</button>
         </div>
-        
+        </div>
     </section>
     <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
 </body>
