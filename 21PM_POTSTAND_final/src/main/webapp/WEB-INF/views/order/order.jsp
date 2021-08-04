@@ -472,22 +472,23 @@ function requestPay() {
 	      });
 		
 	}
+	
   // IMP.request_pay(param, callback) 호출
-  
    IMP.request_pay(param,
 	function (rsp) { // callback
 	  if (rsp.success) { // 결제 성공 시: 결제 승인 또는 가상계좌 발급에 성공한 경우
 	      // jQuery로 HTTP 요청
 	      $.ajax({
-	          url: "${path}/order/Payment.do", // 가맹점 서버
+	          url: "${path}/ajax/paymentCheck.do", // 가맹점 서버
 	          method: "POST",
 	          dataType : "json",
-	          data: {
+	          data: JSON.stringify({
 	              imp_uid: rsp.imp_uid,
 	              merchant_uid: rsp.merchant_uid
-			  }
+			  })
 	      }).done(function (data) {
-	        // 가맹점 서버 결제 API 성공시 로직
+	    	console.log("거의다왔다");
+	        console.log(data);
 	      })
 	} else {
 	      alert("결제에 실패하였습니다. 에러 내용: " +  rsp.error_msg);

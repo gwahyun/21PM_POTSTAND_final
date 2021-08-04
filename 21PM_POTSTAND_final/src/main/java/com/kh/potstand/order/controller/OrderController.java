@@ -1,5 +1,6 @@
 package com.kh.potstand.order.controller;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -16,16 +17,22 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.kh.potstand.common.AES256Util;
 import com.kh.potstand.member.model.vo.Member;
 import com.kh.potstand.order.model.service.OrderService;
 import com.kh.potstand.order.model.vo.Cart;
+import com.siot.IamportRestClient.IamportClient;
+import com.siot.IamportRestClient.exception.IamportResponseException;
+import com.siot.IamportRestClient.response.IamportResponse;
+import com.siot.IamportRestClient.response.Payment;
 
 @Controller
 public class OrderController {
 
 	@Autowired
 	private OrderService service;
+	
+	//아임포트 객체
+	private IamportClient api = new IamportClient("8116855594363834", "effe9bdd35fafb13df8ab1920c04852352412f937fcfe5bef763620f5980471146a5019f23622baf");
 	
 	
 	//장바구니 리스트 호출 / 이동
@@ -163,12 +170,19 @@ public class OrderController {
 			param.put("receiverAddress", ((String)param.get("receiverAddress")).replace(":"," "));
 			param.put("memberId", memberId);
 			param=service.beforOrderPayment(param);
-			System.out.println(param.toString());
+			
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
 		return param;
 	}
 	
+	
+	@RequestMapping("/ajax/paymentCheck.do")
+	@ResponseBody
+	public IamportResponse<Payment> completePayment(HttpSession session, @RequestBody Map param) throws IamportResponseException, IOException{
+		String imp_uid = (String)param.get("imp_uid"); 
+		return api.paymentByImpUid(imp_uid);
+	}
 	
 }
