@@ -42,8 +42,8 @@
                         <div class="admin-search">
                             <select name="type">
                                 <option>전체</option>
-                                <option value="creditNo">주문번호</option>
-                                <option value="productNo">상품번호</option>
+                                <option value="payment_no">주문번호</option>
+                                <option value="RECEIVER_NAME">수령인</option>
                                 <option value="memberId">회원자명</option>
                             </select>
                             <input type="text" name="keyword">
@@ -83,13 +83,13 @@
 							<tr>
 								<th style="width:5%">주문번호</th>
 								<th style="width:5%">회원아이디</th>
-								<th style="width:5%">상품번호</th>
-								<th style="width:5%">수량</th>
+								<!-- <th style="width:5%">상품번호</th> -->
+								<!-- <th style="width:5%">수량</th> -->
 								<th style="width:8%">주문상태</th>
 								<th style="width:15%">주문일</th>
 								<th style="width:10%">수령인</th>
 								<th style="width:15%">배송지</th>
-								<th style="width:10%">연락처</th>
+								<!-- <th style="width:10%">연락처</th> -->
 								<th style="width:10%">판매가</th>
 							</tr>
 						</thead>
@@ -98,45 +98,45 @@
 						<c:forEach items="${list }" var="v">
 						<tr style="text-align:center;">
 							<td >
-							${v.creditNo }
+							${v.orderNo }
 							</td>
 							<td>
 							${v.memberId }
 							</td>
-							<td>
+							<%-- <td>
 							${v.productNo }
 							</td>
 							<td style="text-align:center;">
 							${v.stock }
-							</td>
+							</td> --%>
 							<td style="text-align:center;">
 							<c:choose>
-								<c:when test="${v.status == '결제완료'}">
-									<button value="${v.creditNo }" style="border: 1px solid black;">결제완료</button>
+								<c:when test="${v.orderState == '결제완료'}">
+									<button value="${v.orderNo }" style="border: 1px solid black;">결제완료</button>
 								</c:when>
-								<c:when test="${v.status == '배송중' }">
-									<button value="${v.creditNo }" style="border: 1px solid black;">배송중</button>
+								<c:when test="${v.orderState == '배송중' }">
+									<button value="${v.orderNo }" style="border: 1px solid black;">배송중</button>
 								</c:when>
 								<c:otherwise>
-									${v.status }
+									${v.orderState }
 								</c:otherwise>
 							</c:choose>
 												
 							</td>
 							<td style="text-align:center;">
-							<fmt:formatDate value="${v.creditDate }" pattern="yy년MM월dd일"/>
+							<fmt:formatDate value="${v.payDate }" pattern="yy년MM월dd일"/>
 							</td>
 							<td style="text-align:center;">
-							${v.recipient }
+							${v.receiverName }
 							</td>
 							<td>
-							${v.shopAddress }
+							${v.receiverAddr }
 							</td>
-							<td>
+							<%-- <td>
 							${v.phone }
-							</td>
+							</td> --%>
 							<td>
-							${v.price }
+							${v.amount }
 							</td>
 							
 						</tr>

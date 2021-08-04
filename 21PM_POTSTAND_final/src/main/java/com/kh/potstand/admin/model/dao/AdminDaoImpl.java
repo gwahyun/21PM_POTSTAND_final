@@ -475,6 +475,17 @@ public class AdminDaoImpl implements AdminDao {
 		// TODO Auto-generated method stub
 		return session.delete("admin.productDelete", no);
 	}
+
+	@Override
+	public Map<String, Object> orderCountMap(SqlSessionTemplate session) {
+		// TODO Auto-generated method stub
+		Map<String,Object> map  = new HashMap();
+		map.put("count1",session.selectOne("admin.orderCountMap1"));		
+		map.put("count2",session.selectOne("admin.orderCountMap2"));
+		map.put("count3",session.selectOne("admin.orderCountMap3"));
+		map.put("count4",session.selectOne("admin.orderCountMap4"));
+		return map;
+	}
 	
 	
 	

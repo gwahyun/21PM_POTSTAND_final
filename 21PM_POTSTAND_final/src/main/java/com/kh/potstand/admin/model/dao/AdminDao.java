@@ -160,4 +160,6 @@ public interface AdminDao {
 	int productUpdate(SqlSessionTemplate session, Book b);
 
 	int productDelete(SqlSessionTemplate session, int no);
+
+	Map<String, Object> orderCountMap(SqlSessionTemplate session);
 }

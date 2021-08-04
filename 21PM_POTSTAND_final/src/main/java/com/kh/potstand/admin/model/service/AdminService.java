@@ -159,6 +159,8 @@ public interface AdminService {
 
 	int productDelete(int no);
 
+	Map<String, Object> orderCountMap();
+
 
 
 

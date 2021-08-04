@@ -41,6 +41,7 @@ import com.kh.potstand.event.model.vo.Event;
 import com.kh.potstand.member.model.vo.Address;
 import com.kh.potstand.member.model.vo.Member;
 import com.kh.potstand.order.model.vo.Cart;
+import com.kh.potstand.order.model.vo.Payment;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -96,13 +97,13 @@ public class AdminController {
 		mv.addObject("newReview", service.newReview());
 		mv.setViewName("admin/adminMain");
 		
-		/* count들 갖고 올것
-		 * Map<String,Object> count = service.orderCountMap();
-		 * mv.addObject("count1",count.get("count1"));
-		 * mv.addObject("count2",count.get("count2"));
-		 * mv.addObject("count3",count.get("count3"));
-		 * mv.addObject("count4",count.get("count1"));
-		 */
+		//count들 갖고 올것
+		  Map<String,Object> count = service.orderCountMap();
+		  mv.addObject("count1",count.get("count1"));
+		  mv.addObject("count2",count.get("count2"));
+		  mv.addObject("count3",count.get("count3"));
+		  mv.addObject("count4",count.get("count4"));
+		 
 		return mv;
 	}
 	
@@ -872,7 +873,7 @@ public class AdminController {
 	@RequestMapping("/admin/orderSelectList")
 	public ModelAndView orderSelectList(ModelAndView mv,@RequestParam Map param) {
 		
-		List<Credit> list = session.selectList("admin.orderSelectList", param);
+		List<Payment> list = session.selectList("admin.orderSelectList", param);
 		int count = session.selectOne("admin.orderSelectListCount", param);
 		mv.addObject("list", list);
 		mv.addObject("count", count);

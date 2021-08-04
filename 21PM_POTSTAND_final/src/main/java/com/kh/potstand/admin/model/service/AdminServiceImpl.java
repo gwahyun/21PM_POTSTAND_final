@@ -447,6 +447,12 @@ public class AdminServiceImpl implements AdminService {
 		// TODO Auto-generated method stub
 		return dao.productDelete(session,no);
 	}
+
+	@Override
+	public Map<String, Object> orderCountMap() {
+		// TODO Auto-generated method stub
+		return dao.orderCountMap(session);
+	}
 	
 	
 	

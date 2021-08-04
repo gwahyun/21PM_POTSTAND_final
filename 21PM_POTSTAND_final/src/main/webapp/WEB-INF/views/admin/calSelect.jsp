@@ -38,26 +38,26 @@
 					<table class="table table-border table-hover table-striped">
 						<thead>
 							<tr>
+								<th style="width:5%">구매번호</th>
 								<th style="width:10%">구매일</th>
 								<th style="width:10%">결제자</th>
-								<th style="width:5%">상품번호</th>
-								<th style="width:40%">상품</th>
-								<th style="width:5%">구매번호</th>
-								<th style="width:5%">수량</th>
+								<!-- <th style="width:5%">상품번호</th> -->
+								<th style="width:40%">내용</th>
+								<!-- <th style="width:5%">수량</th> -->
 								<th style="width:5%">판매가</th>
 							</tr>
 						</thead>
 						<tbody>
 						
 							<c:forEach items="${list }" var="l">
-								<tr>
-									<td style="	text-align: center;"><fmt:formatDate value="${l.creditDate }"/> </td>
+								<tr style="	text-align: center;">
+									<td>${l.orderNo }</td>
+									<td ><fmt:formatDate value="${l.payDate }"/> </td>
 									<td>${l.memberId }</td>
-									<td>${l.productNo }</td>
-									<td>네이버</td>
-									<td>${l.creditNo }</td>
-									<td>${l.stock }</td>
-									<td style="	text-align: center;">${l.price }</td>
+									<%-- <td>${l.productNo }</td> --%>
+									<td>${l.name }</td>
+									<%-- <td>${l.stock }</td> --%>
+									<td >${l.amount }</td>
 								</tr>
 							</c:forEach>
 						</tbody>
