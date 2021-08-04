@@ -5,10 +5,15 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <jsp:include page="/WEB-INF/views/common/header.jsp"/>
 <c:set var="path" value="${pageContext.request.contextPath }"/>
-	<section class="body-font">
-    	<div class="container mx-auto flex justify-start">
+	<section class="text-gray-600 body-font overflow-hidden">
+     <div class="container p-5 mx-auto flex justify-start">
         	<div class="w-1/4 h-full py-8">
-	            <h3 class="text-4xl font-extrabold"><a href="${path}/member/memberMypage.do">마이페이지</a></h3>
+        	 <h1 class="sm:text-3xl
+            text-2xl
+            font-medium
+            title-font
+            mb-2
+            text-gray-900"><a href="${path}/member/memberMypage.do">마이페이지</a></h1>
 	            <div class="mt-4 text-gray-500 border-t-2">
 	            	<h4 class="text-2xl font-semibold py-2"><span>개인</span></h4>
 	            	<div class="pl-5 text-xl">
@@ -51,16 +56,16 @@
 	        			</div>
 	        			<div class="w-4/12 h-11 p-2 bg-red-100 flex justify-end">
 	        				<div class="pr-2">
-		        				<button class="border bg-red-500 text-gray-100 rounded-full tracking-wide font-semibold 
-		        				focus:outline-none focus:shadow-outline hover:bg-red-600 shadow-lg cursor-pointer 
+		        				<button class="bg-red-500 text-gray-100 rounded-full tracking-wide font-semibold 
+		        				focus:outline-none focus:shadow-outline hover:bg-red-600 cursor-pointer 
 		        				transition ease-in duration-300 w-48 h-full" type="button"
 		        				onclick="fn_heartList_choiceCartInsert();">
 		        					선택 장바구니에 담기
 		        				</button>
 	        				</div>
 	        				<div>
-		        				<button class="border bg-red-500 text-gray-100 rounded-full tracking-wide font-semibold 
-			        			focus:outline-none focus:shadow-outline hover:bg-red-600 shadow-lg cursor-pointer 
+		        				<button class="bg-red-500 text-gray-100 rounded-full tracking-wide font-semibold 
+			        			focus:outline-none focus:shadow-outline hover:bg-red-600 cursor-pointer 
 			        			transition ease-in duration-300 w-24 h-full" type="button"
 			        			onclick="fn_heartList_choiceHeartDelete();">
 			        				선택 삭제
@@ -93,12 +98,12 @@
 		        					<h4 class="text-xl">${h.book.bookWriter }</h4>
 		        				</div>
 		        				<div class="h-2/3 flex items-end pb-8">
-		        					<button class="border bg-red-500 text-gray-100 rounded-full tracking-wide font-semibold 
-				        			focus:outline-none focus:shadow-outline hover:bg-red-600 shadow-lg cursor-pointer 
-				        			transition ease-in duration-300 w-36 h-8" type="button"
+		        					<button class="bg-red-500 text-gray-100 rounded-full tracking-wide font-semibold 
+				        			focus:outline-none focus:shadow-outline hover:bg-red-600 cursor-pointer 
+				        			transition ease-in duration-300 w-36 h-8 mr-4" type="button"
 				        			onclick="fn_heartList_cartInsert(event);">장바구니에 담기</button>
-				        			<button class="border bg-red-500 text-gray-100 rounded-full tracking-wide font-semibold 
-				        			focus:outline-none focus:shadow-outline hover:bg-red-600 shadow-lg cursor-pointer 
+				        			<button class="bg-red-500 text-gray-100 rounded-full tracking-wide font-semibold 
+				        			focus:outline-none focus:shadow-outline hover:bg-red-600 cursor-pointer 
 				        			transition ease-in duration-300 w-20 h-8" type="button"
 				        			onclick="fn_heartList_cartDelete(event);">삭제</button>
 		        				</div>		

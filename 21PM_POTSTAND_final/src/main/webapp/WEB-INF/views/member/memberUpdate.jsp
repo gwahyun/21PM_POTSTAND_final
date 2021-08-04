@@ -23,10 +23,16 @@
 		$("#zipNo").val(zipNo);
 	}
 </script>
-	<section class="body-font">
-    	<div class="container mx-auto flex justify-start">
+	<section class="text-gray-600 body-font overflow-hidden">
+     <div class="container p-5 mx-auto flex justify-start">
         	<div class="w-1/4 h-full py-8">
-	            <h3 class="text-4xl font-extrabold"><a href="${path}/member/memberMypage.do">마이페이지</a></h3>
+        	 <h1 class="sm:text-3xl
+            text-2xl
+            font-medium
+            title-font
+            mb-2
+            text-gray-900"><a href="${path}/member/memberMypage.do">마이페이지</a></h1>
+            <div class="h-1 w-20 bg-red-500 rounded mb-10"></div>
 	            <div class="mt-4 text-gray-500 border-t-2">
 	            	<h4 class="text-2xl font-semibold py-2"><span>개인</span></h4>
 	            	<div class="pl-5 text-xl">
@@ -54,9 +60,9 @@
         		<div class="w-full">
         			<h3 class="text-2xl font-semibold">정보변경</h3>
         		</div>
-        		<div class="flex w-full flex-col justify-center mt-5 border" >
+        		<div class="flex w-full flex-col justify-center mt-5" >
         			<div class="flex">
-        				<div class="w-2/5 border h-11 p-2 bg-red-100 pr-3 flex flex-row-reverse content-center">
+        				<div class="w-2/5 border h-11 p-2 bg-gray-100 pr-3 flex flex-row-reverse content-center">
         					<h3 class="text-lg font-bold">아이디</h3>
 	        			</div>
 	        			<div class="w-full border h-11 p-2 px-3">
@@ -64,7 +70,7 @@
 	        			</div>
         			</div>
         			<div class="flex">
-        				<div class="w-2/5 border p-2 bg-red-100 pr-3 flex flex-row-reverse content-center">
+        				<div class="w-2/5 border p-2 bg-gray-100 pr-3 flex flex-row-reverse content-center">
 	        				<h3 class="text-lg font-bold">비밀번호</h3>
 	        			</div>
 	        			<div class="w-full border p-2 px-3 flex content-center">
@@ -104,7 +110,7 @@
 	        			</div>
         			</div>
         			<div class="flex">
-        				<div class="w-2/5 border p-2 bg-red-100 pr-3 flex flex-row-reverse content-center">
+        				<div class="w-2/5 border p-2 bg-gray-100 pr-3 flex flex-row-reverse content-center">
 	        				<h3 class="text-lg font-bold">이름</h3>
 	        			</div>
 	        			<div class="w-full border p-2 px-3 flex content-center">
@@ -112,7 +118,7 @@
 	        			</div>    
         			</div>
         			<div class="flex">
-        				<div class="w-2/5 border p-2 bg-red-100 pr-3 flex flex-row-reverse content-center">
+        				<div class="w-2/5 border p-2 bg-gray-100 pr-3 flex flex-row-reverse content-center">
 	        				<h3 class="text-lg font-bold">이메일</h3>
 	        			</div>
 	        			<div class="w-full border p-2 px-3 flex content-center">
@@ -124,7 +130,7 @@
         				<input type="hidden" name="memberEmail" value="${loginMember.memberEmail }">
         				<input type="hidden" name="memberName" value="${loginMember.memberName }">
         				<div class="flex">
-        					<div class="w-2/5 border p-2 bg-red-100 pr-3 flex flex-row-reverse content-center">
+        					<div class="w-2/5 border p-2 bg-gray-100 pr-3 flex flex-row-reverse content-center">
 	        					<h3 class="text-lg font-bold">휴대전화</h3>
 		        			</div>
 		        			<div class="w-full border p-2 px-3 flex content-center">
@@ -132,7 +138,7 @@
 		        			</div>
 	        			</div>
 	        			<div class="flex">
-        					<div class="w-2/5 border p-2 bg-red-100 pr-3 flex flex-row-reverse content-center">
+        					<div class="w-2/5 border p-2 bg-gray-100 pr-3 flex flex-row-reverse content-center">
 	        					<h3 class="text-lg font-bold">생년월일</h3>
 		        			</div>
 		        			<div class="w-full border p-2 px-3 flex content-center">
@@ -140,7 +146,7 @@
 		        			</div>
 	        			</div>
 	        			<div class="flex">
-        					<div class="w-2/5 border p-2 bg-red-100 pr-3 flex flex-row-reverse content-center">
+        					<div class="w-2/5 border p-2 bg-gray-100 pr-3 flex flex-row-reverse content-center">
 	        					<h3 class="text-lg font-bold">성별</h3>
 		        			</div>
 		        			<div class="w-full border p-2 px-3 flex content-center">
@@ -161,8 +167,8 @@
 		                        
 		        			</div>
 	        			</div>
-	        			<div class="flex">
-        					<div class="w-2/5 border p-2 bg-red-100 pr-3 flex flex-row-reverse content-center">
+	        			<div class="flex mb-10">
+        					<div class="w-2/5 border p-2 bg-gray-100 pr-3 flex flex-row-reverse content-center">
 	        					<h3 class="text-lg font-bold">주소</h3>
 		        			</div>
 		        			<div class="w-full border p-2 px-3 flex content-center">
@@ -186,7 +192,7 @@
 			        			</div>
 		        			</div>
 	        			</div>
-	        			<div class="h-16 w-full p-2 flex justify-center border">
+	        			<div class="h-16 w-full p-2 flex justify-center">
 			            	<button type="button" onclick="location.replace('${path}/member/memberDelete.do')" class="border 
 			            	w-1/6 bg-white text-black rounded-full tracking-wide font-semibold focus:outline-none 
 			            	focus:shadow-outline hover:bg-red-500 hover:text-white shadow-lg cursor-pointer transition 

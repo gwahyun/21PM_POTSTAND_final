@@ -3,10 +3,16 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <jsp:include page="/WEB-INF/views/common/header.jsp"/>
 <c:set var="path" value="${pageContext.request.contextPath }"/>
-	<section class="body-font">
-    	<div class="container mx-auto flex justify-start">
+	<section class="text-gray-600 body-font overflow-hidden">
+     <div class="container p-5 mx-auto flex justify-start">
         	<div class="w-1/4 h-full py-8">
-	            <h3 class="text-4xl font-extrabold"><a href="${path}/member/memberMypage.do">마이페이지</a></h3>
+        	 <h1 class="sm:text-3xl
+            text-2xl
+            font-medium
+            title-font
+            mb-2
+            text-gray-900"><a href="${path}/member/memberMypage.do">마이페이지</a></h1>
+            <div class="h-1 w-20 bg-red-500 rounded mb-10"></div>
 	            <div class="mt-4 text-gray-500 border-t-2">
 	            	<h4 class="text-2xl font-semibold py-2"><span>개인</span></h4>
 	            	<div class="pl-5 text-xl">
@@ -32,7 +38,7 @@
         	</div>
         	<div class="w-3/4 h-full px-5 py-8 flex flex-col content-center">
         		<div class="w-full">
-        			<h3 class="text-2xl font-semibold">정보변경</h3>
+        			<h3 class="text-2xl font-medium">정보변경</h3>
         		</div>
         		<div class="mt-4">
         			<h4 class="text-xl">보안을 위해 비밀번호를 한번 더 입력해 주세요.</h4>

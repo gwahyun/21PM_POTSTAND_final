@@ -5,10 +5,15 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <jsp:include page="/WEB-INF/views/common/header.jsp"/>
 <c:set var="path" value="${pageContext.request.contextPath }"/>
-	<section class="body-font">
-    	<div class="container mx-auto flex justify-start">
+	<section class="text-gray-600 body-font overflow-hidden">
+     <div class="container p-5 mx-auto flex justify-start">
         	<div class="w-1/4 h-full py-8">
-	            <h3 class="text-4xl font-extrabold"><a href="${path}/member/memberMypage.do">마이페이지</a></h3>
+        	 <h1 class="sm:text-3xl
+            text-2xl
+            font-medium
+            title-font
+            mb-2
+            text-gray-900"><a href="${path}/member/memberMypage.do">마이페이지</a></h1>
 	            <div class="mt-4 text-gray-500 border-t-2">
 	            	<h4 class="text-2xl font-semibold py-2"><span>개인</span></h4>
 	            	<div class="pl-5 text-xl">
@@ -44,7 +49,7 @@
         		<c:if test="${list!='[]'}">
         		<div class="flex w-full flex-col justify-center mt-5" >
         			<div class="flex justify-end mb-2">
-        				<h4>총 <span class="text-blue-500 font-semibold">${totalData }</span>개의 리뷰를 등록했습니다.</h4>
+        				<h4>총 <span class="text-red-500 font-semibold">${totalData }</span>개의 리뷰를 등록했습니다.</h4>
         			</div>
         			<c:forEach var="r" items="${list }">
         			<!-- 기본 리뷰 -->
@@ -100,12 +105,12 @@
 			        			</div>
 			        			<div class="w-1/5 flex justify-center h-full p-2 ">
 			        				<div class="h-full flex items-center">
-			        					<button class="border bg-red-500 text-gray-100 rounded-full tracking-wide font-semibold 
-					        			focus:outline-none focus:shadow-outline hover:bg-red-600 shadow-lg cursor-pointer 
+			        					<button class="bg-red-500 text-gray-100 rounded-full tracking-wide font-semibold 
+					        			focus:outline-none focus:shadow-outline hover:bg-red-600 cursor-pointer 
 					        			transition ease-in duration-300 w-20 h-8" type="button"
 					        			onclick="fn_myReview_reviewUpdate(event);">수정</button>
-					        			<button class="border bg-white text-black rounded-full tracking-wide font-semibold 
-					        			focus:outline-none focus:shadow-outline hover:bg-red-600 shadow-lg cursor-pointer 
+					        			<button class="bg-gray-100 text-black rounded-full tracking-wide font-semibold 
+					        			focus:outline-none focus:shadow-outline hover:bg-gray-500 cursor-pointer 
 					        			transition ease-in duration-300 hover:text-gray-100 w-20 h-8" type="submit">삭제</button>
 			        				</div>		
 			        			</div>
@@ -171,12 +176,12 @@
 			        					<textarea name="reviewContent" class="w-full border h-full">${r.reviewContent }</textarea>
 			        				</div>   	
 			        				<div class="h-1/6 flex items-center">
-				        				<button class="border bg-white text-black rounded-full tracking-wide font-semibold 
-						        		focus:outline-none focus:shadow-outline hover:bg-red-600 shadow-lg cursor-pointer 
-						        		transition ease-in duration-300 hover:text-gray-100 w-14 h-8" type="button"
+				        				<button class="border bg-gray-100 text-black rounded-full tracking-wide font-semibold 
+						        		focus:outline-none focus:shadow-outline hover:bg-gray-500 cursor-pointer 
+						        		transition ease-in duration-300 hover:text-gray-100 w-14 h-8 mr-4" type="button"
 						        		onclick="fn_myReview_reviewUpdateCancel(event);">취소</button>
-						        		<button class="border bg-red-500 text-gray-100 rounded-full tracking-wide font-semibold 
-						        		focus:outline-none focus:shadow-outline hover:bg-red-600 shadow-lg cursor-pointer 
+						        		<button class="bg-red-500 text-gray-100 rounded-full tracking-wide font-semibold 
+						        		focus:outline-none focus:shadow-outline hover:bg-red-600 cursor-pointer 
 						        		transition ease-in duration-300 w-24 h-8" type="submit"">수정완료</button>
 				        			</div>				
 								</div>

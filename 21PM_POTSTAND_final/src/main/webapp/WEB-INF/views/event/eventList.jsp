@@ -7,7 +7,7 @@
 	<jsp:param value="${loginMember}" name="loginMember"/>
 </jsp:include>
 	<section class="text-grey-600 body-font">
-		<div class="container px-5 py-12 mx-auto">
+		<div class="container p-5 mx-auto">
 			<div class="flex flex-wrap w-full mb-20">
           		<div class="lg:w-1/2 w-full mb-6 lg:mb-0">
            			 <h1
