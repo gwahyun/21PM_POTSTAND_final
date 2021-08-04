@@ -30,7 +30,7 @@
                         주문 / 배송
                     </div>
                     <div class="admin-content-itmes">
-                    <div><span>신규 주문</span><a href="${path }/admin/orderSelectList?startDate=${startDate }&amp;endDate=${endDate }&amp;type=전체&amp;keyword=&amp;dType=결제완료"">${count1 } 건</a></div>
+                    <div><span>신규 주문</span><a href="${path }/admin/orderSelectList?startDate=${startDate }&amp;endDate=${endDate }">${count1 } 건</a></div>
                     <div><span>결제완료</span><a href="${path }/admin/orderSelectList?type=전체&keyword=&dType=결제완료">${count2 } 건</a></div>
                     <div><span>배송중</span><a href="${path }/admin/orderSelectList?type=전체&keyword=&dType=배송중">${count3 } 건</a></div>
                     <div><span>배송완료</span><a href="${path }/admin/orderSelectList?type=전체&keyword=&dType=배송완료">${count4 } 건</a></div>

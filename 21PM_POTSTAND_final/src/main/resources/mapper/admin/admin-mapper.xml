@@ -635,12 +635,12 @@
   			<if test="dType != null and dType != '전체'">
   				and ORDER_STATE = #{dType}
   			</if>
-  			<if test="type != null and type != '전체'">
+  			<if test="type != null and type != '전체' and keyword != ''">
   				and ${type} = #{keyword}
   			</if>
   		
   			<if test="endDate != null and startDate != null">
-  			and PAY_DATE <![CDATA[<]]> #{endDate} and PAY_DATE > #{startDate}
+  			and to_date(pay_date,'YY-MM-DD') <![CDATA[<=]]> #{endDate} and to_date(pay_date,'YY-MM-DD') >= #{startDate}
   			</if>
   	</select>
   	
