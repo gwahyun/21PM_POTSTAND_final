@@ -1,5 +1,6 @@
 package com.kh.potstand.book.model.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -91,6 +92,19 @@ public class BookDaoImpl implements BookDao {
 	@Override
 	public int bookHeartDelete(SqlSession session, Map param) {
 		return session.delete("book.bookHeartDelete",param);
+	}
+
+	@Override
+	public Map<String, List> searchBookInfo(SqlSession session, String search) {
+		List title = new ArrayList();
+		List writer = new ArrayList();
+		List pub = new ArrayList();
+		
+		title = session.selectList("book.searchTitle", search);
+		writer = session.selectList("book.searchWriter", search);
+		pub = session.selectList("book.searchPub", search);
+		
+		return null;
 	}
 	
 	

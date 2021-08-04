@@ -39,4 +39,6 @@ public interface BookDao {
 	//책 찜삭제
 	int bookHeartDelete(SqlSession session, Map param);
 	
+	//책 검색
+	public Map<String, List> searchBookInfo(SqlSession session, String search);
 }

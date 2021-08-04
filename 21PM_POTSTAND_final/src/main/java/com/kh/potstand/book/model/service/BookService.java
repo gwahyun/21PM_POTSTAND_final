@@ -16,6 +16,7 @@ public interface BookService {
 	public int selectBookCount();
 	public Book selectBookInfo(int no);
 	public List<Review> selectBookReview(int no);
+	public Map<String, List> searchBookInfo(String search);
 	
 	//sort LV1~LV4
 	List<Sort> selectSortLv1List();

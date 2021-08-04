@@ -105,4 +105,10 @@ public class BookController {
 	public int bookHeartDelete(@RequestParam Map param) {
 			return service.bookHeartDelete(param);
 	}
+	
+	@RequestMapping("/search/book/bookinfo.do")
+	public ModelAndView searchBookInfo(@RequestParam(value="search") String search, ModelAndView mv) {
+		Map<String, List> answer = service.searchBookInfo(search);
+		return mv;
+	}
 }

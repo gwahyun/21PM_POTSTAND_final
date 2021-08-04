@@ -1,5 +1,6 @@
 package com.kh.potstand.book.model.service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -96,6 +97,14 @@ public class BookServiceImpl implements BookService {
 	@Override
 	public int bookHeartDelete(Map param) {
 		return dao.bookHeartDelete(session,param);
+	}
+
+	//헤더메뉴 책정보 검색
+	@Override
+	public Map<String, List> searchBookInfo(String search) {
+		Map map = new HashMap();
+		map = dao.searchBookInfo(session, search);
+		return map;
 	}
 	
 	
