@@ -32,8 +32,7 @@
             cursor-pointer
             font-bold
             w-4/12">공지사항</div>
-            <div id="qna-nav" class="
-            text-center
+            <a href="${path}/qna/qnaWrite.do" class="text-center
           text-lg
           bg-gray-400
           py-1
@@ -45,8 +44,9 @@
           md:mt-0
           cursor-pointer
           font-bold
-          w-4/12"><a href="${path}/qna/qnaWrite.do">1:1문의하기</a></div>
-            <div id="myqna-nav" class="text-center
+          w-4/12">
+            <div id="qna-nav">1:1문의하기</div></a>
+          <a href="${path}/qna/myQnaList.do" class="text-center
           bg-gray-400
           text-lg
           py-1
@@ -58,7 +58,8 @@
           md:mt-0
           cursor-pointer
           font-bold
-          w-4/12"><a href="${path}/qna/myQnaList.do">내 문의내역</a></div>
+          w-4/12">
+            <div id="myqna-nav">내 문의내역</div></a>
         </div>
         <div class="notice-list my-10">
             <div class="notice-list-head flex w-full bg-gray-300">
