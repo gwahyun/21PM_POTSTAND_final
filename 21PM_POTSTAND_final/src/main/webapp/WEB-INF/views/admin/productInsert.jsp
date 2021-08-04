@@ -124,9 +124,10 @@
 					상품 이미지(이거 파일로 받을지 링크로 받을지)
 				</div>
 				<div class="img-up-text"><span>이미지 등록</span></div>
-				<div class="admin-input_text">
-					<input type="text" name="bookCover">
-				</div>
+				<label for="input-file">
+					<img class="admin-upload_img">
+				</label>
+				<input class="input_img" type="file" accept=".png, .jpg, .gif" id="input-file" name="upFile" style="display: none">
 			</div>
 		</div>
 		
@@ -169,7 +170,7 @@
 					저자 소개
 				</div>
 				<div class="admin-input_text">
-					<input type="text" name="writerIntro">
+			<textarea  name="writerIntro"></textarea>
 				</div>
 			</div>
 		</div>
@@ -180,7 +181,7 @@
 					출판사 서평
 				</div>
 				<div class="admin-input_text">
-					<input type="text" name="pubReview">
+				<textarea  name="pubReview"></textarea>
 				</div>
 			</div>
 		</div>
@@ -191,7 +192,7 @@
 					책 속으로
 				</div>
 				<div class="admin-input_text">
-					<input type="text" name="bookExtract">
+				<textarea name="bookExtract"></textarea>
 				</div>
 			</div>
 		</div>
@@ -202,7 +203,7 @@
 					목차
 				</div>
 				<div class="admin-input_text">
-					<input type="text" name="bookIndex">
+					<textarea  name="bookIndex"></textarea>
 				</div>
 			</div>
 		</div>
@@ -213,7 +214,7 @@
 					추천평
 				</div>
 				<div class="admin-input_text">
-					<input type="text" name="recommand">
+					<textarea  name="recommand"></textarea>
 				</div>
 			</div>
 		</div>
@@ -243,7 +244,20 @@
     <script>
 		
 		window.addEventListener("load",function(){
-			
+			function readImage(input) {
+			    if(input.files && input.files[0]) {
+			        const reader = new FileReader()
+			        reader.onload = e => {
+			            const previewImage = document.querySelector(".admin-upload_img")
+			            previewImage.src = e.target.result
+			        }
+			        reader.readAsDataURL(input.files[0])
+			    }
+			}
+			const inputImage = document.querySelector(".input_img")
+			inputImage.addEventListener("change", e => {
+			    readImage(e.target)
+			})
 			
 			
 			let map = new Map();
@@ -270,73 +284,6 @@
 					
 						map.set('경제', gchildList);
 					
-				
-					childList.push('경영');
-					gchildList=[];
-					
-						gchildList.push('경영일반/이론')
-					
-						gchildList.push('경영전략/혁신')
-					
-						gchildList.push('기업/경영자스토리')
-					
-						gchildList.push('경영실무')
-					
-						gchildList.push('인사/총무')
-					
-						gchildList.push('회계/재무')
-					
-						gchildList.push('생산/품질관리')
-					
-						gchildList.push('무역')
-					
-						gchildList.push('교통/통신/해운')
-					
-						gchildList.push('관광/호텔')
-					
-						gchildList.push('유통/물류')
-					
-						map.set('경영', gchildList);
-					
-				
-					childList.push('마케팅/세일즈');
-					gchildList=[];
-					
-						gchildList.push('마케팅일반')
-					
-						gchildList.push('마케팅전략')
-					
-						gchildList.push('광고/홍보')
-					
-						gchildList.push('영업/세일즈')
-					
-						gchildList.push('트렌드/미래예측')
-					
-						map.set('마케팅/세일즈', gchildList);
-					
-				
-					childList.push('재테크/투자');
-					gchildList=[];
-					
-						gchildList.push('재테크일반')
-					
-						gchildList.push('부동산/경매')
-					
-						gchildList.push('주식/증권')
-					
-						map.set('재테크/투자', gchildList);
-					
-				
-					childList.push('창업/취업');
-					gchildList=[];
-					
-						gchildList.push('창업/장사')
-					
-						gchildList.push('취업')
-					
-						map.set('창업/취업', gchildList);
-					
-				
 				map.set('경제/경영', childList);
 			
 				childList=[];
@@ -832,7 +779,7 @@
 				
 				childList=[];
 				
-					childList.push('인문일반');
+					childList.push('역사/문화일반');
 					gchildList=[];
 					
 						gchildList.push('역사의이해')
@@ -853,7 +800,7 @@
 						
 						gchildList.push('문화사일반')
 					
-						map.set('인문일반', gchildList);
+						map.set('역사/문화일반', gchildList);
 						
 					childList.push('세계사');
 					gchildList=[];
@@ -943,7 +890,7 @@
 									cli[k].style.color="rgba(0,0,0,0.8)";
 								}
 								this.style.color="#ff9f43";
-								show_genre2.innerHTML=' > '+this.innerHTML
+								show_genre2.innerHTML=this.innerHTML
 								input_genre.value=this.innerHTML;
 								show_genre3.innerHTML=""
 								show_genre.style.visibility='visible'
@@ -962,7 +909,7 @@
 								}else{									
 									ch_genre_li=map.get(this.innerHTML);
 								}
-								show_genre2.innerHTML=' > '+this.innerHTML
+								show_genre2.innerHTML=this.innerHTML
 								while ( g_child_genre_list.hasChildNodes() ) { 
 									g_child_genre_list.removeChild( g_child_genre_list.firstChild ); 
 								}
@@ -982,7 +929,7 @@
 											gcli[q].style.color="rgba(0,0,0,0.8)";
 										}
 										this.style.color="#ff9f43";
-										show_genre3.innerHTML=' > '+this.innerHTML
+										show_genre3.innerHTML=this.innerHTML
 										input_genre.value=this.innerHTML;
 										show_genre.style.visibility='visible'
 									})

@@ -41,6 +41,7 @@ import com.kh.potstand.event.model.vo.Event;
 import com.kh.potstand.member.model.vo.Address;
 import com.kh.potstand.member.model.vo.Member;
 import com.kh.potstand.order.model.vo.Cart;
+import com.kh.potstand.order.model.vo.Payment;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -96,13 +97,13 @@ public class AdminController {
 		mv.addObject("newReview", service.newReview());
 		mv.setViewName("admin/adminMain");
 		
-		/* count들 갖고 올것
-		 * Map<String,Object> count = service.orderCountMap();
-		 * mv.addObject("count1",count.get("count1"));
-		 * mv.addObject("count2",count.get("count2"));
-		 * mv.addObject("count3",count.get("count3"));
-		 * mv.addObject("count4",count.get("count1"));
-		 */
+		//count들 갖고 올것
+		  Map<String,Object> count = service.orderCountMap();
+		  mv.addObject("count1",count.get("count1"));
+		  mv.addObject("count2",count.get("count2"));
+		  mv.addObject("count3",count.get("count3"));
+		  mv.addObject("count4",count.get("count4"));
+		 
 		return mv;
 	}
 	
@@ -144,7 +145,28 @@ public class AdminController {
 	@RequestMapping("/admin/productInsertEnd")
 	public ModelAndView productInsertEnd(
 			@RequestParam(value="bookGenre",defaultValue="") String bookGenre,
-			Book b,ModelAndView mv) {
+			Book b,ModelAndView mv,MultipartFile upFile,HttpServletRequest req) {
+		String path = req.getServletContext().getRealPath("/resources/upload/book/");
+		File dir = new File(path); // 폴더
+		if(!dir.exists()) dir.mkdirs(); //폴더가 존재하지 않으면 폴더 생성
+		
+			if(!upFile.isEmpty()) { //-> 파일이 있니 ? 있으면 실행
+				String oriFilename = upFile.getOriginalFilename();
+				String ext = oriFilename.substring(oriFilename.lastIndexOf("."));
+				
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmssSSS");
+				int rndNum = (int)(Math.random()*10000);
+				String reName = sdf.format(System.currentTimeMillis())+"_"+rndNum+ext;
+				
+				try {
+					upFile.transferTo(new File(path+reName));
+					b.setBookCover(reName);
+				}catch(IOException e2) {
+					e2.printStackTrace();
+				}
+				
+			}
+		
 		b.setSort(service.bookGenreSelectOne(bookGenre));
 		int result = service.productInsertEnd(b);
 		mv.addObject("loc", "/admin/productInsert");
@@ -170,6 +192,72 @@ public class AdminController {
 				"bookNo="+bookNo+"&bookTitle="+bookTitle+"&bookAuthor="+bookAuthor+"&bookPublisher="+bookPublisher+"&bookGenre="+bookGenre));
 		mv.addObject("list", list);
 		mv.setViewName("admin/productSelect");
+		return mv;
+	}
+	
+	@RequestMapping("/admin/productUpdate")
+	public ModelAndView productUpdate(ModelAndView mv,int no) {
+		
+		mv.addObject("b", service.bookSelectOne(no));
+		mv.setViewName("admin/productUpdate");
+		return mv;
+	}
+	
+	@RequestMapping("/admin/productUpdateEnd")
+	public ModelAndView productUpdateEnd(
+			@RequestParam(value="bookGenre",defaultValue="") String bookGenre,
+			@RequestParam(value="bookGenre2",defaultValue="") String bookGenre2,
+			ModelAndView mv,Book b,
+			HttpServletRequest req,MultipartFile upFile,String oldFile) {
+		
+		String path = req.getServletContext().getRealPath("/resources/upload/book/");
+		File dir = new File(path); // 폴더
+		if(!dir.exists()) dir.mkdirs(); //폴더가 존재하지 않으면 폴더 생성
+		
+			if(!upFile.isEmpty()) { //-> 파일이 있니 ? 있으면 실행
+				File del1 = new File(path+oldFile);
+				del1.delete();
+				String oriFilename = upFile.getOriginalFilename();
+				String ext = oriFilename.substring(oriFilename.lastIndexOf("."));
+				
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmssSSS");
+				int rndNum = (int)(Math.random()*10000);
+				String reName = sdf.format(System.currentTimeMillis())+"_"+rndNum+ext;
+				log.debug("reName {}"+reName);
+				try {
+					upFile.transferTo(new File(path+reName));
+					b.setBookCover(reName);
+				}catch(IOException e1) {
+					e1.printStackTrace();
+				}
+				
+			}
+			if(bookGenre.length()==0) {
+				bookGenre = bookGenre2;
+				b.setSort(service.bookGenreSelectOne(bookGenre));
+			}else {
+				b.setSort(service.bookGenreSelectOne(bookGenre));
+			}
+		int result = service.productUpdate(b);
+		mv.addObject("loc", "/admin/productSelectList");
+		mv.addObject("msg",result>0?"책 수정에 성공하였습니다!":"수정 실패!");
+		mv.setViewName("common/msg");
+		return mv;
+	}
+	
+	@RequestMapping("/admin/productDelete")
+	public ModelAndView productDelete(ModelAndView mv,int no,HttpServletRequest req) {
+		String path = req.getServletContext().getRealPath("/resources/upload/book/");
+		File dir = new File(path); // 폴더
+		if(!dir.exists()) dir.mkdirs(); //폴더가 존재하지 않으면 폴더 생성
+		Book b = service.bookSelectOne(no);
+		File del1 = new File(path+b.getBookCover());
+		del1.delete();
+		int result = service.productDelete(no);
+		mv.addObject("loc", "/admin/productSelectList");
+		mv.addObject("msg",result>0?"책 삭제에 성공하였습니다!":"삭제 실패!");
+		mv.setViewName("common/msg");
+		
 		return mv;
 	}
 	
@@ -785,12 +873,22 @@ public class AdminController {
 	@RequestMapping("/admin/orderSelectList")
 	public ModelAndView orderSelectList(ModelAndView mv,@RequestParam Map param) {
 		
-		List<Credit> list = session.selectList("admin.orderSelectList", param);
+		List<Payment> list = session.selectList("admin.orderSelectList", param);
 		int count = session.selectOne("admin.orderSelectListCount", param);
 		mv.addObject("list", list);
 		mv.addObject("count", count);
 		mv.setViewName("admin/orderCheck");
 		return mv;
+	}
+	
+	@RequestMapping("/admin/statusUpdate")
+	@ResponseBody
+	public int statusUpdate(
+			@RequestParam Map param
+			) {
+		
+		int result = service.statusUpdate(param);
+		return result;
 	}
 	
 	//카트 부분인데 충돌날까봐 일단 여기다 둠

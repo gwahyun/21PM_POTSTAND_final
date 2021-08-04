@@ -304,6 +304,12 @@
  	
  	
  	<!-- book -->
+ 	<select id="bookSelectOne" resultMap="bookMap">
+ 		select * from book 
+ 			join sort using(sort_no)
+ 				where book_code = #{no}
+ 	</select>
+ 	
  	
  	<select id="productSelectList" resultMap="bookMap">
  		select * from book
@@ -544,6 +550,25 @@
   		insert into book values(seq_book.nextval, #{sort.sortNo}, #{bookTitle}, #{bookWriter}, #{bookPub}, #{bookCost}, #{bookPub} , #{bookCover}, #{bookDate}, #{bookStock}, #{bookLink},#{writerIntro}, #{bookIntro}, #{bookIndex}, #{pubReview}, #{bookExtract}, #{recommand}, #{introMv})
   	</insert>
   	
+  	<update id="productUpdate" parameterType="book">
+  		update book
+   	   		set book_title = #{bookTitle} 
+   	   			, sort_no = #{sort.sortNo} , book_writer = #{bookWriter} , book_pub = #{bookPub}
+   	   			, book_short = #{bookShort}
+   	   			, book_cost = #{bookCost} ,  book_date = #{bookDate}
+   	   			, book_intro = #{bookIntro} , writer_intro = #{writerIntro} , book_index = #{bookIndex}
+   	   			, pub_review = #{pubReview} , book_extract = #{bookExtract} , recommand = #{recommand}
+   	   			, intro_mv = #{introMv}
+   	   			 	  <if test="bookCover != null and bookCover != ''">
+				   	 		, book_cover = #{bookCover}
+				   	 	</if>
+ 					where book_code = #{bookCode}
+  	</update>
+  	
+  	<delete id="productDelete" parameterType="int">
+  		delete from book where book_code = #{no}
+  	</delete>
+  	
   	<!-- db 세팅할 때 book_code / Link 가져오는 select문 -->
   	<select id="selectBCAndBL" resultType="HashMap">
   		SELECT BOOK_CODE, BOOK_LINK FROM BOOK
@@ -579,38 +604,62 @@
  		 ,'YY-MM-DD') + 1)
 	</select>
 	
+	<resultMap type="com.kh.potstand.order.model.vo.Payment" id="paymentMap">
+		<id column="PAYMENT_NO" property="orderNo"/>
+		<result column="MEMBER_ID" property="memberId"/>
+		<result column="RECEIVER_NAME" property="receiverName"/>
+		<result column="RECEIVER_ADDR" property="receiverAddr"/>
+		<result column="MESSAGE" property="message"/>
+		<result column="POST_MESSAGE" property="postMessage"/>
+		<result column="name" property="name"/>
+		<result column="PAY_METHOD" property="payMethod"/>
+		<result column="MERCHANT_UID" property="merchantUid"/>
+		<result column="AMOUNT" property="amount"/>
+		<result column="PAY_DATE" property="payDate"/>
+		<result column="ORDER_STATE" property="orderState"/>
+		<association column="USED_COUPON_NO" property="coupon"/>
+	</resultMap>
+	
+	<resultMap type="com.kh.potstand.order.model.vo.PaymentObj" id="paymentObjMap">
+		<id column="PAYMENT_NO" property="objNo"/>
+		<result column="BOOK_AMOUNT" property="bookAmount"/>
+		<association column="BOOK_CODE" property="book"/>
+		<association column="USED_COUPON_NO" property="coupon"/>
+		<association column="PAYMENT_NO" property="payment"/>		
+	</resultMap>
+	
 		<!-- 결제 연습 -->
-  	<select id="orderSelectList" resultMap="creditMap">
-  		select * from credit
+  	<select id="orderSelectList" resultMap="paymentMap">
+  		select * from payment
   		where 1 = 1
   			<if test="dType != null and dType != '전체'">
-  				and status = #{dType}
+  				and ORDER_STATE = #{dType}
   			</if>
-  			<if test="type != null and type != '전체'">
+  			<if test="type != null and type != '전체' and keyword != ''">
   				and ${type} = #{keyword}
   			</if>
   		
   			<if test="endDate != null and startDate != null">
-  			and creditdate <![CDATA[<]]> #{endDate} and creditdate > #{startDate}
+  			and to_date(pay_date,'YY-MM-DD') <![CDATA[<=]]> #{endDate} and to_date(pay_date,'YY-MM-DD') >= #{startDate}
   			</if>
   	</select>
   	
   	<select id="orderSelectListCount" resultType="int">
-	  	select count(*) from credit
+	  	select count(*) from payment
 	  		where 1 = 1
 	  			<if test="dType != null and dType != '전체'">
-	  				and status = #{dType}
+	  				and ORDER_STATE = #{dType}
 	  			</if>
 	  			<if test="type != null and type != '전체'">
 	  				and ${type} = #{keyword}
 	  			</if>
 	  		
 	  			<if test="endDate != null and startDate != null">
-	  			and creditdate <![CDATA[<]]> #{endDate} and creditdate > #{startDate}
+	  			and PAY_DATE <![CDATA[<]]> #{endDate} and PAY_DATE > #{startDate}
 	  			</if>
   	</select>
   	
-  	<resultMap type="com.kh.potstand.admin.model.vo.Credit" id="creditMap">
+  	<!-- <resultMap type="com.kh.potstand.admin.model.vo.Credit" id="creditMap">
   		<id column="CREDITNO" property="creditNo"></id>
   		<result column="MEMBERID" property="memberId"></result>
   		<result column="PRODUCTNO" property="productNo"></result>
@@ -621,18 +670,40 @@
   		<result column="SHOPADDRESS" property="shopAddress"></result>
   		<result column="PHONE" property="phone"></result>
   		<result column="PRICE" property="price"></result>
-  	</resultMap>
+  	</resultMap> -->
 	
 	<select id="priceDateList" resultType="int">
-		select nvl(sum(price),0) from credit where to_date(creditdate,'YY-MM-DD') = #{str}
+		select nvl(sum(amount),0) from payment where to_date(pay_date,'YY-MM-DD') = #{str}
 	</select>
 	
 	<select id="amountDateList" resultType="int">
-		select nvl(sum(stock),0) from credit where to_date(creditdate,'YY-MM-DD') = #{str}
+		 select nvl(sum(book_amount),0) from payment_obj 
+	         join payment using(payment_no)        
+	    	where to_date(pay_date,'YY-MM-DD') = #{str}
 	</select>
 	
-	<select id="creditDateList" resultMap="creditMap">
-			select * from credit where to_date(creditdate,'YY-MM-DD') >= 
+	 <select id="orderCountMap1" resultType="int">
+		  select count(*) as count1 from payment
+  			  where pay_date > sysdate-7
+	</select>
+	
+	<select id="orderCountMap2" resultType="int">
+		    select count(*) count2 from payment
+   			  where order_state = '결제완료' and pay_date > sysdate-7
+	</select>
+	
+	<select id="orderCountMap3" resultType="int">
+		  select count(*) count3 from payment
+  			  where order_state = '배송중' and pay_date > sysdate-7
+	</select>
+	
+	<select id="orderCountMap4" resultType="int">
+		  select count(*) count4 from payment
+  			  where order_state = '배송완료' and pay_date > sysdate-7
+	</select> 
+	
+	<select id="creditDateList" resultMap="paymentMap">
+			select * from payment where to_date(PAY_DATE,'YY-MM-DD') >= 
 		 <choose>
 		 	<when test="startDateStr == null">
 		 		${startDate}
@@ -646,7 +717,7 @@
 	
 	<!-- 정산관리  -->
 	<select id="sumPrice" resultType="int">
-		select nvl(sum(price),0) from credit where to_date(creditdate,'YY-MM-DD') >= 
+		select nvl(sum(amount),0) from payment where to_date(pay_date,'YY-MM-DD') >= 
 		 <choose>
 		 	<when test="startDateStr == null">
 		 		${startDate}
@@ -656,6 +727,12 @@
 		 	</otherwise>
 		 </choose>
 	</select>
+	
+	<update id="statusUpdate">
+		update payment
+			set order_state = #{status}
+				where payment_no = ${no}
+	</update>
 
 	<!-- 충돌날까봐 카트 일단 여기가 넣음 -->
 	
