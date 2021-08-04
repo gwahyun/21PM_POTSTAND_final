@@ -160,19 +160,10 @@ public class OrderController {
 	public Map beforOrderPayment(HttpSession session, @RequestBody Map param){
 		try {
 			String memberId = ((Member)(session.getAttribute("loginMember"))).getMemberId();
-			/*{pg=html5_inicis, pay_method=card, merchant_uid=인서트 실행하고 리턴받아야됨, 
-			 * name=프랑켄슈타인 (현대판 프로메테우스)외 3건, amount=58340, buyer_email=000000@000000.com, 
-			 * buyer_name=회원3, 
-			 * buyer_tel=01031302309, 
-			 * buyer_addr=서울특별시 구로구 가마산로 77, buyer_postcode=08327, 
-			 * receiverName=회원3, receiverAddress=08327:서울특별시 구로구 가마산로 77:집:(구로동), 
-			 * message=, postMessage=, billPrice=Y, digital=false, 
-			 * cartNo=[27, 22, 29]}
-			 */
 			param.put("receiverAddress", ((String)param.get("receiverAddress")).replace(":"," "));
 			param.put("memberId", memberId);
 			param=service.beforOrderPayment(param);
-			log.debug(param.toString());
+			//log.debug(param.toString());
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
@@ -188,18 +179,23 @@ public class OrderController {
 		return api.paymentByImpUid(imp_uid);
 	}
 	
+	
 	@RequestMapping("/ajax/paymentComplete.do")
 	@ResponseBody
-	public String paymentComplete(HttpSession session, @RequestBody Map param){
+	public Boolean paymentComplete(HttpSession session, @RequestBody Map param){
 		//성공/실패 확인
 		if((Boolean)param.get("check")) {
 			//cart 삭제 + uid / payMethod update
 			service.paymentSuccess(param);
+			log.debug("success "+param.toString());
 		}else {
 			//uid로 조회해서 payment 삭제
 			service.paymentFail(param);
+			log.debug("fail "+param.toString());
 		}
-		return 
+		
+		return true;
+			
 	}
 	
 }
