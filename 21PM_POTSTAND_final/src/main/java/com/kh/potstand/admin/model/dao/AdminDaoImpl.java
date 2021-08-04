@@ -449,6 +449,32 @@ public class AdminDaoImpl implements AdminDao {
 		// TODO Auto-generated method stub
 		return session.update("admin.cartSelectOnePlus", param);
 	}
+
+	@Override
+	public int statusUpdate(SqlSessionTemplate session, Map param) {
+		// TODO Auto-generated method stub
+		return session.update("admin.statusUpdate", param);
+	}
+
+	@Override
+	public Book bookSelectOne(SqlSessionTemplate session, int no) {
+		// TODO Auto-generated method stub
+		Map<String,String> map = new HashMap();
+		map.put("no", String.valueOf(no));
+		return session.selectOne("admin.bookSelectOne", no);
+	}
+
+	@Override
+	public int productUpdate(SqlSessionTemplate session, Book b) {
+		// TODO Auto-generated method stub
+		return session.update("admin.productUpdate", b);
+	}
+
+	@Override
+	public int productDelete(SqlSessionTemplate session, int no) {
+		// TODO Auto-generated method stub
+		return session.delete("admin.productDelete", no);
+	}
 	
 	
 	

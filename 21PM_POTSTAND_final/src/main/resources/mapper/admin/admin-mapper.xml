@@ -304,6 +304,12 @@
  	
  	
  	<!-- book -->
+ 	<select id="bookSelectOne" resultMap="bookMap">
+ 		select * from book 
+ 			join sort using(sort_no)
+ 				where book_code = #{no}
+ 	</select>
+ 	
  	
  	<select id="productSelectList" resultMap="bookMap">
  		select * from book
@@ -544,6 +550,25 @@
   		insert into book values(seq_book.nextval, #{sort.sortNo}, #{bookTitle}, #{bookWriter}, #{bookPub}, #{bookCost}, #{bookPub} , #{bookCover}, #{bookDate}, #{bookStock}, #{bookLink},#{writerIntro}, #{bookIntro}, #{bookIndex}, #{pubReview}, #{bookExtract}, #{recommand}, #{introMv})
   	</insert>
   	
+  	<update id="productUpdate" parameterType="book">
+  		update book
+   	   		set book_title = #{bookTitle} 
+   	   			, sort_no = #{sort.sortNo} , book_writer = #{bookWriter} , book_pub = #{bookPub}
+   	   			, book_short = #{bookShort}
+   	   			, book_cost = #{bookCost} ,  book_date = #{bookDate}
+   	   			, book_intro = #{bookIntro} , writer_intro = #{writerIntro} , book_index = #{bookIndex}
+   	   			, pub_review = #{pubReview} , book_extract = #{bookExtract} , recommand = #{recommand}
+   	   			, intro_mv = #{introMv}
+   	   			 	  <if test="bookCover != null and bookCover != ''">
+				   	 		, book_cover = #{bookCover}
+				   	 	</if>
+ 					where book_code = #{bookCode}
+  	</update>
+  	
+  	<delete id="productDelete" parameterType="int">
+  		delete from book where book_code = #{no}
+  	</delete>
+  	
   	<!-- db 세팅할 때 book_code / Link 가져오는 select문 -->
   	<select id="selectBCAndBL" resultType="HashMap">
   		SELECT BOOK_CODE, BOOK_LINK FROM BOOK
@@ -656,6 +681,12 @@
 		 	</otherwise>
 		 </choose>
 	</select>
+	
+	<update id="statusUpdate">
+		update credit
+			set status = #{status}
+				where creditno = ${no}
+	</update>
 
 	<!-- 충돌날까봐 카트 일단 여기가 넣음 -->
 	

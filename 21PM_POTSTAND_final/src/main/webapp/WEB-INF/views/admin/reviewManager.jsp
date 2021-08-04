@@ -54,7 +54,7 @@
                                       	  		</div>
                                     </td>
                                     <td><fmt:formatDate value="${r.reviewDate }" pattern="yyyy년MM월dd일"/></td>
-                                    <td><a class="update-btn" href="#">상품정보 이동</a></td>
+                                    <td><a class="update-btn" href="${path }/book/bookinfo.do?no=${r.bookCode}">상품정보 이동</a></td>
                                     <td><button class="update-btn" onclick="reviewDelete(${r.reviewNo});" style="background-color: #FF5A5A;;">삭제</button></td>
                                 </tr>
                             </c:forEach>

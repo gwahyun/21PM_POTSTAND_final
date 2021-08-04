@@ -423,6 +423,30 @@ public class AdminServiceImpl implements AdminService {
 		// TODO Auto-generated method stub
 		return dao.cartSelectOnePlus(session,param);
 	}
+
+	@Override
+	public int statusUpdate(Map param) {
+		// TODO Auto-generated method stub
+		return dao.statusUpdate(session,param);
+	}
+
+	@Override
+	public Book bookSelectOne(int no) {
+		// TODO Auto-generated method stub
+		return dao.bookSelectOne(session,no);
+	}
+
+	@Override
+	public int productUpdate(Book b) {
+		// TODO Auto-generated method stub
+		return dao.productUpdate(session,b);
+	}
+
+	@Override
+	public int productDelete(int no) {
+		// TODO Auto-generated method stub
+		return dao.productDelete(session,no);
+	}
 	
 	
 	
