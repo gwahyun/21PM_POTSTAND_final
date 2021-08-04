@@ -478,7 +478,6 @@ function requestPay() {
 		          success:function(data){
 		        	  $("#failForm").submit();
 				  }
-		          
 		   });
 	}
   }); 
