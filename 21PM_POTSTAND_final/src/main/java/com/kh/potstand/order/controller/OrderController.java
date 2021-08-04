@@ -20,10 +20,10 @@ import org.springframework.web.servlet.ModelAndView;
 import com.kh.potstand.member.model.vo.Member;
 import com.kh.potstand.order.model.service.OrderService;
 import com.kh.potstand.order.model.vo.Cart;
+import com.kh.potstand.order.model.vo.Payment;
 import com.siot.IamportRestClient.IamportClient;
 import com.siot.IamportRestClient.exception.IamportResponseException;
 import com.siot.IamportRestClient.response.IamportResponse;
-import com.siot.IamportRestClient.response.Payment;
 
 import lombok.extern.slf4j.Slf4j;
 @Slf4j
@@ -173,7 +173,7 @@ public class OrderController {
 	
 	@RequestMapping("/ajax/paymentCheck.do")
 	@ResponseBody
-	public IamportResponse<Payment> paymentCheck(HttpSession session, @RequestBody Map param) throws IamportResponseException, IOException{
+	public IamportResponse<com.siot.IamportRestClient.response.Payment> paymentCheck(HttpSession session, @RequestBody Map param) throws IamportResponseException, IOException{
 		String imp_uid = (String)param.get("imp_uid"); 
 		log.debug(imp_uid);
 		return api.paymentByImpUid(imp_uid);
