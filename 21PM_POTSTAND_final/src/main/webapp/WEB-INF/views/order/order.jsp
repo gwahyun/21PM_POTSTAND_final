@@ -314,7 +314,7 @@
 		<div class="flex">
 			<div class="payMethodSelect w-8/12 mx-1 ">
 				<ul class="w-full flex flex-wrap h-3/4">
-					<li class="w-3/12">
+					<%-- <li class="w-3/12">
 						<label for="card" class="flex w-full h-full border border-gray-400 border-solid justify-center items-center py-2">
 							<input id="card" class="method-radio appearance-none" type="radio" name="payMethodSelected" value="card">
 							<span>
@@ -369,7 +369,7 @@
 							<input id="tosspay" class="method-radio appearance-none" type="radio" name="payMethodSelected" value="tosspay">
 							<img src="https://wp-blog.toss.im/wp-content/uploads/2019/01/BI_L.png" class="w-6/12 ">
 						</label>
-					</li>
+					</li> --%>
 				</ul>
 				<div class="w-full flex justify-center align-middle h-1/4 pt-5">		
 					<button class="border border-solid border-gray-400 w-3/12 bg-green-200" onclick="requestPay()">결제하기</button>
@@ -413,7 +413,7 @@
 <jsp:include page="/WEB-INF/views/common/footer.jsp" />
 
 <script>
-var IMP = window.IMP; // 생략해도 괜찮습니다.
+var IMP = window.IMP;
 IMP.init("imp89075565"); // "imp00000000" 대신 발급받은 "가맹점 식별코드"를 사용합니다.
 
 // IMP.request_pay(param, callback) 호출
@@ -423,9 +423,9 @@ function requestPay() {
 		alert("구매정보를 확인하고 동의해주세요");
 		return;
 		
-	}else if(!$("input[name='payMethodSelected']").is(":checked")){
+	/* }else if(!$("input[name='payMethodSelected']").is(":checked")){
 		alert("결제방법을 확인해주세요");
-		return;
+		return; */
 	
 	}else{
 		
@@ -441,7 +441,7 @@ function requestPay() {
 		
 		var param=JSON.stringify({
 			pg:"html5_inicis",
-		    pay_method: $("input[name='payMethodSelected']").val(),
+		    pay_method: "temp",
 		    merchant_uid:null,
 		    name: $($(".bookTitle").get(0)).text().trim()+"등 "+$(".bookTitle").length+"건",
 		    amount: realPrice,
@@ -474,24 +474,53 @@ function requestPay() {
 	}
 	
   // IMP.request_pay(param, callback) 호출
+   param=JSON.parse(param);
    IMP.request_pay(param,
 	function (rsp) { // callback
 	  if (rsp.success) { // 결제 성공 시: 결제 승인 또는 가상계좌 발급에 성공한 경우
 	      // jQuery로 HTTP 요청
+	      param.pay_method=rsp.pay_method;
 	      $.ajax({
 	          url: "${path}/ajax/paymentCheck.do", // 가맹점 서버
 	          method: "POST",
 	          dataType : "json",
+	          contentType:'application/json',
 	          data: JSON.stringify({
 	              imp_uid: rsp.imp_uid,
 	              merchant_uid: rsp.merchant_uid
 			  })
 	      }).done(function (data) {
-	    	console.log("거의다왔다");
-	        console.log(data);
+	    		if(param.amount == data.amount){
+	    			param.check=true;
+	    			$.ajax({
+	    		          url: "${path}/ajax/paymentCheck.do",
+	    		          method: "POST",
+	    		          dataType : "json",
+	    		          contentType:'application/json',
+	    		          data: JSON.stringify(param)
+	    		      });
+	    		}else{
+	    			param.check=false;
+	    			$.ajax({
+	    		          url: "${path}/ajax/paymentCheck.do",
+	    		          method: "POST",
+	    		          dataType : "json",
+	    		          contentType:'application/json',
+	    		          data: JSON.stringify(param)
+	    		      });
+	    		}
 	      })
 	} else {
 	      alert("결제에 실패하였습니다. 에러 내용: " +  rsp.error_msg);
+	      param.check=false;
+	      param.page="current";
+			$.ajax({
+		          url: "${path}/ajax/paymentCheck.do",
+		          method: "POST",
+		          dataType : "json",
+		          contentType:'application/json',
+		          data: JSON.stringify(param)
+		   });
 	}
   }); 
 }
@@ -500,10 +529,10 @@ function requestPay() {
 
 
 //hidden 값 (조작방지)
-let realPrice = 3000;
+let realPrice = 100;
 let realValue =$("input[name='cartBookCost']");
 	realValue.each(function(i,v){
-		realPrice+=Number($(v).val());
+		realPrice+=Number($(v).val())*0.01;
 	});	
 
 

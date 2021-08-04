@@ -33,4 +33,7 @@ public interface OrderDao {
 	
 	//결제전 선 insert
 	Map beforOrderPayment(SqlSession session, Map param);
+	
+	int paymentSuccess(SqlSession session, Map param);
+	int paymentFail(SqlSession session, Map param);
 }

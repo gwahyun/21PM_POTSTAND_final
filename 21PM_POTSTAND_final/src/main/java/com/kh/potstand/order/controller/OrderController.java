@@ -25,6 +25,8 @@ import com.siot.IamportRestClient.exception.IamportResponseException;
 import com.siot.IamportRestClient.response.IamportResponse;
 import com.siot.IamportRestClient.response.Payment;
 
+import lombok.extern.slf4j.Slf4j;
+@Slf4j
 @Controller
 public class OrderController {
 
@@ -170,7 +172,7 @@ public class OrderController {
 			param.put("receiverAddress", ((String)param.get("receiverAddress")).replace(":"," "));
 			param.put("memberId", memberId);
 			param=service.beforOrderPayment(param);
-			
+			log.debug(param.toString());
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
@@ -180,9 +182,24 @@ public class OrderController {
 	
 	@RequestMapping("/ajax/paymentCheck.do")
 	@ResponseBody
-	public IamportResponse<Payment> completePayment(HttpSession session, @RequestBody Map param) throws IamportResponseException, IOException{
+	public IamportResponse<Payment> paymentCheck(HttpSession session, @RequestBody Map param) throws IamportResponseException, IOException{
 		String imp_uid = (String)param.get("imp_uid"); 
+		log.debug(imp_uid);
 		return api.paymentByImpUid(imp_uid);
+	}
+	
+	@RequestMapping("/ajax/paymentComplete.do")
+	@ResponseBody
+	public String paymentComplete(HttpSession session, @RequestBody Map param){
+		//성공/실패 확인
+		if((Boolean)param.get("check")) {
+			//cart 삭제 + uid / payMethod update
+			service.paymentSuccess(param);
+		}else {
+			//uid로 조회해서 payment 삭제
+			service.paymentFail(param);
+		}
+		return 
 	}
 	
 }
