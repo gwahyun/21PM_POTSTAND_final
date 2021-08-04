@@ -97,6 +97,18 @@ public class BookServiceImpl implements BookService {
 	public int bookHeartDelete(Map param) {
 		return dao.bookHeartDelete(session,param);
 	}
+
+	//리뷰등록
+	@Override
+	public int bookReviewInsert(Map param) {
+		return dao.bookReviewInsert(session,param);
+	}
+
+	//리뷰를 썻는지 확인
+	@Override
+	public Review reviewCheckSelect(Map param) {
+		return dao.reviewCheckSelect(session,param);
+	}
 	
 	
 
