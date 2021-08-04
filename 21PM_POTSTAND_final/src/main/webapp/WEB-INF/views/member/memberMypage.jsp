@@ -3,10 +3,16 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <jsp:include page="/WEB-INF/views/common/header.jsp"/>
 <c:set var="path" value="${pageContext.request.contextPath }"/>
-	<section class="body-font">
-    	<div class="container mx-auto flex justify-start">
+	<section class="text-gray-600 body-font overflow-hidden">
+     <div class="container p-5 mx-auto flex justify-start">
         	<div class="w-1/4 h-full py-8">
-	            <h3 class="text-4xl font-extrabold"><a href="${path}/member/memberMypage.do">마이페이지</a></h3>
+        	 <h1 class="sm:text-3xl
+            text-2xl
+            font-medium
+            title-font
+            mb-2
+            text-gray-900"><a href="${path}/member/memberMypage.do">마이페이지</a></h1>
+            <div class="h-1 w-20 bg-red-500 rounded mb-10"></div>
 	            <div class="mt-4 text-gray-500 border-t-2">
 	            	<h4 class="text-2xl font-semibold py-2"><span>개인</span></h4>
 	            	<div class="pl-5 text-xl">
@@ -31,30 +37,35 @@
 	            </div>
         	</div>
 	        <div class="w-3/4 h-full px-5 py-8 flex flex-col content-center">
-	        	<div class="flex text-center border-2 border-black">
+	        	<div class="flex text-center bg-gray-100 rounded-md">
 	        		<div class="w-1/3 h-full px-5 py-24">
 	        			<div class="mb-3"><h4 class="text-4xl font-semibold">${loginMember.memberId }</h4></div>
-	        			<div class="mb-2"><h5 class="text-2xl">${loginMember.memberEmail }</h5></div>
+	        			<div class="mb-2"><h5 class="text-xl">${loginMember.memberEmail }</h5></div>
 	        			<div><button type="button" onclick="location.replace('${path}/member/memberLogout.do')"
-	        			class="mt-4 bg-red-500 text-gray-100 p-4 rounded-full tracking-wide font-semibold focus:outline-none 
+	        			class="mt-12 bg-red-500 text-gray-100  px-6 py-4 rounded-lg tracking-wide font-bold focus:outline-none 
 	        			focus:shadow-outline hover:bg-red-600 shadow-lg cursor-pointer transition ease-in duration-300">
 	        				로그아웃
 	        			</button></div>
 	        		</div>
 	        		<div class="w-1/3 h-full px-5 py-24">	
-	        			<div class="mb-3"><h4 class="text-4xl font-semibold">적립금</h4></div>
+	        		
+	        			<div><h4 class="text-4xl font-semibold">적립금</h4></div>
 	    				<div>
-	    					<h5 class="text-2xl">
-	    						<a href="${path}/member/memberPoint.do">${mypageTotalPoint }point</a>
-	    					</h5>
+	    					<button type="button"
+	        			class="mt-20  bg-red-500 text-gray-100  px-6 py-4 rounded-lg tracking-wide font-bold font-2xl focus:outline-none 
+	        			focus:shadow-outline hover:bg-red-600 shadow-lg cursor-pointer transition ease-in duration-300">
+	        				<a href="${path}/member/memberPoint.do">${mypageTotalPoint } point</a>
+	        			</button>
 	    				</div>
 	        		</div>
 	        		<div class="w-1/3 h-full px-5 py-24">
-	        			<div class="mb-3"><h4 class="text-4xl font-semibold">쿠폰</h4></div>
+	        			<div><h4 class="text-4xl font-semibold">쿠폰</h4></div>
 	        			<div>
-	        				<h5 class="text-2xl">
-	        					<a href="${path}/member/memberCouponListSelect.do">${mypageTotalCoupon }개</a>
-	        				</h5>
+	        				<button type="button"
+	        			class="mt-20 bg-red-500 text-gray-100 px-6 py-4 rounded-lg tracking-wide font-semibold focus:outline-none 
+	        			focus:shadow-outline hover:bg-red-600 shadow-lg cursor-pointer transition ease-in duration-300">
+	        				<a href="${path}/member/memberCouponListSelect.do">${mypageTotalCoupon }개</a>
+	        			</button>
 	        			</div>
 	        		</div>
 	        	</div>
