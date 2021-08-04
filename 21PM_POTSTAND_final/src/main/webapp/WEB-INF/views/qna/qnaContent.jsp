@@ -19,8 +19,23 @@
             text-gray-900">고객센터</h1></div>
             <div class="h-1 w-20 bg-red-500 rounded mb-10"></div>
         <div class="nav-container flex">
+        <a href="${path}/notice/noticeSelectList.do" class="
+          text-center
+          text-lg
+          bg-gray-400
+          py-1
+          px-3
+          hover:bg-red-500
+          text-white
+          rounded
+          mt-4
+          md:mt-0
+          cursor-pointer
+          font-bold
+          w-4/12">
             <div id="notice-nav" 
-          class="
+          >공지사항</div></a>
+          <a href="${path}/qna/qnaWrite.do" class="
           text-center
           text-lg
           bg-gray-400
@@ -33,21 +48,8 @@
           md:mt-0
           cursor-pointer
           font-bold
-          w-4/12"><a href="${path}/notice/noticeSelectList.do">공지사항</a></div>
-            <div id="qna-nav" class="
-          text-center
-          text-lg
-          bg-gray-400
-          py-1
-          px-3
-          hover:bg-red-500
-          text-white
-          rounded
-          mt-4
-          md:mt-0
-          cursor-pointer
-          font-bold
-          w-4/12"><a href="${path}/qna/qnaWrite.do">1:1문의하기</a></div>
+          w-4/12">
+            <div id="qna-nav" >1:1문의하기</div></a>
             <div id="myqna-nav" class="ttext-center
           text-lg
           py-1

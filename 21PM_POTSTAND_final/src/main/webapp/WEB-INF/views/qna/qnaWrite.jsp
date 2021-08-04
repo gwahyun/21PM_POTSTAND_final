@@ -26,12 +26,14 @@
             <div class="h-1 w-20 bg-red-500 rounded mb-10"></div>
 
         <div class="nav-container flex">
-           <div id="notice-nav" class="text-center bg-gray-400 border-0 py-1 px-3 focus:outline-none hover:bg-red-500
-            text-lg text-white rounded text-base mt-4 md:mt-0 cursor-pointer font-bold w-4/12"><a href="${path}/notice/noticeSelectList.do">공지사항</a></div>
+        <a href="${path}/notice/noticeSelectList.do" class="text-center bg-gray-400 border-0 py-1 px-3 focus:outline-none hover:bg-red-500
+            text-lg text-white rounded text-base mt-4 md:mt-0 cursor-pointer font-bold w-4/12">
+           <div id="notice-nav" >공지사항</div></a>
             <div id="qna-nav" class="text-center bg-red-500 border-0 py-1 px-3 focus:outline-none hover:bg-red-500
             text-lg text-white rounded text-base mt-4 md:mt-0 cursor-pointer font-bold w-4/12">1:1문의하기</div>
-            <div id="myqna-nav" class="text-center bg-gray-400 border-0 py-1 px-3 focus:outline-none hover:bg-red-500
-            text-lg text-white rounded text-base mt-4 md:mt-0 cursor-pointer font-bold w-4/12"><a href="${path}/qna/myQnaList.do">내 문의내역</a></div>
+            <a href="${path}/qna/myQnaList.do" class="text-center bg-gray-400 border-0 py-1 px-3 focus:outline-none hover:bg-red-500
+            text-lg text-white rounded text-base mt-4 md:mt-0 cursor-pointer font-bold w-4/12">
+            <div id="myqna-nav">내 문의내역</div></a>
         </div>
         <div class="qna-container">
         	<form id="qnaWriteEnd" method="post" action="${path}/qna/qnaWriteEnd.do">

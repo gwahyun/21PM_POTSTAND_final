@@ -31,4 +31,7 @@ public interface OrderService {
 	int cartCouponUpdate(Map param);
 	
 	Map beforOrderPayment(Map param);
+	
+	int paymentSuccess(Map param);
+	int paymentFail(Map param);
 }
