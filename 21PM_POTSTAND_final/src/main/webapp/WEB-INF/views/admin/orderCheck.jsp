@@ -43,8 +43,8 @@
                             <select name="type">
                                 <option>전체</option>
                                 <option value="payment_no">주문번호</option>
-                                <option value="RECEIVER_NAME">수령인</option>
-                                <option value="memberId">회원자명</option>
+                                <option value="RECEIVER_NAME">회원 이름</option>
+                                <option value="memberId">회원 아이디</option>
                             </select>
                             <input type="text" name="keyword">
                         </div>
@@ -72,7 +72,7 @@
             <div class="admin-content_area" style="margin-top: 45px;">
 			<div class="admin-content">
 				<div class="admin-content_title">
-					상품목록 (총 ${count } 건)
+					주문목록 (총 ${count } 건)
 				</div>
 				<div class="search-table">
 				
@@ -83,14 +83,14 @@
 							<tr>
 								<th style="width:5%">주문번호</th>
 								<th style="width:5%">회원아이디</th>
+								<th style="width:10%">수령인</th>
 								<!-- <th style="width:5%">상품번호</th> -->
 								<!-- <th style="width:5%">수량</th> -->
-								<th style="width:8%">주문상태</th>
-								<th style="width:15%">주문일</th>
-								<th style="width:10%">수령인</th>
+								<th style="width:15%">결제일</th>
 								<th style="width:15%">배송지</th>
 								<!-- <th style="width:10%">연락처</th> -->
 								<th style="width:10%">판매가</th>
+								<th style="width:8%">주문상태</th>
 							</tr>
 						</thead>
 						
@@ -103,12 +103,28 @@
 							<td>
 							${v.memberId }
 							</td>
+							<td style="text-align:center;">
+							${v.receiverName }
+							</td>
 							<%-- <td>
 							${v.productNo }
 							</td>
 							<td style="text-align:center;">
 							${v.stock }
 							</td> --%>
+							
+							<td style="text-align:center;">
+							<fmt:formatDate value="${v.payDate }" pattern="yy년MM월dd일"/>
+							</td>
+							<td>
+							${v.receiverAddr }
+							</td>
+							<%-- <td>
+							${v.phone }
+							</td> --%>
+							<td>
+							${v.amount }
+							</td>
 							<td style="text-align:center;">
 							<c:choose>
 								<c:when test="${v.orderState == '결제완료'}">
@@ -122,21 +138,6 @@
 								</c:otherwise>
 							</c:choose>
 												
-							</td>
-							<td style="text-align:center;">
-							<fmt:formatDate value="${v.payDate }" pattern="yy년MM월dd일"/>
-							</td>
-							<td style="text-align:center;">
-							${v.receiverName }
-							</td>
-							<td>
-							${v.receiverAddr }
-							</td>
-							<%-- <td>
-							${v.phone }
-							</td> --%>
-							<td>
-							${v.amount }
 							</td>
 							
 						</tr>
