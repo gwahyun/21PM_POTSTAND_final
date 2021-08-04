@@ -723,12 +723,14 @@
 	function reviewCheck(){
 		if(${not empty reviewCheck}){
 			$("input[name=point]").each(function(){ //radio name이 point인 것을 순회해서 체크드인거 찾기
-				if($(this).val()=='${r.point}'){
+				if($(this).val()=='${reviewCheck.point}'){
+					console.log($(this));
 					$(this).attr("checked",true);
 				}
 			});
 		}
 	}
+	reviewCheck();
 	
 </script>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
