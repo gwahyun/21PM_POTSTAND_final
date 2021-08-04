@@ -10,14 +10,13 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.potstand.common.AES256Util;
-import com.kh.potstand.member.model.service.MemberService;
-import com.kh.potstand.member.model.vo.Address;
 import com.kh.potstand.member.model.vo.Member;
 import com.kh.potstand.order.model.service.OrderService;
 import com.kh.potstand.order.model.vo.Cart;
@@ -28,9 +27,6 @@ public class OrderController {
 	@Autowired
 	private OrderService service;
 	
-	//양방향암호화
-	@Autowired
-	private AES256Util aes;
 	
 	//장바구니 리스트 호출 / 이동
 	@RequestMapping("/member/cartList.do")
@@ -125,7 +121,7 @@ public class OrderController {
 			return result;
 	}
 	
-	@RequestMapping("order/orderItems.do")
+	@RequestMapping("/order/orderItems.do")
 	@ResponseBody
 	public ModelAndView orderItems(ModelAndView mv, HttpSession session,
 									@RequestParam (value="cartNo") String param){
@@ -150,6 +146,29 @@ public class OrderController {
 			return mv;
 	}
 	
+	@RequestMapping("/ajax/beforePayment.do")
+	@ResponseBody
+	public Map beforOrderPayment(HttpSession session, @RequestBody Map param){
+		try {
+			String memberId = ((Member)(session.getAttribute("loginMember"))).getMemberId();
+			/*{pg=html5_inicis, pay_method=card, merchant_uid=인서트 실행하고 리턴받아야됨, 
+			 * name=프랑켄슈타인 (현대판 프로메테우스)외 3건, amount=58340, buyer_email=000000@000000.com, 
+			 * buyer_name=회원3, 
+			 * buyer_tel=01031302309, 
+			 * buyer_addr=서울특별시 구로구 가마산로 77, buyer_postcode=08327, 
+			 * receiverName=회원3, receiverAddress=08327:서울특별시 구로구 가마산로 77:집:(구로동), 
+			 * message=, postMessage=, billPrice=Y, digital=false, 
+			 * cartNo=[27, 22, 29]}
+			 */
+			param.put("receiverAddress", ((String)param.get("receiverAddress")).replace(":"," "));
+			param.put("memberId", memberId);
+			param=service.beforOrderPayment(param);
+			System.out.println(param.toString());
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return param;
+	}
 	
 	
 }

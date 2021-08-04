@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="cart">
+<mapper namespace="order">
 
 	<resultMap type="sort" id="sortMap">
 		<id column="SORT_NO" property="sortNo"/>
@@ -118,5 +118,32 @@
 	<insert id="insertBook" parameterType="book">
 		insert into book values(seq_book.nextval, #{sort.sortNo}, #{bookTitle}, #{bookWriter}, #{bookPub}, #{bookCost}, null , #{bookCover}, #{bookDate}, 10, #{bookLink}, null, null, null, null, null, null, null)
 	</insert>
+	
+	
+	
+	<!-- {pg=html5_inicis, pay_method=card, merchant_uid=인서트 실행하고 리턴받아야됨, 
+		 * name=프랑켄슈타인 (현대판 프로메테우스)외 3건, amount=58340, buyer_email=000000@000000.com, 
+		 * buyer_name=회원3, 
+		 * buyer_tel=01031302309, 
+		 * buyer_addr=서울특별시 구로구 가마산로 77, buyer_postcode=08327, 
+		 * receiverName=회원3, receiverAddress=08327:서울특별시 구로구 가마산로 77:집:(구로동), 
+		 * message=, postMessage=, billPrice=Y, digital=false, 
+		 * cartNo=[27, 22, 29]}
+		 */
+	 -->
+	<insert id="insertPaymentByParam">
+		<selectKey keyProperty="merchant_uid" resultType="int" order="AFTER">
+			SELECT SEQ_PAYMENT.CURRVAL FROM DUAL 
+		</selectKey>
+		INSERT INTO PAYMENT VALUES(SEQ_PAYMENT.NEXTVAL, 
+									#{memberId, jdbcType=VARCHAR}, #{receiverName, jdbcType=VARCHAR}, #{receiverAddress, jdbcType=VARCHAR}, 
+									#{message, jdbcType=VARCHAR}, #{postMessage, jdbcType=VARCHAR}, #{name, jdbcType=VARCHAR}, #{pay_method, jdbcType=VARCHAR}, 
+									#{merchant_uid, jdbcType=INTEGER}, #{amount, jdbcType=INTEGER}, SYSDATE, DEFAULT, #{used_coupon_no, jdbcType=INTEGER})
+	</insert>
+	<insert id="insertPaymentObjByParam">
+		INSERT INTO PAYMENT_OBJ VALUES(SEQ_PAYMENT_OBJ.NEXTVAL, #{bookCode}, #{bookAmount}, #{paymentNo}, #{usedCouponNo, jdbcType=VARCHAR})
+	</insert>
+	
+	
 	
 </mapper>

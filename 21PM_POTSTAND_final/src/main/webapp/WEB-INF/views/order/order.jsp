@@ -88,7 +88,7 @@
 
 						<!-- 책 제목, 작가, 삭제버튼 -->
 						<div class="obj-info ml-6 w-5/12">
-							<h2 class="my-3 text-base font-bold">
+							<h2 class="bookTitle my-3 text-base font-bold">
 								<c:out value="${cart.book.bookTitle}" escapeXml="false" />
 							</h2>
 							<h4 class="my-3 text-sm font-medium">
@@ -100,6 +100,7 @@
 									class="w-2/12 text-right border border-solid border-gray-300 text-sm"
 									name="bookAmount" value="${cart.bookAmount}" readonly>권
 								<input type="hidden" name="cartNo" value="${cart.cartNo}" />
+								<input type="hidden" name="cartBookAmount" value="${cart.cartNo}" />
 							</div>
 						</div>
 
@@ -123,6 +124,7 @@
 										class="inline ori-price-total m-3 text-base text-right font-bold ">
 										<fmt:formatNumber type="currency"
 											value="${cart.book.bookCost * cart.bookAmount}" />
+										<input type="hidden" name="cartBookCost" value="${cart.book.bookCost * cart.bookAmount}" />
 									</h3>
 								</c:if>
 								<c:if test="${cart.usedCouponNo!=0}">
@@ -152,6 +154,7 @@
 											<c:if test="${cp.couponNo==cart.usedCouponNo}">
 												<fmt:formatNumber type="currency"
 													value="${cart.book.bookCost * cart.bookAmount *(1-cp.event.discount)}" />
+												<input type="hidden" name="cartBookCost" value="${cart.book.bookCost * cart.bookAmount *(1-cp.event.discount)}" />
 											</c:if>
 										</c:forEach>
 									</h2>
@@ -161,7 +164,6 @@
 
 
 							<!-- 쿠폰 : 쿠폰 없는경우 / 쿠폰 있는데 적용 안한경우 / 쿠폰 있고 적용한경우-->
-
 							<div class="w-6/12">
 								<c:choose>
 									<c:when
@@ -261,30 +263,30 @@
 				class="member-addr w-8/12 ml-2 border border-solid border-gray-400 p-1">
 				<div class="address-radio mb-1">
 					<span class="text-base font-bold border-l-4 border-red-400 border-solid m-2 pl-3">배송지</span>
-					<input class="pl-2 mx-3 my-2" type="radio" name="address" value="기본배송지" checked><label>기본배송지</label> 
-					<input class="pl-2 mx-3 my-2" type="radio" name="address" value="최근배송지"><label>최근배송지</label> 
-					<input class="pl-2 mx-3 my-2" type="radio" name="address" value="주소록"><label>주소록</label>
-					<input class="pl-2 mx-3 my-2" type="radio" name="address" value="새로입력"><label>새로입력</label>
+					<label class="text-sm"><input class="pl-2 mx-3 my-2" type="radio" name="address" value="default" checked>기본배송지</label> 
+					<label class="text-sm"><input class="pl-2 mx-3 my-2" type="radio" name="address" value="recent">최근배송지</label> 
+					<label class="text-sm"><input class="pl-2 mx-3 my-2" type="radio" name="address" value="list">주소록</label>
+					<label class="text-sm"><input class="pl-2 mx-3 my-2" type="radio" name="address" value="new">새로입력</label>
 				</div>
 				<div class="receiver">
 					<span class="text-base font-bold border-l-4 border-red-400 border-solid m-2 pl-3">받는사람</span>
-					<input type="text" name="receiver" value="${memberInfo.memberName}">
+					<input class="border-b border-gray-400 border-solid" type="text" name="receiver" value="${memberInfo.memberName}">
 				</div>
 				<div class="address-info">
-					<h3 class="text-base font-bold border-l-4 border-red-400 border-solid m-2 pl-3">배송주소</h3>
-					<div class="ml-6 border border-gray-400 border-solid">
+					<h3 class="text-base font-bold border-l-4 border-red-400 border-solid mt-2 mx-2 pl-3">배송주소</h3>
+					<div class="ml-6">
 						<label class="inline-block text-sm mr-3 w-20">우편번호</label>
-						<input id="postNo" class="text-xs w-3/12 mr-3 border border-gray-400 border-solid" type="text" name="postNo" value="${defAddr.postNo}">
+						<input id="postNo" class="text-xs w-3/12 mr-3 border-b border-gray-400 border-solid" type="text" name="postNo" value="${defAddr.postNo}">
 						<button class="inline-block w-1/12 text-xs border border-gray-400 border-solid" onclick="goPopup();">주소찾기</button>
 					</div>
-					<div class="ml-6 border border-gray-400 border-solid">
+					<div class="ml-6">
 						<label class="inline-block text-sm mr-3 w-20">도로명 주소</label>
-						<input id="roadAddrPart1" class="text-xs w-8/12 mr-3 border border-gray-400 border-solid" type="text" name="roadAddr1" value="${defAddr.roadAddr}">
+						<input id="roadAddrPart1" class="text-xs w-6/12 mr-3 border-b border-gray-400 border-solid" type="text" name="roadAddr1" value="${defAddr.roadAddr}">
 					</div>
-					<div class="ml-6 border border-gray-400 border-solid">
+					<div class="ml-6 b">
 						<label class="inline-block text-sm mr-3 w-20">상세주소</label>
-						<input id="addrDetail" class="text-xs w-5/12 mr-3 border border-gray-400 border-solid" type="text" name="addrDetail" value="${defAddr.oldAddr}">
-						<input id="roadAddrPart2" class="text-xs w-5/12 mr-3 border border-gray-400 border-solid" type="text" name="roadAddr2" value="${defAddr.detailAddr}">
+						<input id="addrDetail" class="text-xs w-3/12 mr-3 border-b border-gray-400 border-solid" type="text" name="addrDetail" value="${defAddr.oldAddr}">
+						<input id="roadAddrPart2" class="text-xs w-3/12 mr-3 border-b border-gray-400 border-solid" type="text" name="roadAddr2" value="${defAddr.detailAddr}">
 						<button class="inline-block ml-3 w-2/12 text-xs border border-gray-400 border-solid">주소록에 추가</button>
 					</div>
 				</div>
@@ -370,14 +372,14 @@
 					</li>
 				</ul>
 				<div class="w-full flex justify-center align-middle h-1/4 pt-5">		
-					<button class="border border-solid border-gray-400 w-3/12 bg-green-200">결제하기</button>
+					<button class="border border-solid border-gray-400 w-3/12 bg-green-200" onclick="requestPay()">결제하기</button>
 				</div>
 			</div>
 			<div class="pay-info w-4/12 mx-1 border border-solid border-gray-400 text-sm">
 				<div class="w-full mt-2 mb-4 pl-4 pr-2">
 					<span class="inline-block w-3/12">영수증</span>
 					<label class="inline-block w-4/12">
-						<input type="radio" name="billprice" value="Y">
+						<input type="radio" name="billprice" value="Y" checked>
 						가격표시
 					</label>
 					<label class="inline-block w-4/12">
@@ -387,11 +389,11 @@
 				</div>
 				<div class="w-full flex mb-4 pl-4 pr-2">
 					<span class="inline-block w-3/12">택배사에게<br>메세지</span>
-					<input class="w-9/12 border border-solid border-gray-400" type="text" name="post-message" value="">
+					<input class="w-9/12 border-b border-solid border-gray-400" type="text" name="post-message" value="">
 				</div>
 				<div class="w-full flex mb-2 pl-4 pr-2">
 					<span class="inline-block w-3/12">받는분에게<br>메세지</span>
-					<input class="w-9/12 border border-solid border-gray-400" type="text" name="post-message" value="">
+					<input class="w-9/12 border-b border-solid border-gray-400" type="text" name="message" value="">
 				</div>
 				<div class="w-full bg-blue-100 flex pl-4 pr-2 pt-3 pb-3">
 					<span class="inline-block w-3/12 text-blue-600 text-xl font-bold">결제금액</span>
@@ -415,24 +417,71 @@ var IMP = window.IMP; // 생략해도 괜찮습니다.
 IMP.init("imp89075565"); // "imp00000000" 대신 발급받은 "가맹점 식별코드"를 사용합니다.
 
 // IMP.request_pay(param, callback) 호출
-IMP.request_pay({ // param
-  pg: "html5_inicis",
-  pay_method: "card",
-  merchant_uid: "ORD20180131-0000011",
-  name: "노르웨이 회전 의자",
-  amount: 64900,
-  buyer_email: "gildong@gmail.com",
-  buyer_name: "홍길동",
-  buyer_tel: "010-4242-4242",
-  buyer_addr: "서울특별시 강남구 신사동",
-  buyer_postcode: "01181"
-}, function (rsp) { // callback
-	if (rsp.success) { // 결제 성공 시: 결제 승인 또는 가상계좌 발급에 성공한 경우
+//주문번호(merchant_uid) 생성하기
+function requestPay() {
+	if(!$("input[name='trade-agree']").is(":checked")){
+		alert("구매정보를 확인하고 동의해주세요");
+		return;
+		
+	}else if(!$("input[name='payMethodSelected']").is(":checked")){
+		alert("결제방법을 확인해주세요");
+		return;
+	
+	}else{
+		
+		//****************************************client에서 parameter 조작됐는지 검사하는 로직 있어야됨**********************************
+		//hidden value써서 대강 처리함
+		
+		
+		let bookTitle = $(".bookTitle");
+		let cartNo=[];
+		$("input[name='cartNo']").each(function(i,v){
+			cartNo.push(Number($(v).val()));
+		})
+		
+		var param=JSON.stringify({
+			pg:"html5_inicis",
+		    pay_method: $("input[name='payMethodSelected']").val(),
+		    merchant_uid:null,
+		    name: $($(".bookTitle").get(0)).text().trim()+"등 "+$(".bookTitle").length+"건",
+		    amount: realPrice,
+		    buyer_email: "${memberInfo.memberEmail}",
+		    buyer_name: "${memberInfo.memberName}",
+		    buyer_tel: "${memberInfo.memberPhone}",
+		    buyer_addr: "${defAddr.roadAddr}",
+		    buyer_postcode: "${defAddr.postNo}",
+		    receiverName:$("input[name='receiver']").val(),
+		    receiverAddress:$("#postNo").val()+":"+$("#roadAddrPart1").val()+":"+$("#addrDetail").val()+":"+$("#roadAddrPart2").val(),
+		    message:$("input[name='message']").val(),
+		    postMessage:$("input[name='post-message']").val(),
+		    billPrice: $("input[name='billprice']").val(),
+		    digital:false,
+		    cartNo:cartNo
+		});
+		
+		//주문 선입력
+		$.ajax({
+	          url: '${path}/ajax/beforePayment.do',
+	          method:'post',
+	          contentType:'application/json',
+	          dataType :'json',
+	          data: param,
+	          success:function(data){
+	        	  param=data;
+	          }
+	      });
+		
+	}
+  // IMP.request_pay(param, callback) 호출
+  
+   IMP.request_pay(param,
+	function (rsp) { // callback
+	  if (rsp.success) { // 결제 성공 시: 결제 승인 또는 가상계좌 발급에 성공한 경우
 	      // jQuery로 HTTP 요청
-	      jQuery.ajax({
-	          url: "https://www.myservice.com/payments/complete", // 가맹점 서버
+	      $.ajax({
+	          url: "${path}/order/Payment.do", // 가맹점 서버
 	          method: "POST",
-	          headers: { "Content-Type": "application/json" },
+	          dataType : "json",
 	          data: {
 	              imp_uid: rsp.imp_uid,
 	              merchant_uid: rsp.merchant_uid
@@ -443,43 +492,22 @@ IMP.request_pay({ // param
 	} else {
 	      alert("결제에 실패하였습니다. 에러 내용: " +  rsp.error_msg);
 	}
-});
-
-//주문번호(merchant_uid) 생성하기
-function requestPay() {
-  // IMP.request_pay(param, callback) 호출
-  IMP.request_pay({ // param
-      pg: "html5_inicis",
-      pay_method: "card",
-      merchant_uid: "ORD20180131-0000011",
-      name: "노르웨이 회전 의자",
-      amount: 64900,
-      buyer_email: "gildong@gmail.com",
-      buyer_name: "홍길동",
-      buyer_tel: "010-4242-4242",
-      buyer_addr: "서울특별시 강남구 신사동",
-      buyer_postcode: "01181"
-  }, function (rsp) { // callback
-      if (rsp.success) {
-          
-          // 결제 성공 시 로직,
-          
-      } else {
-          
-          // 결제 실패 시 로직,
-          
-      }
-  });
+  }); 
 }
 
 
 
 
+//hidden 값 (조작방지)
+let realPrice = 3000;
+let realValue =$("input[name='cartBookCost']");
+	realValue.each(function(i,v){
+		realPrice+=Number($(v).val());
+	});	
 
 
 
-
-	function fn_priceCalc(){
+function fn_priceCalc(){
 		//책 원래가격
 		let oriPrice=$(".ori-price-total");
 		//책 할인가격
@@ -488,24 +516,22 @@ function requestPay() {
 		
 		//전체 합
 		let sumPrice=0;
-		oriPrice.each(function(i,v){
-			let price = $(v).text().trim().replace("₩","").replace(",","");
-			sumPrice+=Number(price);
-		});
+			oriPrice.each(function(i,v){
+				let price = $(v).text().trim().replace("₩","").replace(",","");
+				sumPrice+=Number(price);
+			});
 		
 		// 할인해주는 가격 합
 		let discountPrice=0;
-		disPrice.each(function(i,v){
-				let price = $(v).text().trim().replace("₩","").replace(",","");
-				let ori = $(v).siblings(".ori-price-total").text().trim().replace("₩","").replace(",","");
-				let dis=0;
-				if(price!=0||price!=""){
-					dis+= ori-price	
-				}
-				discountPrice-=Number(dis);
-		});
-		
-		
+			disPrice.each(function(i,v){
+					let price = $(v).text().trim().replace("₩","").replace(",","");
+					let ori = $(v).siblings(".ori-price-total").text().trim().replace("₩","").replace(",","");
+					let dis=0;
+					if(price!=0||price!=""){
+						dis+= ori-price	
+					}
+					discountPrice-=Number(dis);
+			});
 		
 		//배송비...3000원 고정인데 나중에 로직을 추가하던가 뭐
 		
@@ -520,9 +546,10 @@ function requestPay() {
 			$("#sale-price>.money").text(discountPrice.toLocaleString('ko-KR',{style:'currency',currency:'KRW'}));
 			
 			$("#total>.money").text(totalPrice.toLocaleString('ko-KR',{style:'currency',currency:'KRW'}));
-			$("#final-price").text(totalPrice.toLocaleString('ko-KR',{style:'currency',currency:'KRW'}));
-		
-	}
+			$("#final-price").text(realPrice.toLocaleString('ko-KR',{style:'currency',currency:'KRW'}));			
+
+}
+			
 
 
 	
