@@ -313,64 +313,11 @@
 		</div>
 		<div class="flex">
 			<div class="payMethodSelect w-8/12 mx-1 ">
-				<ul class="w-full flex flex-wrap h-3/4">
-					<li class="w-3/12">
-						<label for="card" class="flex w-full h-full border border-gray-400 border-solid justify-center items-center py-2">
-							<input id="card" class="method-radio appearance-none" type="radio" name="payMethodSelected" value="card">
-							<span>
-								신용카드
-							</span>
-						</label>
-					</li>
-					<li class="w-3/12">
-						<label for="trans" class="flex w-full h-full border border-gray-400 border-solid justify-center items-center py-2">
-							<input id="trans" class="method-radio appearance-none" type="radio" name="payMethodSelected" value="trans">
-							<span>
-								실시간 계좌이체
-							</span>
-						</label>
-					</li>
-					<li class="w-3/12">
-						<label for="vbank" class="flex w-full h-full border border-gray-400 border-solid justify-center items-center py-2">
-							<input id="vbank" class="method-radio appearance-none" type="radio" name="payMethodSelected" value="vbank">
-							<span>
-								가상계좌
-							</span>
-						</label>
-					</li>
-					<li class="w-3/12">
-						<label for="phone" class="flex w-full h-full border border-gray-400 border-solid justify-center items-center py-2">
-							<input id="phone" class="method-radio appearance-none" type="radio" name="payMethodSelected" value="phone">
-							<span>
-								휴대폰 소액결제
-							</span>
-						</label>
-					</li>
-					<li class="w-3/12">
-						<label for="samsung" class="flex w-full h-full border border-gray-400 border-solid justify-center items-center">
-							<input id="samsung" class="method-radio appearance-none" type="radio" name="payMethodSelected" value="samsung">
-							<img src="${path}/resources/img/samsungpay.png" class="w-5/12">
-						</label>
-					</li>
-					<li class="w-3/12">
-						<label for="kakaopay" class="flex w-full h-full border border-gray-400 border-solid justify-center items-center ">
-							<input id="kakaopay" class="method-radio appearance-none" type="radio" name="payMethodSelected" value="kakaopay">
-							<img src="https://image.yes24.com/sysimage/common/icon/ico_kakaopay.gif" class="w-4/12">
-						</label>
-					</li>
-					<li class="w-3/12">
-						<label for="naverpay" class="flex w-full h-full border border-gray-400 border-solid justify-center items-center ">
-							<input id="naverpay" class="method-radio appearance-none" type="radio" name="payMethodSelected" value="naverpay">
-							<img src="https://image.yes24.com/sysimage/common/icon/ico_naverPay.gif" class="w-6/12">
-						</label>
-					</li>
-					<li class="w-3/12">
-						<label for="tosspay" class="flex w-full h-full border border-gray-400 border-solid justify-center items-center">
-							<input id="tosspay" class="method-radio appearance-none" type="radio" name="payMethodSelected" value="tosspay">
-							<img src="https://wp-blog.toss.im/wp-content/uploads/2019/01/BI_L.png" class="w-6/12 ">
-						</label>
-					</li>
-				</ul>
+				
+				
+				
+				
+				
 				<div class="w-full flex justify-center align-middle h-1/4 pt-5">		
 					<button class="border border-solid border-gray-400 w-3/12 bg-green-200" onclick="requestPay()">결제하기</button>
 				</div>
@@ -409,11 +356,13 @@
 			</div>
 		</div>
 	</div>
+	<form id="successForm" action="${path}/member/memberMypage.do" method="post"/>
+	<form id="failForm" action="${path}/order/orderItems.do" method="post"/>
 </section>
 <jsp:include page="/WEB-INF/views/common/footer.jsp" />
 
 <script>
-var IMP = window.IMP; // 생략해도 괜찮습니다.
+var IMP = window.IMP;
 IMP.init("imp89075565"); // "imp00000000" 대신 발급받은 "가맹점 식별코드"를 사용합니다.
 
 // IMP.request_pay(param, callback) 호출
@@ -423,9 +372,9 @@ function requestPay() {
 		alert("구매정보를 확인하고 동의해주세요");
 		return;
 		
-	}else if(!$("input[name='payMethodSelected']").is(":checked")){
+	/* }else if(!$("input[name='payMethodSelected']").is(":checked")){
 		alert("결제방법을 확인해주세요");
-		return;
+		return; */
 	
 	}else{
 		
@@ -441,7 +390,7 @@ function requestPay() {
 		
 		var param=JSON.stringify({
 			pg:"html5_inicis",
-		    pay_method: $("input[name='payMethodSelected']").val(),
+		    pay_method: "temp",
 		    merchant_uid:null,
 		    name: $($(".bookTitle").get(0)).text().trim()+"등 "+$(".bookTitle").length+"건",
 		    amount: realPrice,
@@ -472,25 +421,64 @@ function requestPay() {
 	      });
 		
 	}
+	
   // IMP.request_pay(param, callback) 호출
-  
+   param=JSON.parse(param);
    IMP.request_pay(param,
 	function (rsp) { // callback
 	  if (rsp.success) { // 결제 성공 시: 결제 승인 또는 가상계좌 발급에 성공한 경우
 	      // jQuery로 HTTP 요청
+	      param.pay_method=rsp.pay_method;
+	      param.cAmount=rsp.paid_amount;
 	      $.ajax({
-	          url: "${path}/order/Payment.do", // 가맹점 서버
+	          url: "${path}/ajax/paymentCheck.do", // 가맹점 서버
 	          method: "POST",
 	          dataType : "json",
-	          data: {
+	          contentType:'application/json',
+	          data: JSON.stringify({
 	              imp_uid: rsp.imp_uid,
 	              merchant_uid: rsp.merchant_uid
-			  }
+			  })
 	      }).done(function (data) {
-	        // 가맹점 서버 결제 API 성공시 로직
+	    		if(param.amount == param.cAmount){
+	    			param.check=true;
+	    			$.ajax({
+	    		          url: "${path}/ajax/paymentComplete.do",
+	    		          method: "POST",
+	    		          dataType : "json",
+	    		          contentType:'application/json',
+	    		          data: JSON.stringify(param),
+	    		          success:function(data){
+	    		        	  $("#successForm").submit();
+	    					}
+	    		      });
+	    		}else{
+	    			param.check=false;
+	    			$.ajax({
+	    		          url: "${path}/ajax/paymentComplete.do",
+	    		          method: "POST",
+	    		          dataType : "json",
+	    		          contentType:'application/json',
+	    		          data: JSON.stringify(param),
+	    		          success:function(data){
+	    						$("#failForm").submit();
+	    				  }
+	    		      });
+	    		}
 	      })
 	} else {
 	      alert("결제에 실패하였습니다. 에러 내용: " +  rsp.error_msg);
+	      param.check=false;
+			$.ajax({
+		          url: "${path}/ajax/paymentComplete.do",
+		          method: "POST",
+		          dataType : "json",
+		          contentType:'application/json',
+		          data: JSON.stringify(param),
+		          success:function(data){
+		        	  $("#failForm").submit();
+				  }
+		   });
 	}
   }); 
 }
@@ -499,10 +487,10 @@ function requestPay() {
 
 
 //hidden 값 (조작방지)
-let realPrice = 3000;
+let realPrice = 100;
 let realValue =$("input[name='cartBookCost']");
 	realValue.each(function(i,v){
-		realPrice+=Number($(v).val());
+		realPrice+=Number($(v).val())*0.01;
 	});	
 
 

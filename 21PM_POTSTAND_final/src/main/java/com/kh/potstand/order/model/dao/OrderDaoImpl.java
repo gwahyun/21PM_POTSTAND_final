@@ -94,6 +94,24 @@ public class OrderDaoImpl implements OrderDao{
 		return param;
 	}
 
+	@Override
+	public int paymentSuccess(SqlSession session, Map param) {
+		int result=0;
+		//결제 완료된 카트정보 삭제
+		List<Integer> cartNoList = (List<Integer>)param.get("cartNo"); 
+		for(int no : cartNoList) {
+			result += session.delete("order.deleteCartByPK",no);
+		}
+		//payment uid + payMethod update
+		result+=session.update("order.updatePayment",param);
+		return result;
+	}
+
+	@Override
+	public int paymentFail(SqlSession session, Map param) {
+		return session.delete("order.deletePaymentByPK",param);
+	}
+
 	
 
 	

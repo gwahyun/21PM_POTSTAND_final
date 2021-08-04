@@ -74,7 +74,17 @@ public class OrderServiceImpl implements OrderService{
 		return dao.beforOrderPayment(session, param);
 	}
 
+	@Override
+	public int paymentSuccess(Map param) {
+		return dao.paymentSuccess(session, param);
+	}
 
+	@Override
+	public int paymentFail(Map param) {
+		return dao.paymentFail(session, param);
+	}
+
+	
 
 	
 
