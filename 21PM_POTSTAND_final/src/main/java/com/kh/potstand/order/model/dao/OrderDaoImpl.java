@@ -73,11 +73,22 @@ public class OrderDaoImpl implements OrderDao{
 		 * cartNo=[27, 22, 29]}
 		 */
 		int paymentNo = session.insert("order.insertPaymentByParam", param);
-		
-		int[] cartNo = (int[])param.get("cartNo");
-		List<Cart> cartList = new ArrayList();
+		List<Integer> cartNo = (List<Integer>)param.get("cartNo");
+
 		for(int no : cartNo) {
-			cartList.add(session.selectOne("cart.selectCartNo",no));
+			Cart c = session.selectOne("order.selectCartNo",no);
+			Map cParam = new HashMap();
+			cParam.put("bookCode", c.getBook().getBookCode());
+			cParam.put("bookAmount",c.getBookAmount());
+			cParam.put("paymentNo",param.get("merchant_uid"));
+			
+			if(c.getUsedCouponNo()!=0) {
+				cParam.put("usedCouponNo",c.getUsedCouponNo());
+			}else {
+				cParam.put("usedCouponNo",null);
+			}
+			
+			session.insert("order.insertPaymentObjByParam",cParam);
 		}
 		
 		return param;

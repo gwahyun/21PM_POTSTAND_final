@@ -442,8 +442,8 @@ function requestPay() {
 		var param=JSON.stringify({
 			pg:"html5_inicis",
 		    pay_method: $("input[name='payMethodSelected']").val(),
-		    merchant_uid: ,
-		    name: $($(".bookTitle").get(0)).text().trim()+"외 "+$(".bookTitle").length+"건",
+		    merchant_uid:null,
+		    name: $($(".bookTitle").get(0)).text().trim()+"등 "+$(".bookTitle").length+"건",
 		    amount: realPrice,
 		    buyer_email: "${memberInfo.memberEmail}",
 		    buyer_name: "${memberInfo.memberName}",
@@ -467,12 +467,11 @@ function requestPay() {
 	          dataType :'json',
 	          data: param,
 	          success:function(data){
-	        	  console.log("성공");
-	        	  console.log(data);
+	        	  
+	        	  param=data;
 	          }
 	      });
 		
-		return;
 	}
   // IMP.request_pay(param, callback) 호출
   
@@ -481,7 +480,7 @@ function requestPay() {
 	  if (rsp.success) { // 결제 성공 시: 결제 승인 또는 가상계좌 발급에 성공한 경우
 	      // jQuery로 HTTP 요청
 	      $.ajax({
-	          url: "https://www.myservice.com/payments/complete", // 가맹점 서버
+	          url: "${path}/ajax/AfterPayment.do", // 가맹점 서버
 	          method: "POST",
 	          dataType : "json",
 	          data: {

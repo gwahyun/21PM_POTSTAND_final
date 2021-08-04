@@ -135,9 +135,14 @@
 		<selectKey keyProperty="merchant_uid" resultType="int" order="AFTER">
 			SELECT SEQ_PAYMENT.CURRVAL FROM DUAL 
 		</selectKey>
-		INSERT INTO PAYMENT VALUES()
+		INSERT INTO PAYMENT VALUES(SEQ_PAYMENT.NEXTVAL, 
+									#{memberId, jdbcType=VARCHAR}, #{receiverName, jdbcType=VARCHAR}, #{receiverAddress, jdbcType=VARCHAR}, 
+									#{message, jdbcType=VARCHAR}, #{postMessage, jdbcType=VARCHAR}, #{name, jdbcType=VARCHAR}, #{pay_method, jdbcType=VARCHAR}, 
+									#{merchant_uid, jdbcType=INTEGER}, #{amount, jdbcType=INTEGER}, SYSDATE, DEFAULT, #{used_coupon_no, jdbcType=INTEGER})
 	</insert>
-	
+	<insert id="insertPaymentObjByParam">
+		INSERT INTO PAYMENT_OBJ VALUES(SEQ_PAYMENT_OBJ.NEXTVAL, #{bookCode}, #{bookAmount}, #{paymentNo}, #{usedCouponNo, jdbcType=VARCHAR})
+	</insert>
 	
 	
 	

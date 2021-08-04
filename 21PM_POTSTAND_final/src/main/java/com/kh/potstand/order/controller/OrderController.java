@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.google.gson.Gson;
 import com.kh.potstand.common.AES256Util;
 import com.kh.potstand.member.model.vo.Member;
 import com.kh.potstand.order.model.service.OrderService;
@@ -28,9 +27,6 @@ public class OrderController {
 	@Autowired
 	private OrderService service;
 	
-	//양방향암호화
-	@Autowired
-	private AES256Util aes;
 	
 	//장바구니 리스트 호출 / 이동
 	@RequestMapping("/member/cartList.do")
@@ -152,8 +148,7 @@ public class OrderController {
 	
 	@RequestMapping("/ajax/beforePayment.do")
 	@ResponseBody
-	public String beforOrderPayment(HttpSession session, @RequestBody Map param){
-		Gson gson = new Gson();
+	public Map beforOrderPayment(HttpSession session, @RequestBody Map param){
 		try {
 			String memberId = ((Member)(session.getAttribute("loginMember"))).getMemberId();
 			/*{pg=html5_inicis, pay_method=card, merchant_uid=인서트 실행하고 리턴받아야됨, 
@@ -168,10 +163,11 @@ public class OrderController {
 			param.put("receiverAddress", ((String)param.get("receiverAddress")).replace(":"," "));
 			param.put("memberId", memberId);
 			param=service.beforOrderPayment(param);
+			System.out.println(param.toString());
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
-			return gson.toJson(param);
+		return param;
 	}
 	
 	
