@@ -152,4 +152,14 @@ public interface AdminDao {
 	Cart cartSelectDistinct(SqlSessionTemplate session, Map param);
 
 	int cartSelectOnePlus(SqlSessionTemplate session, Map param);
+
+	int statusUpdate(SqlSessionTemplate session, Map param);
+
+	Book bookSelectOne(SqlSessionTemplate session, int no);
+
+	int productUpdate(SqlSessionTemplate session, Book b);
+
+	int productDelete(SqlSessionTemplate session, int no);
+
+	Map<String, Object> orderCountMap(SqlSessionTemplate session);
 }

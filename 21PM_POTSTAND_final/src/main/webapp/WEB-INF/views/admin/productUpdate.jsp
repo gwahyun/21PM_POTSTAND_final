@@ -5,40 +5,17 @@
 <c:set var="path" value="${pageContext.request.contextPath }"/>
 <!DOCTYPE html>
 <jsp:include page="/WEB-INF/views/common/admin/header.jsp"/>
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>  
         
 <section>
- <div class="admin-content_area">
-                <div class="admin-content">
-                    <div class="admin-content_title">
-                        상품 조회/수정
-                    </div>
-                </div>
-            </div>
-       <form action="${path }/admin/productSelectList" method="post">
-		<div class="admin-content_area">
+	<div class="admin-content_area">
 			<div class="admin-content">
 				<div class="admin-content_title">
-					검색어
-				</div>
-				<div class="admin-search">
-					<div>책 번호</div>
-					<input type="number" name="bookNo">
-				</div>
-				<div class="admin-search">
-					<div>책 제목</div>
-					<input type="text" name="bookTitle">
-				</div>
-				<div class="admin-search">
-					<div>저자</div>
-					<input type="text" name="bookAuthor">
-				</div>
-				<div class="admin-search">
-					<div>출판사</div>
-					<input type="text" name="bookPublisher">
+					상품 수정
 				</div>
 			</div>
 		</div>
-		
+		<form action="${path }/admin/productUpdateEnd" method="post" enctype="multipart/form-data" onsubmit="return categoryCheck();">
 		<div class="admin-content_area">
 			<div class="admin-content">
 				<div class="admin-content_title">
@@ -47,7 +24,6 @@
 				<div class="align-row choice-genre-area">
 					<div class="choice-genre top-genre">
 						<ul>
-						
 							<li>경제/경영</li>
 							<li>사회</li>
 							<li>종교</li>
@@ -56,7 +32,6 @@
 							<li>예술/대중문화</li>
 							<li>인문</li>
 							<li>역사/문화</li>
-						
 						</ul>
 					</div>
 					<div class="choice-genre child-genre">
@@ -68,130 +43,247 @@
 						</ul>
 					</div>
 				</div>
-				<div class="show_genre">
-				<span class="show_genre1"></span>
-				<span class="show_genre2"></span>
-				<span class="show_genre3"></span>
+				<div style="visibility: visible;" class="show_genre">
+					<span class="show_genre1"></span>
+					<span class="show_genre2"></span>
+					<span class="show_genre3"> </span>
+				</div>
+				
+				<script>
+					function categoryCheck(){
+						if($(".show_genre1").html().length ==0){
+							alert("카테고리 선택해 주세요");
+							return false;
+						}
+					}
+					window.addEventListener("load",function(){
+						$(".show_genre1").html('${b.sort.lv1 }');
+						$(".show_genre2").html('${b.sort.lv2 }');
+						$(".show_genre3").html('${b.sort.lv3 }');
+					})
+				</script>
+			</div>
+			<input type="hidden" name="bookCode" value="${b.bookCode }">
+			<input type="hidden" name="bookGenre2" value="${b.sort.lv2 }">
+			<input type="hidden" name="bookGenre" value="${b.sort.lv3 }" class="input_genre">
+		</div>
+		
+		<div class="admin-content_area">
+			<div class="admin-content">
+				<div class="admin-content_title">
+					책 제목
+				</div>
+				<div class="admin-input_text">
+				<input type="text" name="bookTitle" value="${b.bookTitle }" required="">
 				</div>
 			</div>
-			<input type="hidden" name="bookGenre" class="input_genre">
 		</div>
-		<button class="submit-btn">검색</button>
+		
+		<div class="admin-content_area">
+			<div class="admin-content">
+				<div class="admin-content_title">
+					저자
+				</div>
+				<div class="admin-input_text">
+				<input type="text" name="bookWriter"  value="${b.bookWriter }">
+				</div>
+			</div>
+		</div>
+		
+		<div class="admin-content_area">
+			<div class="admin-content">
+				<div class="admin-content_title">
+					출판사
+				</div>
+				<div class="admin-input_text">
+				<input type="text" name="bookPub" value="${b.bookPub }" required="">
+				</div>
+			</div>
+		</div>
+		
+		<div class="admin-content_area">
+			<div class="admin-content ">
+				<div class="admin-content_title">
+					판매가
+				</div>
+				<div class="content_price">
+					<input type="number" value="${b.bookCost }" placeholder="숫자만 입력" name="bookCost">
+					<span>원</span>
+				</div>
+			</div>
+		</div>
+		
+		<div class="admin-content_area">
+			<div class="admin-content">
+				<div class="admin-content_title">
+					리스트에 보여질 소개(short)
+				</div>
+				<div class="admin-input_text">
+				<input type="text" name="bookShort" value="${b.bookShort }">
+				</div>
+			</div>
+		</div>
+		
+		<div class="admin-content_area">
+			<div class="admin-content ">
+				<div class="admin-content_title">
+					상품 이미지(이거 파일로 받을지 링크로 받을지)
+				</div>
+					<c:if test="${b.bookCover.contains('http') }">
+							<div class="admin-input_text">
+								등록된 이미지
+								<img class="admin-upload_img" src="${b.bookCover }">
+								<input type="hidden" name="oldFile" value="${b.bookCover}">
+									변경할 이미지
+								<label for="input-file">
+								  <img id="admin-upload_img" class="admin-upload_img">
+								</label>
+							</div>
+					</c:if>
+					<c:if test="${!b.bookCover.contains('http') }">
+						<div class="admin-input_text">
+								등록된 이미지
+								<img class="admin-upload_img" src="${path }/resources/upload/book/${b.bookCover }" >
+								<input type="hidden" name="oldFile" value="${b.bookCover}">
+									변경할 이미지
+								<label for="input-file">
+								   <img id ="admin-upload_img" class="admin-upload_img">
+								</label>
+							</div>
+					</c:if>
+				<input class="input_img" type="file" accept=".png, .jpg, .gif" id="input-file" name="upFile" style="display: none">
+			</div>
+		</div>
+		
+		<div class="admin-content_area">
+			<div class="admin-content">
+				<div class="admin-content_title">
+					출판일
+				</div>
+				<div class="admin-input_text">
+					<input type="date" name="bookDate" required="" value="${b.bookDate }">
+				</div>
+			</div>
+		</div>
+		
+		<div class="admin-content_area">
+			<div class="admin-content">
+				<div class="admin-content_title">
+					재고
+				</div>
+				<div class="admin-input_text">
+					<input type="number" name="bookStock" required="" value="${b.bookStock }">
+				</div>
+			</div>
+		</div>
+		
+		<div class="admin-content_area">
+			<div class="admin-content">
+				<div class="admin-content_title">
+					책 소개
+				</div>
+				<div class="admin-input_text">
+				<textarea name="bookIntro" >${b.bookIntro }</textarea>
+				</div>
+			</div>
+		</div>
+		
+		<div class="admin-content_area">
+			<div class="admin-content">
+				<div class="admin-content_title">
+					저자 소개
+				</div>
+				<div class="admin-input_text">
+					<textarea name="writerIntro" >${b.writerIntro }</textarea>
+				</div>
+			</div>
+		</div>
+		
+		<div class="admin-content_area">
+			<div class="admin-content">
+				<div class="admin-content_title">
+					출판사 서평
+				</div>
+				<div class="admin-input_text">
+				<textarea name="pubReview" >${b.pubReview }</textarea>
+				</div>
+			</div>
+		</div>
+		
+		<div class="admin-content_area">
+			<div class="admin-content">
+				<div class="admin-content_title">
+					책 속으로
+				</div>
+				<div class="admin-input_text">
+				<textarea name="bookExtract"> ${b.bookExtract }</textarea>
+				</div>
+			</div>
+		</div>
+		
+		<div class="admin-content_area">
+			<div class="admin-content">
+				<div class="admin-content_title">
+					목차
+				</div>
+				<div class="admin-input_text">
+					<textarea name="bookIndex" >${b.bookIndex }</textarea>
+				</div>
+			</div>
+		</div>
+		
+		<div class="admin-content_area">
+			<div class="admin-content">
+				<div class="admin-content_title">
+					추천평
+				</div>
+				<div class="admin-input_text">
+					<textarea name="recommand" >${b.recommand }</textarea>
+				</div>
+			</div>
+		</div>
+		
+		<div class="admin-content_area">
+			<div class="admin-content">
+				<div class="admin-content_title">
+					책 소개 영상
+				</div>
+				<div class="admin-input_text">
+					<input type="text" name="introMv" value="${b.introMv }">
+				</div>
+			</div>
+		</div>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		<input type="submit" class="submit-btn" value="등록">
 		</form>
-            
-            <div class="admin-content_area" style="margin-top: 45px;">
-                <div class="admin-content">
-                    <div class="admin-content_title">
-                        상품목록 (총 ${count } 권)
-                    </div>
-                    <div class="search-table">
-                    <c:if test="${list.size() >= 1}">
-          			
-	                    <table class="table table-border table-hover table-striped">
-							<thead>
-								<tr>
-									<th>번호</th>
-									<th style="width: 15%;">제목</th>
-									<th style="width: 15%;">카테고리</th>
-									<th style="width: 5%;">저자</th>
-									<th style="width: 7%;">출판사</th>
-									<th>정가</th>
-									<th style="width: 5%;">출판일</th>
-									<th style="width: 3%;">수정</th>
-									<th>삭제</th>
-								</tr>
-							</thead>
-							<tbody>
-								<c:forEach items="${list }" var="l">
-								<tr>
-									<td style="	text-align: center;"><fmt:formatNumber value="${l.bookCode }" ></fmt:formatNumber></td>
-									<td><a href="#"><c:out value="${l.bookTitle }" ></c:out></a></td>
-									<td>
-										${l.sort.lv1 }
-										<c:if test="${l.sort.lv2 != null}">
-											>${l.sort.lv2 }
-										</c:if>
-										<c:if test="${l.sort.lv3 != null}">
-												>${l.sort.lv3 }
-										</c:if>
-										<c:if test="${l.sort.lv4 != null}">
-											>${l.sort.lv4 }
-										</c:if>
-										
-									
-									
-									</td>
-									<td>${l.bookWriter }</td>
-									<td>${l.bookPub }</td>
-									<td style="	text-align: center;">${l.bookCost }</td>
-									<td style="	text-align: center;"><fmt:formatDate value="${l.bookDate }" pattern="yyyy년MM월dd일"/></td>
-									<td style="	text-align: center;"><a class="update-btn" href="${path }/admin/productUpdate?no=${l.bookCode}">수정</a></td>
-									
-									<td style="	text-align: center;"><button class="update-btn" onclick="deleteCheck(${l.bookCode});"  style="background-color:#ff6b6b">삭제</button></td>
-									
-								</tr>
-							</c:forEach>
-							</tbody>
-						</table>
-                    </c:if>
-                    <c:if test="${list.size() == 0}">
-	                    <span class="no_Data">데이터가 없습니다</span>
-                    </c:if>
-                    
-                    </div>
-                     <div class="pageBar flex my-5">${pageBar}</div>
-                </div>
-            </div>
-</section>
-<script>
-	function deleteCheck(no){
-		if(confirm('정말 삭제하시겠습니까?')){
-			
-			location.assign("${path}/admin/productDelete?no="+no);
-		}
-	}
-
-	window.onpageshow = function(event){
-		if(event.persisted || (window.performance && window.performance.navigation.type==2)){
-			console.log('뒤로가기')
-			window.location.reload();
-		}else{
-			console.log('뒤로가기x')
-			console.log(window.performance)
-			console.log(window.performance.navigation.type)
-		}
-	}
-	window.addEventListener("load",function(){
-		const searchform=document.querySelector(".search-page-form")
-		const formPageNo=document.querySelector('input[name="pageNo"]')
-		const pageNo=document.querySelectorAll(".pagination > li > a")
-		for(var i=0;i<pageNo.length;i++){
-			if(pageNo[i].textContent=="이전"){
-				pageNo[i].addEventListener("click",function(){
-					formPageNo.value=this.parentElement.nextElementSibling.textContent-1
-					searchform.submit();
-				})
-			}else if(pageNo[i].textContent=="다음"){
-				pageNo[i].addEventListener("click",function(){
-					formPageNo.value=parseInt(this.parentElement.previousElementSibling.textContent)+1
-					searchform.submit();
-				})
-			}else{
-				pageNo[i].addEventListener("click",function(){
-					formPageNo.value=this.textContent		
-					searchform.submit();
-				})
+	</section>
+    <script>
+		
+		window.addEventListener("load",function(){
+			function readImage(input) {
+			    if(input.files && input.files[0]) {
+			        const reader = new FileReader()
+			        reader.onload = e => {
+			            const previewImage = document.querySelector("#admin-upload_img")
+			            previewImage.src = e.target.result
+			        }
+			        reader.readAsDataURL(input.files[0])
+			    }
 			}
-		}
-		
-		const cantDelete = document.querySelector(".cantDelete")
-		cantDelete.addEventListener("click",function(){
-			alert("주문목록에 있어 삭제할수 없습니다.")
-		})
-		
-	})
-
-	window.addEventListener("load",function(){
+			const inputImage = document.querySelector(".input_img")
+			inputImage.addEventListener("change", e => {
+			    readImage(e.target)
+			})
+			
+			
 			let map = new Map();
 			let childList;
 			let gchildList;
@@ -822,7 +914,7 @@
 									cli[k].style.color="rgba(0,0,0,0.8)";
 								}
 								this.style.color="#ff9f43";
-								show_genre2.innerHTML=' > '+this.innerHTML
+								show_genre2.innerHTML=this.innerHTML
 								input_genre.value=this.innerHTML;
 								show_genre3.innerHTML=""
 								show_genre.style.visibility='visible'
@@ -841,7 +933,7 @@
 								}else{									
 									ch_genre_li=map.get(this.innerHTML);
 								}
-								show_genre2.innerHTML=' > '+this.innerHTML
+								show_genre2.innerHTML=this.innerHTML
 								while ( g_child_genre_list.hasChildNodes() ) { 
 									g_child_genre_list.removeChild( g_child_genre_list.firstChild ); 
 								}
@@ -861,7 +953,7 @@
 											gcli[q].style.color="rgba(0,0,0,0.8)";
 										}
 										this.style.color="#ff9f43";
-										show_genre3.innerHTML=' > '+this.innerHTML
+										show_genre3.innerHTML=this.innerHTML
 										input_genre.value=this.innerHTML;
 										show_genre.style.visibility='visible'
 									})

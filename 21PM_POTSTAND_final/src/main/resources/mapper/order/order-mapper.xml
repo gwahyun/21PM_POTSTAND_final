@@ -144,6 +144,16 @@
 		INSERT INTO PAYMENT_OBJ VALUES(SEQ_PAYMENT_OBJ.NEXTVAL, #{bookCode}, #{bookAmount}, #{paymentNo}, #{usedCouponNo, jdbcType=VARCHAR})
 	</insert>
 	
+	<delete id="deleteCartByPK">
+		DELETE FROM CART WHERE CART_NO=#{no}
+	</delete>
 	
+	<delete id="deletePaymentByPK">
+		DELETE FROM PAYMENT WHERE PAYMENT_NO=#{merchant_uid}
+	</delete>
+	
+	<update id="updatePayment">
+		UPDATE PAYMENT SET MERCHANT_UID=#{merchant_uid}, PAY_METHOD=#{pay_method} WHERE PAYMENT_NO=#{merchant_uid}
+	</update>
 	
 </mapper>

@@ -50,10 +50,10 @@
 	
 	<!-- 인터셉터  -->
 	<interceptors>
-		  <interceptor>
+		<!--   <interceptor>
 			<mapping path="/admin/*"/>
 			<beans:bean class="com.kh.potstand.interceptor.AdminCheckLoginInterceptor"></beans:bean>
-		  </interceptor>
+		  </interceptor> -->
 		  <interceptor>
 			<mapping path="/member/*"/>
 			<exclude-mapping path="/member/memberLog*.do"/>

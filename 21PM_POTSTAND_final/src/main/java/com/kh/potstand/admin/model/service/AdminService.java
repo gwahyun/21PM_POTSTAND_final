@@ -151,6 +151,16 @@ public interface AdminService {
 
 	int cartSelectOnePlus(Map param);
 
+	int statusUpdate(Map param);
+
+	Book bookSelectOne(int no);
+
+	int productUpdate(Book b);
+
+	int productDelete(int no);
+
+	Map<String, Object> orderCountMap();
+
 
 
 

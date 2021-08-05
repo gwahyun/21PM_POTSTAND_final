@@ -1,5 +1,6 @@
 package com.kh.potstand.order.controller;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -16,16 +17,24 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.kh.potstand.common.AES256Util;
 import com.kh.potstand.member.model.vo.Member;
 import com.kh.potstand.order.model.service.OrderService;
 import com.kh.potstand.order.model.vo.Cart;
+import com.siot.IamportRestClient.IamportClient;
+import com.siot.IamportRestClient.exception.IamportResponseException;
+import com.siot.IamportRestClient.response.IamportResponse;
+import com.siot.IamportRestClient.response.Payment;
 
+import lombok.extern.slf4j.Slf4j;
+@Slf4j
 @Controller
 public class OrderController {
 
 	@Autowired
 	private OrderService service;
+	
+	//아임포트 객체
+	private IamportClient api = new IamportClient("8116855594363834", "effe9bdd35fafb13df8ab1920c04852352412f937fcfe5bef763620f5980471146a5019f23622baf");
 	
 	
 	//장바구니 리스트 호출 / 이동
@@ -151,24 +160,42 @@ public class OrderController {
 	public Map beforOrderPayment(HttpSession session, @RequestBody Map param){
 		try {
 			String memberId = ((Member)(session.getAttribute("loginMember"))).getMemberId();
-			/*{pg=html5_inicis, pay_method=card, merchant_uid=인서트 실행하고 리턴받아야됨, 
-			 * name=프랑켄슈타인 (현대판 프로메테우스)외 3건, amount=58340, buyer_email=000000@000000.com, 
-			 * buyer_name=회원3, 
-			 * buyer_tel=01031302309, 
-			 * buyer_addr=서울특별시 구로구 가마산로 77, buyer_postcode=08327, 
-			 * receiverName=회원3, receiverAddress=08327:서울특별시 구로구 가마산로 77:집:(구로동), 
-			 * message=, postMessage=, billPrice=Y, digital=false, 
-			 * cartNo=[27, 22, 29]}
-			 */
 			param.put("receiverAddress", ((String)param.get("receiverAddress")).replace(":"," "));
 			param.put("memberId", memberId);
 			param=service.beforOrderPayment(param);
-			System.out.println(param.toString());
+			//log.debug(param.toString());
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
 		return param;
 	}
 	
+	
+	@RequestMapping("/ajax/paymentCheck.do")
+	@ResponseBody
+	public IamportResponse<Payment> paymentCheck(HttpSession session, @RequestBody Map param) throws IamportResponseException, IOException{
+		String imp_uid = (String)param.get("imp_uid"); 
+		log.debug(imp_uid);
+		return api.paymentByImpUid(imp_uid);
+	}
+	
+	
+	@RequestMapping("/ajax/paymentComplete.do")
+	@ResponseBody
+	public Boolean paymentComplete(HttpSession session, @RequestBody Map param){
+		//성공/실패 확인
+		if((Boolean)param.get("check")) {
+			//cart 삭제 + uid / payMethod update
+			service.paymentSuccess(param);
+			log.debug("success "+param.toString());
+		}else {
+			//uid로 조회해서 payment 삭제
+			service.paymentFail(param);
+			log.debug("fail "+param.toString());
+		}
+		
+		return true;
+			
+	}
 	
 }
