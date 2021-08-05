@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.kh.potstand.admin.model.service.AdminService;
 import com.kh.potstand.event.model.vo.Coupon;
 import com.kh.potstand.member.model.vo.Member;
 import com.kh.potstand.order.model.service.OrderService;
@@ -33,6 +34,9 @@ public class OrderController {
 
 	@Autowired
 	private OrderService service;
+	
+	@Autowired
+	private AdminService as;
 	
 	//아임포트 객체
 	private IamportClient api = new IamportClient("8116855594363834", "effe9bdd35fafb13df8ab1920c04852352412f937fcfe5bef763620f5980471146a5019f23622baf");
@@ -265,6 +269,21 @@ public class OrderController {
 		
 		return true;
 			
+	}
+	
+	//카트 부분인데 충돌날까봐 일단 여기다 둠
+	@RequestMapping("/cartInsert.do")
+	@ResponseBody
+	public boolean cartInsert(@RequestParam Map param, HttpSession session, String bookCode	) {
+		int result = 0;
+		param.put("memberId", ((Member)session.getAttribute("loginMember")).getMemberId());
+		Cart c = as.cartSelectDistinct(param);
+		if(c==null) {
+			result = as.cartInsert(param);
+		}else {
+			result = as.cartSelectOnePlus(param);
+		}
+		return result>0?true:false;
 	}
 	
 }
