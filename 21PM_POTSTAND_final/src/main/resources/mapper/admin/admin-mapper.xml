@@ -606,7 +606,7 @@
 	</select>
 	
 	<resultMap type="com.kh.potstand.order.model.vo.Payment" id="paymentMap">
-		<id column="PAYMENT_NO" property="orderNo"/>
+		<id column="PAYMENT_NO" property="paymentNo"/>
 		<result column="MEMBER_ID" property="memberId"/>
 		<result column="RECEIVER_NAME" property="receiverName"/>
 		<result column="RECEIVER_ADDR" property="receiverAddr"/>

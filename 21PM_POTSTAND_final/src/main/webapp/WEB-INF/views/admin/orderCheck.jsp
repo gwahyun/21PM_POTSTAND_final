@@ -99,7 +99,7 @@
 						<c:forEach items="${list }" var="v">
 						<tr style="text-align:center;">
 							<td >
-							${v.orderNo }
+							${v.paymentNo }
 							</td>
 							<td>
 							${v.memberId }
@@ -129,10 +129,10 @@
 							<td style="text-align:center;">
 							<c:choose>
 								<c:when test="${v.orderState == '결제완료'}">
-									<button value="${v.orderNo }" style="border: 1px solid black;">결제완료</button>
+									<button value="${v.paymentNo }" style="border: 1px solid black;">결제완료</button>
 								</c:when>
 								<c:when test="${v.orderState == '배송중' }">
-									<button value="${v.orderNo }" style="border: 1px solid black;">배송중</button>
+									<button value="${v.paymentNo }" style="border: 1px solid black;">배송중</button>
 								</c:when>
 								<c:otherwise>
 									${v.orderState }

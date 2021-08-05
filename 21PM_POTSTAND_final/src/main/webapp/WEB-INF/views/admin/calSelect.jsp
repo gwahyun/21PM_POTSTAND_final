@@ -53,7 +53,7 @@
 						
 							<c:forEach items="${list }" var="l">
 								<tr style="	text-align: center;">
-									<td>${l.orderNo }</td>
+									<td>${l.paymentNo }</td>
 									<td>${l.memberId }</td>
 									<td>${l.receiverName }</td>
 									<td ><fmt:formatDate value="${l.payDate }" pattern="yy년MM월dd일"/> </td>
