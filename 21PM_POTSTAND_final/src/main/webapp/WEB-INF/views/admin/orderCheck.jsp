@@ -83,11 +83,12 @@
 							<tr>
 								<th style="width:5%">주문번호</th>
 								<th style="width:5%">회원아이디</th>
-								<th style="width:10%">수령인</th>
+								<th style="width:10%">회원이름</th>
+								<th style="width:10%">결제일</th>
 								<!-- <th style="width:5%">상품번호</th> -->
 								<!-- <th style="width:5%">수량</th> -->
-								<th style="width:15%">결제일</th>
-								<th style="width:15%">배송지</th>
+								<th style="width:25%">내용</th>
+								<th style="width:20%">배송지</th>
 								<!-- <th style="width:10%">연락처</th> -->
 								<th style="width:10%">판매가</th>
 								<th style="width:8%">주문상태</th>
@@ -112,10 +113,10 @@
 							<td style="text-align:center;">
 							${v.stock }
 							</td> --%>
-							
 							<td style="text-align:center;">
 							<fmt:formatDate value="${v.payDate }" pattern="yy년MM월dd일"/>
 							</td>
+							<td>${v.name }</td>
 							<td>
 							${v.receiverAddr }
 							</td>
@@ -123,7 +124,7 @@
 							${v.phone }
 							</td> --%>
 							<td>
-							${v.amount }
+							<fmt:formatNumber value="${v.amount }" type="currency"/>
 							</td>
 							<td style="text-align:center;">
 							<c:choose>
