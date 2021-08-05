@@ -41,29 +41,29 @@
         		<div class="w-full">
         			<h3 class="text-2xl font-semibold">쿠폰</h3>
         		</div>
-        		<c:if test="${list=='[]' }">
+        		<div class="flex w-full mt-5 border-b-4 mb-5">
+        			<div class="h-full border-b-4 border-opacity-0 hover:border-opacity-100 hover:border-gray-500">
+			        	<h2 class="mb-2 text-gray-500 font-semibold text-xl">
+			        		<a href="${path}/member/memberCouponListSelect.do">
+			        			사용가능<span class="text-blue-500">${totalData }</span>
+			        		</a>
+			        	</h2>
+		        	</div>
+		        	<div class="w-6"></div>
+		        	<div class="border-b-4 border-red-500">
+			        	<h2 class="mb-2 font-semibold text-xl">
+			        		<a href="${path}/member/memberEndCouponListSelect.do">
+			        			기간만료
+			        		</a>
+			        	</h2>
+		        	</div>
+	        	</div>
+	        	<c:if test="${empty list}">
         			<div class="flex justify-center mt-5">
         				<h3 class="text-lg font-bold">기간만료된 쿠폰이 없습니다.</h3>
         			</div>
         		</c:if>
-        		<c:if test="${list!='[]'}">
-        			<div class="flex w-full mt-5 border-b-4 mb-5">
-        				<div class="h-full border-b-4 border-opacity-0 hover:border-opacity-100 hover:border-gray-500">
-			        		<h2 class="mb-2 text-gray-500 font-semibold text-xl">
-			        			<a href="${path}/member/memberCouponListSelect.do">
-			        				사용가능<span class="text-blue-500">${totalData }</span>
-			        			</a>
-			        		</h2>
-		        		</div>
-		        		<div class="w-6"></div>
-		        		<div class="border-b-4 border-red-500">
-			        		<h2 class="mb-2 font-semibold text-xl">
-			        			<a href="${path}/member/memberEndCouponListSelect.do">
-			        				기간만료
-			        			</a>
-			        		</h2>
-		        		</div>
-	        		</div>
+	        	<c:if test="${not empty list}">
 	        		<div class="flex w-full flex-col justify-center border">
 	        			<div class="flex">
 	        				<div class="w-1/5 border h-11 p-2 bg-red-100 flex justify-center">

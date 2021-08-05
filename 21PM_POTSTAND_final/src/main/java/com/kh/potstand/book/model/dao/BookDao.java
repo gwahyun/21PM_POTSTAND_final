@@ -39,4 +39,16 @@ public interface BookDao {
 	//책 찜삭제
 	int bookHeartDelete(SqlSession session, Map param);
 	
+	//리뷰등록
+	int bookReviewInsert(SqlSession session, Map param);
+	
+	//리뷰를 썻는지 확인
+	Review reviewCheckSelect(SqlSession session, Map param);
+	
+	//리뷰수정
+	int bookReviewUpdate(SqlSession session,Map param);
+		
+	//리뷰삭제
+	int bookReviewDelete(SqlSession session,Map param);
+	
 }

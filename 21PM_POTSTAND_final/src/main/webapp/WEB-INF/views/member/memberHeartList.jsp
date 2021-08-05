@@ -41,12 +41,12 @@
         		<div class="w-full">
         			<h3 class="text-2xl font-semibold">찜 목록</h3>
         		</div>
-        		<c:if test="${list=='[]'}">
+        		<c:if test="${empty list}">
         			<div class="flex justify-center mt-5">
         				<h3 class="text-lg font-bold">찜한 책이 없습니다.</h3>
         			</div>
         		</c:if>
-        		<c:if test="${list!='[]'}">
+        		<c:if test="${not empty list}">
         		<div class="flex w-full flex-col justify-center mt-5 border" >
         			<div class="flex">
         				<div class="w-3/12 h-11 pl-3 p-2 bg-red-100 flex">
