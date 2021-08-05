@@ -211,7 +211,7 @@
               		<div class="flex items-center">
 	                	<span class="mr-3">수량</span>
 	                	<div class="relative">
-                    			<input type="number" value="1">
+                    			<input id="bookAmount" type="number" value="1">
                 		</div>
               		</div>
             	</div>
@@ -248,7 +248,7 @@
               		</button>
               		<c:if test="${bookInfo.bookStock != 0 }">
 	              		<button class="flex text-white bg-red-500 border-0 py-5 px-10 focus:outline-none hover:bg-red-600 
-	              		rounded text-xl">구매하기</button>
+	              		rounded text-xl" onclick="fn_directPayment();">구매하기</button>
               		</c:if>
               		<c:if test="${bookInfo.bookStock == 0 }">
            				<button onclick="request(${bookInfo.bookCode})" class=" flex text-white bg-gray-300 border-0 py-5 px-10 focus:outline-none rounded hover:bg-blue-600 
@@ -750,6 +750,13 @@
 		}
 	}
 	
+
+	const fn_directPayment=()=>{
+		const bookCode=$("input[name='bookCode']").val();
+		const bookAmount=$("#bookAmount").val()
+		location.replace("${path}/order/directPayment.do?bookCode="+bookCode+"&bookAmount="+bookAmount);
+	}
+
 	//리뷰 쓰기전 로그인 확인
 	function fn_book_bookReviewInsert(e){
 		if(${loginMember.memberId!=null}){ //로그인이 되어있을경우

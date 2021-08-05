@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.kh.potstand.admin.model.service.AdminService;
+import com.kh.potstand.event.model.vo.Coupon;
 import com.kh.potstand.member.model.vo.Member;
 import com.kh.potstand.order.model.service.OrderService;
 import com.kh.potstand.order.model.vo.Cart;
@@ -32,6 +34,9 @@ public class OrderController {
 
 	@Autowired
 	private OrderService service;
+	
+	@Autowired
+	private AdminService as;
 	
 	//아임포트 객체
 	private IamportClient api = new IamportClient("8116855594363834", "effe9bdd35fafb13df8ab1920c04852352412f937fcfe5bef763620f5980471146a5019f23622baf");
@@ -50,6 +55,9 @@ public class OrderController {
 		}
 			return mv;
 	}
+	
+	
+	
 	
 	@RequestMapping("/ajax/cartObjDelete.do/{cartNo}")
 	public @ResponseBody int cartObjDelete(ModelAndView mv,@PathVariable int cartNo){
@@ -117,19 +125,59 @@ public class OrderController {
 								@RequestParam (value="couponNo") int couponNo
 									){
 		Map param = new HashMap();
+		int result=0;
+		//1. 원래있던 usedCouponNo 조회  - 원래있던 쿠폰 원래 쿠폰개수 조회 - 원래있던 쿠폰 원래 사용개수 조회
+		//   원래 안썼으면 패스
+			int oriUsedCouponNo=service.cartSelectOne(cartNo).getUsedCouponNo();
+			//기존 쿠폰이랑 같은거면 return
+			if(couponNo==oriUsedCouponNo) {
+				return result;
+			}
+			
+			int oriUsedCouponAmount_before=0;
+			if(oriUsedCouponNo!=0) {		
+				oriUsedCouponAmount_before = service.couponSelect(oriUsedCouponNo).getCouponAmount();
+			}
+			
+			
+		//2. 바꿀 쿠폰이 있으면 amount 조회
+			int amount=0;
+			if(couponNo!=0) {
+				amount = service.couponSelect(couponNo).getCouponAmount();
+			}
+			
+
+				
+		//아니면 진행.. 사용쿠폰 개수-1
 		param.put("cartNo", cartNo);
+		param.put("couponAmount", amount-1);
 		if(couponNo!=0) {
 			param.put("usedCouponNo", couponNo);
 		}
-		int result=0;
+		
+		//update해주고 원래 쿠폰+1 or 원래 안썼으면 패스
 		try {
-			result = service.cartCouponUpdate(param);
+			result += service.cartCouponUpdate(param);
+			//원래 쿠폰이 있었으면..
+			if(oriUsedCouponNo!=0) {
+				param.put("beforeCouponNo", oriUsedCouponNo);
+				param.put("beforeCouponAmount", oriUsedCouponAmount_before+1);
+				result += service.cartCouponUpdate(param);
+			}
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
+		log.debug("oriUsedCouponNo : "+oriUsedCouponNo);
+		log.debug("oriUsedCouponAmount : "+oriUsedCouponAmount_before);
+		log.debug("CouponNo : "+couponNo);
+		log.debug("CouponAmount : "+amount);
+		
+		
 			return result;
 	}
 	
+	
+	//결제페이지 이동
 	@RequestMapping("/order/orderItems.do")
 	@ResponseBody
 	public ModelAndView orderItems(ModelAndView mv, HttpSession session,
@@ -145,8 +193,9 @@ public class OrderController {
 			}
 			Member memberInfo = (Member)(session.getAttribute("loginMember")); 
 			List<Cart> cartList = service.cartSelectList(cartNo);
-	
+			List<Coupon> couponList = service.paymentCouponSelectList(memberInfo.getMemberId());
 			mv.addObject("cartList", cartList);
+			mv.addObject("couponList", couponList);
 			mv.addObject("memberInfo", memberInfo);
 			mv.setViewName("order/order");
 		}catch(Exception e) {
@@ -154,6 +203,30 @@ public class OrderController {
 		}
 			return mv;
 	}
+	
+	//바로구매 -결제페이지 이동
+	@RequestMapping("/order/directPayment.do")
+	public ModelAndView directPayment(ModelAndView mv, HttpSession session, 
+										@RequestParam int bookCode, @RequestParam int bookAmount){
+		try {
+			String memberId =((Member)(session.getAttribute("loginMember"))).getMemberId();
+			Map param = new HashMap();
+			param.put("memberId", memberId);
+			param.put("bookCode", bookCode);
+			param.put("bookAmount", bookAmount);
+			List<Cart> cartList = service.directPayment(param);
+			List<Coupon> couponList = service.paymentCouponSelectList(memberId);
+			mv.addObject("cartList", cartList);
+			mv.addObject("couponList", couponList);
+			mv.addObject("memberInfo", (Member)(session.getAttribute("loginMember")));
+			mv.setViewName("order/order");
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+			return mv;
+	}
+	
 	
 	@RequestMapping("/ajax/beforePayment.do")
 	@ResponseBody
@@ -196,6 +269,21 @@ public class OrderController {
 		
 		return true;
 			
+	}
+	
+	//카트 부분인데 충돌날까봐 일단 여기다 둠
+	@RequestMapping("/cartInsert.do")
+	@ResponseBody
+	public boolean cartInsert(@RequestParam Map param, HttpSession session, String bookCode	) {
+		int result = 0;
+		param.put("memberId", ((Member)session.getAttribute("loginMember")).getMemberId());
+		Cart c = as.cartSelectDistinct(param);
+		if(c==null) {
+			result = as.cartInsert(param);
+		}else {
+			result = as.cartSelectOnePlus(param);
+		}
+		return result>0?true:false;
 	}
 	
 }

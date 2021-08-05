@@ -67,7 +67,7 @@
 								<c:out value="${cart.book.bookTitle}" escapeXml="false" />
 							</h2>
 							<h4 class="my-3 text-sm font-medium">
-								<c:out value="${cart.book.bookWriter}" />
+								<c:out value="${cart.book.bookWriter}" escapeXml="false"/>
 							</h4>
 							<!-- 수량 -->
 							<div>
@@ -158,14 +158,20 @@
 
 
 
-							<!-- 쿠폰 : 쿠폰 없는경우 / 쿠폰 있는데 적용 안한경우 / 쿠폰 있고 적용한경우-->
+							<!-- 쿠폰 : 쿠폰 없는경우 / 쿠폰 있는데 적용 안한경우 / 쿠폰 있고 적용한경우 ++ 쿠폰 있는데 다 개수가 0개인 경우-->
 
 							<div>
+								<c:set var="check" value="${false}"/>
+								<c:forEach var="cc" items="${cart.coupon}">
+									<c:if test="${cc.couponAmount!=0}">
+										<c:set var="check" value="${true}"/>	
+									</c:if>
+								</c:forEach>
+								
 								<c:choose>
-
 									<c:when
-										test="${fn:length(cart.coupon)==1 and empty cart.coupon[0].couponEnd}">
-										<label class="coupon text-base font-bold mt-4 block">사용
+										test="${fn:length(cart.coupon)==1 and empty cart.coupon[0].couponEnd or check==false}">
+										<label class="coupon text-sm font-bold mt-4 block">사용
 											가능한 쿠폰이 없습니다.</label>
 									</c:when>
 
@@ -177,19 +183,19 @@
 										<select name="couponData" class="text-sm">
 											<option value="${cart.cartNo}:0:0">쿠폰 사용 안함</option>
 											<c:forEach var="cp" items="${cart.coupon}">
-												<c:if test="${cp.couponEnd eq 'N'}">
+												<c:if test="${cp.couponEnd eq 'N' and cp.couponAmount!=0}">
 													<c:choose>
 														<c:when test="${cart.usedCouponNo==cp.couponNo}">
 															<option
 																value="${cart.cartNo}:${cp.couponNo}:${cp.event.discount}"
 																selected>
-																<c:out value="${cp.event.eventTitle}" />
+																<c:out value="${cp.event.eventTitle} : ${cp.couponAmount}개" />
 															</option>
 														</c:when>
 														<c:otherwise>
 															<option
 																value="${cart.cartNo}:${cp.couponNo}:${cp.event.discount}">
-																<c:out value="${cp.event.eventTitle}" />
+																<c:out value="${cp.event.eventTitle} : ${cp.couponAmount}개" />
 															</option>
 														</c:otherwise>
 													</c:choose>
@@ -456,7 +462,9 @@
 			data:param,
 			dataType:'json',
 			success:function(data){
-				document.location.reload(true);
+				if(data!=0){
+					document.location.reload(true);
+				}
 			}
 		})
 	}
@@ -490,9 +498,6 @@
 		$("#arr").attr("value",jsonArr);
 		return true;
 	}
-	
-	
-	alert("쿠폰 개수+사용일 처리 해야됨");
 	
 </script>
 </html>
