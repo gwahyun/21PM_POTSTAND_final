@@ -120,7 +120,7 @@
               		<div class="flex items-center">
 	                	<span class="mr-3">수량</span>
 	                	<div class="relative">
-                    			<input type="number" value="1">
+                    			<input id="bookAmount" type="number" value="1">
                 		</div>
               		</div>
             	</div>
@@ -295,7 +295,8 @@
 	
 	const fn_directPayment=()=>{
 		const bookCode=$("input[name='bookCode']").val();
-		location.replace("${path}/order/directPayment.do?bookCode="+bookCode);
+		const bookAmount=$("#bookAmount").val()
+		location.replace("${path}/order/directPayment.do?bookCode="+bookCode+"&bookAmount="+bookAmount);
 	}
 </script>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>

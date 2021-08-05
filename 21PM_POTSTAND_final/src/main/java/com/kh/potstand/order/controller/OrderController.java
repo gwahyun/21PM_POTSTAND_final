@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.kh.potstand.event.model.vo.Coupon;
 import com.kh.potstand.member.model.vo.Member;
 import com.kh.potstand.order.model.service.OrderService;
 import com.kh.potstand.order.model.vo.Cart;
@@ -52,26 +53,7 @@ public class OrderController {
 	}
 	
 	
-	//바로구매 -결제페이지 이동
-		@RequestMapping("/order/directPayment.do")
-		public ModelAndView directPayment(ModelAndView mv, HttpSession session, 
-											@RequestParam int bookCode, @RequestParam int bookAmount){
-			try {
-				String memberId =((Member)(session.getAttribute("loginMember"))).getMemberId();
-				Map param = new HashMap();
-				param.put("memberId", memberId);
-				param.put("bookCode", bookCode);
-				param.put("bookAmount", bookAmount);
-				List<Cart> cartList = service.directPayment(param);
-				mv.addObject("cartList", cartList);
-				mv.addObject("memberInfo", (Member)(session.getAttribute("loginMember")));
-				mv.setViewName("order/order");
-				
-			}catch(Exception e) {
-				e.printStackTrace();
-			}
-				return mv;
-		}
+	
 	
 	@RequestMapping("/ajax/cartObjDelete.do/{cartNo}")
 	public @ResponseBody int cartObjDelete(ModelAndView mv,@PathVariable int cartNo){
@@ -152,6 +134,8 @@ public class OrderController {
 			return result;
 	}
 	
+	
+	//결제페이지 이동
 	@RequestMapping("/order/orderItems.do")
 	@ResponseBody
 	public ModelAndView orderItems(ModelAndView mv, HttpSession session,
@@ -167,8 +151,9 @@ public class OrderController {
 			}
 			Member memberInfo = (Member)(session.getAttribute("loginMember")); 
 			List<Cart> cartList = service.cartSelectList(cartNo);
-	
+			List<Coupon> couponList = service.paymentCouponSelectList(memberInfo.getMemberId());
 			mv.addObject("cartList", cartList);
+			mv.addObject("couponList", couponList);
 			mv.addObject("memberInfo", memberInfo);
 			mv.setViewName("order/order");
 		}catch(Exception e) {
@@ -176,6 +161,30 @@ public class OrderController {
 		}
 			return mv;
 	}
+	
+	//바로구매 -결제페이지 이동
+	@RequestMapping("/order/directPayment.do")
+	public ModelAndView directPayment(ModelAndView mv, HttpSession session, 
+										@RequestParam int bookCode, @RequestParam int bookAmount){
+		try {
+			String memberId =((Member)(session.getAttribute("loginMember"))).getMemberId();
+			Map param = new HashMap();
+			param.put("memberId", memberId);
+			param.put("bookCode", bookCode);
+			param.put("bookAmount", bookAmount);
+			List<Cart> cartList = service.directPayment(param);
+			List<Coupon> couponList = service.paymentCouponSelectList(memberId);
+			mv.addObject("cartList", cartList);
+			mv.addObject("couponList", couponList);
+			mv.addObject("memberInfo", (Member)(session.getAttribute("loginMember")));
+			mv.setViewName("order/order");
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+			return mv;
+	}
+	
 	
 	@RequestMapping("/ajax/beforePayment.do")
 	@ResponseBody

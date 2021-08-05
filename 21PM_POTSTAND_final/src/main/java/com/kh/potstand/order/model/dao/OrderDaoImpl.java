@@ -8,6 +8,7 @@ import java.util.Map;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
+import com.kh.potstand.event.model.vo.Coupon;
 import com.kh.potstand.member.model.vo.Member;
 import com.kh.potstand.order.model.vo.Cart;
 
@@ -118,6 +119,11 @@ public class OrderDaoImpl implements OrderDao{
 		session.insert("order.insertCart",param); //카트에 우선 넣어줌 selectKey로 cartNo 받아옴
 		cartList.add(session.selectOne("order.selectCartNo",param)); //넣은거 다시 꺼내옴
 		return cartList;
+	}
+
+	@Override
+	public List<Coupon> paymentCouponSelectList(SqlSession session, String memberId) {
+		return session.selectList("order.paymentCouponSelectList", memberId);
 	}
 
 	

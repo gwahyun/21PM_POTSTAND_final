@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.kh.potstand.admin.model.vo.Notice;
 import com.kh.potstand.admin.model.vo.Qna;
 import com.kh.potstand.book.model.vo.Review;
+import com.kh.potstand.event.model.vo.Coupon;
 import com.kh.potstand.member.model.vo.Address;
 import com.kh.potstand.member.model.vo.Heart;
 import com.kh.potstand.member.model.vo.Member;
@@ -89,8 +90,13 @@ public class OrderServiceImpl implements OrderService{
 		return dao.directPayment(session, param);
 	}
 
-	
+	@Override
+	public List<Coupon> paymentCouponSelectList(String memberId) {
+		return dao.paymentCouponSelectList(session, memberId);
+	}
 
+	
+	
 	
 
 	

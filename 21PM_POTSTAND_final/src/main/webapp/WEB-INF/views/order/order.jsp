@@ -308,21 +308,10 @@
 	<div
 		class="pay-container my-5 w-full border border-solid border-gray-400 p-4">
 		<div class="w-full flex">
-			<h3	class="text-xl font-bold pl-2 border-l-4 border-blue-400 border-solid my-3 w-8/12">결제방법</h3>
-			<h3	class="text-xl font-bold pl-2 border-l-4 border-blue-400 border-solid my-3 w-4/12">추가입력사항</h3>
+			<h3	class="text-xl font-bold pl-2 border-l-4 border-blue-400 border-solid my-3 w-4/12">추가 및 확인사항</h3>
 		</div>
 		<div class="flex">
-			<div class="payMethodSelect w-8/12 mx-1 ">
-				
-				
-				
-				
-				
-				<div class="w-full flex justify-center align-middle h-1/4 pt-5">		
-					<button class="border border-solid border-gray-400 w-3/12 bg-green-200" onclick="requestPay()">결제하기</button>
-				</div>
-			</div>
-			<div class="pay-info w-4/12 mx-1 border border-solid border-gray-400 text-sm">
+			<div class="payMethodSelect w-4/12 mx-1 border border-solid border-gray-400 text-sm ">
 				<div class="w-full mt-2 mb-4 pl-4 pr-2">
 					<span class="inline-block w-3/12">영수증</span>
 					<label class="inline-block w-4/12">
@@ -334,24 +323,61 @@
 						표시안함
 					</label>
 				</div>
-				<div class="w-full flex mb-4 pl-4 pr-2">
-					<span class="inline-block w-3/12">택배사에게<br>메세지</span>
-					<input class="w-9/12 border-b border-solid border-gray-400" type="text" name="post-message" value="">
-				</div>
-				<div class="w-full flex mb-2 pl-4 pr-2">
+				<div class="w-full flex mb-2 px-4">
 					<span class="inline-block w-3/12">받는분에게<br>메세지</span>
 					<input class="w-9/12 border-b border-solid border-gray-400" type="text" name="message" value="">
 				</div>
-				<div class="w-full bg-blue-100 flex pl-4 pr-2 pt-3 pb-3">
-					<span class="inline-block w-3/12 text-blue-600 text-xl font-bold">결제금액</span>
-					<span id="final-price" class="w-9/12 text-red-600 text-xl font-bold text-right pr-9"></span>
+				<div class="w-full flex mb-2 px-4">
+					<span class="inline-block w-3/12">택배사에게<br>메세지</span>
+					<input class="w-9/12 border-b border-solid border-gray-400" type="text" name="post-message" value="">
 				</div>
-				<div class="w-full mt-4 mb-4 pl-4 pr-2">
-					<span class="inline-block w-full text-sm font-bold">주문하실 상품, 가격, 배송정보, 할인정보 등을 <br>확인하였으며, 구매에 동의하시겠습니까?</span>
- 					<label class="inline-block w-full text-xs font-bold mt-3 align-middle">
+			</div>
+			<div class="pay-info w-4/12 mx-1 border border-solid border-gray-400 text-sm">
+				<div class="w-full bg-blue-100 flex pl-4 pr-2 pt-3 pb-3">
+					<span class="inline-block w-4/12 text-blue-600 text-xl font-bold">결제금액</span>
+					<span id="final-price" class="w-8/12 text-red-600 text-xl font-bold text-right pr-9"></span>
+				</div>
+				<div class="w-full flex pl-4 pr-2 pt-3 pb-3">
+				<span class="inline-block w-4/12 text-lg font-bold">누적 포인트</span>
+					<span id="point-stack" class="w-8/12 text-red-600 text-base font-bold text-right pr-9"></span>
+				</div>
+				<div class="w-full flex pl-4 pr-2 pt-3 pb-3">
+					<span class="inline-block w-4/12 text-lg font-bold">적용가능 쿠폰</span>
+					<c:choose>
+
+						<c:when
+							test="${fn:length(couponList)==1 and empty couponList[0].couponEnd}">
+							<label class="coupon text-base text-right font-bold mt-4 block">
+								사용 가능한 쿠폰이 없습니다.
+							</label>
+						</c:when>
+
+						<c:otherwise>
+							<select name="couponData" class="w-8/12 text-sm border-b border-solid border-gray-400 text-align-last">
+								<option class="text-right" value="0:0">쿠폰 사용 안함</option>
+								<c:forEach var="cp" items="${couponList}">
+									<c:if test="${cp.couponEnd eq 'N'}">
+										<option class="text-right" 
+											value="${cp.couponNo}:${cp.event.discount}">
+											<c:out value="${cp.event.eventTitle}" />
+										</option>
+									</c:if>
+								</c:forEach>
+							</select>
+						</c:otherwise>
+					</c:choose>
+				</div>
+			</div>
+			<div class="pay-info w-4/12 mx-1 border border-solid border-gray-400 text-sm">
+				<div class="w-full">
+					<span class="inline-block p-5 bg-red-200 w-full text-center text-sm font-bold">주문하실 상품, 가격, 배송정보, 할인정보 등을 <br>확인하였으며, 구매에 동의하시겠습니까?</span>
+ 					<label class="flex px-5 py-2 w-full text-xs font-bold justify-center">
  					<input type="checkbox" name="trade-agree">
- 						동의합니다. (전자상거래법 제 8조 제2항)
+ 						&nbsp&nbsp동의합니다. (전자상거래법 제 8조 제2항)
  					</label>
+				</div>
+				<div class="w-full flex justify-center align-middle h-1/4 ">		
+					<button id="pay-button" class="border border-solid border-gray-400 w-3/12 bg-green-200" onclick="requestPay()">결제하기</button>
 				</div>
 			</div>
 		</div>
@@ -534,7 +560,8 @@ function fn_priceCalc(){
 			$("#sale-price>.money").text(discountPrice.toLocaleString('ko-KR',{style:'currency',currency:'KRW'}));
 			
 			$("#total>.money").text(totalPrice.toLocaleString('ko-KR',{style:'currency',currency:'KRW'}));
-			$("#final-price").text(realPrice.toLocaleString('ko-KR',{style:'currency',currency:'KRW'}));			
+			$("#final-price").text(realPrice.toLocaleString('ko-KR',{style:'currency',currency:'KRW'}));
+			$("#point-stack").text((Math.round(realPrice*0.05))+" point");		
 
 }
 			
@@ -597,6 +624,16 @@ function fn_priceCalc(){
 			$(e.target).parents("label").addClass("border-red-600");
 			$(e.target).parents("label").addClass("border-solid");
 		}		
+	});
+
+	$("input[name='trade-agree']").click((e)=>{
+		if($(e.target).is(":checked")){
+			$(e.target).parents("label").addClass("bg-green-200");
+			$(e.target).parents("label").addClass("text-green-800");
+		}else{
+			$(e.target).parents("label").removeClass("bg-green-300");
+			$(e.target).parents("label").removeClass("text-green-800");
+		}
 	});
 	
 </script>

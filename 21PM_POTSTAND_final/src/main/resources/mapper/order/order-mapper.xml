@@ -63,7 +63,7 @@
 	<resultMap type="event" id="eventMap">
 		<id column="event_no" property="eventNo"/>
 		<result column="event_title" property="eventTitle"/>
-		<result column="event_info" property="eventInfo" typeHandler="longHandler"/>
+		<result column="event_info" property="eventInfo"/>
 		<result column="event_short" property="eventShort"/>
 		<result column="event_start" property="eventStart"/>
 		<result column="event_end" property="eventEnd"/>
@@ -162,5 +162,9 @@
 		</selectKey>
 		INSERT INTO CART VALUES(SEQ_CART.NEXTVAL, #{memberId}, #{bookCode}, #{bookAmount}, NULL)
 	</insert>
+	
+	<select id="paymentCouponSelectList" resultMap="couponMap">
+		SELECT * FROM COUPON_EVENT WHERE MEMBER_ID=#{memberId} AND TYPE='가격'
+	</select>
 	
 </mapper>
