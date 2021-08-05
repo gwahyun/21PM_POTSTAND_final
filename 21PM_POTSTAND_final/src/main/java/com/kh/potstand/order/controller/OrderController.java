@@ -121,16 +121,54 @@ public class OrderController {
 								@RequestParam (value="couponNo") int couponNo
 									){
 		Map param = new HashMap();
+		int result=0;
+		//1. 원래있던 usedCouponNo 조회  - 원래있던 쿠폰 원래 쿠폰개수 조회 - 원래있던 쿠폰 원래 사용개수 조회
+		//   원래 안썼으면 패스
+			int oriUsedCouponNo=service.cartSelectOne(cartNo).getUsedCouponNo();
+			//기존 쿠폰이랑 같은거면 return
+			if(couponNo==oriUsedCouponNo) {
+				return result;
+			}
+			
+			int oriUsedCouponAmount_before=0;
+			if(oriUsedCouponNo!=0) {		
+				oriUsedCouponAmount_before = service.couponSelect(oriUsedCouponNo).getCouponAmount();
+			}
+			
+			
+		//2. 바꿀 쿠폰이 있으면 amount 조회
+			int amount=0;
+			if(couponNo!=0) {
+				amount = service.couponSelect(couponNo).getCouponAmount();
+			}
+			
+
+				
+		//아니면 진행.. 사용쿠폰 개수-1
 		param.put("cartNo", cartNo);
+		param.put("couponAmount", amount-1);
 		if(couponNo!=0) {
 			param.put("usedCouponNo", couponNo);
 		}
-		int result=0;
+		
+		//update해주고 원래 쿠폰+1 or 원래 안썼으면 패스
 		try {
-			result = service.cartCouponUpdate(param);
+			result += service.cartCouponUpdate(param);
+			//원래 쿠폰이 있었으면..
+			if(oriUsedCouponNo!=0) {
+				param.put("beforeCouponNo", oriUsedCouponNo);
+				param.put("beforeCouponAmount", oriUsedCouponAmount_before+1);
+				result += service.cartCouponUpdate(param);
+			}
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
+		log.debug("oriUsedCouponNo : "+oriUsedCouponNo);
+		log.debug("oriUsedCouponAmount : "+oriUsedCouponAmount_before);
+		log.debug("CouponNo : "+couponNo);
+		log.debug("CouponAmount : "+amount);
+		
+		
 			return result;
 	}
 	

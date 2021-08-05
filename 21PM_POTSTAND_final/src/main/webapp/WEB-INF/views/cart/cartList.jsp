@@ -177,19 +177,19 @@
 										<select name="couponData" class="text-sm">
 											<option value="${cart.cartNo}:0:0">쿠폰 사용 안함</option>
 											<c:forEach var="cp" items="${cart.coupon}">
-												<c:if test="${cp.couponEnd eq 'N'}">
+												<c:if test="${cp.couponEnd eq 'N' and cp.couponAmount!=0}">
 													<c:choose>
 														<c:when test="${cart.usedCouponNo==cp.couponNo}">
 															<option
 																value="${cart.cartNo}:${cp.couponNo}:${cp.event.discount}"
 																selected>
-																<c:out value="${cp.event.eventTitle}" />
+																<c:out value="${cp.event.eventTitle} : ${cp.couponAmount}개" />
 															</option>
 														</c:when>
 														<c:otherwise>
 															<option
 																value="${cart.cartNo}:${cp.couponNo}:${cp.event.discount}">
-																<c:out value="${cp.event.eventTitle}" />
+																<c:out value="${cp.event.eventTitle} : ${cp.couponAmount}개" />
 															</option>
 														</c:otherwise>
 													</c:choose>
@@ -456,7 +456,9 @@
 			data:param,
 			dataType:'json',
 			success:function(data){
-				document.location.reload(true);
+				if(data!=0){
+					document.location.reload(true);
+				}
 			}
 		})
 	}
@@ -490,9 +492,6 @@
 		$("#arr").attr("value",jsonArr);
 		return true;
 	}
-	
-	
-	alert("쿠폰 개수+사용일 처리 해야됨");
 	
 </script>
 </html>

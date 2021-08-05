@@ -11,7 +11,7 @@ public interface OrderService {
 	//Cart 조회
 	List<Cart> cartSelectList(String memberId);
 	List<Cart> cartSelectList(List<Integer> cartNo);
-	
+	Cart cartSelectOne(int cartNo);
 	
 	//Cart 항목 삭제 / 전체삭제 / 선택삭제
 	int cartObjDelete(Map param);
@@ -31,4 +31,9 @@ public interface OrderService {
 	List<Cart> directPayment(Map param);
 	
 	List<Coupon> paymentCouponSelectList(String memberId);
+	
+	//couponNo로 조회
+	Coupon couponSelect(int couponNo);
+	//쿠폰 사용한 개수 조회
+	int usedCouponCount(int couponNo);
 }

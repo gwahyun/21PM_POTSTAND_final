@@ -111,6 +111,13 @@
 			UPDATE CART SET USED_COUPON_NO=NULL WHERE CART_NO=#{cartNo}
 		</if>
 	</update>
+	<update id="couponAmountUpdate">
+		UPDATE COUPON SET COUPON_AMOUNT=#{couponAmount} WHERE COUPON_NO=#{usedCouponNo}
+	</update>
+	<update id="couponAmountUpdate2">
+		UPDATE COUPON SET COUPON_AMOUNT=#{beforeCouponAmount} WHERE COUPON_NO=#{beforeCouponNo}
+	</update>
+	
 	
 	<select id="selectSortAll" resultMap="sortMap">
 		select * from sort
@@ -119,7 +126,12 @@
 		insert into book values(seq_book.nextval, #{sort.sortNo}, #{bookTitle}, #{bookWriter}, #{bookPub}, #{bookCost}, null , #{bookCover}, #{bookDate}, 10, #{bookLink}, null, null, null, null, null, null, null)
 	</insert>
 	
-	
+	<select id="selectCouponByPK" resultMap="couponMap">
+		SELECT * FROM COUPON WHERE COUPON_NO=#{couponNo}
+	</select>
+	<select id="usedCouponCount" resultType="int">
+		SELECT COUNT(*) FROM CART WHERE USED_COUPON_NO=#{couponNo}
+	</select>
 	
 	<!-- {pg=html5_inicis, pay_method=card, merchant_uid=인서트 실행하고 리턴받아야됨, 
 		 * name=프랑켄슈타인 (현대판 프로메테우스)외 3건, amount=58340, buyer_email=000000@000000.com, 

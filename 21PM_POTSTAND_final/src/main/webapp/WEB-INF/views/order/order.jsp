@@ -342,24 +342,24 @@
 					<span id="point-stack" class="w-8/12 text-red-600 text-base font-bold text-right pr-9"></span>
 				</div>
 				<div class="w-full flex pl-4 pr-2 pt-3 pb-3">
-					<span class="inline-block w-4/12 text-lg font-bold">적용가능 쿠폰</span>
+					<span class="inline-block w-5/12 text-lg font-bold">적용가능 쿠폰</span>
 					<c:choose>
 
 						<c:when
 							test="${fn:length(couponList)==1 and empty couponList[0].couponEnd}">
-							<label class="coupon text-base text-right font-bold mt-4 block">
+							<label class="coupon w-6/12 text-base text-right font-bold mt-4 block">
 								사용 가능한 쿠폰이 없습니다.
 							</label>
 						</c:when>
 
 						<c:otherwise>
-							<select name="couponData" class="w-8/12 text-sm border-b border-solid border-gray-400 text-align-last">
+							<select name="couponData" class="w-7/12 text-sm border-b border-solid border-gray-400" style="text-align-last:right">
 								<option class="text-right" value="0:0">쿠폰 사용 안함</option>
 								<c:forEach var="cp" items="${couponList}">
 									<c:if test="${cp.couponEnd eq 'N'}">
 										<option class="text-right" 
 											value="${cp.couponNo}:${cp.event.discount}">
-											<c:out value="${cp.event.eventTitle}" />
+											<c:out value="${cp.event.eventTitle} : ${cp.couponAmount}개" />
 										</option>
 									</c:if>
 								</c:forEach>
@@ -568,7 +568,7 @@ function fn_priceCalc(){
 
 
 	
-	//쿠폰 할인 적용
+	/* //쿠폰 할인 적용
 	const fn_discount=(e)=>{
 		let arr = $(e.target).siblings("select[name='couponData']").val().split(":");
 		let cartNo=arr[0];
@@ -587,7 +587,7 @@ function fn_priceCalc(){
 			data:param,
 			dataType:'json',
 			success:function(data){
-				document.location.reload(true);
+					document.location.reload(true);
 			}
 		})
 	}
@@ -600,7 +600,7 @@ function fn_priceCalc(){
 		}
 	});
 	
-	
+	 */
 	
 	//페이지 로드시 장바구니 리스트 가격 출력
 	$(document).ready(function(){

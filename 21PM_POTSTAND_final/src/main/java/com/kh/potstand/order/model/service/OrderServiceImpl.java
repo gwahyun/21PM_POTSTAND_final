@@ -95,6 +95,21 @@ public class OrderServiceImpl implements OrderService{
 		return dao.paymentCouponSelectList(session, memberId);
 	}
 
+	@Override
+	public Coupon couponSelect(int couponNo) {
+		return dao.couponSelect(session, couponNo);
+	}
+
+	@Override
+	public int usedCouponCount(int couponNo) {
+		return dao.usedCouponCount(session, couponNo);
+	}
+
+	@Override
+	public Cart cartSelectOne(int cartNo) {
+		return dao.cartSelectOne(session, cartNo);
+	}
+
 	
 	
 	
