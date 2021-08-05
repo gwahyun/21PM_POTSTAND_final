@@ -22,13 +22,13 @@
 		              		<img class="h-45 rounded w-full object-contain object-center mb-6" 
 		              		src=<c:out value="${t.getBookCover()}"/> alt="content"/>
 		              		<h3 class="tracking-widest text-red-500 text-sm font-medium title-font">
-		              			<c:out value="${t.getBookPub()}"/>
+		              			<c:out value="${t.getBookPub()}" escapeXml="false"/>
 		              		</h3>
 		              		<h2 class="text-lg text-gray-900 font-medium title-font">
-		                		<c:out value="${t.getBookTitle()}"/>
+		                		<c:out value="${t.getBookTitle()}" escapeXml="false"/>
 		              		</h2>
 		              		<h3 class="tracking-widest text-red-500 text-sm font-medium title-font mb-4 truncate">
-		           				<c:out value="${t.getBookWriter()}"/>
+		           				<c:out value="${t.getBookWriter()}" escapeXml="false"/>
 		              		</h3>
 		              		<p class="leading-relaxed text-base"><fmt:formatNumber type="currency" value="${t.getBookCost()}"/></p>
 		            	</div>
@@ -57,13 +57,13 @@
 				              		<img class="h-45 rounded w-full object-contain object-center mb-6" 
 				              		src=<c:out value="${w.getBookCover()}"/> alt="content"/>
 				              		<h3 class="tracking-widest text-red-500 text-sm font-medium title-font">
-				              			<c:out value="${w.getBookPub()}"/>
+				              			<c:out value="${w.getBookPub()}" escapeXml="false"/>
 				              		</h3>
 				              		<h2 class="text-lg text-gray-900 font-medium title-font">
-				                		<c:out value="${w.getBookTitle()}"/>
+				                		<c:out value="${w.getBookTitle()}" escapeXml="false"/>
 				              		</h2>
 				              		<h3 class="tracking-widest text-red-500 text-sm font-medium title-font mb-4 truncate">
-				           				<c:out value="${w.getBookWriter()}"/>
+				           				<c:out value="${w.getBookWriter()}" escapeXml="false"/>
 				              		</h3>
 				              		<p class="leading-relaxed text-base"><fmt:formatNumber type="currency" value="${w.getBookCost()}"/></p>
 				            	</div>
@@ -92,13 +92,13 @@
 		              		<img class="h-45 rounded w-full object-contain object-center mb-6" 
 		              		src=<c:out value="${p.getBookCover()}"/> alt="content"/>
 		              		<h3 class="tracking-widest text-red-500 text-sm font-medium title-font">
-		              			<c:out value="${p.getBookPub()}"/>
+		              			<c:out value="${p.getBookPub()}" escapeXml="false"/>
 		              		</h3>
 		              		<h2 class="text-lg text-gray-900 font-medium title-font">
-		                		<c:out value="${p.getBookTitle()}"/>
+		                		<c:out value="${p.getBookTitle()}" escapeXml="false"/>
 		              		</h2>
 		              		<h3 class="tracking-widest text-red-500 text-sm font-medium title-font mb-4 truncate">
-		           				<c:out value="${p.getBookWriter()}"/>
+		           				<c:out value="${p.getBookWriter()}" escapeXml="false"/>
 		              		</h3>
 		              		<p class="leading-relaxed text-base"><fmt:formatNumber type="currency" value="${p.getBookCost()}"/></p>
 		            	</div>
