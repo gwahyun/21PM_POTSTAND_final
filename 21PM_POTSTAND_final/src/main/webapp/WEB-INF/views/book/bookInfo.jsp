@@ -750,13 +750,13 @@
 		}
 	}
 	
-<<<<<<< HEAD
+
 	const fn_directPayment=()=>{
 		const bookCode=$("input[name='bookCode']").val();
 		const bookAmount=$("#bookAmount").val()
 		location.replace("${path}/order/directPayment.do?bookCode="+bookCode+"&bookAmount="+bookAmount);
 	}
-=======
+
 	//리뷰 쓰기전 로그인 확인
 	function fn_book_bookReviewInsert(e){
 		if(${loginMember.memberId!=null}){ //로그인이 되어있을경우
@@ -868,6 +868,5 @@
 		}
 	}
 	
->>>>>>> branch 'main' of https://github.com/gwahyun/21PM_POTSTAND_final.git
 </script>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
