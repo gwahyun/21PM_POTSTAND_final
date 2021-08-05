@@ -453,6 +453,18 @@ public class AdminServiceImpl implements AdminService {
 		// TODO Auto-generated method stub
 		return dao.orderCountMap(session);
 	}
+
+	@Override
+	public Request bookRequestMemberCheck(Map param) {
+		// TODO Auto-generated method stub
+		return dao.bookRequestMemberCheck(session,param);
+	}
+
+	@Override
+	public int bookRequest(Map param) {
+		// TODO Auto-generated method stub
+		return dao.bookRequest(session,param);
+	}
 	
 	
 	

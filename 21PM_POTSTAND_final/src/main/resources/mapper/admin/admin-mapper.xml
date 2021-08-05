@@ -507,6 +507,7 @@
     		<if test="searchType != null and searchKeyword != '' and searchKeyword != null">
    			where ${searchType} like '%'||#{searchKeyword}||'%'
    		</if>
+   		order by request_no asc
  	</select>
  	
  	<select id="requestSelectNoCount" resultType="int">
@@ -628,7 +629,7 @@
 		<association column="PAYMENT_NO" property="payment"/>		
 	</resultMap>
 	
-		<!-- 결제 연습 -->
+	<!-- 주문확인/발송관리 -->
   	<select id="orderSelectList" resultMap="paymentMap">
   		select * from payment
   		where 1 = 1
@@ -642,6 +643,7 @@
   			<if test="endDate != null and startDate != null">
   			and to_date(pay_date,'YY-MM-DD') <![CDATA[<=]]> #{endDate} and to_date(pay_date,'YY-MM-DD') >= #{startDate}
   			</if>
+  		order by payment_no asc
   	</select>
   	
   	<select id="orderSelectListCount" resultType="int">
@@ -776,5 +778,14 @@
 		<collection property="coupon" resultMap="couponMap"/>
 	</resultMap>
 	
+ 	<!-- 책 상세페이지에서 입고요청 누른후 중복 요청인지 확인 -->
+ 	<select id="bookRequestMemberCheck" resultMap="requestMap">
+ 		  select * from request
+   		 where member_id = #{memberId} and book_code = #{no} and status = 'N'
+ 	</select>	
  	
+ 	<insert id="bookRequest">
+ 		insert into request values(seq_request.nextval,#{memberId},#{no},'N',default,null)
+ 	</insert>
+ 
 </mapper>

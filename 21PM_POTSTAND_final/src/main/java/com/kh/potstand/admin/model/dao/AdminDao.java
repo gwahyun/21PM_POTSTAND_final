@@ -162,4 +162,8 @@ public interface AdminDao {
 	int productDelete(SqlSessionTemplate session, int no);
 
 	Map<String, Object> orderCountMap(SqlSessionTemplate session);
+
+	Request bookRequestMemberCheck(SqlSessionTemplate session, Map param);
+
+	int bookRequest(SqlSessionTemplate session, Map param);
 }

@@ -911,7 +911,24 @@ public class AdminController {
 		return result>0?true:false;
 	}
 	
-	
+	@RequestMapping(value="/admin/bookRequestMemberCheck", produces = "application/text; charset=UTF-8")
+	@ResponseBody
+	public String bookRequestMemberCheck(ModelAndView mv,@RequestParam Map param) {
+		
+		String result = "";
+		Request r = service.bookRequestMemberCheck(param);
+		if(r==null) {
+			int a = service.bookRequest(param);
+			if(a>0) {
+				result = "입고 요청에 성공했습니다!";
+			}else {
+				result = "입고 요청에 실패하였습니다!";
+			}
+		}else {
+			result ="이미 회원님은 입고요청을 하셨습니다.";
+		}
+		return result;
+	}
 	
 	
 	
