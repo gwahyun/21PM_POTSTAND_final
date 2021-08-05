@@ -67,7 +67,7 @@
 								<c:out value="${cart.book.bookTitle}" escapeXml="false" />
 							</h2>
 							<h4 class="my-3 text-sm font-medium">
-								<c:out value="${cart.book.bookWriter}" />
+								<c:out value="${cart.book.bookWriter}" escapeXml="false"/>
 							</h4>
 							<!-- 수량 -->
 							<div>
@@ -158,14 +158,20 @@
 
 
 
-							<!-- 쿠폰 : 쿠폰 없는경우 / 쿠폰 있는데 적용 안한경우 / 쿠폰 있고 적용한경우-->
+							<!-- 쿠폰 : 쿠폰 없는경우 / 쿠폰 있는데 적용 안한경우 / 쿠폰 있고 적용한경우 ++ 쿠폰 있는데 다 개수가 0개인 경우-->
 
 							<div>
+								<c:set var="check" value="${false}"/>
+								<c:forEach var="cc" items="${cart.coupon}">
+									<c:if test="${cc.couponAmount!=0}">
+										<c:set var="check" value="${true}"/>	
+									</c:if>
+								</c:forEach>
+								
 								<c:choose>
-
 									<c:when
-										test="${fn:length(cart.coupon)==1 and empty cart.coupon[0].couponEnd}">
-										<label class="coupon text-base font-bold mt-4 block">사용
+										test="${fn:length(cart.coupon)==1 and empty cart.coupon[0].couponEnd or check==false}">
+										<label class="coupon text-sm font-bold mt-4 block">사용
 											가능한 쿠폰이 없습니다.</label>
 									</c:when>
 
