@@ -101,12 +101,19 @@ public class BookServiceImpl implements BookService {
 
 	//헤더메뉴 책정보 검색
 	@Override
-	public Map<String, List> searchBookInfo(String search) {
-		Map map = new HashMap();
-		map = dao.searchBookInfo(session, search);
-		return map;
+	public Map<String, List> searchBookInfo(Map map) {
+		return dao.searchBookInfo(session, map);
 	}
-	
-	
+
+	//책 더보기 검색
+	@Override
+	public List<Book> searchMoreInfo (Map map, int cPage, int numPerpage) {
+		return dao.searchBookInfoMore(session, map, cPage, numPerpage);
+	}
+
+	@Override
+	public int searchBookCount(Map map) {
+		return dao.searchBookCount(session, map);
+	}
 
 }

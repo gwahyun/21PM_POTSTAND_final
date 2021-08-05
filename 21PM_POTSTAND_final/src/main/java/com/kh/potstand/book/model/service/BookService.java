@@ -16,7 +16,7 @@ public interface BookService {
 	public int selectBookCount();
 	public Book selectBookInfo(int no);
 	public List<Review> selectBookReview(int no);
-	public Map<String, List> searchBookInfo(String search);
+
 	
 	//sort LV1~LV4
 	List<Sort> selectSortLv1List();
@@ -39,4 +39,9 @@ public interface BookService {
 
 	//책 찜삭제
 	int bookHeartDelete(@RequestParam Map param);
+	
+	//책 검색
+	public Map<String, List> searchBookInfo(Map map);
+	public int searchBookCount(Map map);
+	public List<Book> searchMoreInfo(Map map, int cPage, int numPerpage);
 }

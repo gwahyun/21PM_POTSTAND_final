@@ -1,6 +1,7 @@
 package com.kh.potstand.book.model.dao;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -95,17 +96,35 @@ public class BookDaoImpl implements BookDao {
 	}
 
 	@Override
-	public Map<String, List> searchBookInfo(SqlSession session, String search) {
-		List title = new ArrayList();
-		List writer = new ArrayList();
-		List pub = new ArrayList();
+	public Map<String, List> searchBookInfo(SqlSession session, Map map) {
+
+		Map answer = new HashMap();
+		//	검색결과 책리스트
+		answer.put("title", session.selectList("book.searchTitle", map));
+		answer.put("writer", session.selectList("book.searchWriter", map));
+		answer.put("pub", session.selectList("book.searchPub", map));
 		
-		title = session.selectList("book.searchTitle", search);
-		writer = session.selectList("book.searchWriter", search);
-		pub = session.selectList("book.searchPub", search);
+		//	검색결과 갯수
+		List list = new ArrayList(); 
+		list.add(session.selectOne("book.searchTitleCount", map));
+		list.add(session.selectOne("book.searchWriterCount", map));
+		list.add(session.selectOne("book.searchPubCount", map));
+		answer.put("twp", list);
 		
-		return null;
+		return answer;
 	}
+
+	@Override
+	public List<Book> searchBookInfoMore(SqlSession session, Map map, int cPage, int numPerpage) {
+		return session.selectList("book.searchMoreInfo",map,new RowBounds((cPage-1)*numPerpage, numPerpage));
+	}
+
+	@Override
+	public int searchBookCount(SqlSession session, Map map) {
+		return session.selectOne("book.searchBookCount", map);
+	}
+	
+	
 	
 	
 }
