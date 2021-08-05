@@ -72,7 +72,7 @@
 		select * from book where book_code=#{no}
 	</select>
 	<select id="selectBookReview" resultMap="reviewMap">
-		select * from review where book_code=#{no}
+		select * from review where book_code=#{no} order by review_date desc
 	</select>
 	
 	<select id="selectBookReviewCount" resultType="_int">
@@ -96,5 +96,22 @@
 	
 	<delete id="bookHeartDelete">
 		DELETE FROM HEART WHERE MEMBER_ID=#{memberId} AND BOOK_CODE=#{bookCode}
+	</delete>
+	
+	<insert id="bookReviewInsert">
+		INSERT INTO REVIEW VALUES(SEQ_REVIEW.NEXTVAL,#{bookCode},#{memberId},#{point},#{reviewContent},SYSDATE)
+	</insert>
+	
+	<select id="reviewCheckSelect" resultMap="reviewMap">
+		SELECT * FROM REVIEW WHERE MEMBER_ID=#{memberId} AND BOOK_CODE=#{bookCode}
+	</select>
+	
+	<update id="bookReviewUpdate">
+		UPDATE REVIEW SET POINT=#{point}, REVIEW_CONTENT=#{reviewContent} 
+		WHERE MEMBER_ID=#{memberId} AND BOOK_CODE=#{bookCode}
+	</update>
+	
+	<delete id="bookReviewDelete">
+		DELETE FROM REVIEW WHERE MEMBER_ID=#{memberId} AND BOOK_CODE=#{bookCode}
 	</delete>
 </mapper>

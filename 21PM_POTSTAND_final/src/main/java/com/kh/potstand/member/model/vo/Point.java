@@ -11,4 +11,5 @@ public class Point {
 	private int Point;
 	private String useLog;
 	private Date useDate; 
+	private int paymentNo;
 }

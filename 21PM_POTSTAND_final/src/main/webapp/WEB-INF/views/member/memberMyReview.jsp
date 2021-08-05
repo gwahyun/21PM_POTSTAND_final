@@ -41,12 +41,12 @@
         		<div class="w-full">
         			<h3 class="text-2xl font-semibold">내 리뷰 관리</h3>
         		</div>
-        		<c:if test="${list=='[]'}">
+        		<c:if test="${empty list}">
         			<div class="flex justify-center mt-5">
         				<h3 class="text-lg font-bold">등록한 리뷰가 없습니다.</h3>
         			</div>
         		</c:if>
-        		<c:if test="${list!='[]'}">
+        		<c:if test="${not empty list}">
         		<div class="flex w-full flex-col justify-center mt-5" >
         			<div class="flex justify-end mb-2">
         				<h4>총 <span class="text-red-500 font-semibold">${totalData }</span>개의 리뷰를 등록했습니다.</h4>

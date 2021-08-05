@@ -105,7 +105,7 @@
 								<c:forEach items="${list }" var="l">
 								<tr>
 									<td style="	text-align: center;"><fmt:formatNumber value="${l.bookCode }" ></fmt:formatNumber></td>
-									<td><a href="#"><c:out value="${l.bookTitle }" ></c:out></a></td>
+									<td><a href="${path }/book/bookinfo.do?no=${l.bookCode}"><c:out value="${l.bookTitle }" ></c:out></a></td>
 									<td>
 										${l.sort.lv1 }
 										<c:if test="${l.sort.lv2 != null}">
@@ -123,7 +123,7 @@
 									</td>
 									<td>${l.bookWriter }</td>
 									<td>${l.bookPub }</td>
-									<td style="	text-align: center;">${l.bookCost }</td>
+									<td style="	text-align: center;"><fmt:formatNumber value="${l.bookCost }" type="currency"/></td>
 									<td style="	text-align: center;"><fmt:formatDate value="${l.bookDate }" pattern="yyyy년MM월dd일"/></td>
 									<td style="	text-align: center;"><a class="update-btn" href="${path }/admin/productUpdate?no=${l.bookCode}">수정</a></td>
 									
@@ -150,46 +150,6 @@
 			location.assign("${path}/admin/productDelete?no="+no);
 		}
 	}
-
-	window.onpageshow = function(event){
-		if(event.persisted || (window.performance && window.performance.navigation.type==2)){
-			console.log('뒤로가기')
-			window.location.reload();
-		}else{
-			console.log('뒤로가기x')
-			console.log(window.performance)
-			console.log(window.performance.navigation.type)
-		}
-	}
-	window.addEventListener("load",function(){
-		const searchform=document.querySelector(".search-page-form")
-		const formPageNo=document.querySelector('input[name="pageNo"]')
-		const pageNo=document.querySelectorAll(".pagination > li > a")
-		for(var i=0;i<pageNo.length;i++){
-			if(pageNo[i].textContent=="이전"){
-				pageNo[i].addEventListener("click",function(){
-					formPageNo.value=this.parentElement.nextElementSibling.textContent-1
-					searchform.submit();
-				})
-			}else if(pageNo[i].textContent=="다음"){
-				pageNo[i].addEventListener("click",function(){
-					formPageNo.value=parseInt(this.parentElement.previousElementSibling.textContent)+1
-					searchform.submit();
-				})
-			}else{
-				pageNo[i].addEventListener("click",function(){
-					formPageNo.value=this.textContent		
-					searchform.submit();
-				})
-			}
-		}
-		
-		const cantDelete = document.querySelector(".cantDelete")
-		cantDelete.addEventListener("click",function(){
-			alert("주문목록에 있어 삭제할수 없습니다.")
-		})
-		
-	})
 
 	window.addEventListener("load",function(){
 			let map = new Map();

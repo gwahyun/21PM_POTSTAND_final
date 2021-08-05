@@ -81,7 +81,14 @@
 	 			<a href="${path }/book/bookinfo.do?no=${l.getBookCode()}">
 	            	<div class="bg-gray-100 p-6 rounded-lg">
 	              		<img class="h-45 rounded w-full object-contain object-center mb-6" 
-	              		src=<c:out value="${l.getBookCover()}"/> alt="content"/>
+	              		src=
+	              		<c:if test="${l.bookCover.contains('http') }">
+	              			<c:out value="${l.getBookCover()}"/>
+	              		</c:if>
+              			<c:if test="${!l.bookCover.contains('http') }">
+              				${path }/resources/upload/book/${l.bookCover }
+	              		</c:if>
+	              		 alt="content"/>
 	              		<h3 class="tracking-widest text-red-500 text-sm font-medium title-font">
 	              			<c:out value="${l.getBookPub()}"/>
 	              		</h3>

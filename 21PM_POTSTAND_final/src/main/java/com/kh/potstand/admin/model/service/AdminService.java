@@ -161,6 +161,10 @@ public interface AdminService {
 
 	Map<String, Object> orderCountMap();
 
+	Request bookRequestMemberCheck(Map param);
+
+	int bookRequest(Map param);
+
 
 
 

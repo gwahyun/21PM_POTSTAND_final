@@ -486,6 +486,18 @@ public class AdminDaoImpl implements AdminDao {
 		map.put("count4",session.selectOne("admin.orderCountMap4"));
 		return map;
 	}
+
+	@Override
+	public Request bookRequestMemberCheck(SqlSessionTemplate session, Map param) {
+		// TODO Auto-generated method stub
+		return session.selectOne("admin.bookRequestMemberCheck", param);
+	}
+
+	@Override
+	public int bookRequest(SqlSessionTemplate session, Map param) {
+		// TODO Auto-generated method stub
+		return session.insert("admin.bookRequest", param);
+	}
 	
 	
 	

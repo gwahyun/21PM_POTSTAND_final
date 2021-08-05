@@ -285,6 +285,7 @@
     			if(newPwResult==true && $("#newPw2").val().length>0){
     				if($("#newPw2").val()==$(e.target).val()){
 	    				$("#newPw2").next().children().text("");
+	    				newPw2Result=true;
 	    			}else{
 	    				$("#newPw2").next().children().text("새 비밀번호와 일치하지 않습니다.");
 						newPw2Result=false;

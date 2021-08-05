@@ -51,19 +51,43 @@ public class BookController {
 		int reviewSum=0; //리뷰 별점 합
 		int reviewAvg=0;
 		if(reviewList!=null) {
+			//각 별점별 인원수카운트
+			int point1Count=0;
+			int point2Count=0;
+			int point3Count=0;
+			int point4Count=0;
+			int point5Count=0;
 			for(Review r : reviewList) {
+				if(r.getPoint()==1) {
+					point1Count++;
+				}else if(r.getPoint()==2) {
+					point2Count++;
+				}else if(r.getPoint()==3) {
+					point3Count++;
+				}else if(r.getPoint()==4) {
+					point4Count++;
+				}else {
+					point5Count++;
+				}
 				reviewSum+=r.getPoint();
-				reviewAvg=Math.round(reviewSum/reviewCount); //리뷰 별점 평균
 			}
+			if(reviewSum!=0)reviewAvg=(int)Math.round((double)reviewSum/reviewCount); //리뷰 별점 평균
+			mv.addObject("point1", point1Count==0?0:Math.round(((double)point1Count/reviewCount)*100));
+			mv.addObject("point2", point2Count==0?0:Math.round(((double)point2Count/reviewCount)*100));
+			mv.addObject("point3", point3Count==0?0:Math.round(((double)point3Count/reviewCount)*100));
+			mv.addObject("point4", point4Count==0?0:Math.round(((double)point4Count/reviewCount)*100));
+			mv.addObject("point5", point5Count==0?0:Math.round(((double)point5Count/reviewCount)*100));
 		}
-		//로그인되어있는 아이디가 이책을 찜했는지 확인
+		//로그인되어있는 아이디가 이책을 찜했는지, 리뷰를 썻는지 확인
 		Member m=(Member)session.getAttribute("loginMember");
 		if(m!=null) { 
 			Map param=new HashMap();
 			param.put("memberId", m.getMemberId());
 			param.put("bookCode", no);
 			Heart h=service.bookHeartCheckSelect(param);
+			Review r=service.reviewCheckSelect(param);
 			mv.addObject("heartCheck", h);
+			mv.addObject("reviewCheck", r);
 		}
 		mv.addObject("bookInfo", service.selectBookInfo(no));
 		mv.addObject("reviewCount", reviewCount);
@@ -103,6 +127,27 @@ public class BookController {
 	@RequestMapping("/book/bookHeartDelete.do")
 	@ResponseBody
 	public int bookHeartDelete(@RequestParam Map param) {
-			return service.bookHeartDelete(param);
+		return service.bookHeartDelete(param);
+	}
+	
+	//리뷰등록
+	@RequestMapping("/book/bookReviewInsert.do")
+	@ResponseBody
+	public int bookReviewInsert(@RequestParam Map param) {	
+		return service.bookReviewInsert(param);
+	}
+	
+	//리뷰수정
+	@RequestMapping("/book/bookReviewUpdate.do")
+	@ResponseBody
+	public int bookReviewUpdate(@RequestParam Map param) {	
+		return service.bookReviewUpdate(param);
+	}
+		
+	//리뷰삭제
+	@RequestMapping("/book/bookReviewDelete.do")
+	@ResponseBody
+	public int bookReviewDelete(@RequestParam Map param) {	
+		return service.bookReviewDelete(param);
 	}
 }
