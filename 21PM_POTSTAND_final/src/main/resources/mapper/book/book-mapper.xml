@@ -105,4 +105,13 @@
 	<select id="reviewCheckSelect" resultMap="reviewMap">
 		SELECT * FROM REVIEW WHERE MEMBER_ID=#{memberId} AND BOOK_CODE=#{bookCode}
 	</select>
+	
+	<update id="bookReviewUpdate">
+		UPDATE REVIEW SET POINT=#{point}, REVIEW_CONTENT=#{reviewContent} 
+		WHERE MEMBER_ID=#{memberId} AND BOOK_CODE=#{bookCode}
+	</update>
+	
+	<delete id="bookReviewDelete">
+		DELETE FROM REVIEW WHERE MEMBER_ID=#{memberId} AND BOOK_CODE=#{bookCode}
+	</delete>
 </mapper>

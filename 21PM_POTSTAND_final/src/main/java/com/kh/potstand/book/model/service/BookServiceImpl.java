@@ -109,6 +109,18 @@ public class BookServiceImpl implements BookService {
 	public Review reviewCheckSelect(Map param) {
 		return dao.reviewCheckSelect(session,param);
 	}
+
+	//리뷰수정
+	@Override
+	public int bookReviewUpdate(Map param) {
+		return dao.bookReviewUpdate(session,param);
+	}
+
+	//리뷰삭제
+	@Override
+	public int bookReviewDelete(Map param) {
+		return dao.bookReviewDelete(session,param);
+	}
 	
 	
 

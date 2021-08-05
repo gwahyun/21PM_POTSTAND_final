@@ -104,6 +104,18 @@ public class BookDaoImpl implements BookDao {
 	public Review reviewCheckSelect(SqlSession session, Map param) {
 		return session.selectOne("book.reviewCheckSelect",param);
 	}
+
+	//리뷰수정
+	@Override
+	public int bookReviewUpdate(SqlSession session, Map param) {
+		return session.update("book.bookReviewUpdate", param);
+	}
+
+	//리뷰삭제
+	@Override
+	public int bookReviewDelete(SqlSession session, Map param) {
+		return session.delete("book.bookReviewDelete", param);
+	}
 	
 	
 }

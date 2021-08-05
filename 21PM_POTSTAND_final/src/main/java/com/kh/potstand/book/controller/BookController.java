@@ -136,4 +136,18 @@ public class BookController {
 	public int bookReviewInsert(@RequestParam Map param) {	
 		return service.bookReviewInsert(param);
 	}
+	
+	//리뷰수정
+	@RequestMapping("/book/bookReviewUpdate.do")
+	@ResponseBody
+	public int bookReviewUpdate(@RequestParam Map param) {	
+		return service.bookReviewUpdate(param);
+	}
+		
+	//리뷰삭제
+	@RequestMapping("/book/bookReviewDelete.do")
+	@ResponseBody
+	public int bookReviewDelete(@RequestParam Map param) {	
+		return service.bookReviewDelete(param);
+	}
 }

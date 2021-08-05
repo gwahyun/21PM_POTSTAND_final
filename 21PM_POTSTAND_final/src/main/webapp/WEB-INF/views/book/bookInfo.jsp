@@ -8,87 +8,86 @@
 	<jsp:param value="${loginMember}" name="loginMember"/>
 </jsp:include>
 <style>
-
-.point > label {
-  cursor: pointer;
-  width: 70px;
-  height: 70px;
-  margin-top: auto;
-  background-image: url(${path}/resources/img/star_off.png);
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: 76%;
-  transition: .3s;
-}
-
-.point > input:checked ~ label,
-.point > input:checked ~ label ~ label {
-	background-image: url(${path}/resources/img/star_on.png);
-}
-
-
-.point > input:not(:checked) ~ label:hover,
-.point > input:not(:checked) ~ label:hover ~ label {
-	background-image: url(${path}/resources/img/star_on.png);
-}
-
-.emoji-wrapper {
-  width: 100%;
-  text-align: center;
-  height: 100px;
-  overflow: hidden;
-  position: absolute;
-  top: 0;
-  left: 0;
-}
-
-.emoji-wrapper:before,
-.emoji-wrapper:after{
-  content: "";
-  height: 15px;
-  width: 100%;
-  position: absolute;
-  left: 0;
-  z-index: 1;
-}
-
-.emoji-wrapper:before {
-  top: 0;
-  background: linear-gradient(to bottom, rgba(255,255,255,1) 0%,rgba(255,255,255,1) 35%,rgba(255,255,255,0) 100%);
-}
-
-.emoji-wrapper:after{
-  bottom: 0;
-  background: linear-gradient(to top, rgba(255,255,255,1) 0%,rgba(255,255,255,1) 35%,rgba(255,255,255,0) 100%);
-}
-
-.emoji {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  transition: .3s;
-}
-
-.emoji > svg {
-  margin: 15px 0; 
-  width: 70px;
-  height: 70px;
-  flex-shrink: 0;
-}
-
-#point-1:checked ~ .emoji-wrapper > .emoji { transform: translateY(-100px); }
-#point-2:checked ~ .emoji-wrapper > .emoji { transform: translateY(-200px); }
-#point-3:checked ~ .emoji-wrapper > .emoji { transform: translateY(-300px); }
-#point-4:checked ~ .emoji-wrapper > .emoji { transform: translateY(-400px); }
-#point-5:checked ~ .emoji-wrapper > .emoji { transform: translateY(-500px); }
-
-.feedback {
-  width: 100%;
-  padding: 30px;
-  display: flex;
-  flex-direction: column;
-  flex-wrap: wrap;
-  align-items: center;
+	.point > label {
+	  cursor: pointer;
+	  width: 70px;
+	  height: 70px;
+	  margin-top: auto;
+	  background-image: url(${path}/resources/img/star_off.png);
+	  background-repeat: no-repeat;
+	  background-position: center;
+	  background-size: 76%;
+	  transition: .3s;
+	}
+	
+	.point > input:checked ~ label,
+	.point > input:checked ~ label ~ label {
+		background-image: url(${path}/resources/img/star_on.png);
+	}
+	
+	
+	.point > input:not(:checked) ~ label:hover,
+	.point > input:not(:checked) ~ label:hover ~ label {
+		background-image: url(${path}/resources/img/star_on.png);
+	}
+	
+	.emoji-wrapper {
+	  width: 100%;
+	  text-align: center;
+	  height: 100px;
+	  overflow: hidden;
+	  position: absolute;
+	  top: 0;
+	  left: 0;
+	}
+	
+	.emoji-wrapper:before,
+	.emoji-wrapper:after{
+	  content: "";
+	  height: 15px;
+	  width: 100%;
+	  position: absolute;
+	  left: 0;
+	  z-index: 1;
+	}
+	
+	.emoji-wrapper:before {
+	  top: 0;
+	  background: linear-gradient(to bottom, rgba(255,255,255,1) 0%,rgba(255,255,255,1) 35%,rgba(255,255,255,0) 100%);
+	}
+	
+	.emoji-wrapper:after{
+	  bottom: 0;
+	  background: linear-gradient(to top, rgba(255,255,255,1) 0%,rgba(255,255,255,1) 35%,rgba(255,255,255,0) 100%);
+	}
+	
+	.emoji {
+	  display: flex;
+	  flex-direction: column;
+	  align-items: center;
+	  transition: .3s;
+	}
+	
+	.emoji > svg {
+	  margin: 15px 0; 
+	  width: 70px;
+	  height: 70px;
+	  flex-shrink: 0;
+	}
+	
+	#point-1:checked ~ .emoji-wrapper > .emoji { transform: translateY(-100px); }
+	#point-2:checked ~ .emoji-wrapper > .emoji { transform: translateY(-200px); }
+	#point-3:checked ~ .emoji-wrapper > .emoji { transform: translateY(-300px); }
+	#point-4:checked ~ .emoji-wrapper > .emoji { transform: translateY(-400px); }
+	#point-5:checked ~ .emoji-wrapper > .emoji { transform: translateY(-500px); }
+	
+	.feedback {
+	  width: 100%;
+	  padding: 30px;
+	  display: flex;
+	  flex-direction: column;
+	  flex-wrap: wrap;
+	  align-items: center;
 }
 </style>
 <section class="text-gray-600 body-font overflow-hidden">
@@ -288,9 +287,9 @@
           	<!-- review 보여주고 쓰는 화면 -->
           	<div class="border-b-4 border-gray-300 my-10"></div>
           	<h1 class="sm:text-3xl text-2xl font-medium title-font text-gray-900 my-10">리뷰</h1>
-          	<div class="flex justify-center">
-          		<div class="flex flex-col text-center items-center justify-center">
-          			<h4 class="m-2">구매자 별점</h4>
+          	<div class="flex items-center justify-center w-3/4">
+          		<div class="flex flex-col text-center items-center justify-center w-1/4">
+          			<h4 class="m-2 text-xl">구매자 별점</h4>
           			<div class="text-center text-4xl text-black font-bold m-2"><h2>${reviewAvg }</h2></div>
           			<div class="flex m-2">
           				<c:if test="${reviewAvg==1 }">
@@ -338,7 +337,7 @@
 	          							8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
 	          					</span>
 	          					5
-	          					<span class="ml-1 border w-20 h-3 flex">
+	          					<span class="ml-1 border w-24 h-3 flex">
 	          						<span class="score_bar bg-gray-500 h-full" style="width: ${point5}%;"></span>
 	          					</span>   						
 	          				</li>
@@ -353,7 +352,7 @@
 	          							8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
 	          					</span>
 	          					4
-	          					<span class="ml-1 border w-20 h-3 flex">
+	          					<span class="ml-1 border w-24 h-3 flex">
 	          						<span class="score_bar bg-gray-500 h-full" style="width: ${point4}%;"></span>
 	          					</span>
 	          				</li>
@@ -368,7 +367,7 @@
 	          							8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
 	          					</span>
 	          					3
-	          					<span class="ml-1 border w-20 h-3 flex">
+	          					<span class="ml-1 border w-24 h-3 flex">
 	          						<span class="score_bar bg-gray-500 h-full" style="width: ${point3}%;"></span>
 	          					</span>
 	          				</li>
@@ -383,7 +382,7 @@
 	          							8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
 	          					</span>
 	          					2
-	          					<span class="ml-1 border w-20 h-3 flex">
+	          					<span class="ml-1 border w-24 h-3 flex">
 	          						<span class="score_bar bg-gray-500 h-full" style="width: ${point2}%;"></span>
 	          					</span>
 	          				</li>
@@ -398,7 +397,7 @@
 	          							8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
 	          					</span>
 	          					1
-	          					<span class="ml-1 border w-20 h-3 flex">
+	          					<span class="ml-1 border w-24 h-3 flex">
 	          						<span class="score_bar bg-gray-500 h-full" style="width: ${point1}%;"></span>
 	          					</span>
 	          				</li>
@@ -407,14 +406,12 @@
           			<div class="border-t-2 mt-4">
           				<h4 class="text-gray-500"><span class="font-bold">${reviewCount }</span>명이 평가함</h4>
           			</div>
-          		</div>
-          		<form action="${path}/book/bookReviewInsert.do" method="post" onsubmit="return fn_book_checkLogin()">
-          		<div class="flex flex-col items-center justify-center ml-6">
-          			<div class="flex items-center">
+          		</div> 
+          		<div class="flex flex-col items-center justify-center w-3/4">
+          			<div id="reviewMsg" class="flex items-center">
           				<h4 class="text-2xl text-gray-500 font-semibold p-4">이 책을 평가해주세요!</h4>
-          				<span class="hidden text-3xl text-red-500 m-4"></span>
           			</div>
-          			<div class="flex justify-center m-4 w-3/4 h-60">
+          			<div id="reviewRating" class="flex justify-center m-4 w-3/4 h-60">
           				<div class="flex justify-center container w-full h-full">
 							<div class="flex justify-center feedback w-full h-full">
 							  	<div class="point flex w-full justify-center overflow-hidden flex-row-reverse h-full
@@ -521,17 +518,59 @@
 							</div>
 						</div>
           			</div>
-          			<div class="m-4">
+          			<!-- 작성한 리뷰가 없을경우 컨테이너 -->
+          			<div id="reviewContainer" class="m-4">
 	          			<textarea rows="10" cols="100" placeholder="리뷰 작성 시 광고 및 욕설, 비속어나 타인을 비방하는 문구를 사용하시면 삭제처리 될 수 있습니다."
 	          			class="border-4 rounded-lg" id="reviewContent" style="resize:none;"></textarea>
+	          			<div class="flex justify-end mt-2">
+		          			<button type="button" class="bg-red-500 text-gray-100 rounded tracking-wide font-semibold 
+						    focus:outline-none focus:shadow-outline hover:bg-red-600 cursor-pointer 
+						    transition ease-in duration-300 w-32 h-8" onclick="fn_book_bookReviewInsert(event);">리뷰 남기기</button>
+					    </div>
           			</div>
-          			<div class="flex justify-end w-full pr-4">
-          				<button type="button" class="bg-red-500 text-gray-100 rounded tracking-wide font-semibold 
-					    focus:outline-none focus:shadow-outline hover:bg-red-600 cursor-pointer 
-					    transition ease-in duration-300 w-32 h-8" onclick="fn_book_bookReviewInsert(event);">리뷰 남기기</button>
+          			<!-- 작성한 리뷰가 있을경우 컨테이너 -->
+	          		<div id="reviewContainer2" class="hidden flex flex-col m-4 w-full bg-gray-200 p-4">
+	          			<div class="mb-4 flex">
+	          				<div class="w-3/4"><p>${reviewCheck.reviewDate }</p></div>
+	          				<div class="w-1/4 flex justify-end">
+	          					<!-- 리뷰수정 -->
+	          					<button type="button" id="reviewDelete" onclick="fn_book_bookReviewUpdate();">
+		          					<svg class="hi-solid hi-pencil inline-block w-5 h-5" fill="currentColor" 
+			          				viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+				          				<path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 
+				          				5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/>
+		          					</svg>
+	          					</button>
+	          					&nbsp;&nbsp;
+	          					<!-- 리뷰삭제 -->
+	          					<button type="button" id="reviewUpdate" onclick="fn_book_bookReviewDelete();">
+		          					<svg class="hi-solid hi-trash inline-block w-5 h-5" fill="currentColor" 
+		          					viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+		          						<path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 
+		          						2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 
+		          						0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd"/>
+		          					</svg>
+	          					</button>
+	          				</div>
+	          			</div>
+	          			<div>
+	          				<p>${reviewCheck.reviewContent }</p>
+	          			</div>    		
+		          	</div>
+		          	<div id="reviewContainer3" class="hidden m-4">
+	          			<textarea rows="10" cols="100" placeholder="리뷰 작성 시 광고 및 욕설, 비속어나 타인을 비방하는 문구를 사용하시면 삭제처리 될 수 있습니다."
+	          			class="border-4 rounded-lg" id="reviewUpdateContent" style="resize:none;">${reviewCheck.reviewContent }</textarea>
+	          			<div class="flex justify-end mt-2">
+	          				<button type="button" class="bg-white text-gray-500 rounded tracking-wide font-semibold border
+						    focus:outline-none focus:shadow-outline hover:bg-red-600 hover:text-gray-100 cursor-pointer 
+						    transition ease-in duration-300 w-20 h-8" onclick="fn_book_bookReviewUpdateCancel();">취소</button>
+						    &nbsp;
+		          			<button type="button" class="bg-red-500 text-gray-100 rounded tracking-wide font-semibold 
+						    focus:outline-none focus:shadow-outline hover:bg-red-600 cursor-pointer 
+						    transition ease-in duration-300 w-32 h-8" onclick="fn_book_bookReviewUpdateEnd();">리뷰 수정</button>
+					    </div>
           			</div>
           		</div>
-          		</form>
           	</div>
           	<div class="flex flex-col justify-center m-8 p-8 border-t-4">
 	          	<c:if test="${empty review }">
@@ -720,7 +759,8 @@
 		}
 	}
 	
-	function reviewCheck(){
+	//이미 리뷰를 달았을경우
+	$(function reviewCheck(){ 
 		if(${not empty reviewCheck}){
 			$("input[name=point]").each(function(){ //radio name이 point인 것을 순회해서 체크드인거 찾기
 				if($(this).val()=='${reviewCheck.point}'){
@@ -728,9 +768,72 @@
 					$(this).attr("checked",true);
 				}
 			});
+			$("#reviewContainer").hide();
+			$("#reviewMsg").hide();
+			$("#reviewContainer2").show();
+		}else{
+			$("#reviewContainer").show();
+			$("#reviewMsg").show();
+			$("#reviewContainer2").hide();
+		}
+	});
+	
+	//리뷰 수정
+	function fn_book_bookReviewUpdate(){
+		$("#reviewContainer3").show();
+		$("#reviewContainer2").hide();
+	}
+	function fn_book_bookReviewUpdateCancel(){
+		$("#reviewContainer2").show();
+		$("#reviewContainer3").hide();
+	}
+	function fn_book_bookReviewUpdateEnd(){
+		let pointCheck=$("input[name=point]");
+		let point;
+		$("input[name=point]").each(function(){ //radio name이 point인 것을 순회해서 체크드인거 찾기
+			if($(this).is(":checked")){
+				point=$(this).val();
+			}
+		});
+		$.ajax({
+			type:"post",
+			url:"${path}/book/bookReviewUpdate.do",
+			data:{
+				"memberId":'${loginMember.memberId}',
+				"bookCode":${bookInfo.bookCode},
+				"point":point,
+				"reviewContent":$("#reviewUpdateContent").val()
+			},
+			success:data=>{
+				if(data>0){
+					location.reload();
+				}else{
+					alert('리뷰등록에 실패했습니다. 관리자에게 문의하세요.');
+				}
+			}
+		});
+	}
+	
+	//리뷰 삭제
+	function fn_book_bookReviewDelete(){
+		if(confirm("정말 삭제하시겠습니까?")){
+			$.ajax({
+				type:"post",
+				url:"${path}/book/bookReviewDelete.do",
+				data:{
+					"memberId":'${loginMember.memberId}',
+					"bookCode":${bookInfo.bookCode},
+				},
+				success:data=>{
+					if(data>0){
+						location.reload();
+					}else{
+						alert('리뷰삭제에 실패했습니다. 관리자에게 문의하세요.');
+					}
+				}
+			});
 		}
 	}
-	reviewCheck();
 	
 </script>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>

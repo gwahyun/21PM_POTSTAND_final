@@ -231,4 +231,5 @@
 	<update id="membmerCouponEndUpdate">
 		UPDATE COUPON SET COUPON_END='Y' WHERE VAL_DATE &lt; SYSDATE;
 	</update>
+	
 </mapper>
