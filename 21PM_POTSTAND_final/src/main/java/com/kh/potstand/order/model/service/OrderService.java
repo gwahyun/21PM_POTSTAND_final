@@ -34,4 +34,6 @@ public interface OrderService {
 	
 	int paymentSuccess(Map param);
 	int paymentFail(Map param);
+	
+	List<Cart> directPayment(Map param);
 }

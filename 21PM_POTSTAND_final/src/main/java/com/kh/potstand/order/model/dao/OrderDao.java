@@ -36,4 +36,6 @@ public interface OrderDao {
 	
 	int paymentSuccess(SqlSession session, Map param);
 	int paymentFail(SqlSession session, Map param);
+	
+	List<Cart> directPayment(SqlSession session, Map param);
 }

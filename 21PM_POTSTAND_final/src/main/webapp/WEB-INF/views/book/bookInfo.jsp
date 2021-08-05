@@ -156,7 +156,7 @@
                 		</svg>
               		</button>
               		<button class="flex text-white bg-red-500 border-0 py-5 px-10 focus:outline-none hover:bg-red-600 
-              		rounded text-xl">구매하기</button>
+              		rounded text-xl" onclick="fn_directPayment();">구매하기</button>
             	</div>
           	</div>
 		</div>
@@ -291,6 +291,11 @@
 				});
 			}	
 		}
+	}
+	
+	const fn_directPayment=()=>{
+		const bookCode=$("input[name='bookCode']").val();
+		location.replace("${path}/order/directPayment.do?bookCode="+bookCode);
 	}
 </script>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>

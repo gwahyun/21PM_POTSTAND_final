@@ -112,8 +112,16 @@ public class OrderDaoImpl implements OrderDao{
 		return session.delete("order.deletePaymentByPK",param);
 	}
 
-	
+	@Override
+	public List<Cart> directPayment(SqlSession session, Map param) {
+		List<Cart> cartList=new ArrayList();
+		session.insert("order.insertCart",param); //카트에 우선 넣어줌 selectKey로 cartNo 받아옴
+		cartList.add(session.selectOne("order.selectCartNo",param)); //넣은거 다시 꺼내옴
+		return cartList;
+	}
 
+	
+	
 	
 	
 

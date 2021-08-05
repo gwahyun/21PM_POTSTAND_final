@@ -51,6 +51,28 @@ public class OrderController {
 			return mv;
 	}
 	
+	
+	//바로구매 -결제페이지 이동
+		@RequestMapping("/order/directPayment.do")
+		public ModelAndView directPayment(ModelAndView mv, HttpSession session, 
+											@RequestParam int bookCode, @RequestParam int bookAmount){
+			try {
+				String memberId =((Member)(session.getAttribute("loginMember"))).getMemberId();
+				Map param = new HashMap();
+				param.put("memberId", memberId);
+				param.put("bookCode", bookCode);
+				param.put("bookAmount", bookAmount);
+				List<Cart> cartList = service.directPayment(param);
+				mv.addObject("cartList", cartList);
+				mv.addObject("memberInfo", (Member)(session.getAttribute("loginMember")));
+				mv.setViewName("order/order");
+				
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
+				return mv;
+		}
+	
 	@RequestMapping("/ajax/cartObjDelete.do/{cartNo}")
 	public @ResponseBody int cartObjDelete(ModelAndView mv,@PathVariable int cartNo){
 		int result=0;

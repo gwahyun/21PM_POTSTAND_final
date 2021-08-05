@@ -80,7 +80,7 @@
 	
 	
 	<select id="cartSelectListJoinEventList" resultMap="cartMap">
-		SELECT * FROM CART_BOOK_COUPON WHERE MEMBER_ID=#{memberId} AND (COUPON_END IS NULL OR COUPON_END='N')
+		SELECT * FROM CART_BOOK_COUPON WHERE MEMBER_ID=#{memberId} AND (COUPON_END IS NULL OR COUPON_END='N') ORDER BY CART_NO
 	</select>
 	
 	<select id="selectCartNo" resultMap="cartMap">
@@ -155,5 +155,12 @@
 	<update id="updatePayment">
 		UPDATE PAYMENT SET MERCHANT_UID=#{merchant_uid}, PAY_METHOD=#{pay_method} WHERE PAYMENT_NO=#{merchant_uid}
 	</update>
+	
+	<insert id="insertCart">
+		<selectKey keyProperty="no" resultType="int" order="AFTER">
+			SELECT SEQ_CART.CURRVAL FROM DUAL 
+		</selectKey>
+		INSERT INTO CART VALUES(SEQ_CART.NEXTVAL, #{memberId}, #{bookCode}, #{bookAmount}, NULL)
+	</insert>
 	
 </mapper>

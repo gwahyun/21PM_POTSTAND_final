@@ -84,6 +84,11 @@ public class OrderServiceImpl implements OrderService{
 		return dao.paymentFail(session, param);
 	}
 
+	@Override
+	public List<Cart> directPayment(Map param) {
+		return dao.directPayment(session, param);
+	}
+
 	
 
 	
