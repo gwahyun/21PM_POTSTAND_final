@@ -166,15 +166,10 @@ public class OrderController {
 			}
 		}catch(Exception e) {
 			e.printStackTrace();
-		}
-		log.debug("oriUsedCouponNo : "+oriUsedCouponNo);
-		log.debug("oriUsedCouponAmount : "+oriUsedCouponAmount_before);
-		log.debug("CouponNo : "+couponNo);
-		log.debug("CouponAmount : "+amount);
-		
-		
+		}		
 			return result;
 	}
+	
 	
 	
 	//결제페이지 이동
@@ -271,7 +266,7 @@ public class OrderController {
 			
 	}
 	
-	//카트 부분인데 충돌날까봐 일단 여기다 둠
+	
 	@RequestMapping("/cartInsert.do")
 	@ResponseBody
 	public boolean cartInsert(@RequestParam Map param, HttpSession session, String bookCode	) {

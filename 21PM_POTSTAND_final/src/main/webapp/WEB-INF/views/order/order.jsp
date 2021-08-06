@@ -174,7 +174,7 @@
 									<c:otherwise>
 										<label class="coupon text-sm font-bold  block mt-1">
 											사용 쿠폰</label>
-										 <select name="couponData" class="text-sm appearance-none" disabled="disabled">
+										 <select name="bookCoupon" class="text-sm appearance-none" disabled="disabled">
 											<option value="${cart.cartNo}:0:0">쿠폰 사용 안함</option>
 											<c:forEach var="cp" items="${cart.coupon}">
 												<c:if test="${cp.couponEnd eq 'N'}">
@@ -407,6 +407,13 @@ function requestPay() {
 		//****************************************client에서 parameter 조작됐는지 검사하는 로직 있어야됨**********************************
 		//hidden value써서 대강 처리함
 		
+		//할인적용됐는지 확인
+		let arr = $("select[name='couponData']").val().split(":");
+		let couponNo = arr[0];
+		let discount = arr[1];
+		if(arr[0]!=0){
+			realPrice=Math.round(realPrice*(1-discount));
+		}
 		
 		let bookTitle = $(".bookTitle");
 		let cartNo=[];
@@ -431,7 +438,9 @@ function requestPay() {
 		    postMessage:$("input[name='post-message']").val(),
 		    billPrice: $("input[name='billprice']").val(),
 		    digital:false,
-		    cartNo:cartNo
+		    cartNo:cartNo,
+		    used_coupon_no:couponNo,
+		    point: Number($("#point-stack").text().split(" ")[0])
 		});
 		
 		//주문 선입력
@@ -564,43 +573,29 @@ function fn_priceCalc(){
 			$("#point-stack").text((Math.round(realPrice*0.05))+" point");		
 
 }
-			
-
-
 	
-	/* //쿠폰 할인 적용
-	const fn_discount=(e)=>{
-		let arr = $(e.target).siblings("select[name='couponData']").val().split(":");
-		let cartNo=arr[0];
-		let couponNo=arr[1];
-		let discount=arr[2];
-		let oriprice = $(e.target).parent("div").siblings(".price-info").children(".ori-price-total");
-		let disprice =$(e.target).parent("div").siblings(".price-info").children(".dis-price");
-		
-		let param={
-				'cartNo':cartNo,
-				'couponNo':couponNo
-		}
-		$.ajax({
-			url:'${path}/ajax/updateCartCoupon.do',
-			type:'post',
-			data:param,
-			dataType:'json',
-			success:function(data){
-					document.location.reload(true);
-			}
-		})
-	}
-	
-	$("input[name='cartObj']").change((e)=>{
-		if($(e.target).is(":checked")) {
-			fn_priceCalc();
+	$("select[name='couponData']").change((e)=>{
+		let arr = $("select[name='couponData']").val().split(":");
+		let couponNo = arr[0];
+		let discount = arr[1];
+		console.log($("select[name='couponData']"));
+		//쿠폰 사용시
+		if(arr[0]!=0){
+			let disPrice = realPrice*(1-discount);
+			$("#final-price").text(disPrice.toLocaleString('ko-KR',{style:'currency',currency:'KRW'}));
+			$("#final-price").removeClass("text-red-600");
+			$("#final-price").addClass("text-blue-600");
+		//쿠폰 사용안함
 		}else{
-			fn_priceCalc();
+			$("#final-price").text(realPrice.toLocaleString('ko-KR',{style:'currency',currency:'KRW'}));
+			$("#final-price").addClass("text-red-600");
+			$("#final-price").removeClass("text-blue-600");
 		}
-	});
+	}); 
+		
+
 	
-	 */
+	
 	
 	//페이지 로드시 장바구니 리스트 가격 출력
 	$(document).ready(function(){
