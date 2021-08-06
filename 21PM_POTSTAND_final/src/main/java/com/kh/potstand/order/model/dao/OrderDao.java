@@ -4,15 +4,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
-import org.springframework.web.bind.annotation.RequestParam;
 
-import com.kh.potstand.admin.model.vo.Notice;
-import com.kh.potstand.admin.model.vo.Qna;
-import com.kh.potstand.book.model.vo.Review;
-import com.kh.potstand.member.model.vo.Address;
-import com.kh.potstand.member.model.vo.Heart;
-import com.kh.potstand.member.model.vo.Member;
-import com.kh.potstand.member.model.vo.Point;
+import com.kh.potstand.event.model.vo.Coupon;
 import com.kh.potstand.order.model.vo.Cart;
 
 public interface OrderDao {
@@ -20,6 +13,8 @@ public interface OrderDao {
 	//Cart 조회
 	List<Cart> cartSelectList(SqlSession session, String memberId);
 	List<Cart> cartSelectList(SqlSession session, List<Integer> cartNo);
+	Cart cartSelectOne(SqlSession session, int cartNo);
+	
 	
 	//Cart 항목삭제/전체삭제/선택삭제
 	int cartObjDelete(SqlSession session, Map param);
@@ -36,4 +31,12 @@ public interface OrderDao {
 	
 	int paymentSuccess(SqlSession session, Map param);
 	int paymentFail(SqlSession session, Map param);
+	
+	List<Cart> directPayment(SqlSession session, Map param);
+	
+	List<Coupon> paymentCouponSelectList(SqlSession session, String memberId);
+	
+	Coupon couponSelect(SqlSession session, int couponNo);
+	
+	int usedCouponCount(SqlSession session, int couponNo);
 }

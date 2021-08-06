@@ -891,26 +891,6 @@ public class AdminController {
 		return result;
 	}
 	
-	//카트 부분인데 충돌날까봐 일단 여기다 둠
-	@RequestMapping("/cartInsert.do")
-	@ResponseBody
-	public boolean cartInsert(
-			@RequestParam Map param,
-			HttpSession session,
-			String bookCode
-			) {
-		int result = 0;
-		param.put("memberId", ((Member)session.getAttribute("loginMember")).getMemberId());
-		Cart c = service.cartSelectDistinct(param);
-		
-		if(c==null) {
-			result = service.cartInsert(param);
-		}else {
-			result = service.cartSelectOnePlus(param);
-		}
-		return result>0?true:false;
-	}
-	
 	@RequestMapping(value="/admin/bookRequestMemberCheck", produces = "application/text; charset=UTF-8")
 	@ResponseBody
 	public String bookRequestMemberCheck(ModelAndView mv,@RequestParam Map param) {
@@ -929,6 +909,7 @@ public class AdminController {
 		}
 		return result;
 	}
+
 	
 	
 	

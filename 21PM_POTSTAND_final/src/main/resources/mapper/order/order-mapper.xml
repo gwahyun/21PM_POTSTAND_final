@@ -63,7 +63,7 @@
 	<resultMap type="event" id="eventMap">
 		<id column="event_no" property="eventNo"/>
 		<result column="event_title" property="eventTitle"/>
-		<result column="event_info" property="eventInfo" typeHandler="longHandler"/>
+		<result column="event_info" property="eventInfo"/>
 		<result column="event_short" property="eventShort"/>
 		<result column="event_start" property="eventStart"/>
 		<result column="event_end" property="eventEnd"/>
@@ -80,7 +80,7 @@
 	
 	
 	<select id="cartSelectListJoinEventList" resultMap="cartMap">
-		SELECT * FROM CART_BOOK_COUPON WHERE MEMBER_ID=#{memberId} AND (COUPON_END IS NULL OR COUPON_END='N')
+		SELECT * FROM CART_BOOK_COUPON WHERE MEMBER_ID=#{memberId} AND (COUPON_END IS NULL OR COUPON_END='N') ORDER BY CART_NO
 	</select>
 	
 	<select id="selectCartNo" resultMap="cartMap">
@@ -111,6 +111,13 @@
 			UPDATE CART SET USED_COUPON_NO=NULL WHERE CART_NO=#{cartNo}
 		</if>
 	</update>
+	<update id="couponAmountUpdate">
+		UPDATE COUPON SET COUPON_AMOUNT=#{couponAmount} WHERE COUPON_NO=#{usedCouponNo}
+	</update>
+	<update id="couponAmountUpdate2">
+		UPDATE COUPON SET COUPON_AMOUNT=#{beforeCouponAmount} WHERE COUPON_NO=#{beforeCouponNo}
+	</update>
+	
 	
 	<select id="selectSortAll" resultMap="sortMap">
 		select * from sort
@@ -119,7 +126,12 @@
 		insert into book values(seq_book.nextval, #{sort.sortNo}, #{bookTitle}, #{bookWriter}, #{bookPub}, #{bookCost}, null , #{bookCover}, #{bookDate}, 10, #{bookLink}, null, null, null, null, null, null, null)
 	</insert>
 	
-	
+	<select id="selectCouponByPK" resultMap="couponMap">
+		SELECT * FROM COUPON WHERE COUPON_NO=#{couponNo}
+	</select>
+	<select id="usedCouponCount" resultType="int">
+		SELECT COUNT(*) FROM CART WHERE USED_COUPON_NO=#{couponNo}
+	</select>
 	
 	<!-- {pg=html5_inicis, pay_method=card, merchant_uid=인서트 실행하고 리턴받아야됨, 
 		 * name=프랑켄슈타인 (현대판 프로메테우스)외 3건, amount=58340, buyer_email=000000@000000.com, 
@@ -155,5 +167,16 @@
 	<update id="updatePayment">
 		UPDATE PAYMENT SET MERCHANT_UID=#{merchant_uid}, PAY_METHOD=#{pay_method} WHERE PAYMENT_NO=#{merchant_uid}
 	</update>
+	
+	<insert id="insertCart">
+		<selectKey keyProperty="no" resultType="int" order="AFTER">
+			SELECT SEQ_CART.CURRVAL FROM DUAL 
+		</selectKey>
+		INSERT INTO CART VALUES(SEQ_CART.NEXTVAL, #{memberId}, #{bookCode}, #{bookAmount}, NULL)
+	</insert>
+	
+	<select id="paymentCouponSelectList" resultMap="couponMap">
+		SELECT * FROM COUPON_EVENT WHERE MEMBER_ID=#{memberId} AND TYPE='가격'
+	</select>
 	
 </mapper>
