@@ -9,7 +9,6 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 import com.kh.potstand.event.model.vo.Coupon;
-import com.kh.potstand.member.model.vo.Member;
 import com.kh.potstand.order.model.vo.Cart;
 
 import lombok.extern.slf4j.Slf4j;
@@ -135,6 +134,20 @@ public class OrderDaoImpl implements OrderDao{
 		}
 		//payment uid + payMethod update
 		result+=session.update("order.updatePayment",param);
+		
+		//사용한 쿠폰 업데이트
+		int usedCoupon = Integer.parseInt((String)param.get("used_coupon_no"));
+		if(usedCoupon!=0) {
+			Coupon uc = session.selectOne("order.selectCouponByPK", usedCoupon);
+			int amount = uc.getCouponAmount();
+			Map updateCoupon = new HashMap();
+			updateCoupon.put("usedCouponNo", usedCoupon);
+			updateCoupon.put("couponAmount", amount-1);
+			session.update("order.couponAmountUpdate",updateCoupon);
+		}
+		//포인트 추가
+		session.insert("order.insertPoint",param);
+		
 		return result;
 	}
 

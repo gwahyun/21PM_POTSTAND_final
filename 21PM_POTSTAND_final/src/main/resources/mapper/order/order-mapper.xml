@@ -178,5 +178,7 @@
 	<select id="paymentCouponSelectList" resultMap="couponMap">
 		SELECT * FROM COUPON_EVENT WHERE MEMBER_ID=#{memberId} AND TYPE='가격'
 	</select>
-	
+	<insert id="insertPoint">
+		INSERT INTO POINT VALUES(SEQ_POINT.NEXTVAL,#{memberId},#{point},#{name},SYSDATE,#{merchant_uid})
+	</insert>
 </mapper>
