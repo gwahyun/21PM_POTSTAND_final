@@ -10,6 +10,6 @@ public class PaymentObj {
 	private int objNo;
 	private Book book;
 	private int bookAmount;
+	private int paymentNo;
 	private Coupon coupon; //used_coupon_no하고 연결
-	private Payment payment;
 }

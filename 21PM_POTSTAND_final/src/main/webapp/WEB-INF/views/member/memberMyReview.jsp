@@ -30,7 +30,7 @@
 	            	<h4 class="text-2xl font-semibold py-2"><span>구매/혜택</span></h4>
 	            	<div class="pl-5 text-xl">
 	            		<ul>
-			                <li class="py-2"><a href="#">주문목록/배송조회</a></li>
+			                <li class="py-2"><a href="${path}/member/memberOrderListSelect.do">주문목록/배송조회</a></li>
 			                <li class="py-2"><a href="${path}/member/memberCouponListSelect.do">쿠폰</a></li>
 			                <li class="py-2"><a href="${path}/member/memberPoint.do">적립금</a></li>
 			            </ul>
@@ -130,44 +130,44 @@
 			        				</div>
 			        				<div class="h-1/6 flex">
 		        						<c:if test="${r.point==1 }">
-		        							<img src="${path}/resources/img/star_on.png" alt="" class="w-8 h-8 mr-1"
+		        							<img src="${path}/resources/img/star_on.png" alt="" class="w-8 h-8 mr-1 cursor-pointer"
 		        							onclick="fn_myReview_point(event);">
 		        							<c:forEach begin="0" end="3">
-		        								<img src="${path}/resources/img/star_off.png" alt="" class="w-8 h-8 mr-1"
+		        								<img src="${path}/resources/img/star_off.png" alt="" class="w-8 h-8 mr-1 cursor-pointer"
 		        								onclick="fn_myReview_point(event);">
 		        							</c:forEach>
 		        						</c:if>
 		        						<c:if test="${r.point==2 }">
-			        						<img src="${path}/resources/img/star_on.png" alt="" id="star" class="w-8 h-8 mr-1"
+			        						<img src="${path}/resources/img/star_on.png" alt="" id="star" class="w-8 h-8 mr-1 cursor-pointer"
 			        						onclick="fn_myReview_point(event);">
-			        						<img src="${path}/resources/img/star_on.png" alt="" class="w-8 h-8 mr-1"
+			        						<img src="${path}/resources/img/star_on.png" alt="" class="w-8 h-8 mr-1 cursor-pointer"
 			        						onclick="fn_myReview_point(event);">
 		        							<c:forEach begin="0" end="2">
-		        								<img src="${path}/resources/img/star_off.png" alt="" class="w-8 h-8 mr-1"
+		        								<img src="${path}/resources/img/star_off.png" alt="" class="w-8 h-8 mr-1 cursor-pointer"
 		        								onclick="fn_myReview_point(event);">
 		        							</c:forEach>
 		        						</c:if>
 		        						<c:if test="${r.point==3 }">
 		        							<c:forEach begin="0" end="2">
-		        								<img src="${path}/resources/img/star_on.png" alt="" class="w-8 h-8 mr-1"
+		        								<img src="${path}/resources/img/star_on.png" alt="" class="w-8 h-8 mr-1 cursor-pointer"
 		        								onclick="fn_myReview_point(event);">
 		        							</c:forEach>
-		        							<img src="${path}/resources/img/star_off.png" alt="" class="w-8 h-8 mr-1"
+		        							<img src="${path}/resources/img/star_off.png" alt="" class="w-8 h-8 mr-1 cursor-pointer"
 		        							onclick="fn_myReview_point(event);">
-		        							<img src="${path}/resources/img/star_off.png" alt="" class="w-8 h-8 mr-1"
+		        							<img src="${path}/resources/img/star_off.png" alt="" class="w-8 h-8 mr-1 cursor-pointer"
 		        							onclick="fn_myReview_point(event);">
 		        						</c:if>
 		        						<c:if test="${r.point==4 }">
 		        							<c:forEach begin="0" end="3">
-		        								<img src="${path}/resources/img/star_on.png" alt="" class="w-8 h-8 mr-1"
+		        								<img src="${path}/resources/img/star_on.png" alt="" class="w-8 h-8 mr-1 cursor-pointer"
 		        								onclick="fn_myReview_point(event);">
 		        							</c:forEach>
-		        							<img src="${path}/resources/img/star_off.png" alt="" class="w-8 h-8 mr-1"
+		        							<img src="${path}/resources/img/star_off.png" alt="" class="w-8 h-8 mr-1 cursor-pointer"
 		        							onclick="fn_myReview_point(event);">
 		        						</c:if>
 		        						<c:if test="${r.point==5 }">
 		        							<c:forEach begin="0" end="4">
-		        								<img src="${path}/resources/img/star_on.png" alt="" class="w-8 h-8 mr-1"
+		        								<img src="${path}/resources/img/star_on.png" alt="" class="w-8 h-8 mr-1 cursor-pointer"
 		        								onclick="fn_myReview_point(event);">
 		        							</c:forEach>
 		        						</c:if>

@@ -1,6 +1,5 @@
 package com.kh.potstand.member.model.dao;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -17,6 +16,7 @@ import com.kh.potstand.member.model.vo.Heart;
 import com.kh.potstand.member.model.vo.Member;
 import com.kh.potstand.member.model.vo.Point;
 import com.kh.potstand.order.model.vo.Cart;
+import com.kh.potstand.order.model.vo.Payment;
 
 import lombok.extern.slf4j.Slf4j;
 @Slf4j
@@ -187,6 +187,18 @@ public class MemberDaoImpl implements MemberDao{
 		return session.selectList("member.memberEndCouponListSelect",memberId,new RowBounds((cPage-1)*numPerpage, numPerpage));
 	}
 	
+	//마이페이지 - 주문확인리스트
+	@Override
+	public List<Payment> memberOrderListSelect(SqlSession session, String memberId, int cPage, int numPerpage) {
+		return session.selectList("member.memberOrderListSelect", memberId, new RowBounds((cPage-1)*numPerpage, numPerpage));
+	}
+
+	//마이페이지 - 주문확인리스트 총개수
+	@Override
+	public int memberOrderListCount(SqlSession session, String memberId) {
+		return session.selectOne("member.memberOrderListCount", memberId);
+	}
+	
 	//notice List 호출 (공지사항 페이지)
 	@Override
 	public List<Notice> noticeSelectList(SqlSession session, int cPage, int numPerPage) {
@@ -234,6 +246,8 @@ public class MemberDaoImpl implements MemberDao{
 	public int qnaSelectCount(SqlSession session, String memberId) {
 		return session.selectOne("function.qnaSelectCount", memberId);
 	}
+
+	
 
 	
 	

@@ -1,16 +1,16 @@
 package com.kh.potstand.order.model.vo;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.kh.potstand.event.model.vo.Coupon;
-import com.kh.potstand.member.model.vo.Member;
 
 import lombok.Data;
 
 @Data
 public class Payment {
-	private int orderNo;
+	private int paymentNo;
 	private String memberId;
 	private String receiverName;
 	private String receiverAddr;
@@ -23,4 +23,5 @@ public class Payment {
 	private Date payDate; 
 	private String orderState;
 	private Coupon coupon;
+	private List<PaymentObj> paymentObj= new ArrayList<PaymentObj>();
 }

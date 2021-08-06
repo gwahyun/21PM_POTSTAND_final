@@ -49,7 +49,7 @@
 	            	<h4 class="text-2xl font-semibold py-2"><span>구매/혜택</span></h4>
 	            	<div class="pl-5 text-xl">
 	            		<ul>
-			                <li class="py-2"><a href="#">주문목록/배송조회</a></li>
+			                <li class="py-2"><a href="${path}/member/memberOrderListSelect.do">주문목록/배송조회</a></li>
 			                <li class="py-2"><a href="${path}/member/memberCouponListSelect.do">쿠폰</a></li>
 			                <li class="py-2"><a href="${path}/member/memberPoint.do">적립금</a></li>
 			            </ul>

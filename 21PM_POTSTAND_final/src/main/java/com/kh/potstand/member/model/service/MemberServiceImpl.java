@@ -19,6 +19,7 @@ import com.kh.potstand.member.model.vo.Heart;
 import com.kh.potstand.member.model.vo.Member;
 import com.kh.potstand.member.model.vo.Point;
 import com.kh.potstand.order.model.vo.Cart;
+import com.kh.potstand.order.model.vo.Payment;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -254,6 +255,18 @@ public class MemberServiceImpl implements MemberService{
 		return dao.memberEndCouponListSelect(session,memberId,cPage,numPerpage);
 	}
 	
+	//마이페이지 - 주문확인리스트
+	@Override
+	public List<Payment> memberOrderListSelect(String memberId, int cPage, int numPerpage) {
+		return dao.memberOrderListSelect(session,memberId,cPage,numPerpage);
+	}
+
+	//마이페이지 - 주문확인리스트 총개수
+	@Override
+	public int memberOrderListCount(String memberId) {
+		return dao.memberOrderListCount(session,memberId);
+	}
+	
 	//notice List 호출 (공지사항 페이지)
 	@Override
 	public List<Notice> noticeSelectList(int cPage, int numPerPage) {
@@ -296,6 +309,8 @@ public class MemberServiceImpl implements MemberService{
 	public int qnaSelectCount(String memberId) {
 		return dao.qnaSelectCount(session, memberId);
 	}
+
+	
 
 		
 

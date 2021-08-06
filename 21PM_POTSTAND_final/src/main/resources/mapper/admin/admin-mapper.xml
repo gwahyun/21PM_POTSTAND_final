@@ -624,8 +624,7 @@
 		<id column="PAYMENT_NO" property="objNo"/>
 		<result column="BOOK_AMOUNT" property="bookAmount"/>
 		<association column="BOOK_CODE" property="book"/>
-		<association column="USED_COUPON_NO" property="coupon"/>
-		<association column="PAYMENT_NO" property="payment"/>		
+		<association column="USED_COUPON_NO" property="coupon"/>	
 	</resultMap>
 	
 		<!-- 결제 연습 -->

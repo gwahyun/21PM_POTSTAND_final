@@ -74,10 +74,11 @@
 		<result column="point" property="point"/>
 		<result column="use_log" property="useLog"/>
 		<result column="use_date" property="useDate"/>
+		<result column="point_no" property="point"/>
 	</resultMap>
 	
 	<select id="memberPointSelect" resultMap="pointMap">
-		SELECT * FROM POINT WHERE MEMBER_ID=#{memberId}
+		SELECT * FROM POINT WHERE MEMBER_ID=#{memberId} ORDER BY USE_DATE DESC
 	</select>
 	
 	<select id="memberPointSelectCount" resultType="_int">
@@ -200,7 +201,7 @@
 	</select>
 	
 	<select id="memberReviewListSelect" resultMap="reviewMap">
-		SELECT * FROM REVIEW JOIN BOOK USING(BOOK_CODE) WHERE MEMBER_ID=#{memberId}
+		SELECT * FROM REVIEW JOIN BOOK USING(BOOK_CODE) WHERE MEMBER_ID=#{memberId} ORDER BY REVIEW_DATE DESC
 	</select>
 	
 	<delete id="memberReviewDelete">
@@ -217,7 +218,7 @@
 	</select>
 	
 	<select id="memberCouponListSelect" resultMap="couponMap">
-		SELECT * FROM COUPON JOIN EVENT USING(EVENT_NO) WHERE MEMBER_ID=#{memberId} AND COUPON_END='N'
+		SELECT * FROM COUPON JOIN EVENT USING(EVENT_NO) WHERE MEMBER_ID=#{memberId} AND COUPON_END='N' ORDER BY START_DATE DESC
 	</select>
 	
 	<select id="memberEndCouponListCount" resultType="_int">
@@ -225,11 +226,49 @@
 	</select>
 	
 	<select id="memberEndCouponListSelect" resultMap="couponMap">
-		SELECT * FROM COUPON JOIN EVENT USING(EVENT_NO) WHERE MEMBER_ID=#{memberId} AND COUPON_END='Y'
+		SELECT * FROM COUPON JOIN EVENT USING(EVENT_NO) WHERE MEMBER_ID=#{memberId} AND COUPON_END='Y' ORDER BY VAL_DATE DESC
 	</select>
 	
 	<update id="membmerCouponEndUpdate">
 		UPDATE COUPON SET COUPON_END='Y' WHERE VAL_DATE &lt; SYSDATE;
 	</update>
+	
+	<resultMap type="payment" id="paymentMap">
+		<id column="payment_no" property="paymentNo"/>
+		<result column="member_id" property="memberId"/>
+		<result column="receiver_name" property="receiverName"/>
+		<result column="receiver_addr" property="receiverAddr"/>
+		<result column="message" property="message"/>
+		<result column="post_message" property="postMessage"/>
+		<result column="name" property="name"/>
+		<result column="pay_method" property="payMethod"/>
+		<result column="merchant_uid" property="merchantUid"/>	
+		<result column="amount" property="amount"/>	
+		<result column="pay_date" property="payDate"/>	
+		<result column="order_state" property="orderState"/>	
+		<result column="user_coupon_no" property="usedCouponNo"/>	
+		<collection property="paymentObj" resultMap="paymentObjMap"/>
+	</resultMap>
+	<resultMap type="paymentObj" id="paymentObjMap">
+		<id column="obj_no" property="objNo"/>
+		<result column="book_amount" property="bookAmount"/>
+		<result column="payment_no" property="paymentNo"/>
+		<association property="book" column="book_code" select="selectBookByPK"/>
+		<association property="coupon" column="used_coupon_no" select="selectCouponByPK"/>
+	</resultMap>
+	<select id="selectBookByPK" resultMap="bookMap">
+		select * from book where book_code = #{bookCode}
+	</select>
+	<select id="selectCouponByPK" resultMap="couponMap">
+		select * from coupon where coupon_no = #{couponNo}
+	</select>
+		
+	<select id="memberOrderListSelect" resultMap="paymentMap">
+		SELECT * FROM  PAYMENT JOIN PAYMENT_OBJ USING(PAYMENT_NO) WHERE MEMBER_ID=#{memberId}
+	</select>
+	
+	<select id="memberOrderListCount" resultType="_int">
+		SELECT COUNT(*) FROM PAYMENT WHERE MEMBER_ID=#{memberId}
+	</select>
 	
 </mapper>
