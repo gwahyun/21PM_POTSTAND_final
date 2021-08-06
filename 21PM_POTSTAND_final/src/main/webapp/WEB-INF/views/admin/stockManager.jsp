@@ -83,7 +83,7 @@
 								<c:forEach items="${list }" var="l">
 								<tr>
 									<td style="	text-align: center;"><fmt:formatNumber value="${l.bookCode }" ></fmt:formatNumber></td>
-									<td><a href="#">${l.bookTitle }</a></td>
+									<td><a href="${path }/book/bookinfo.do?no=${l.bookCode}">${l.bookTitle }</a></td>
 									<td>${l.bookWriter }</td>
 									<td>${l.bookPub }</td>
 									<td style="	text-align: center;">${l.bookCost }</td>
