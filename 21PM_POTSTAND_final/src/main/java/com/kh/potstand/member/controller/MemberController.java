@@ -34,6 +34,7 @@ import com.kh.potstand.member.model.vo.Heart;
 import com.kh.potstand.member.model.vo.Member;
 import com.kh.potstand.member.model.vo.Point;
 import com.kh.potstand.order.model.vo.Cart;
+import com.kh.potstand.order.model.vo.Payment;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -413,7 +414,7 @@ public class MemberController {
 		List<Point> pointList=service.memberPointSelect(memberId);
 		int totalPoint=0;
 		for(Point p : pointList) {
-			if(p.getUseLog().contains("구입")) {
+			if(p.getUseLog().contains("적립")) {
 				totalPoint+=p.getPoint();
 			}else if(p.getUseLog().contains("사용")) {
 				totalPoint-=p.getPoint();
@@ -602,4 +603,17 @@ public class MemberController {
 		mv.setViewName("member/memberEndCouponList");
 		return mv;
 	}	
+	
+	//마이페이지 - 주문목록/배송조회
+	@RequestMapping("/member/memberOrderListSelect.do")
+	public ModelAndView memberOrderListSelect(ModelAndView mv, HttpSession session,
+			@RequestParam(value="cPage",defaultValue="1") int cPage,
+			@RequestParam(value="numPerpage",defaultValue="10") int numPerpage) {
+		String memberId=((Member)session.getAttribute("loginMember")).getMemberId();
+		List<Payment> list=service.memberOrderListSelect(memberId,cPage,numPerpage);
+		mv.addObject("list",list);
+		mv.addObject("pageBar", PageFactory.getPageBar(service.memberOrderListCount(memberId), cPage, numPerpage,5,"memberOrderListSelect.do"));
+		mv.setViewName("member/memberOrderList");
+		return mv;
+	}
 }

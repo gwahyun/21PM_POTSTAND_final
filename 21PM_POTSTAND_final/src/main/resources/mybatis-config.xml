@@ -32,6 +32,8 @@
 		
 		<!-- order package -->
 		<typeAlias alias="cart" type="com.kh.potstand.order.model.vo.Cart"/>
+		<typeAlias alias="payment" type="com.kh.potstand.order.model.vo.Payment"/>
+		<typeAlias alias="paymentObj" type="com.kh.potstand.order.model.vo.PaymentObj"/>
 		
 		
 		<!-- typeHandler -->

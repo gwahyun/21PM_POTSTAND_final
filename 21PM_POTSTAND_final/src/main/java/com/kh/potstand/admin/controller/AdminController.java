@@ -28,7 +28,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.potstand.admin.model.service.AdminService;
 import com.kh.potstand.admin.model.vo.Answer;
-import com.kh.potstand.admin.model.vo.Credit;
 import com.kh.potstand.admin.model.vo.Faq;
 import com.kh.potstand.admin.model.vo.Notice;
 import com.kh.potstand.admin.model.vo.Qna;
@@ -40,8 +39,8 @@ import com.kh.potstand.common.PageFactory;
 import com.kh.potstand.event.model.vo.Event;
 import com.kh.potstand.member.model.vo.Address;
 import com.kh.potstand.member.model.vo.Member;
-import com.kh.potstand.order.model.vo.Cart;
 import com.kh.potstand.order.model.vo.Payment;
+import com.kh.potstand.order.model.vo.PaymentObj;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -65,7 +64,6 @@ public class AdminController {
 	private AdminService service;
 
 	@RequestMapping("/admin/adminMain")
-	
 	public ModelAndView adminMain(
 			@RequestParam(value="startDate",defaultValue="") String startDate,
 			ModelAndView mv) {
@@ -95,6 +93,7 @@ public class AdminController {
 		//최신 리뷰,문의 등등
 		mv.addObject("answerNo", service.answerNo());
 		mv.addObject("newReview", service.newReview());
+		mv.addObject("requestCount", service.requestCount());
 		mv.setViewName("admin/adminMain");
 		
 		//count들 갖고 올것

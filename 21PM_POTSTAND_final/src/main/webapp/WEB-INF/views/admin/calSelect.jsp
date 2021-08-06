@@ -53,12 +53,22 @@
 						
 							<c:forEach items="${list }" var="l">
 								<tr style="	text-align: center;">
-									<td>${l.orderNo }</td>
+									<td>${l.paymentNo }</td>
 									<td>${l.memberId }</td>
 									<td>${l.receiverName }</td>
 									<td ><fmt:formatDate value="${l.payDate }" pattern="yy년MM월dd일"/> </td>
 									<%-- <td>${l.productNo }</td> --%>
-									<td>${l.name }</td>
+									<td>
+										<div id="menu">
+										  <div> <span class="arrow">${l.name }</span>
+										    <p class="arrow_box">
+										    	<c:forEach items="${l.paymentObj}" var="c">
+										    		${c.book.bookTitle} ${c.bookAmount }권<br>
+										    	</c:forEach>
+										    </p>
+										  </div>
+										</div>
+									</td>
 									<td>${l.receiverAddr }</td>
 									<%-- <td>${l.stock }</td> --%>
 									<td><fmt:formatNumber value="${l.amount }" type="currency"/></td>

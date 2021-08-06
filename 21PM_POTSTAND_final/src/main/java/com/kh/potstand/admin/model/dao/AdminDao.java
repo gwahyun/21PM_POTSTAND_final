@@ -166,4 +166,6 @@ public interface AdminDao {
 	Request bookRequestMemberCheck(SqlSessionTemplate session, Map param);
 
 	int bookRequest(SqlSessionTemplate session, Map param);
+
+	int requestCount(SqlSessionTemplate session);
 }

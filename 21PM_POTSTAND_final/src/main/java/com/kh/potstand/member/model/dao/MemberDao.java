@@ -15,6 +15,7 @@ import com.kh.potstand.member.model.vo.Heart;
 import com.kh.potstand.member.model.vo.Member;
 import com.kh.potstand.member.model.vo.Point;
 import com.kh.potstand.order.model.vo.Cart;
+import com.kh.potstand.order.model.vo.Payment;
 
 public interface MemberDao {
 
@@ -98,6 +99,12 @@ public interface MemberDao {
 		
 	//마이페이지 기간만료 쿠폰리스트
 	List<Coupon> memberEndCouponListSelect(SqlSession session,String memberId,int cPage,int numPerpage);
+	
+	//마이페이지 - 주문확인리스트
+	List<Payment> memberOrderListSelect(SqlSession session,String memberId,int cPage,int numPerpage);
+		
+	//마이페이지 - 주문확인리스트 총개수
+	int memberOrderListCount(SqlSession session,String memberId);
 	
 	//notice List 호출 (공지사항 페이지)
 	List<Notice> noticeSelectList(SqlSession session, int cPage, int numPerPage);
