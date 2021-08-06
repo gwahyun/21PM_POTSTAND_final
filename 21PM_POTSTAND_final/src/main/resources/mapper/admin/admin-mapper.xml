@@ -484,6 +484,11 @@
  	</update>
  	
  	<!-- request -->
+ 	
+ 	<select id="requsetCount" resultType="int">
+ 		select count(*) from request where status = 'N'
+ 	</select>
+ 	
  	<resultMap id="requestMap" type="request">
  		<id column="REQUEST_NO" property="requestNo"></id>
  		<result column="MEMBER_ID" property="memberId"></result>

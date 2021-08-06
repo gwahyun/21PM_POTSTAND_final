@@ -31,6 +31,14 @@ public class AdminDaoImpl implements AdminDao {
 		// TODO Auto-generated method stub
 		return session.selectOne("admin.dateOne");
 	}
+	
+	@Override
+	public int requestCount(SqlSessionTemplate session) {
+		// TODO Auto-generated method stub
+		return session.selectOne("admin.requsetCount");
+	}
+
+
 
 	@Override
 	public List<Member> memberSelect(SqlSessionTemplate session,int cPage,int numPerpage,Map param) {

@@ -39,6 +39,14 @@ public class AdminServiceImpl implements AdminService {
 		// TODO Auto-generated method stub
 		return dao.dateOne(session);
 	}
+	
+	@Override
+	public int requestCount() {
+		// TODO Auto-generated method stub
+		return dao.requestCount(session);
+	}
+
+
 
 	@Override
 	public List<Member> memberSelect(int cPage,int numPerpage,Map param) {

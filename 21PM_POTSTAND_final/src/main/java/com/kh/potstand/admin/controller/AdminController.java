@@ -65,7 +65,6 @@ public class AdminController {
 	private AdminService service;
 
 	@RequestMapping("/admin/adminMain")
-	
 	public ModelAndView adminMain(
 			@RequestParam(value="startDate",defaultValue="") String startDate,
 			ModelAndView mv) {
@@ -95,6 +94,7 @@ public class AdminController {
 		//최신 리뷰,문의 등등
 		mv.addObject("answerNo", service.answerNo());
 		mv.addObject("newReview", service.newReview());
+		mv.addObject("requestCount", service.requestCount());
 		mv.setViewName("admin/adminMain");
 		
 		//count들 갖고 올것

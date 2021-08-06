@@ -43,6 +43,7 @@
                     <div class="admin-content-itmes">
                     <div><span>신규 리뷰</span><a href="${path }/admin/reviewManager">${newReview } 건</a></div>
                     <div><span>미답변 문의</span><a href="${path }/admin/qnaManagerNo">${answerNo } 건</a></div>
+                    <div><span>입고 요청</span><a href="${path }/admin/requestSelectNo">${requestCount } 건</a></div>
                     </div>
                 </div>
                 
