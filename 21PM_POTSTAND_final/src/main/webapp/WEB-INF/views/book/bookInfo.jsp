@@ -12,11 +12,11 @@
 	  cursor: pointer;
 	  width: 70px;
 	  height: 70px;
-	  margin-top: auto;
+	  margin-top: 102px;
 	  background-image: url(${path}/resources/img/star_off.png);
 	  background-repeat: no-repeat;
 	  background-position: center;
-	  background-size: 76%;
+	  background-size: 67%;
 	  transition: .3s;
 	}
 	
@@ -83,7 +83,6 @@
 	
 	.feedback {
 	  width: 100%;
-	  padding: 30px;
 	  display: flex;
 	  flex-direction: column;
 	  flex-wrap: wrap;
@@ -298,11 +297,11 @@
           		<h3 class="leading-relaxed text-xl"><c:out value="${bookInfo.getBookExtract()}" escapeXml="false"/></h3>
           	</c:if>
           	<!-- review 보여주고 쓰는 화면 -->
-          	<div class="border-b-4 border-gray-300 my-10"></div>
+      		<div class="border-b-4 border-red-500 mt-10"></div>
           	<h1 class="sm:text-3xl text-2xl font-medium title-font text-gray-900 my-10">리뷰</h1>
-          	<div class="flex items-center justify-center w-3/4">
-          		<div class="flex flex-col text-center items-center justify-center w-1/4">
-          			<h4 class="m-2 text-xl">구매자 별점</h4>
+          	<div id="review" class="flex items-center justify-center">
+          		<div id="review__star" class="flex flex-col text-center mr-5">
+          			<h4 class="text-lg">구매자 별점</h4>
           			<div class="text-center text-4xl text-black font-bold m-2"><h2>${reviewAvg }</h2></div>
           			<div class="flex m-2">
           				<c:if test="${reviewAvg==1 }">
@@ -337,7 +336,7 @@
 		        			</c:forEach>
 		        		</c:if>
           			</div>
-          			<div>
+
 	          			<ul>
 	          				<li class="text-gray-500 font-bold flex items-center justify-center">
 	          					<span>
@@ -415,19 +414,15 @@
 	          					</span>
 	          				</li>
 	          			</ul>
-          			</div>
           			<div class="border-t-2 mt-4">
           				<h4 class="text-gray-500"><span class="font-bold">${reviewCount }</span>명이 평가함</h4>
           			</div>
           		</div> 
-          		<div class="flex flex-col items-center justify-center w-3/4">
-          			<div id="reviewMsg" class="flex items-center">
-          				<h4 class="text-2xl text-gray-500 font-semibold p-4">이 책을 평가해주세요!</h4>
-          			</div>
-          			<div id="reviewRating" class="flex justify-center m-4 w-3/4 h-60">
-          				<div class="flex justify-center container w-full h-full">
-							<div class="flex justify-center feedback w-full h-full">
-							  	<div class="point flex w-full justify-center overflow-hidden flex-row-reverse h-full
+          		<div id="review__zone" class="lg:w-3/5 flex-col items-center justify-center">
+          			<h4 class="text-2xl text-gray-500 font-semibold text-center">이 책을 평가해주세요!</h4>
+          			<div id="reviewRating" class="flex justify-center">
+							<div class="flex justify-center">
+							  	<div class="point flex w-full justify-center overflow-hidden flex-row-reverse
 							  	relative">
 							  		<input type="hidden" name="memberId" value="${loginMember.memberId }"/>
 									<input type="radio" name="point" id="point-5" value="5" class="hidden"/>
@@ -529,13 +524,12 @@
 									</div>
 							  	</div>
 							</div>
-						</div>
           			</div>
           			<!-- 작성한 리뷰가 없을경우 컨테이너 -->
           			<div id="reviewContainer" class="m-4">
-	          			<textarea rows="10" cols="100" placeholder="리뷰 작성 시 광고 및 욕설, 비속어나 타인을 비방하는 문구를 사용하시면 삭제처리 될 수 있습니다."
-	          			class="border-4 rounded-lg" id="reviewContent" style="resize:none;"></textarea>
-	          			<div class="flex justify-end mt-2">
+	          			<textarea rows="5" placeholder="리뷰 작성 시 광고 및 욕설, 비속어나 타인을 비방하는 문구를 사용하시면 삭제처리 될 수 있습니다."
+	          			class="border-4 rounded-lg focus:outline-none" id="reviewContent" style="resize:none; width:100%"></textarea>
+	          			<div class="flex mt-2 justify-end">
 		          			<button type="button" class="bg-red-500 text-gray-100 rounded tracking-wide font-semibold 
 						    focus:outline-none focus:shadow-outline hover:bg-red-600 cursor-pointer 
 						    transition ease-in duration-300 w-32 h-8" onclick="fn_book_bookReviewInsert(event);">리뷰 남기기</button>
@@ -543,10 +537,10 @@
           			</div>
           			<!-- 작성한 리뷰가 있을경우 컨테이너 -->
 	          		<div id="reviewContainer2" class="hidden flex flex-col m-4 w-full bg-gray-200 p-4">
-	          			<div class="mb-4 flex">
-	          				<div class="w-3/4"><p>${reviewCheck.reviewDate }</p></div>
-	          				<div class="w-1/4 flex justify-end">
+	          			<div class="mb-4 flex justify-between">
+	          				<p>${reviewCheck.reviewDate }</p>
 	          					<!-- 리뷰수정 -->
+	          				<div>
 	          					<button type="button" id="reviewDelete" onclick="fn_book_bookReviewUpdate();">
 		          					<svg class="hi-solid hi-pencil inline-block w-5 h-5" fill="currentColor" 
 			          				viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
@@ -565,14 +559,15 @@
 		          					</svg>
 	          					</button>
 	          				</div>
-	          			</div>
-	          			<div>
+	          				</div>
+	          				<div>
 	          				<p>${reviewCheck.reviewContent }</p>
-	          			</div>    		
+	          			</div> 
+	          			 		
 		          	</div>
 		          	<div id="reviewContainer3" class="hidden m-4">
-	          			<textarea rows="10" cols="100" placeholder="리뷰 작성 시 광고 및 욕설, 비속어나 타인을 비방하는 문구를 사용하시면 삭제처리 될 수 있습니다."
-	          			class="border-4 rounded-lg" id="reviewUpdateContent" style="resize:none;">${reviewCheck.reviewContent }</textarea>
+	          			<textarea rows="5" cols="72" placeholder="리뷰 작성 시 광고 및 욕설, 비속어나 타인을 비방하는 문구를 사용하시면 삭제처리 될 수 있습니다."
+	          			class="border-4 rounded-lg focus:outline-none" id="reviewUpdateContent" style="resize:none; width:100%">${reviewCheck.reviewContent }</textarea>
 	          			<div class="flex justify-end mt-2">
 	          				<button type="button" class="bg-white text-gray-500 rounded tracking-wide font-semibold border
 						    focus:outline-none focus:shadow-outline hover:bg-red-600 hover:text-gray-100 cursor-pointer 
@@ -583,12 +578,13 @@
 						    transition ease-in duration-300 w-32 h-8" onclick="fn_book_bookReviewUpdateEnd();">리뷰 수정</button>
 					    </div>
           			</div>
-          		</div>
+		          	</div>
           	</div>
-          	<div class="flex flex-col justify-center m-8 p-8 border-t-4">
+          	<div class="mt-8 p-8 border-t-4">
+          	<div class="lg:w-4/5 mx-auto">
 	          	<c:if test="${empty review }">
-	          		<div class="flex text-xl font-bold m-4 justify-center">
-						<h2>아직 등록된 리뷰가 없습니다.<br/>첫 번째 리뷰를 남겨주세요!</h2>
+	          		<div class="flex m-4 justify-center">
+						<h2 class="text-xl font-bold ">아직 등록된 리뷰가 없습니다.<br/>첫 번째 리뷰를 남겨주세요!</h2>
 					</div>
 	          	</c:if>
 	          	<c:if test="${not empty review }">
