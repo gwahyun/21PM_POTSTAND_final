@@ -39,6 +39,14 @@ public class AdminServiceImpl implements AdminService {
 		// TODO Auto-generated method stub
 		return dao.dateOne(session);
 	}
+	
+	@Override
+	public int requestCount() {
+		// TODO Auto-generated method stub
+		return dao.requestCount(session);
+	}
+
+
 
 	@Override
 	public List<Member> memberSelect(int cPage,int numPerpage,Map param) {
@@ -452,6 +460,18 @@ public class AdminServiceImpl implements AdminService {
 	public Map<String, Object> orderCountMap() {
 		// TODO Auto-generated method stub
 		return dao.orderCountMap(session);
+	}
+
+	@Override
+	public Request bookRequestMemberCheck(Map param) {
+		// TODO Auto-generated method stub
+		return dao.bookRequestMemberCheck(session,param);
+	}
+
+	@Override
+	public int bookRequest(Map param) {
+		// TODO Auto-generated method stub
+		return dao.bookRequest(session,param);
 	}
 	
 	

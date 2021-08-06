@@ -39,10 +39,12 @@
 						<thead>
 							<tr>
 								<th style="width:5%">구매번호</th>
-								<th style="width:10%">구매일</th>
-								<th style="width:10%">결제자</th>
+								<th style="width:5%">회원아이디</th>
+								<th style="width:10%">회원이름</th>
 								<!-- <th style="width:5%">상품번호</th> -->
-								<th style="width:40%">내용</th>
+								<th style="width:10%">결제일</th>
+								<th style="width:25%">내용</th>
+								<th style="width:20%">배송지</th>
 								<!-- <th style="width:5%">수량</th> -->
 								<th style="width:5%">판매가</th>
 							</tr>
@@ -51,18 +53,30 @@
 						
 							<c:forEach items="${list }" var="l">
 								<tr style="	text-align: center;">
-									<td>${l.orderNo }</td>
-									<td ><fmt:formatDate value="${l.payDate }"/> </td>
+									<td>${l.paymentNo }</td>
 									<td>${l.memberId }</td>
+									<td>${l.receiverName }</td>
+									<td ><fmt:formatDate value="${l.payDate }" pattern="yy년MM월dd일"/> </td>
 									<%-- <td>${l.productNo }</td> --%>
-									<td>${l.name }</td>
+									<td>
+										<div id="menu">
+										  <div> <span class="arrow">${l.name }</span>
+										    <p class="arrow_box">
+										    	<c:forEach items="${l.paymentObj}" var="c">
+										    		${c.book.bookTitle} ${c.bookAmount }권<br>
+										    	</c:forEach>
+										    </p>
+										  </div>
+										</div>
+									</td>
+									<td>${l.receiverAddr }</td>
 									<%-- <td>${l.stock }</td> --%>
-									<td >${l.amount }</td>
+									<td><fmt:formatNumber value="${l.amount }" type="currency"/></td>
 								</tr>
 							</c:forEach>
 						</tbody>
 					</table>
-					<div style="text-align: right; padding : 1rem">합계 ${sumPrice }</div>
+					<div style="text-align: right; padding : 1rem">합계 <fmt:formatNumber value="${sumPrice }" type="currency"/>원</div>
 	
 				</div>
 			</div>

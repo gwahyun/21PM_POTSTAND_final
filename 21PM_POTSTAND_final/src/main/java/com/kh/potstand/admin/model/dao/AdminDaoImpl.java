@@ -31,6 +31,14 @@ public class AdminDaoImpl implements AdminDao {
 		// TODO Auto-generated method stub
 		return session.selectOne("admin.dateOne");
 	}
+	
+	@Override
+	public int requestCount(SqlSessionTemplate session) {
+		// TODO Auto-generated method stub
+		return session.selectOne("admin.requsetCount");
+	}
+
+
 
 	@Override
 	public List<Member> memberSelect(SqlSessionTemplate session,int cPage,int numPerpage,Map param) {
@@ -485,6 +493,18 @@ public class AdminDaoImpl implements AdminDao {
 		map.put("count3",session.selectOne("admin.orderCountMap3"));
 		map.put("count4",session.selectOne("admin.orderCountMap4"));
 		return map;
+	}
+
+	@Override
+	public Request bookRequestMemberCheck(SqlSessionTemplate session, Map param) {
+		// TODO Auto-generated method stub
+		return session.selectOne("admin.bookRequestMemberCheck", param);
+	}
+
+	@Override
+	public int bookRequest(SqlSessionTemplate session, Map param) {
+		// TODO Auto-generated method stub
+		return session.insert("admin.bookRequest", param);
 	}
 	
 	

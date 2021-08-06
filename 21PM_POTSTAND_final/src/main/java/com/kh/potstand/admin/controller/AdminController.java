@@ -28,7 +28,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.potstand.admin.model.service.AdminService;
 import com.kh.potstand.admin.model.vo.Answer;
-import com.kh.potstand.admin.model.vo.Credit;
 import com.kh.potstand.admin.model.vo.Faq;
 import com.kh.potstand.admin.model.vo.Notice;
 import com.kh.potstand.admin.model.vo.Qna;
@@ -40,8 +39,8 @@ import com.kh.potstand.common.PageFactory;
 import com.kh.potstand.event.model.vo.Event;
 import com.kh.potstand.member.model.vo.Address;
 import com.kh.potstand.member.model.vo.Member;
-import com.kh.potstand.order.model.vo.Cart;
 import com.kh.potstand.order.model.vo.Payment;
+import com.kh.potstand.order.model.vo.PaymentObj;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -65,7 +64,6 @@ public class AdminController {
 	private AdminService service;
 
 	@RequestMapping("/admin/adminMain")
-	
 	public ModelAndView adminMain(
 			@RequestParam(value="startDate",defaultValue="") String startDate,
 			ModelAndView mv) {
@@ -95,6 +93,7 @@ public class AdminController {
 		//최신 리뷰,문의 등등
 		mv.addObject("answerNo", service.answerNo());
 		mv.addObject("newReview", service.newReview());
+		mv.addObject("requestCount", service.requestCount());
 		mv.setViewName("admin/adminMain");
 		
 		//count들 갖고 올것
@@ -891,27 +890,25 @@ public class AdminController {
 		return result;
 	}
 	
-	//카트 부분인데 충돌날까봐 일단 여기다 둠
-	@RequestMapping("/cartInsert.do")
+	@RequestMapping(value="/admin/bookRequestMemberCheck", produces = "application/text; charset=UTF-8")
 	@ResponseBody
-	public boolean cartInsert(
-			@RequestParam Map param,
-			HttpSession session,
-			String bookCode
-			) {
-		int result = 0;
-		param.put("memberId", ((Member)session.getAttribute("loginMember")).getMemberId());
-		Cart c = service.cartSelectDistinct(param);
+	public String bookRequestMemberCheck(ModelAndView mv,@RequestParam Map param) {
 		
-		if(c==null) {
-			result = service.cartInsert(param);
+		String result = "";
+		Request r = service.bookRequestMemberCheck(param);
+		if(r==null) {
+			int a = service.bookRequest(param);
+			if(a>0) {
+				result = "입고 요청에 성공했습니다!";
+			}else {
+				result = "입고 요청에 실패하였습니다!";
+			}
 		}else {
-			result = service.cartSelectOnePlus(param);
+			result ="이미 회원님은 입고요청을 하셨습니다.";
 		}
-		return result>0?true:false;
+		return result;
 	}
-	
-	
+
 	
 	
 	

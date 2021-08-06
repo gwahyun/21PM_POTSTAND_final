@@ -96,7 +96,14 @@
 		<!-- 책 상세 상단 시작 -->
         <div class="lg:w-4/5 mx-auto flex flex-wrap">
 			<img alt="ecommerce" class="lg:w-1/2 w-full lg:h-auto h-64 object-cover object-center rounded" 
-          	src="<c:out value='${bookInfo.getBookCover()}'/>"/>
+          	src=
+          	 <c:if test="${bookInfo.bookCover.contains('http') }">
+	              			<c:out value="${bookInfo.getBookCover()}"/>
+	              		</c:if>
+              			<c:if test="${!bookInfo.bookCover.contains('http') }">
+              				${path }/resources/upload/book/${bookInfo.bookCover }
+	              		</c:if>
+          	/>
           	<div class="lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0">
             	<h2 class="text-sm title-font text-gray-500 tracking-widest"><c:out value="${bookInfo.getBookPub()}"/></h2>
             	<h1 class="text-gray-900 text-3xl title-font font-medium mb-1"><c:out value="${bookInfo.getBookTitle()}"/></h1>
@@ -204,7 +211,7 @@
               		<div class="flex items-center">
 	                	<span class="mr-3">수량</span>
 	                	<div class="relative">
-                    			<input type="number" value="1">
+                    			<input id="bookAmount" type="number" value="1">
                 		</div>
               		</div>
             	</div>
@@ -239,8 +246,14 @@
                   			</g>
                 		</svg>
               		</button>
-              		<button class="flex text-white bg-red-500 border-0 py-5 px-10 focus:outline-none hover:bg-red-600 
-              		rounded text-xl">구매하기</button>
+              		<c:if test="${bookInfo.bookStock != 0 }">
+	              		<button class="flex text-white bg-red-500 border-0 py-5 px-10 focus:outline-none hover:bg-red-600 
+	              		rounded text-xl" onclick="fn_directPayment();">구매하기</button>
+              		</c:if>
+              		<c:if test="${bookInfo.bookStock == 0 }">
+           				<button onclick="request(${bookInfo.bookCode})" class=" flex text-white bg-gray-300 border-0 py-5 px-10 focus:outline-none rounded hover:bg-blue-600 
+	              		rounded text-xl">입고요청</button>
+              		</c:if>
             	</div>
           	</div>
 		</div>
@@ -633,6 +646,19 @@
 	</div>
 </section>
 <script>
+	function request(no){
+		if('${loginMember.memberId}'==''){
+			alert('로그인후 이용이 가능합니다.');
+			location.assign('${path}/member/memberLogin.do');
+		}else{
+				if(confirm("입고요청을 하시겠습니까?")){
+					$.get("${path}/admin/bookRequestMemberCheck?no="+no+"&memberId=${loginMember.memberId}",data=>{
+						alert(data);
+					})
+				}
+		}
+	}
+
 	let quant = 1;
 	window.addEventListener("load",function(){
 		var price = Number($("#bookCost").val());
@@ -657,7 +683,11 @@
 		if('${loginMember.memberId}'==''){
 			alert('로그인후 이용이 가능합니다.');
 			location.assign('${path}/member/memberLogin.do');
-		}else{
+		}
+		if(${bookInfo.bookStock}==0){
+			alert("재고가 없습니다. 입고요청을 하시기 바랍니다.");
+		}
+		else{
 			var bookCode = $("input[name=bookCode]").val();
 			//매핑 주소 AdminController에 있습니다 충돌 날까봐 일단 뒀어요
 			$.get("${path}/cartInsert.do?bookCode="+bookCode+"&quant="+quant,data=>{
@@ -670,7 +700,6 @@
 				}	
 			});
 		}
-	
 	}
 	
 	//책 찜등록/삭제
@@ -724,6 +753,13 @@
 		}
 	}
 	
+
+	const fn_directPayment=()=>{
+		const bookCode=$("input[name='bookCode']").val();
+		const bookAmount=$("#bookAmount").val()
+		location.replace("${path}/order/directPayment.do?bookCode="+bookCode+"&bookAmount="+bookAmount);
+	}
+
 	//리뷰 쓰기전 로그인 확인
 	function fn_book_bookReviewInsert(e){
 		if(${loginMember.memberId!=null}){ //로그인이 되어있을경우

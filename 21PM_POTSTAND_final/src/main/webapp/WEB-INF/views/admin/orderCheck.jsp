@@ -83,11 +83,12 @@
 							<tr>
 								<th style="width:5%">주문번호</th>
 								<th style="width:5%">회원아이디</th>
-								<th style="width:10%">수령인</th>
+								<th style="width:10%">회원이름</th>
+								<th style="width:10%">결제일</th>
 								<!-- <th style="width:5%">상품번호</th> -->
 								<!-- <th style="width:5%">수량</th> -->
-								<th style="width:15%">결제일</th>
-								<th style="width:15%">배송지</th>
+								<th style="width:25%">내용</th>
+								<th style="width:20%">배송지</th>
 								<!-- <th style="width:10%">연락처</th> -->
 								<th style="width:10%">판매가</th>
 								<th style="width:8%">주문상태</th>
@@ -98,7 +99,7 @@
 						<c:forEach items="${list }" var="v">
 						<tr style="text-align:center;">
 							<td >
-							${v.orderNo }
+							${v.paymentNo }
 							</td>
 							<td>
 							${v.memberId }
@@ -112,9 +113,19 @@
 							<td style="text-align:center;">
 							${v.stock }
 							</td> --%>
-							
 							<td style="text-align:center;">
 							<fmt:formatDate value="${v.payDate }" pattern="yy년MM월dd일"/>
+							</td>
+							<td>
+								<div id="menu">
+								  <div> <span class="arrow">${v.name }</span>
+								    <p class="arrow_box">
+								    	<c:forEach items="${v.paymentObj}" var="c">
+								    		${c.book.bookTitle} ${c.bookAmount }권<br>
+								    	</c:forEach>
+								    </p>
+								  </div>
+								</div>
 							</td>
 							<td>
 							${v.receiverAddr }
@@ -123,15 +134,15 @@
 							${v.phone }
 							</td> --%>
 							<td>
-							${v.amount }
+							<fmt:formatNumber value="${v.amount }" type="currency"/>
 							</td>
 							<td style="text-align:center;">
 							<c:choose>
 								<c:when test="${v.orderState == '결제완료'}">
-									<button value="${v.orderNo }" style="border: 1px solid black;">결제완료</button>
+									<button value="${v.paymentNo }" style="border: 1px solid black;">결제완료</button>
 								</c:when>
 								<c:when test="${v.orderState == '배송중' }">
-									<button value="${v.orderNo }" style="border: 1px solid black;">배송중</button>
+									<button value="${v.paymentNo }" style="border: 1px solid black;">배송중</button>
 								</c:when>
 								<c:otherwise>
 									${v.orderState }
