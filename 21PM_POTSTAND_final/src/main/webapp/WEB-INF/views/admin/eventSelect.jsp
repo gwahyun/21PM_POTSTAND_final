@@ -38,7 +38,7 @@
                                 	<c:forEach items="${list }" var="e" varStatus="vs">
                                     <tr>
                                         <td>${e.eventNo }</td>
-                                        <td style="text-align: left;">${e.eventTitle }</td>
+                                        <td style="text-align: left;"><a href="${path }/event/eventpost.do?no=${e.eventNo}">${e.eventTitle }</a></td>
                                         <td><fmt:formatDate value="${e.eventStart }" pattern="yyyy년MM월dd일"/> </td>
                                         <td><fmt:formatDate value="${e.eventEnd }" pattern="yyyy년MM월dd일"/> </td>
                                         <td>

@@ -667,10 +667,15 @@
 		//총가격
 		$("#sumPrice").html(price);
 		$("input[type=number]").change(e=>{
-			if($(e.target).val()==0){
+			if($(e.target).val()<1){
 				alert("최소 1권 이상이어야 합니다");
 				$(e.target).val("1");
-			}else{
+			}
+			else if($(e.target).val()>${bookInfo.bookStock}){
+				alert("재고 초과입니다.");				
+				$(e.target).val(${bookInfo.bookStock});
+			}
+			else{
 			quant = Number($(e.target).val());
 			var resultPrice= price * Number($(e.target).val());
 			$("#sumPrice").html(resultPrice);

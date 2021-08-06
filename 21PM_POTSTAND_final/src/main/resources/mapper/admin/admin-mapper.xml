@@ -290,7 +290,7 @@
  	<!-- 얘는 이벤트 수정 하는 sql 문 -->
  	<update id="eventUpdateEnd">
  	update event
-   	 set event_title =#{eventTitle} , event_info = #{eventInfo} , event_short = #{eventShort},event_end = #{eventEnd} 
+   	 set event_title =#{eventTitle} , event_info = #{eventInfo} , event_short = #{eventShort},event_end = #{eventEnd},discount = #{discount} 
    	  <if test="eventThum != null and eventThum != ''">
    	 		, event_thum = #{eventThum}
    	 	</if>

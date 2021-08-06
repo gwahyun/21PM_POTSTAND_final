@@ -81,7 +81,7 @@
 			<div class="admin-content_area">
 				<div class="admin-content">
 					<div class="admin-content_title">
-						<span>할인율</span>
+						<span>할인율( ex 50% -> 0.5로 입력 )</span>
 					</div>
 					<div class="admin-input_text">
 					<input step="0.1" type="number" name="discount" placeholder="할인율을 입력하세요." required="">

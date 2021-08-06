@@ -98,6 +98,17 @@
 			<div class="admin-content_area">
 				<div class="admin-content">
 					<div class="admin-content_title">
+						<span>할인율( ex 50% -> 0.5로 입력 )</span>
+					</div>
+					<div class="admin-input_text">
+					<input step="0.1" type="number" value="${e.discount }" name="discount" placeholder="할인율을 입력하세요." required="">
+					</div>
+				</div>
+			</div>
+			
+			<div class="admin-content_area">
+				<div class="admin-content">
+					<div class="admin-content_title">
 						<span>이벤트 기간</span>
 					</div>
 					<div class="admin-search">
