@@ -108,7 +108,10 @@ public class BookController {
 	}
 	
 	@RequestMapping("/search/bookinfo.do")
-	public ModelAndView searchBookInfo(@RequestParam(value="search") String search, @RequestParam(value="all") String all, ModelAndView mv) {
+	public ModelAndView searchBookInfo(
+			@RequestParam(value="search") String search,
+			@RequestParam(value="all") String all, 
+			ModelAndView mv) {
 		Map<String, String> param = new HashMap();
 		param.put("search", search);
 		param.put("all", all);
