@@ -5,25 +5,7 @@
 <c:set var="path" value="${pageContext.request.contextPath }"/>
 <!DOCTYPE html>
 <jsp:include page="/WEB-INF/views/common/admin/header.jsp"/>
-        
         <section>
-        	<%-- <%for(int i=1;i<=19;i++){ %>
-			   <a href="${path }/bookadmin/savebook.kh?start=<%=10*i-9%>&end=<%=10*i%>">책 추가 <%=i%></a>
-			   <br>
-			   <%} %> --%>
-			        	
-        	<!-- <button onclick="stockInsert()">크롤링</button> -->
-        	
-        <!-- 	<script>
-        	function stockInsert(){
-				const no = prompt('입력하세요');
-					alert(no);
-					location.assign("${path}/admin/crol?url1="+no);
-				}
-        	
-        	</script> -->
-        	
-        	
             <div class="admin-home_content_area">
                 <div class="admin-home_content">
                     <div class="admin-content_title">
