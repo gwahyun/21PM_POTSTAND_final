@@ -8,6 +8,7 @@ import java.util.Map;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
+import com.kh.potstand.event.model.vo.Coupon;
 import com.kh.potstand.member.model.vo.Member;
 import com.kh.potstand.order.model.vo.Cart;
 
@@ -23,6 +24,15 @@ public class OrderDaoImpl implements OrderDao{
 	}
 
 	@Override
+	public Cart cartSelectOne(SqlSession session, int cartNo) {
+		return session.selectOne("selectCartNo",cartNo);
+	}
+	
+	
+	
+	
+	
+	@Override
 	public int cartObjDelete(SqlSession session, Map param) {
 		return session.delete("order.cartObjDelete", param);
 	}
@@ -37,20 +47,41 @@ public class OrderDaoImpl implements OrderDao{
 		}
 		return result;
 	}
-	
+
 	//카트 bookAmount update
 	@Override
 	public int cartBookAmountUpdate(SqlSession session, Map param) {
 		return session.update("order.cartBookAmountUpdate",param);
 	}
 	
+	//쿠폰 조회
+	@Override
+	public Coupon couponSelect(SqlSession session, int couponNo) {
+		return session.selectOne("order.selectCouponByPK", couponNo);
+	}
+	
+	//쿠폰 사용개수 조회
+	@Override
+	public int usedCouponCount(SqlSession session, int couponNo) {
+		return session.selectOne("order.usedCouponCount",couponNo);
+	}
+
 	//쿠폰 사용여부 업데이트
 	@Override
 	public int cartCouponUpdate(SqlSession session, Map param) {
-		return session.update("order.cartCouponUpdate",param);
+		int result=0;
+		if(param.get("beforeCouponNo")==null) {
+			result+=session.update("order.cartCouponUpdate",param);
+			result+=session.update("order.couponAmountUpdate",param);
+		}else {
+			result+=session.update("order.couponAmountUpdate2",param);
+		}
+		return result; 
 	}
 	
 	
+	
+
 	//구매내역 넘어갈때 카트에서 선택된거만 넘겨줌
 	@Override
 	public List<Cart> cartSelectList(SqlSession session, List<Integer> cartNo) {
@@ -112,8 +143,21 @@ public class OrderDaoImpl implements OrderDao{
 		return session.delete("order.deletePaymentByPK",param);
 	}
 
-	
+	@Override
+	public List<Cart> directPayment(SqlSession session, Map param) {
+		List<Cart> cartList=new ArrayList();
+		session.insert("order.insertCart",param); //카트에 우선 넣어줌 selectKey로 cartNo 받아옴
+		cartList.add(session.selectOne("order.selectCartNo",param)); //넣은거 다시 꺼내옴
+		return cartList;
+	}
 
+	@Override
+	public List<Coupon> paymentCouponSelectList(SqlSession session, String memberId) {
+		return session.selectList("order.paymentCouponSelectList", memberId);
+	}
+
+	
+	
 	
 	
 

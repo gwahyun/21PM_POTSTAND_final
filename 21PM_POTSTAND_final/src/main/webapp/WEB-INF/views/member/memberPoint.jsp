@@ -40,12 +40,12 @@
         		<div class="w-full">
         			<h3 class="text-2xl font-semibold">적립금</h3>
         		</div>
-        		<c:if test="${list=='[]' }">
+        		<c:if test="${empty list }">
         			<div class="flex justify-center mt-5">
         				<h3 class="text-lg font-bold">적립금 적립/사용 내역이 없습니다.</h3>
         			</div>
         		</c:if>
-        		<c:if test="${list!='[]'}">
+        		<c:if test="${not empty list}">
         			<div class="flex w-full flex-col justify-center mt-5">
         				<h2 class="mb-2">
 	        				잔여 적립금 : <span class="text-blue-500 font-semibold text-xl">${totalPoint }</span> point

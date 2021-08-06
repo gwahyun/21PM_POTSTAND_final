@@ -39,6 +39,18 @@ public interface BookService {
 
 	//책 찜삭제
 	int bookHeartDelete(@RequestParam Map param);
+
+	//리뷰등록
+	int bookReviewInsert(Map param);
+	
+	//리뷰를 썻는지 확인
+	Review reviewCheckSelect(Map param);
+	
+	//리뷰수정
+	int bookReviewUpdate(Map param);
+	
+	//리뷰삭제
+	int bookReviewDelete(Map param);
 	
 	//책 검색
 	public Map<String, List> searchBookInfo(Map map);
