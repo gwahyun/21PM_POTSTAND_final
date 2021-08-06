@@ -356,7 +356,7 @@
 							<select name="couponData" class="w-7/12 text-sm border-b border-solid border-gray-400" style="text-align-last:right">
 								<option class="text-right" value="0:0">쿠폰 사용 안함</option>
 								<c:forEach var="cp" items="${couponList}">
-									<c:if test="${cp.couponEnd eq 'N'}">
+									<c:if test="${cp.couponEnd eq 'N' and cp.couponAmount!=0}}">
 										<option class="text-right" 
 											value="${cp.couponNo}:${cp.event.discount}">
 											<c:out value="${cp.event.eventTitle} : ${cp.couponAmount}개" />
@@ -522,10 +522,10 @@ function requestPay() {
 
 
 //hidden 값 (조작방지)
-let realPrice = 100;
+let realPrice = 3000;
 let realValue =$("input[name='cartBookCost']");
 	realValue.each(function(i,v){
-		realPrice+=Number($(v).val())*0.01;
+		realPrice+=Number($(v).val());
 	});	
 
 
