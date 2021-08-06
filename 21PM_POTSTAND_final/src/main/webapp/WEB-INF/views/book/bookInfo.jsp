@@ -651,11 +651,11 @@
 			alert('로그인후 이용이 가능합니다.');
 			location.assign('${path}/member/memberLogin.do');
 		}else{
-			if(confirm("입고요청을 하시겠습니까?")){
-				$.get("${path}/admin/bookRequestMemberCheck?no="+no+"&memberId=${loginMember.memberId}",data=>{
-					alert(data);
-				})
-			}
+				if(confirm("입고요청을 하시겠습니까?")){
+					$.get("${path}/admin/bookRequestMemberCheck?no="+no+"&memberId=${loginMember.memberId}",data=>{
+						alert(data);
+					})
+				}
 		}
 	}
 
@@ -683,7 +683,11 @@
 		if('${loginMember.memberId}'==''){
 			alert('로그인후 이용이 가능합니다.');
 			location.assign('${path}/member/memberLogin.do');
-		}else{
+		}
+		if(${bookInfo.bookStock}==0){
+			alert("재고가 없습니다. 입고요청을 하시기 바랍니다.");
+		}
+		else{
 			var bookCode = $("input[name=bookCode]").val();
 			//매핑 주소 AdminController에 있습니다 충돌 날까봐 일단 뒀어요
 			$.get("${path}/cartInsert.do?bookCode="+bookCode+"&quant="+quant,data=>{
@@ -696,7 +700,6 @@
 				}	
 			});
 		}
-	
 	}
 	
 	//책 찜등록/삭제
