@@ -95,6 +95,12 @@ public interface MemberService {
 	//마이페이지 - 주문확인리스트 총개수
 	int memberOrderListCount(String memberId);
 	
+	//마이페이지 - 주문목록/배송조회 결제취소
+	boolean memberOrderListDelete(int paymentNo);
+	
+	//마이페이지 - 모든 결제리스트 조회
+	List<Payment> memberOrderListAllSelect(String memberId);
+	
 	//notice List 호출 (공지사항 페이지)
 	List<Notice> noticeSelectList(int cPage, int numPerPage);
 	

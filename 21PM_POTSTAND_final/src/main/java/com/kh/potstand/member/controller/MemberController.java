@@ -265,12 +265,30 @@ public class MemberController {
 		int totalPoint=0; //잔여 포인트
 		int totalCoupon=service.memberCouponListCount(memberId);
 		for(Point p : pointList) {
-			if(p.getUseLog().contains("구입")) {
+			if(p.getUseLog().contains("적립")) {
 				totalPoint+=p.getPoint();
 			}else if(p.getUseLog().contains("사용")) {
 				totalPoint-=p.getPoint();
 			}
 		}
+		List<Payment> paymentList=service.memberOrderListAllSelect(memberId);
+		int state1Count=0; //결제완료된 주문 총 개수
+		int state2Count=0; //배송중인 주문 총 개수
+		int state3Count=0; //배송완료된 주문 총 개수
+		if(paymentList!=null) {
+			for(Payment p : paymentList) {
+				if(p.getOrderState().equals("결제완료")) {
+					state1Count+=1;
+				} else if(p.getOrderState().equals("배송중")) {
+					state2Count+=1;
+				} else if(p.getOrderState().equals("배송완료")) {
+					state3Count+=1;
+				}
+			}
+		}
+		mv.addObject("state1Count", state1Count);
+		mv.addObject("state2Count", state2Count);
+		mv.addObject("state3Count", state3Count);
 		mv.addObject("mypageTotalPoint", totalPoint);
 		mv.addObject("mypageTotalCoupon", totalCoupon);
 		mv.setViewName("member/memberMypage");
@@ -615,5 +633,12 @@ public class MemberController {
 		mv.addObject("pageBar", PageFactory.getPageBar(service.memberOrderListCount(memberId), cPage, numPerpage,5,"memberOrderListSelect.do"));
 		mv.setViewName("member/memberOrderList");
 		return mv;
+	}
+	
+	//마이페이지 -주문목록/배송조회 결제취소
+	@RequestMapping("/member/memberOrderListDelete.do")
+	@ResponseBody
+	public boolean memberOrderListDelete(int paymentNo) {	
+		return service.memberOrderListDelete(paymentNo);
 	}
 }

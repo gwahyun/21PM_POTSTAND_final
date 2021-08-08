@@ -5,6 +5,48 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <jsp:include page="/WEB-INF/views/common/header.jsp"/>
 <c:set var="path" value="${pageContext.request.contextPath }"/>
+<style>
+	#menu div {
+	    position: relative;
+	    display: inline-block;
+	}
+	.arrow {
+	    display: block;
+	    padding: 2px 16px;
+	    cursor: pointer;
+	}
+	.arrow_box {
+	  margin-left: 50%;
+	  display: none;
+	  position: absolute;
+	  width: auto;
+	  padding: 8px;
+	  left: -150px;
+	  -webkit-border-radius: 8px;
+	  -moz-border-radius: 8px;  
+	  border-radius: 8px;
+	  background: #333;
+	  color: #fff;
+	  font-size: 14px;
+	}
+	.arrow_box:after {
+	  position: absolute;
+	  bottom: 100%;
+	  left: 50%;
+	  width: 0;
+	  height: 0;
+	  margin-left: -10px;
+	  border: solid transparent;
+	  border-color: rgba(51, 51, 51, 0);
+	  border-bottom-color: #333;
+	  border-width: 10px;
+	  pointer-events: none;
+	  content: " ";
+	}
+	.arrow:hover + p.arrow_box {
+	  display: block;
+	}
+</style>
 <section class="text-gray-600 body-font overflow-hidden">
      <div class="container p-5 mx-auto flex justify-start">
         	<div class="w-1/4 h-full py-8">
@@ -47,7 +89,7 @@
         			</div>
         		</c:if>
 	        	<c:if test="${not empty list}">
-	        		<div class="flex w-full flex-col justify-center border">
+	        		<div class="flex w-full flex-col justify-center border mt-5">
 	        			<div class="flex">
 	        				<div class="w-1/12 border h-11 p-2 bg-red-100 flex justify-center items-center">
 	        					<h3 class="text-base font-extrabold">주문번호</h3>
@@ -76,14 +118,23 @@
 			        			<div class="w-1/12 border p-2 flex justify-center items-center">
 			        				<h4>${p.paymentNo }</h4>
 				        		</div>
-				        		<div class="w-4/12 border p-2 flex justify-center items-center">
-				        			<a><h4>${p.name }</h4></a>
+				        		<div id="menu" class="w-4/12 border p-2 flex justify-center items-center">
+				        			<div id="menu">
+										<div> 
+											<span class="arrow">${p.name }</span>
+											<p class="arrow_box">
+												<c:forEach items="${p.paymentObj}" var="po">
+													${po.book.bookTitle} ${po.bookAmount }권<br>
+												</c:forEach>
+											</p>
+										</div>
+									</div>
 				        		</div>
 				        		<div class="w-1/12 border p-2 flex justify-center items-center">
 				        			<h4>${p.receiverName }</h4>
 				        		</div>
 				        		<div class="w-2/12 border p-2 flex justify-center items-center">
-				        			<h4>${p.amount }</h4>
+				        			<h4><fmt:formatNumber type="currency" value="${p.amount }"></fmt:formatNumber></h4>
 				        		</div>
 				        		<div class="w-2/12 border p-2 flex justify-center items-center">
 				        			<h4>${p.payDate }</h4>
@@ -93,9 +144,12 @@
 				        		</div>
 				        		<div class="w-1/12 border p-2 flex justify-center items-center">
 				        			<c:if test="${p.orderState eq '결제완료' }">
-					        			<button type="button" class="bg-red-500 text-gray-100 rounded-sm tracking-wide 
+					        			<button type="button" class="bg-red-500 text-gray-100 rounded-sm tracking-wide px-0.5 
 					        			font-semibold focus:outline-none focus:shadow-outline hover:bg-red-600 shadow-lg 
-					        			transition ease-in duration-300">구매취소</button>
+					        			transition ease-in duration-300" onclick="fn_memberOrderList_orderCancel(event);">
+					        				결제취소
+					        			</button>
+					        			<input type="hidden" value="${p.paymentNo }"/>
 				        			</c:if>
 				        			<c:if test="${p.orderState ne '결제완료' }">
 				        				-
@@ -109,4 +163,26 @@
 			</div>
 		</div>
     </section>
+    <script>
+    	function fn_memberOrderList_orderCancel(e){
+    		if(confirm('정말로 결제를 취소하시겠습니까?')){
+    			console.log($(e.target).next().val());
+    			$.ajax({
+    				type:"post",
+    				url:"${path}/member/memberOrderListDelete.do",
+    				data:{
+    					"paymentNo":$(e.target).next().val()
+    				},
+    				success:data=>{
+    					if(data){
+    						alert('결제가 취소되었습니다.');
+    						location.reload();
+    					}else{
+    						alert('결제를 취소하지 못했습니다. 관리자에게 문의하세요.');
+    					}
+    				}
+    			});
+    		}
+    	}
+    </script>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
