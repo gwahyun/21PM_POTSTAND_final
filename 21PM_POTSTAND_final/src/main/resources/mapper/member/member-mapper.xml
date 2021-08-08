@@ -271,4 +271,24 @@
 		SELECT COUNT(*) FROM PAYMENT WHERE MEMBER_ID=#{memberId}
 	</select>
 	
+	<select id="memberOrderSelect" resultMap="paymentMap">
+		SELECT * FROM  PAYMENT JOIN PAYMENT_OBJ USING(PAYMENT_NO) WHERE PAYMENT_NO=#{paymentNo}
+	</select>
+	
+	<update id="paymentCouponUpdate">
+		UPDATE COUPON SET USED_DATE=NULL, COUPON_END='N', COUPON_AMOUNT=COUPON_AMOUNT+1 WHERE COUPON_NO=#{couponNo}
+	</update>
+	
+	<update id="bookStockUpdate">
+		UPDATE BOOK SET BOOK_STOCK=BOOK_STOCK+${bookAmount} WHERE BOOK_CODE=#{book.bookCode}
+	</update>
+	
+	<update id="orderStateUpdate">
+		UPDATE PAYMENT SET ORDER_STATE='결제취소' WHERE PAYMENT_NO=#{paymentNo}
+	</update>
+	
+	<select id="memberOrderListAllSelect" resultMap="paymentMap">
+		SELECT * FROM PAYMENT WHERE MEMBER_ID=#{memberId}
+	</select>
+	
 </mapper>
