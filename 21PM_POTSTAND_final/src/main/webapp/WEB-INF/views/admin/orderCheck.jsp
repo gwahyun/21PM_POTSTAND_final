@@ -99,7 +99,7 @@
 						<c:forEach items="${list }" var="v">
 						<tr style="text-align:center;">
 							<td >
-							${v.orderNo }
+							${v.paymentNo }
 							</td>
 							<td>
 							${v.memberId }
@@ -116,7 +116,17 @@
 							<td style="text-align:center;">
 							<fmt:formatDate value="${v.payDate }" pattern="yy년MM월dd일"/>
 							</td>
-							<td>${v.name }</td>
+							<td>
+								<div id="menu">
+								  <div> <span class="arrow">${v.name }</span>
+								    <p class="arrow_box">
+								    	<c:forEach items="${v.paymentObj}" var="c">
+								    		${c.book.bookTitle} ${c.bookAmount }권<br>
+								    	</c:forEach>
+								    </p>
+								  </div>
+								</div>
+							</td>
 							<td>
 							${v.receiverAddr }
 							</td>
@@ -129,10 +139,10 @@
 							<td style="text-align:center;">
 							<c:choose>
 								<c:when test="${v.orderState == '결제완료'}">
-									<button value="${v.orderNo }" style="border: 1px solid black;">결제완료</button>
+									<button value="${v.paymentNo }" style="border: 1px solid black;">결제완료</button>
 								</c:when>
 								<c:when test="${v.orderState == '배송중' }">
-									<button value="${v.orderNo }" style="border: 1px solid black;">배송중</button>
+									<button value="${v.paymentNo }" style="border: 1px solid black;">배송중</button>
 								</c:when>
 								<c:otherwise>
 									${v.orderState }

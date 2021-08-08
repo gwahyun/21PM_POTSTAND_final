@@ -484,6 +484,11 @@
  	</update>
  	
  	<!-- request -->
+ 	
+ 	<select id="requsetCount" resultType="int">
+ 		select count(*) from request where status = 'N'
+ 	</select>
+ 	
  	<resultMap id="requestMap" type="request">
  		<id column="REQUEST_NO" property="requestNo"></id>
  		<result column="MEMBER_ID" property="memberId"></result>
@@ -606,7 +611,7 @@
 	</select>
 	
 	<resultMap type="com.kh.potstand.order.model.vo.Payment" id="paymentMap">
-		<id column="PAYMENT_NO" property="orderNo"/>
+		<id column="PAYMENT_NO" property="paymentNo"/>
 		<result column="MEMBER_ID" property="memberId"/>
 		<result column="RECEIVER_NAME" property="receiverName"/>
 		<result column="RECEIVER_ADDR" property="receiverAddr"/>
@@ -619,20 +624,23 @@
 		<result column="PAY_DATE" property="payDate"/>
 		<result column="ORDER_STATE" property="orderState"/>
 		<association column="USED_COUPON_NO" property="coupon"/>
+		<collection property="paymentObj" resultMap="paymentObjMap"></collection>
 	</resultMap>
 	
 	<resultMap type="com.kh.potstand.order.model.vo.PaymentObj" id="paymentObjMap">
-		<id column="PAYMENT_NO" property="objNo"/>
+		<id column="obj_no" property="objNo"/>
 		<result column="BOOK_AMOUNT" property="bookAmount"/>
-		<association column="BOOK_CODE" property="book"/>
-		<association column="USED_COUPON_NO" property="coupon"/>
-		<association column="PAYMENT_NO" property="payment"/>		
+		<result column="payment_no" property="paymentNo"/>
+		<association column="BOOK_CODE" property="book" resultMap="bookMap" />
+		<association column="USED_COUPON_NO" property="coupon" resultMap="couponMap"/>
 	</resultMap>
 	
 	<!-- 주문확인/발송관리 -->
   	<select id="orderSelectList" resultMap="paymentMap">
   		select * from payment
-  		where 1 = 1
+  			join payment_obj using(payment_no)
+  			join book using(book_code)
+  			where 1 = 1
   			<if test="dType != null and dType != '전체'">
   				and ORDER_STATE = #{dType}
   			</if>
@@ -660,6 +668,12 @@
 	  			and PAY_DATE <![CDATA[<]]> #{endDate} and PAY_DATE > #{startDate}
 	  			</if>
   	</select>
+  	
+  	<!-- <select id="orderObjSelectList" parameterType="int" resultMap="paymentObjMap">
+  		select * from payment_obj 
+  			join book using(book_code)
+  			where payment_no = #{no}
+  	</select> -->
   	
   	<!-- <resultMap type="com.kh.potstand.admin.model.vo.Credit" id="creditMap">
   		<id column="CREDITNO" property="creditNo"></id>
@@ -705,7 +719,10 @@
 	</select> 
 	
 	<select id="creditDateList" resultMap="paymentMap">
-			select * from payment where to_date(PAY_DATE,'YY-MM-DD') >= 
+			select * from payment 
+			join payment_obj using(payment_no)
+  			join book using(book_code)
+			where to_date(PAY_DATE,'YY-MM-DD') >= 
 		 <choose>
 		 	<when test="startDateStr == null">
 		 		${startDate}

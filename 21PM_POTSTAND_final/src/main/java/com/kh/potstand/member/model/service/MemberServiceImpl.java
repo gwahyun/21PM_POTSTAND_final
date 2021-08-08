@@ -19,6 +19,8 @@ import com.kh.potstand.member.model.vo.Heart;
 import com.kh.potstand.member.model.vo.Member;
 import com.kh.potstand.member.model.vo.Point;
 import com.kh.potstand.order.model.vo.Cart;
+import com.kh.potstand.order.model.vo.Payment;
+import com.kh.potstand.order.model.vo.PaymentObj;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -254,6 +256,60 @@ public class MemberServiceImpl implements MemberService{
 		return dao.memberEndCouponListSelect(session,memberId,cPage,numPerpage);
 	}
 	
+	//마이페이지 - 주문확인리스트
+	@Override
+	public List<Payment> memberOrderListSelect(String memberId, int cPage, int numPerpage) {
+		return dao.memberOrderListSelect(session,memberId,cPage,numPerpage);
+	}
+
+	//마이페이지 - 주문확인리스트 총개수
+	@Override
+	public int memberOrderListCount(String memberId) {
+		return dao.memberOrderListCount(session,memberId);
+	}
+	
+	//마이페이지 -주문목록/배송조회 결제취소
+	@Override
+	@Transactional
+	public boolean memberOrderListDelete(int paymentNo) {
+		try {
+			int result=1;
+			Payment p=dao.memberOrderSelect(session,paymentNo);
+			if(p!=null) {
+				//payment지우기, paymentObj들 지우기, payment/paymentObj coupon개수늘리기, bookCode로 book재고 다시 bookAmount만큼 늘리기
+				if(p.getCoupon()!=null) { //payment에 쿠폰을 사용햇을경우
+					//payment에적용된 쿠폰 사용일 지우기, 쿠폰 개수 +1, coupon_end N
+					result=dao.paymentCouponUpdate(session,p.getCoupon().getCouponNo());
+				}
+				if(result>0) {
+					for(PaymentObj po : p.getPaymentObj()) {
+						if(po.getCoupon()!=null) { //paymentObj에 쿠폰을 사용했을경우
+							//paymentObj에적용된 쿠폰 사용일 지우기, 쿠폰 개수 +1, coupon_end N
+							result=dao.paymentCouponUpdate(session,po.getCoupon().getCouponNo());
+						}
+						if(result>0) {
+							//bookCode로 책 재고 늘려주는 로직 자리
+							result=dao.bookStockUpdate(session,po);
+						}else return false;
+					}
+					if(result>0) {
+						//payment state '결제취소'로 변경
+						if(dao.orderStateUpdate(session,p.getPaymentNo())>0) return true;
+						else return false;
+					}else return false;
+				}else return false;
+			}else return false;
+		}catch(RuntimeException e) {
+			return false;
+		}
+	}
+	
+	//마이페이지 - 모든 결제리스트 조회
+	@Override
+	public List<Payment> memberOrderListAllSelect(String memberId) {
+		return dao.memberOrderListAllSelect(session,memberId);
+	}
+	
 	//notice List 호출 (공지사항 페이지)
 	@Override
 	public List<Notice> noticeSelectList(int cPage, int numPerPage) {
@@ -296,16 +352,9 @@ public class MemberServiceImpl implements MemberService{
 	public int qnaSelectCount(String memberId) {
 		return dao.qnaSelectCount(session, memberId);
 	}
-
-		
-
-
 	
 
 	
-	
-	
-
 
 	
 }

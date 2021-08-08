@@ -57,7 +57,14 @@
 
 						<!-- 책 표지 -->
 						<div class="img-area w-24 h-24 mx-5">
-							<img src="${cart.book.bookCover}" class="w-full h-full">
+							<img src=
+							 <c:if test="${cart.book.bookCover.contains('http') }">
+	              				<c:out value="${cart.book.bookCover}"/>
+	              			</c:if>
+	              			<c:if test="${!cart.book.bookCover.contains('http') }">
+	              				${path }/resources/upload/book/${cart.book.bookCover }
+		              		</c:if>
+							 class="w-full h-full">
 						</div>
 
 

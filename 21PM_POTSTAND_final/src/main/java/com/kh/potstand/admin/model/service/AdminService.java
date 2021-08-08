@@ -165,6 +165,8 @@ public interface AdminService {
 
 	int bookRequest(Map param);
 
+	int requestCount();
+
 
 
 
