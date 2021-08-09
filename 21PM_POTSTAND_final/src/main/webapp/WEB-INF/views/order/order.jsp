@@ -44,7 +44,7 @@
 			$("#roadAddrPart1").val(roadAddrPart1);
 			$("#roadAddrPart2").val(roadAddrPart2);
 			$("#addrDetail").val(addrDetail);
-			$("#zipNo").val(zipNo);
+			$("#postNo").val(zipNo);
 		}
 	</script>
 <jsp:include page="/WEB-INF/views/common/header.jsp" />
@@ -279,23 +279,23 @@
 				</div>
 				<div class="receiver">
 					<span class="text-base font-bold border-l-4 border-red-400 border-solid m-2 pl-3">받는사람</span>
-					<input class="border-b border-gray-400 border-solid" type="text" name="receiver" value="${memberInfo.memberName}">
+					<input class="border-b border-gray-400 border-solid focus:outline-none" type="text" name="receiver" value="${memberInfo.memberName}">
 				</div>
 				<div class="address-info">
-					<h3 class="text-base font-bold border-l-4 border-red-400 border-solid mt-2 mx-2 pl-3">배송주소</h3>
+					<h3 class="text-base font-bold border-l-4 border-red-400 border-solid mt-2 mx-2 pl-3 focus:outline-none">배송주소</h3>
 					<div class="ml-6">
 						<label class="inline-block text-sm mr-3 w-20">우편번호</label>
-						<input id="postNo" class="text-xs w-3/12 mr-3 border-b border-gray-400 border-solid" type="text" name="postNo" value="${defAddr.postNo}">
+						<input id="postNo" class="text-xs w-3/12 mr-3 border-b border-gray-400 border-solid focus:outline-none" type="text" name="postNo" value="${defAddr.postNo}" readonly>
 						<button class="find-addr inline-block w-1/12 text-xs border border-gray-400 border-solid" onclick="goPopup();">주소찾기</button>
 					</div>
 					<div class="ml-6">
 						<label class="inline-block text-sm mr-3 w-20">도로명 주소</label>
-						<input id="roadAddrPart1" class="text-xs w-6/12 mr-3 border-b border-gray-400 border-solid" type="text" name="roadAddr1" value="${defAddr.roadAddr}">
+						<input id="roadAddrPart1" class="text-xs w-6/12 mr-3 border-b border-gray-400 border-solid focus:outline-none" type="text" name="roadAddr1" value="${defAddr.roadAddr}" readonly>
 					</div>
 					<div class="ml-6 b">
 						<label class="inline-block text-sm mr-3 w-20">상세주소</label>
-						<input id="addrDetail" class="text-xs w-3/12 mr-3 border-b border-gray-400 border-solid" type="text" name="addrDetail" value="${defAddr.oldAddr}">
-						<input id="roadAddrPart2" class="text-xs w-3/12 mr-3 border-b border-gray-400 border-solid" type="text" name="roadAddr2" value="${defAddr.detailAddr}">
+						<input id="addrDetail" class="text-xs w-3/12 mr-3 border-b border-gray-400 border-solid focus:outline-none" type="text" name="addrDetail" value="${defAddr.oldAddr}">
+						<input id="roadAddrPart2" class="text-xs w-3/12 mr-3 border-b border-gray-400 border-solid focus:outline-none" type="text" name="roadAddr2" value="${defAddr.detailAddr}" readonly>
 						<button class="add-addr inline-block ml-3 w-2/12 text-xs border border-gray-400 border-solid hidden" onclick="add_address();">주소록에 추가</button>
 					</div>
 				</div>
@@ -801,11 +801,11 @@ function fn_priceCalc(){
     	
     	
     	let param={
-			receiver : receiver,
-    		postNo : postNo,
-    		roadAddr : roadAddr,
-			oldAddr : oldAddr,
-			detailAddr:detailAddr
+			"receiver" : receiver,
+    		"postNo" : postNo,
+    		"roadAddr" : roadAddr,
+			"oldAddr" : oldAddr,
+			"detailAddr":detailAddr
     	};
     	
     	
@@ -814,6 +814,7 @@ function fn_priceCalc(){
     		data:JSON.stringify(param),
     		dataType:"json",
     		method:'post',
+    		contentType:'application/json',
     		success:function(data){
     			data?alert("입력되었습니다."):alert("입력에 실패했습니다.")
     		}

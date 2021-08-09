@@ -322,16 +322,17 @@ public class OrderController {
 	//새 주소 등록
 	@RequestMapping("/ajax/insertAddress.do")
 	@ResponseBody
-	public Boolean insertAddress(HttpSession session, @RequestParam Map<String, String> param) throws Exception{
+	public Boolean insertAddress(HttpSession session, @RequestBody Map param) throws Exception{
 		Boolean result=false;
 		String memberId = ((Member)session.getAttribute("loginMember")).getMemberId();
 		System.out.println(param.toString());
+		System.out.println(param.get("postNo"));
 		Address addr = new Address();
 		addr.setMemberId(memberId);
-		addr.setPostNo(aes.encrypt(param.get("postNo")));
-		addr.setRoadAddr(aes.encrypt(param.get("roadAddr")));
-		addr.setOldAddr(aes.encrypt(param.get("oldAddr")));
-		addr.setDetailAddr(aes.encrypt(param.get("detailAddr")));
+		addr.setPostNo(aes.encrypt((String)param.get("postNo")));
+		addr.setRoadAddr(aes.encrypt((String)param.get("roadAddr")));
+		addr.setOldAddr(aes.encrypt((String)param.get("oldAddr")));
+		addr.setDetailAddr(aes.encrypt((String)param.get("detailAddr")));
 		int re = service.insertAddress(addr);
 		if(re>0) {
 			result=true;

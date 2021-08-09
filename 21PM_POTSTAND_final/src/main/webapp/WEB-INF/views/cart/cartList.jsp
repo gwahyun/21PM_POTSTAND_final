@@ -257,7 +257,7 @@
 						<h3 class="money my-3 text-xl font-bold ml-10 w-5/12 text-right"></h3>
 					</div>
 				</div>
-				<form id="orderItems" action="${path}/order/orderItems.do" method="post" onsubmit="fn_order();">
+				<form id="orderItems" action="${path}/order/orderItems.do" method="post" onsubmit="return fn_order();">
 				<button
 					class="buy-button
                 			bg-gray-300 
@@ -501,9 +501,14 @@
 			}
 		});
 		
-		let jsonArr = JSON.stringify(arr);
-		$("#arr").attr("value",jsonArr);
-		return true;
+		if(arr.length==0){
+			alert("한가지 이상의 상품을 체크해주세요");
+			return false;
+		}else{
+			let jsonArr = JSON.stringify(arr);
+			$("#arr").attr("value",jsonArr);
+			return true;
+		}
 	}
 	
 </script>
