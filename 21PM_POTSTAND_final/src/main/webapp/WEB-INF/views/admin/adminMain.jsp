@@ -9,13 +9,13 @@
             <div class="admin-home_content_area">
                 <div class="admin-home_content">
                     <div class="admin-content_title">
-                        주문 / 배송
+                        주문 / 배송 (최근 1주일)
                     </div>
                     <div class="admin-content-itmes">
                     <div><span>신규 주문</span><a href="${path }/admin/orderSelectList?startDate=${startDate }&amp;endDate=${endDate }">${count1 } 건</a></div>
-                    <div><span>결제완료</span><a href="${path }/admin/orderSelectList?type=전체&keyword=&dType=결제완료">${count2 } 건</a></div>
-                    <div><span>배송중</span><a href="${path }/admin/orderSelectList?type=전체&keyword=&dType=배송중">${count3 } 건</a></div>
-                    <div><span>배송완료</span><a href="${path }/admin/orderSelectList?type=전체&keyword=&dType=배송완료">${count4 } 건</a></div>
+                    <div><span>결제완료</span><a href="${path }/admin/orderSelectList?startDate=${startDate }&amp;endDate=${endDate }&type=전체&keyword=&dType=결제완료">${count2 } 건</a></div>
+                    <div><span>배송중</span><a href="${path }/admin/orderSelectList?startDate=${startDate }&amp;endDate=${endDate }&type=전체&keyword=&dType=배송중">${count3 } 건</a></div>
+                    <div><span>배송완료</span><a href="${path }/admin/orderSelectList?startDate=${startDate }&amp;endDate=${endDate }&type=전체&keyword=&dType=배송완료">${count4 } 건</a></div>
                     </div>
                 </div>
                 <div class="admin-home_content">
@@ -57,7 +57,7 @@
             const date1=document.querySelector(".date1")
             
             if(date1.value=="" && date2.value==""){
-                date2.value = today.getFullYear() + '-' + ('0' + (today.getMonth() + 1)).slice(-2) + '-' + ('0' + today.getDate()).slice(-2);
+                date2.value = today.getFullYear() + '-' + ('0' + (today.getMonth() + 1)).slice(-2) + '-' + ('0' + (today.getDate() -1)).slice(-2);
                 date2.valueAsNumber= date2.valueAsNumber+24*60*60*1*1000;
                 date1.valueAsNumber = date2.valueAsNumber-24*60*60*1*1000;
                 

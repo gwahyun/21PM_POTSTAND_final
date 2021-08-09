@@ -13,6 +13,7 @@
 					매출 통계
 				</div>
 			</div>
+			
 		</div>
 		<div class="admin-home_chart_area">
 			<div class="admin-chart">
@@ -33,6 +34,9 @@
 		
 		<div class="admin-content_area" style="margin-top: 45px;">
 			<div class="admin-content">
+			<div class="admin-content_title">
+						주문목록 (총 ${count } 건)
+				</div>
 				<div class="search-table">
 				
 					<table class="table table-border table-hover table-striped">
@@ -79,6 +83,7 @@
 					<div style="text-align: right; padding : 1rem">합계 <fmt:formatNumber value="${sumPrice }" type="currency"/>원</div>
 	
 				</div>
+				  <div class="pageBar flex my-5">${pageBar} </div>
 			</div>
 		</div>
 	</section>
@@ -92,7 +97,7 @@
 		const date1=document.querySelector(".date1")
 		
 		if(date1.value=="" && date2.value==""){
-			date2.value = today.getFullYear() + '-' + ('0' + (today.getMonth() + 1)).slice(-2) + '-' + ('0' + today.getDate()).slice(-2);
+			date2.value = today.getFullYear() + '-' + ('0' + (today.getMonth() + 1)).slice(-2) + '-' + ('0' + (today.getDate()-1)).slice(-2);
 			date2.valueAsNumber= date2.valueAsNumber+24*60*60*1*1000;
 			date1.valueAsNumber = date2.valueAsNumber-24*60*60*1*1000;
 			

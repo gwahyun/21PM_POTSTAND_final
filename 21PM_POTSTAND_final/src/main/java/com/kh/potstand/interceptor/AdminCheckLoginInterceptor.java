@@ -14,7 +14,7 @@ public class AdminCheckLoginInterceptor extends HandlerInterceptorAdapter{@Overr
 		Member m = (Member)request.getSession().getAttribute("loginMember");
 		if(m==null) {
 			request.setAttribute("msg", "로그인 후 이용해 주세요.");
-			request.setAttribute("loc", "/");
+			request.setAttribute("loc", "/member/memberLogin.do");
 			request.getRequestDispatcher("/WEB-INF/views/common/msg.jsp").forward(request, response);
 			return false;
 		}else if(!m.getMemberSort().equals("Y")){

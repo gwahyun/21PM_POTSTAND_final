@@ -373,9 +373,9 @@ public class AdminServiceImpl implements AdminService {
 	}
 
 	@Override
-	public List<String> dateList(String startDate) {
+	public List<String> dateList(Map param) {
 		// TODO Auto-generated method stub
-		return dao.startDate(session,startDate);
+		return dao.startDate(session,param);
 	}
 
 	@Override
@@ -391,15 +391,15 @@ public class AdminServiceImpl implements AdminService {
 	}
 
 	@Override
-	public int sumPrice(String startDate) {
+	public int sumPrice(Map param) {
 		// TODO Auto-generated method stub
-		return dao.sumPrice(session, startDate);
+		return dao.sumPrice(session, param);
 	}
 
 	@Override
-	public List<Credit> creditDateList(String startDate) {
+	public List<Credit> creditDateList(Map param,int cPage, int numPerpage) {
 		// TODO Auto-generated method stub
-		return dao.creditDateList(session,startDate);
+		return dao.creditDateList(session,param,cPage,numPerpage);
 	}
 
 	@Override

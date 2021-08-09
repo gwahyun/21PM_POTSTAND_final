@@ -290,7 +290,7 @@
  	<!-- 얘는 이벤트 수정 하는 sql 문 -->
  	<update id="eventUpdateEnd">
  	update event
-   	 set event_title =#{eventTitle} , event_info = #{eventInfo} , event_short = #{eventShort},event_end = #{eventEnd} 
+   	 set event_title =#{eventTitle} , event_info = #{eventInfo} , event_short = #{eventShort},event_end = #{eventEnd},discount = #{discount} 
    	  <if test="eventThum != null and eventThum != ''">
    	 		, event_thum = #{eventThum}
    	 	</if>
@@ -589,7 +589,15 @@
  	<!-- 차트에 필요할 날짜 -->
 	<select id="startDate" resultType="String">
 		 select to_char(to_date(
-		 <choose>
+			<choose>
+				<when test="endDate != null and endDate != '' and startDate != null and startDate != ''" >
+					#{startDate}
+				</when>
+				<otherwise>
+					sysdate-6
+				</otherwise>
+			</choose>		 
+		<!--  <choose>
 		 	<when test="startDateStr == null">
 		 		${startDate}
 		 	</when>
@@ -597,16 +605,35 @@
 		 		#{startDateStr}
 		 	</otherwise>
 		 </choose>
+		 -->
 		,'YY-MM-DD') + (LEVEL-1),'YY-MM-DD') dates
- 		 from dual CONNECT BY LEVEL <![CDATA[<]]>= (to_date(SYSDATE,'YY-MM-DD') - to_date(
- 			 <choose>
+ 		 from dual CONNECT BY LEVEL <![CDATA[<]]>= (to_date(
+ 		 <choose>
+				<when test="endDate != null and endDate != '' and startDate != null and startDate != ''" >
+					#{endDate}
+				</when>
+				<otherwise>
+					sysdate
+				</otherwise>
+			</choose>	
+ 		 
+ 		 ,'YY-MM-DD') - to_date(
+ 			<!--  <choose>
 		 	<when test="startDateStr == null">
 		 		${startDate}
 		 	</when>
 		 	<otherwise>
 		 		#{startDateStr}
 		 	</otherwise>
-		 </choose>
+		 </choose>  -->
+		 <choose>
+				<when test="endDate != null and endDate != '' and startDate != null and startDate != ''" >
+					#{startDate}
+				</when>
+				<otherwise>
+					sysdate-6
+				</otherwise>
+			</choose>	
  		 ,'YY-MM-DD') + 1)
 	</select>
 	
@@ -641,14 +668,14 @@
   			join payment_obj using(payment_no)
   			join book using(book_code)
   			where 1 = 1
-  			<if test="dType != null and dType != '전체'">
+  			<if test="dType != '' and dType != null and dType != '전체'">
   				and ORDER_STATE = #{dType}
   			</if>
-  			<if test="type != null and type != '전체' and keyword != ''">
+  			<if test="type != null and type != '' and type != '전체' and keyword != ''">
   				and ${type} = #{keyword}
   			</if>
   		
-  			<if test="endDate != null and startDate != null">
+  			<if test="endDate != null and endDate != '' and startDate != '' and startDate != null">
   			and to_date(pay_date,'YY-MM-DD') <![CDATA[<=]]> #{endDate} and to_date(pay_date,'YY-MM-DD') >= #{startDate}
   			</if>
   		order by payment_no asc
@@ -657,15 +684,15 @@
   	<select id="orderSelectListCount" resultType="int">
 	  	select count(*) from payment
 	  		where 1 = 1
-	  			<if test="dType != null and dType != '전체'">
+	  			<if test="dType != '' and dType != null and dType != '전체'">
 	  				and ORDER_STATE = #{dType}
 	  			</if>
-	  			<if test="type != null and type != '전체'">
+	  			<if test="type != null and type != '' and type != '전체' and keyword != ''">
 	  				and ${type} = #{keyword}
 	  			</if>
 	  		
-	  			<if test="endDate != null and startDate != null">
-	  			and PAY_DATE <![CDATA[<]]> #{endDate} and PAY_DATE > #{startDate}
+	  			<if test="endDate != null and endDate != '' and startDate != '' and startDate != null">
+	  			and PAY_DATE <![CDATA[<=]]> #{endDate} and PAY_DATE >= #{startDate}
 	  			</if>
   	</select>
   	
@@ -700,51 +727,46 @@
 	
 	 <select id="orderCountMap1" resultType="int">
 		  select count(*) as count1 from payment
-  			  where pay_date > sysdate-7
+  			  where pay_date >= sysdate-6
 	</select>
 	
 	<select id="orderCountMap2" resultType="int">
 		    select count(*) count2 from payment
-   			  where order_state = '결제완료' and pay_date > sysdate-7
+   			  where order_state = '결제완료' and pay_date >= sysdate-6
 	</select>
 	
 	<select id="orderCountMap3" resultType="int">
 		  select count(*) count3 from payment
-  			  where order_state = '배송중' and pay_date > sysdate-7
+  			  where order_state = '배송중' and pay_date >= sysdate-6
 	</select>
 	
 	<select id="orderCountMap4" resultType="int">
 		  select count(*) count4 from payment
-  			  where order_state = '배송완료' and pay_date > sysdate-7
+  			  where order_state = '배송완료' and pay_date >= sysdate-6
 	</select> 
 	
 	<select id="creditDateList" resultMap="paymentMap">
 			select * from payment 
 			join payment_obj using(payment_no)
   			join book using(book_code)
-			where to_date(PAY_DATE,'YY-MM-DD') >= 
-		 <choose>
-		 	<when test="startDateStr == null">
-		 		${startDate}
-		 	</when>
-		 	<otherwise>
-		 		#{startDateStr}
-		 	</otherwise>
-		 </choose>
+			where 1=1 
+			<if test="endDate != null and endDate != '' and startDate != '' and startDate != null">
+	  			and to_date(pay_date,'YY-MM-DD') <![CDATA[<=]]> #{endDate} and to_date(pay_date,'YY-MM-DD') >= #{startDate}
+			</if>
 	</select>
 	
 	
 	<!-- 정산관리  -->
 	<select id="sumPrice" resultType="int">
-		select nvl(sum(amount),0) from payment where to_date(pay_date,'YY-MM-DD') >= 
-		 <choose>
-		 	<when test="startDateStr == null">
-		 		${startDate}
-		 	</when>
-		 	<otherwise>
-		 		#{startDateStr}
-		 	</otherwise>
-		 </choose>
+		select nvl(sum(amount),0) from payment
+		where 1=1 
+		<if test="endDate != null and endDate != '' and startDate != '' and startDate != null">
+  			and to_date(pay_date,'YY-MM-DD') <![CDATA[<=]]> #{endDate} and to_date(pay_date,'YY-MM-DD') >= #{startDate}
+		</if>
+		
+		
+		 <!-- where to_date(pay_date,'YY-MM-DD') >=  -->
+		
 	</select>
 	
 	<update id="statusUpdate">
