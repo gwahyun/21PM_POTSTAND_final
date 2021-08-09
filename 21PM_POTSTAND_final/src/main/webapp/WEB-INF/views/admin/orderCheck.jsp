@@ -156,8 +156,8 @@
 						
 						</tbody>
 					</table>
-	
 				</div>
+			   <div class="pageBar flex my-5">${pageBar} </div>
 			</div>
 		</div>
             </section>
@@ -202,7 +202,7 @@
 		for(var i = 0 ; i<date_range_btn.length;i++){
 			date_range_btn[i].addEventListener("click",function(){
 				if(this.textContent=='오늘'){
-					date2.value = today.getFullYear() + '-' + ('0' + (today.getMonth() + 1)).slice(-2) + '-' + ('0' + today.getDate()).slice(-2);
+					date2.value = today.getFullYear() + '-' + ('0' + (today.getMonth() + 1)).slice(-2) + '-' + ('0' + (today.getDate()-1))).slice(-2);
 					date2.valueAsNumber= date2.valueAsNumber+24*60*60*1*1000;
 					date1.valueAsNumber = date2.valueAsNumber-24*60*60*1*1000;
 					for(var j = 0 ; j<date_range_btn.length;j++){

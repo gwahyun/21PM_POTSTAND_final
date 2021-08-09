@@ -377,17 +377,17 @@ public class AdminDaoImpl implements AdminDao {
 	}
 
 	@Override
-	public List<String> startDate(SqlSessionTemplate session, String startDate) {
+	public List<String> startDate(SqlSessionTemplate session, Map param) {
 		// TODO Auto-generated method stub
-		
+		/*
 		Map<String,String> map = new HashMap();
 		if(startDate.equals("")) {
 			startDate ="sysdate-6";
 			map.put("startDate", startDate);
 		}else {
 			map.put("startDateStr", startDate);
-		}
-		return session.selectList("admin.startDate", map);
+		}*/
+		return session.selectList("admin.startDate", param);
 	}
 
 	@Override
@@ -403,28 +403,28 @@ public class AdminDaoImpl implements AdminDao {
 	}
 
 	@Override
-	public int sumPrice(SqlSessionTemplate session, String startDate) {
+	public int sumPrice(SqlSessionTemplate session, Map param) {
 		Map<String,String> map = new HashMap();
-		if(startDate.equals("")) {
+		/*if(startDate.equals("")) {
 			startDate ="sysdate-6";
 			map.put("startDate", startDate);
 		}else {
 			map.put("startDateStr", startDate);
-		}
-		return session.selectOne("admin.sumPrice", map);
+		}*/
+		return session.selectOne("admin.sumPrice", param);
 	}
 
 	@Override
-	public List<Credit> creditDateList(SqlSessionTemplate session, String startDate) {
+	public List<Credit> creditDateList(SqlSessionTemplate session, Map param,int cPage,int numPerpage) {
 		// TODO Auto-generated method stub
 		Map<String,String> map = new HashMap();
-		if(startDate.equals("")) {
+		/*if(startDate.equals("")) {
 			startDate ="sysdate-6";
 			map.put("startDate", startDate);
 		}else {
 			map.put("startDateStr", startDate);
-		}
-		return session.selectList("admin.creditDateList", map);
+		}*/
+		return session.selectList("admin.creditDateList", param, new RowBounds((cPage-1)*numPerpage, numPerpage));
 	}
 
 	@Override

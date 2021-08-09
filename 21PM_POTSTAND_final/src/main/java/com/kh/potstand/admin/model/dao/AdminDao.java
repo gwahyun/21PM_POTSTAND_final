@@ -133,15 +133,15 @@ public interface AdminDao {
 
 	Map<String, String> dateOne(SqlSessionTemplate session);
 
-	List<String> startDate(SqlSessionTemplate session, String startDate);
+	List<String> startDate(SqlSessionTemplate session, Map param);
 
 	int priceDateList(SqlSessionTemplate session, String str);
 
 	int amountDateList(SqlSessionTemplate session, String str);
 
-	int sumPrice(SqlSessionTemplate session, String startDate);
+	int sumPrice(SqlSessionTemplate session, Map param);
 
-	List<Credit> creditDateList(SqlSessionTemplate session, String startDate);
+	List<Credit> creditDateList(SqlSessionTemplate session, Map param, int cPage, int numPerpage);
 
 	int eventSelectCount(SqlSessionTemplate session, Map param);
 

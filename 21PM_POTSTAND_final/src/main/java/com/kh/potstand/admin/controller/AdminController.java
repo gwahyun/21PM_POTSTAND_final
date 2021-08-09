@@ -12,6 +12,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.apache.ibatis.session.RowBounds;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -66,9 +67,10 @@ public class AdminController {
 	@RequestMapping("/admin/adminMain")
 	public ModelAndView adminMain(
 			@RequestParam(value="startDate",defaultValue="") String startDate,
+			@RequestParam Map param,
 			ModelAndView mv) {
 		//차트
-		List<String> dateList = service.dateList(startDate);
+		List<String> dateList = service.dateList(param);
 		//날짜
 		String c = "";
 		//매출
@@ -108,10 +110,14 @@ public class AdminController {
 	
 	@RequestMapping("/admin/calSelect")
 	public ModelAndView calSelect(
-			@RequestParam(value="startDate",defaultValue="") String startDate,
+			@RequestParam(value="cPage" ,defaultValue = "1") int cPage,
+			@RequestParam(value="numPerpage" ,defaultValue = "300") int numPerpage,
+			@RequestParam(value="startDate",defaultValue = "") String startDate,
+			@RequestParam(value="endDate",defaultValue = "") String endDate,
+			@RequestParam Map param,
 			ModelAndView mv) {
 		//차트
-		List<String> dateList = service.dateList(startDate);
+		List<String> dateList = service.dateList(param);
 		//날짜
 		String c = "";
 		//매출
@@ -128,8 +134,12 @@ public class AdminController {
 		mv.addObject("c",c);
 		mv.addObject("d", d);
 		mv.addObject("e", e);
-		mv.addObject("sumPrice",service.sumPrice(startDate));
-		mv.addObject("list", service.creditDateList(startDate));
+		mv.addObject("sumPrice",service.sumPrice(param));
+		mv.addObject("list", service.creditDateList(param,cPage,numPerpage));
+		int count = session.selectOne("admin.orderSelectListCount", param);
+		mv.addObject("count",count);
+		mv.addObject("pageBar", PageFactory.getPageBar(count, cPage, numPerpage,5,"calSelect",
+				"startDate="+startDate+"&endDate="+endDate));
 		mv.setViewName("admin/calSelect");
 		return mv;
 	}
@@ -870,10 +880,21 @@ public class AdminController {
 	}
 	
 	@RequestMapping("/admin/orderSelectList")
-	public ModelAndView orderSelectList(ModelAndView mv,@RequestParam Map param) {
+	public ModelAndView orderSelectList(
+			@RequestParam(value="cPage" ,defaultValue = "1") int cPage,
+			@RequestParam(value="numPerpage" ,defaultValue = "300") int numPerpage,
+			@RequestParam(value="startDate",defaultValue = "") String startDate,
+			@RequestParam(value="endDate",defaultValue = "") String endDate,
+			@RequestParam(value="type",defaultValue = "") String type,
+			@RequestParam(value="keyword",defaultValue = "") String keyword,
+			@RequestParam(value="dType",defaultValue = "") String dType,
+			ModelAndView mv,@RequestParam Map param) {
 		
-		List<Payment> list = session.selectList("admin.orderSelectList", param);
+		
+		List<Payment> list = session.selectList("admin.orderSelectList", param,new RowBounds((cPage-1)*numPerpage, numPerpage));
 		int count = session.selectOne("admin.orderSelectListCount", param);
+		mv.addObject("pageBar", PageFactory.getPageBar(count, cPage, numPerpage,5,"orderSelectList",
+				"startDate="+startDate+"&endDate="+endDate+"&type="+type+"&keyword="+keyword+"&dType="+dType));
 		mv.addObject("list", list);
 		mv.addObject("count", count);
 		mv.setViewName("admin/orderCheck");

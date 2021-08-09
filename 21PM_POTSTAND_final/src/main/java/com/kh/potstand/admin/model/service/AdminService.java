@@ -131,15 +131,15 @@ public interface AdminService {
 
 	Map<String, String> dateOne();
 
-	List<String> dateList(String startDate);
+	List<String> dateList(Map param);
 
 	int priceDateList(String str);
 
 	int amountDateList(String str);
 
-	int sumPrice(String startDate);
+	int sumPrice(Map param);
 
-	List<Credit> creditDateList(String startDate);
+	List<Credit> creditDateList(Map param, int cPage, int numPerpage);
 
 	int eventSelectCount(Map param);
 
