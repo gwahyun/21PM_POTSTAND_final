@@ -272,10 +272,10 @@
 				class="member-addr w-8/12 ml-2 border border-solid border-gray-400 p-1">
 				<div class="address-radio mb-1">
 					<span class="text-base font-bold border-l-4 border-red-400 border-solid m-2 pl-3">배송지</span>
-					<label class="text-sm"><input class="pl-2 mx-3 my-2" type="radio" name="address" value="default" checked>기본배송지</label> 
-					<label class="text-sm"><input class="pl-2 mx-3 my-2" type="radio" name="address" value="recent">최근배송지</label> 
-					<label class="text-sm"><input class="pl-2 mx-3 my-2" type="radio" name="address" value="list">주소록</label>
-					<label class="text-sm"><input class="pl-2 mx-3 my-2" type="radio" name="address" value="new">새로입력</label>
+					<label class="text-sm"><input class="pl-2 mx-3 my-2" type="radio" name="address-type" value="default" checked>기본배송지</label> 
+					<label class="text-sm"><input class="pl-2 mx-3 my-2" type="radio" name="address-type" value="recent">최근배송지</label> 
+					<label class="text-sm"><input class="modal-open pl-2 mx-3 my-2" type="radio" name="address-type" value="list">주소록</label>
+					<label class="text-sm"><input class="pl-2 mx-3 my-2" type="radio" name="address-type" value="new">새로입력</label>
 				</div>
 				<div class="receiver">
 					<span class="text-base font-bold border-l-4 border-red-400 border-solid m-2 pl-3">받는사람</span>
@@ -286,7 +286,7 @@
 					<div class="ml-6">
 						<label class="inline-block text-sm mr-3 w-20">우편번호</label>
 						<input id="postNo" class="text-xs w-3/12 mr-3 border-b border-gray-400 border-solid" type="text" name="postNo" value="${defAddr.postNo}">
-						<button class="inline-block w-1/12 text-xs border border-gray-400 border-solid" onclick="goPopup();">주소찾기</button>
+						<button class="inline-block w-1/12 text-xs border border-gray-400 border-solid hidden" onclick="goPopup();">주소찾기</button>
 					</div>
 					<div class="ml-6">
 						<label class="inline-block text-sm mr-3 w-20">도로명 주소</label>
@@ -296,7 +296,7 @@
 						<label class="inline-block text-sm mr-3 w-20">상세주소</label>
 						<input id="addrDetail" class="text-xs w-3/12 mr-3 border-b border-gray-400 border-solid" type="text" name="addrDetail" value="${defAddr.oldAddr}">
 						<input id="roadAddrPart2" class="text-xs w-3/12 mr-3 border-b border-gray-400 border-solid" type="text" name="roadAddr2" value="${defAddr.detailAddr}">
-						<button class="inline-block ml-3 w-2/12 text-xs border border-gray-400 border-solid">주소록에 추가</button>
+						<button class="inline-block ml-3 w-2/12 text-xs border border-gray-400 border-solid hidden">주소록에 추가</button>
 					</div>
 				</div>
 				<div class="phone">
@@ -365,7 +365,7 @@
 							<select name="couponData" class="w-7/12 text-sm border-b border-solid border-gray-400" style="text-align-last:right">
 								<option class="text-right" value="0:0">쿠폰 사용 안함</option>
 								<c:forEach var="cp" items="${couponList}">
-									<c:if test="${cp.couponEnd eq 'N' and cp.couponAmount!=0}}">
+									<c:if test="${cp.couponEnd eq 'N' and cp.couponAmount!=0}">
 										<option class="text-right" 
 											value="${cp.couponNo}:${cp.event.discount}">
 											<c:out value="${cp.event.eventTitle} : ${cp.couponAmount}개" />
@@ -391,6 +391,64 @@
 			</div>
 		</div>
 	</div>
+	
+	<!-- 모달 -->
+  <div class="modal opacity-0 pointer-events-none fixed w-full h-full top-0 left-0 flex items-center justify-center">
+    <div class="modal-overlay absolute w-full h-full bg-gray-900 opacity-50"></div>
+    
+    <div class="modal-container bg-white w-11/12 md:w-5/12 mx-10 rounded shadow-lg z-50 overflow-y-auto">
+      
+      <div class="modal-close absolute top-0 right-0 cursor-pointer flex flex-col items-center mt-4 mr-4 text-white text-sm z-50">
+        <svg class="fill-current text-white" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18">
+          <path d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z"></path>
+        </svg>
+        <span class="text-sm">(Esc)</span>
+      </div>
+
+      <!-- Add margin if you want to see some of the overlay behind the modal-->
+      <div class="modal-content py-3 text-left px-3">
+        <!--Title-->
+        <div class="flex justify-between items-center pb-3">
+          <p class="text-2xl font-bold">Simple Modal!</p>
+          <div class="modal-close cursor-pointer z-50">
+            <svg class="fill-current text-black" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18">
+              <path d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z"></path>
+            </svg>
+          </div>
+        </div>
+
+        <!--Body-->
+        <table class="w-full border border-solid border-gray-400">
+        	<tr class="border border-solid border-gray-400">
+        		<th class="w-2/12 m-1 text-sm text-center border border-solid border-gray-400">수령자</th>
+        		<th class="w-6/12 m-1 text-sm text-center border border-solid border-gray-400">배송지</th>
+        		<th class="w-2/12 m-1 text-sm text-center border border-solid border-gray-400">휴대폰</th>
+        		<th class="w-2/12 m-1 text-sm text-center border border-solid border-gray-400">관리</th>
+        	</tr>
+        	
+        	<!-- 반복문으로 주소록 조회 -->
+        	<c:forEach var="a" items="${memberInfo.addresses}">
+	        	<tr class="border border-solid border-gray-400">
+	        		<input type="hidden" name="addrNo" value="${a.addrNo}">
+	        		<td class="text-xs m-1 border border-solid border-gray-400"><input type="text" class="focus:outline-none text-center" name="receiverName" value="${memberInfo.memberName}" readonly/></td>
+	        		<td class="text-xs m-1 border border-solid border-gray-400"><input type="text" class="focus:outline-none w-full cursor-pointer text-center hover:underline" name="receiverAddr" value="${a.postNo +=' '+= a.roadAddr +=' '+= a.oldAddr +=' '+= a.detailAddr}" readonly/></td>
+	        		<td class="text-xs m-1 border border-solid border-gray-400"><input type="text" class="focus:outline-none text-center" name="receiverPhone" value="${memberInfo.memberPhone}" readonly/></td>
+	        		<td class="text-xs m-1 border border-solid border-gray-400"><button class="inline-block w-full text-xs border border-gray-400 border-solid hover:bg-blue-200">수정</button></td>
+	        	</tr>
+        	</c:forEach>
+        </table>
+
+        <!--Footer-->
+        <div class="flex justify-end pt-2">
+          <button class="px-4 bg-transparent p-3 rounded-lg text-indigo-500 hover:bg-gray-100 hover:text-indigo-400 mr-2">Action</button>
+          <button class="modal-close px-4 bg-indigo-500 p-3 rounded-lg text-white hover:bg-indigo-400">Close</button>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+	
+	
 	<form id="successForm" action="${path}/member/memberMypage.do" method="post"/>
 	<form id="failForm" action="${path}/order/orderItems.do" method="post"/>
 </section>
@@ -640,4 +698,51 @@ function fn_priceCalc(){
 		}
 	});
 	
+	
+	var openmodal = document.querySelectorAll('.modal-open')
+    for (var i = 0; i < openmodal.length; i++) {
+      openmodal[i].addEventListener('change', function(event){
+    	event.preventDefault()
+    	toggleModal()
+      })
+    }
+    
+    const overlay = document.querySelector('.modal-overlay')
+    overlay.addEventListener('click', toggleModal)
+    
+    var closemodal = document.querySelectorAll('.modal-close')
+    for (var i = 0; i < closemodal.length; i++) {
+      closemodal[i].addEventListener('click', toggleModal)
+    }
+    
+    document.onkeydown = function(evt) {
+      evt = evt || window.event
+      var isEscape = false
+      if ("key" in evt) {
+    	isEscape = (evt.key === "Escape" || evt.key === "Esc")
+      } else {
+    	isEscape = (evt.keyCode === 27)
+      }
+      if (isEscape && document.body.classList.contains('modal-active')) {
+    	toggleModal()
+      }
+    };
+    
+    
+    function toggleModal () {
+      const body = document.querySelector('body')
+      const modal = document.querySelector('.modal')
+      modal.classList.toggle('opacity-0')
+      modal.classList.toggle('pointer-events-none')
+      body.classList.toggle('modal-active')
+    }
+	
+    
+    $("input[name='address-type']").change((e)=>{
+    	let type =$("input[name='address-type']").val();
+    	switch(type){
+    	case 
+    	}
+    });
+    
 </script>

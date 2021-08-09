@@ -228,7 +228,7 @@ public class OrderController {
 	public Map beforOrderPayment(HttpSession session, @RequestBody Map param){
 		try {
 			String memberId = ((Member)(session.getAttribute("loginMember"))).getMemberId();
-			param.put("receiverAddress", ((String)param.get("receiverAddress")).replace(":"," "));
+			param.put("receiverAddress", ((String)param.get("receiverAddress")));
 			param.put("memberId", memberId);
 			param=service.beforOrderPayment(param);
 			//log.debug(param.toString());
