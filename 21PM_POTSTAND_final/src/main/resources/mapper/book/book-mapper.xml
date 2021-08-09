@@ -97,7 +97,6 @@
 	<delete id="bookHeartDelete">
 		DELETE FROM HEART WHERE MEMBER_ID=#{memberId} AND BOOK_CODE=#{bookCode}
 	</delete>
-	
 	<insert id="bookReviewInsert">
 		INSERT INTO REVIEW VALUES(SEQ_REVIEW.NEXTVAL,#{bookCode},#{memberId},#{point},#{reviewContent},SYSDATE)
 	</insert>
@@ -114,4 +113,40 @@
 	<delete id="bookReviewDelete">
 		DELETE FROM REVIEW WHERE MEMBER_ID=#{memberId} AND BOOK_CODE=#{bookCode}
 	</delete>
+	
+	<select id="searchTitle" resultMap="bookMap">
+		select * from book where book_title like '%${search}%'
+		 <if test="all!=''">
+ 			and rownum <![CDATA[<]]> 6
+ 		</if>
+	</select>
+	<select id="searchWriter" resultMap="bookMap">
+		select * from book where book_writer like '%${search}%'
+		 <if test="all!=''">
+ 			and rownum <![CDATA[<]]> 6
+ 		</if>
+	</select>
+	<select id="searchPub" resultMap="bookMap">
+		select * from book where book_pub like '%${search}%'
+		 <if test="all!=''">
+ 		and rownum <![CDATA[<]]> 6
+ 		</if>
+	</select>
+	
+	<select id="searchWriterCount" resultType="_int">
+		select count(*) from book where book_writer like '%${search}%'
+	</select>
+	<select id="searchTitleCount" resultType="_int">
+		select count(*) from book where book_title like '%${search}%'
+	</select>
+	<select id="searchPubCount" resultType="_int">
+		select count(*) from book where book_pub like '%${search}%'
+	</select>
+	
+	<select id="searchBookCount" resultType="_int">
+		select count(*) from book where book_${cate} like '%${search}%'
+	</select>
+	<select id="searchMoreInfo" resultMap="bookMap">
+		select * from book where book_${cate} like '%${search}%'
+	</select>
 </mapper>

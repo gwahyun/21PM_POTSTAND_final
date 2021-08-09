@@ -29,7 +29,7 @@
 	            	<h4 class="text-2xl font-semibold py-2"><span>구매/혜택</span></h4>
 	            	<div class="pl-5 text-xl">
 	            		<ul>
-			                <li class="py-2"><a href="#">주문목록/배송조회</a></li>
+			                <li class="py-2"><a href="${path}/member/memberOrderListSelect.do">주문목록/배송조회</a></li>
 			                <li class="py-2"><a href="${path}/member/memberCouponListSelect.do">쿠폰</a></li>
 			                <li class="py-2"><a href="${path}/member/memberPoint.do">적립금</a></li>
 			            </ul>
@@ -53,29 +53,29 @@
         			</div>
 	        		<div class="flex w-full flex-col justify-center border" >
 	        			<div class="flex">
-	        				<div class="w-1/4 border h-11 p-2 bg-red-100 flex justify-center">
+	        				<div class="w-1/4 border h-11 p-2 bg-red-100 flex justify-center items-center">
 	        					<h3 class="text-lg font-bold">날짜</h3>
 		        			</div>
-		        			<div class="w-2/4 border h-11 p-2 bg-red-100 flex justify-center">
+		        			<div class="w-2/4 border h-11 p-2 bg-red-100 flex justify-center items-center">
 		        				<h3 class="text-lg font-bold">내용</h3>
 		        			</div>
-		        			<div class="w-1/4 border h-11 p-2 bg-red-100 flex justify-center">
+		        			<div class="w-1/4 border h-11 p-2 bg-red-100 flex justify-center items-center">
 	        					<h3 class="text-lg font-bold">사용/적립 포인트</h3>
 		        			</div>
 	        			</div>
 	        			<c:forEach items="${list }" var="p">
 		        			<div class="flex">
-		        				<div class="w-1/4 border h-11 p-2 flex justify-center">
+		        				<div class="w-1/4 border p-2 flex justify-center items-center">
 		        					<h4>${p.useDate }</h4>
 			        			</div>
-			        			<div class="w-2/4 border h-11 p-2 flex justify-center">
+			        			<div class="w-2/4 border p-2 flex justify-center items-center">
 			        				<h4>${p.useLog }</h4>
 			        			</div>
-			        			<div class="w-1/4 border h-11 p-2 flex justify-center">
+			        			<div class="w-1/4 border p-2 flex justify-center items-center">
 			        				<c:if test="${fn:contains(p.useLog,'사용') }">
 			        					<h4>-${p.point }</h4>		
 			        				</c:if>
-		        					<c:if test="${fn:contains(p.useLog,'구입') }">
+		        					<c:if test="${fn:contains(p.useLog,'적립') }">
 			        					<h4>+${p.point }</h4>
 			        				</c:if>
 			        			</div>

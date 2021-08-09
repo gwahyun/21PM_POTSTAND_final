@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.potstand.book.model.service.BookService;
+import com.kh.potstand.book.model.vo.Book;
 import com.kh.potstand.book.model.vo.Review;
 import com.kh.potstand.common.PageFactory;
 import com.kh.potstand.member.model.vo.Heart;
@@ -149,5 +150,42 @@ public class BookController {
 	@ResponseBody
 	public int bookReviewDelete(@RequestParam Map param) {	
 		return service.bookReviewDelete(param);
+	}
+	
+	@RequestMapping("/search/bookinfo.do")
+	public ModelAndView searchBookInfo(
+			@RequestParam(value="search") String search,
+			@RequestParam(value="all") String all, 
+			ModelAndView mv) {
+		Map<String, String> param = new HashMap();
+		param.put("search", search);
+		param.put("all", all);
+		
+		Map<String, List> answer = service.searchBookInfo(param);
+		mv.addObject("search",search);
+		mv.addObject("answer", answer);
+		mv.setViewName("/book/bookSearchAll");
+		return mv;
+	}
+	
+	@RequestMapping("/search/bookinfomore.do")
+	public ModelAndView searchBookInfoMore(
+			@RequestParam(value="search") String search,
+			@RequestParam(value="cate") String cate, 
+			@RequestParam(value ="cPage",defaultValue="1") int cPage,
+			@RequestParam(value="numPerpage",defaultValue="20") int numPerpage,
+			ModelAndView mv) {
+		
+		Map param = new HashMap();
+		param.put("search", search);
+		param.put("cate", cate);
+		
+		int count = service.searchBookCount(param);
+	
+		mv.addObject("list", service.searchMoreInfo(param, cPage, numPerpage));
+		mv.addObject("pageBar", PageFactory.getPageBar(count,cPage,numPerpage,5,"bookinfomore.do","search="+search+"&cate="+cate));
+		mv.addObject("count", count);
+		mv.setViewName("book/bookSearchMore");
+		return mv;
 	}
 }

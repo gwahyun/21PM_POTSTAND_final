@@ -29,7 +29,7 @@
 	            	<h4 class="text-2xl font-semibold py-2"><span>구매/혜택</span></h4>
 	            	<div class="pl-5 text-xl">
 	            		<ul>
-			                <li class="py-2"><a href="#">주문목록/배송조회</a></li>
+			                <li class="py-2"><a href="${path}/member/memberOrderListSelect.do">주문목록/배송조회</a></li>
 			                <li class="py-2"><a href="${path}/member/memberCouponListSelect.do">쿠폰</a></li>
 			                <li class="py-2"><a href="${path}/member/memberPoint.do">적립금</a></li>
 			            </ul>
@@ -75,22 +75,22 @@
 	        	<div class="flex justify-center text-center mt-4 border-t-2">
 	        		<dl class="flex">
 						<dd class="px-5 py-24">
-							<div><a href="#" class="text-5xl">0</a></div>
-							<div class="text-2xl">결제완료</div>
+							<div><a href="${path}/member/memberOrderListSelect.do" class="text-5xl">${state1Count }</a></div>
+							<div class="text-2xl mt-3">결제완료</div>
 						</dd>
 						<dd class="px-5 py-24">
 							<img class="w-20" src="${path }/resources/img/myInfo_next.png">
 						</dd>
 						<dd class="px-5 py-24">
-							<div><a href="#" class="text-5xl">0</a></div>
-							<div class="text-2xl">배송중</div>
+							<div><a href="${path}/member/memberOrderListSelect.do" class="text-5xl">${state2Count }</a></div>
+							<div class="text-2xl mt-3">배송중</div>
 						</dd>
 						<dd class="px-5 py-24">
 							<img class="w-20" src="${path }/resources/img/myInfo_next.png">
 						</dd>
 						<dd class="px-5 py-24">
-							<div><a href="#" class="text-5xl">0</a></div>
-							<div class="text-2xl">배송완료</div>
+							<div><a href="${path}/member/memberOrderListSelect.do" class="text-5xl">${state3Count }</a></div>
+							<div class="text-2xl mt-3">배송완료</div>
 						</dd>
 					</dl>
 	        	</div>

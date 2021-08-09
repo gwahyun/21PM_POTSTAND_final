@@ -13,6 +13,7 @@ import com.kh.potstand.member.model.vo.Heart;
 import com.kh.potstand.member.model.vo.Member;
 import com.kh.potstand.member.model.vo.Point;
 import com.kh.potstand.order.model.vo.Cart;
+import com.kh.potstand.order.model.vo.Payment;
 
 public interface MemberService {
 
@@ -87,6 +88,18 @@ public interface MemberService {
 		
 	//마이페이지 기간만료 쿠폰리스트
 	List<Coupon> memberEndCouponListSelect(String memberId, int cPage, int numPerpage);
+	
+	//마이페이지 - 주문확인리스트
+	List<Payment> memberOrderListSelect(String memberId, int cPage, int numPerpage);
+	
+	//마이페이지 - 주문확인리스트 총개수
+	int memberOrderListCount(String memberId);
+	
+	//마이페이지 - 주문목록/배송조회 결제취소
+	boolean memberOrderListDelete(int paymentNo);
+	
+	//마이페이지 - 모든 결제리스트 조회
+	List<Payment> memberOrderListAllSelect(String memberId);
 	
 	//notice List 호출 (공지사항 페이지)
 	List<Notice> noticeSelectList(int cPage, int numPerPage);
