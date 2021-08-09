@@ -44,7 +44,7 @@
                                 <option>전체</option>
                                 <option value="payment_no">주문번호</option>
                                 <option value="RECEIVER_NAME">회원 이름</option>
-                                <option value="memberId">회원 아이디</option>
+                                <option value="member_id">회원 아이디</option>
                             </select>
                             <input type="text" name="keyword">
                         </div>
@@ -62,6 +62,7 @@
                                 <option>결제완료</option>
                                 <option>배송중</option>
                                 <option>배송완료</option>
+                                <option>결제취소</option>
                             </select>
                         </div>
                     </div>
@@ -169,7 +170,7 @@
 					if(confirm('배송 하시겠습니까?')){
 					$.get("${path}/admin/statusUpdate?no="+no+"&status=배송중",data=>{
 						if(data==1){
-							$(e.target).val("배송중");
+							//$(e.target).val("배송중");
 							$(e.target).html("배송중");
 						}					
 					})
@@ -194,7 +195,7 @@
 				const date1=document.querySelector(".date1")
 				
 				if(date1.value=="" && date2.value==""){
-					date2.value = today.getFullYear() + '-' + ('0' + (today.getMonth() + 1)).slice(-2) + '-' + ('0' + today.getDate()).slice(-2);
+					date2.value = today.getFullYear() + '-' + ('0' + (today.getMonth() + 1)).slice(-2) + '-' + ('0' + (today.getDate()-1)).slice(-2);
 					date2.valueAsNumber= date2.valueAsNumber+24*60*60*1*1000;
 					date1.valueAsNumber = date2.valueAsNumber-24*60*60*1*1000;
 		}
@@ -202,7 +203,7 @@
 		for(var i = 0 ; i<date_range_btn.length;i++){
 			date_range_btn[i].addEventListener("click",function(){
 				if(this.textContent=='오늘'){
-					date2.value = today.getFullYear() + '-' + ('0' + (today.getMonth() + 1)).slice(-2) + '-' + ('0' + (today.getDate()-1))).slice(-2);
+					date2.value = today.getFullYear() + '-' + ('0' + (today.getMonth() + 1)).slice(-2) + '-' + ('0' + (today.getDate()-1)).slice(-2);
 					date2.valueAsNumber= date2.valueAsNumber+24*60*60*1*1000;
 					date1.valueAsNumber = date2.valueAsNumber-24*60*60*1*1000;
 					for(var j = 0 ; j<date_range_btn.length;j++){
