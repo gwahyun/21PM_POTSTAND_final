@@ -110,6 +110,21 @@ public class OrderServiceImpl implements OrderService{
 		return dao.cartSelectOne(session, cartNo);
 	}
 
+	@Override
+	public String selectRecentAddr(String memberId) {
+		return dao.selectRecentAddr(session, memberId);
+	}
+
+	@Override
+	public Address selectDefaultAddr(String memberId) {
+		return dao.selectDefaultAddr(session, memberId);
+	}
+
+	@Override
+	public int insertAddress(Address addr) {
+		return dao.insertAddress(session, addr);
+	}
+
 	
 	
 	

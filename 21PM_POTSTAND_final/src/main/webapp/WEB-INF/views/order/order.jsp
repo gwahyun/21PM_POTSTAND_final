@@ -286,7 +286,7 @@
 					<div class="ml-6">
 						<label class="inline-block text-sm mr-3 w-20">우편번호</label>
 						<input id="postNo" class="text-xs w-3/12 mr-3 border-b border-gray-400 border-solid" type="text" name="postNo" value="${defAddr.postNo}">
-						<button class="inline-block w-1/12 text-xs border border-gray-400 border-solid hidden" onclick="goPopup();">주소찾기</button>
+						<button class="find-addr inline-block w-1/12 text-xs border border-gray-400 border-solid" onclick="goPopup();">주소찾기</button>
 					</div>
 					<div class="ml-6">
 						<label class="inline-block text-sm mr-3 w-20">도로명 주소</label>
@@ -296,7 +296,7 @@
 						<label class="inline-block text-sm mr-3 w-20">상세주소</label>
 						<input id="addrDetail" class="text-xs w-3/12 mr-3 border-b border-gray-400 border-solid" type="text" name="addrDetail" value="${defAddr.oldAddr}">
 						<input id="roadAddrPart2" class="text-xs w-3/12 mr-3 border-b border-gray-400 border-solid" type="text" name="roadAddr2" value="${defAddr.detailAddr}">
-						<button class="inline-block ml-3 w-2/12 text-xs border border-gray-400 border-solid hidden">주소록에 추가</button>
+						<button class="add-addr inline-block ml-3 w-2/12 text-xs border border-gray-400 border-solid hidden" onclick="add_address();">주소록에 추가</button>
 					</div>
 				</div>
 				<div class="phone">
@@ -422,7 +422,6 @@
         	<tr class="border border-solid border-gray-400">
         		<th class="w-2/12 m-1 text-sm text-center border border-solid border-gray-400">수령자</th>
         		<th class="w-6/12 m-1 text-sm text-center border border-solid border-gray-400">배송지</th>
-        		<th class="w-2/12 m-1 text-sm text-center border border-solid border-gray-400">휴대폰</th>
         		<th class="w-2/12 m-1 text-sm text-center border border-solid border-gray-400">관리</th>
         	</tr>
         	
@@ -432,7 +431,6 @@
 	        		<input type="hidden" name="addrNo" value="${a.addrNo}">
 	        		<td class="text-xs m-1 border border-solid border-gray-400"><input type="text" class="focus:outline-none text-center" name="receiverName" value="${memberInfo.memberName}" readonly/></td>
 	        		<td class="text-xs m-1 border border-solid border-gray-400"><input type="text" class="focus:outline-none w-full cursor-pointer text-center hover:underline" name="receiverAddr" value="${a.postNo +=' '+= a.roadAddr +=' '+= a.oldAddr +=' '+= a.detailAddr}" readonly/></td>
-	        		<td class="text-xs m-1 border border-solid border-gray-400"><input type="text" class="focus:outline-none text-center" name="receiverPhone" value="${memberInfo.memberPhone}" readonly/></td>
 	        		<td class="text-xs m-1 border border-solid border-gray-400"><button class="inline-block w-full text-xs border border-gray-400 border-solid hover:bg-blue-200">수정</button></td>
 	        	</tr>
         	</c:forEach>
@@ -465,9 +463,12 @@ function requestPay() {
 		alert("구매정보를 확인하고 동의해주세요");
 		return;
 		
-	/* }else if(!$("input[name='payMethodSelected']").is(":checked")){
-		alert("결제방법을 확인해주세요");
-		return; */
+	}else if($("input[name='receiver']").val("")=="" || $("input[name='receiver']").val("")==null 
+			|| $("#postNo").val()=="" || $("#postNo").val()==null 
+			||$("#roadAddrPart1").val()=="" || $("#roadAddrPart1").val()==null 
+			||$("#addrDetail").val()=="" || $("#addrDetail").val()==null 
+			||$("#roadAddrPart2").val()=="" || $("#roadAddrPart2").val()==null){
+    		alert("배송지 정보를 다시 확인해주세요"); return;
 	
 	}else{
 		
@@ -645,7 +646,7 @@ function fn_priceCalc(){
 		let arr = $("select[name='couponData']").val().split(":");
 		let couponNo = arr[0];
 		let discount = arr[1];
-		console.log($("select[name='couponData']"));
+		
 		//쿠폰 사용시
 		if(arr[0]!=0){
 			let disPrice = realPrice*(1-discount);
@@ -739,10 +740,83 @@ function fn_priceCalc(){
 	
     
     $("input[name='address-type']").change((e)=>{
-    	let type =$("input[name='address-type']").val();
+    	let type =$(e.target).val();
     	switch(type){
-    	case 
+    		case "default" : 
+    			$(".add-addr").addClass("hidden");
+    			$.ajax({
+    				url:"${path}/ajax/defaultAddr.do",
+    				success:function(data){
+    					$("input[name='receiver']").val('${memberInfo.memberName}');
+    					$("#postNo").val(data.postNo);
+    	    			$("#roadAddrPart1").val(data.roadAddrPart1);
+    	    			$("#addrDetail").val(data.addrDetail);
+    	    			$("#roadAddrPart2").val(data.roadAddrPart2);		
+    				}
+    			});
+    			break;
+    			
+    		case "recent" : 
+    			$(".add-addr").addClass("hidden");
+    			$.ajax({
+    				url:"${path}/ajax/recentAddr.do",
+    				success:function(data){
+    					$("input[name='receiver']").val('${memberInfo.memberName}');
+    					$("#postNo").val(data.postNo);
+    	    			$("#roadAddrPart1").val(data.roadAddrPart1);
+    	    			$("#addrDetail").val(data.addrDetail);
+    	    			$("#roadAddrPart2").val(data.roadAddrPart2);		
+    				}
+    			});
+    			break;
+    			
+    		case "new" : 
+    			$("#postNo").val("");
+    			$("#roadAddrPart1").val("");
+    			$("#addrDetail").val("");
+    			$("#roadAddrPart2").val("");
+    			$("input[name='receiver']").val("");
+    			$(".add-addr").removeClass("hidden");
+    			break;
+    			
+    		case "list" :
+    			$(".add-addr").addClass("hidden");
+    			break;
     	}
     });
     
+    
+    
+    function add_address(){
+    	
+    	let receiver = $("input[name='receiver']").val("");
+    	let postNo = $("#postNo").val();
+    	let roadAddr = $("#roadAddrPart1").val();
+    	let oldAddr = $("#addrDetail").val();
+    	let detailAddr = $("#roadAddrPart2").val();
+    	
+    	if(receiver=="" || receiver==null || postNo=="" || postNo==null ||roadAddr=="" || roadAddr==null ||oldAddr=="" || oldAddr==null ||detailAddr=="" || detailAddr==null){
+    		alert("배송지 정보를 다시 확인해주세요"); return;
+    	};
+    	
+    	
+    	let param={
+			receiver : receiver,
+    		postNo : postNo,
+    		roadAddr : roadAddr,
+			oldAddr : oldAddr,
+			detailAddr:detailAddr
+    	};
+    	
+    	
+    	$.ajax({
+    		url:"${path}/ajax/insertAddress.do",
+    		data:JSON.stringify(param),
+    		dataType:"json",
+    		method:'post',
+    		success:function(data){
+    			data?alert("입력되었습니다."):alert("입력에 실패했습니다.")
+    		}
+    	});
+    } 
 </script>

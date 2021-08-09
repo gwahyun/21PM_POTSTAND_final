@@ -6,16 +6,19 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.kh.potstand.common.AES256Util;
 import com.kh.potstand.event.model.vo.Coupon;
+import com.kh.potstand.member.model.vo.Address;
 import com.kh.potstand.order.model.vo.Cart;
 
 import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Repository
 public class OrderDaoImpl implements OrderDao{
-
+	
 	//cart 조회
 	@Override
 	public List<Cart> cartSelectList(SqlSession session, String memberId) {
@@ -167,6 +170,22 @@ public class OrderDaoImpl implements OrderDao{
 	@Override
 	public List<Coupon> paymentCouponSelectList(SqlSession session, String memberId) {
 		return session.selectList("order.paymentCouponSelectList", memberId);
+	}
+
+	@Override
+	public String selectRecentAddr(SqlSession session, String memberId) {
+		List<String> list = session.selectList("order.selectRecentAddr", memberId);
+		return list.get(0);
+	}
+
+	@Override
+	public Address selectDefaultAddr(SqlSession session, String memberId) {
+		return session.selectOne("order.selectDefaultAddr", memberId);
+	}
+
+	@Override
+	public int insertAddress(SqlSession session, Address addr) {
+		return session.insert("order.insertAddress", addr);
 	}
 
 	
