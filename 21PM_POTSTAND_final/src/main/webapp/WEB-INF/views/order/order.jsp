@@ -44,7 +44,7 @@
 			$("#roadAddrPart1").val(roadAddrPart1);
 			$("#roadAddrPart2").val(roadAddrPart2);
 			$("#addrDetail").val(addrDetail);
-			$("#zipNo").val(zipNo);
+			$("#postNo").val(zipNo);
 		}
 	</script>
 <jsp:include page="/WEB-INF/views/common/header.jsp" />
@@ -272,31 +272,31 @@
 				class="member-addr w-8/12 ml-2 border border-solid border-gray-400 p-1">
 				<div class="address-radio mb-1">
 					<span class="text-base font-bold border-l-4 border-red-400 border-solid m-2 pl-3">배송지</span>
-					<label class="text-sm"><input class="pl-2 mx-3 my-2" type="radio" name="address" value="default" checked>기본배송지</label> 
-					<label class="text-sm"><input class="pl-2 mx-3 my-2" type="radio" name="address" value="recent">최근배송지</label> 
-					<label class="text-sm"><input class="pl-2 mx-3 my-2" type="radio" name="address" value="list">주소록</label>
-					<label class="text-sm"><input class="pl-2 mx-3 my-2" type="radio" name="address" value="new">새로입력</label>
+					<label class="text-sm"><input class="pl-2 mx-3 my-2" type="radio" name="address-type" value="default" checked>기본배송지</label> 
+					<label class="text-sm"><input class="pl-2 mx-3 my-2" type="radio" name="address-type" value="recent">최근배송지</label> 
+					<label class="text-sm"><input class="modal-open pl-2 mx-3 my-2" type="radio" name="address-type" value="list">주소록</label>
+					<label class="text-sm"><input class="pl-2 mx-3 my-2" type="radio" name="address-type" value="new">새로입력</label>
 				</div>
 				<div class="receiver">
 					<span class="text-base font-bold border-l-4 border-red-400 border-solid m-2 pl-3">받는사람</span>
-					<input class="border-b border-gray-400 border-solid" type="text" name="receiver" value="${memberInfo.memberName}">
+					<input class="border-b border-gray-400 border-solid focus:outline-none" type="text" name="receiver" value="${memberInfo.memberName}">
 				</div>
 				<div class="address-info">
-					<h3 class="text-base font-bold border-l-4 border-red-400 border-solid mt-2 mx-2 pl-3">배송주소</h3>
+					<h3 class="text-base font-bold border-l-4 border-red-400 border-solid mt-2 mx-2 pl-3 focus:outline-none">배송주소</h3>
 					<div class="ml-6">
 						<label class="inline-block text-sm mr-3 w-20">우편번호</label>
-						<input id="postNo" class="text-xs w-3/12 mr-3 border-b border-gray-400 border-solid" type="text" name="postNo" value="${defAddr.postNo}">
-						<button class="inline-block w-1/12 text-xs border border-gray-400 border-solid" onclick="goPopup();">주소찾기</button>
+						<input id="postNo" class="text-xs w-3/12 mr-3 border-b border-gray-400 border-solid focus:outline-none" type="text" name="postNo" value="${defAddr.postNo}" readonly>
+						<button class="find-addr inline-block w-1/12 text-xs border border-gray-400 border-solid" onclick="goPopup();">주소찾기</button>
 					</div>
 					<div class="ml-6">
 						<label class="inline-block text-sm mr-3 w-20">도로명 주소</label>
-						<input id="roadAddrPart1" class="text-xs w-6/12 mr-3 border-b border-gray-400 border-solid" type="text" name="roadAddr1" value="${defAddr.roadAddr}">
+						<input id="roadAddrPart1" class="text-xs w-6/12 mr-3 border-b border-gray-400 border-solid focus:outline-none" type="text" name="roadAddr1" value="${defAddr.roadAddr}" readonly>
 					</div>
 					<div class="ml-6 b">
 						<label class="inline-block text-sm mr-3 w-20">상세주소</label>
-						<input id="addrDetail" class="text-xs w-3/12 mr-3 border-b border-gray-400 border-solid" type="text" name="addrDetail" value="${defAddr.oldAddr}">
-						<input id="roadAddrPart2" class="text-xs w-3/12 mr-3 border-b border-gray-400 border-solid" type="text" name="roadAddr2" value="${defAddr.detailAddr}">
-						<button class="inline-block ml-3 w-2/12 text-xs border border-gray-400 border-solid">주소록에 추가</button>
+						<input id="addrDetail" class="text-xs w-3/12 mr-3 border-b border-gray-400 border-solid focus:outline-none" type="text" name="addrDetail" value="${defAddr.oldAddr}">
+						<input id="roadAddrPart2" class="text-xs w-3/12 mr-3 border-b border-gray-400 border-solid focus:outline-none" type="text" name="roadAddr2" value="${defAddr.detailAddr}" readonly>
+						<button class="add-addr inline-block ml-3 w-2/12 text-xs border border-gray-400 border-solid hidden" onclick="add_address();">주소록에 추가</button>
 					</div>
 				</div>
 				<div class="phone">
@@ -365,7 +365,7 @@
 							<select name="couponData" class="w-7/12 text-sm border-b border-solid border-gray-400" style="text-align-last:right">
 								<option class="text-right" value="0:0">쿠폰 사용 안함</option>
 								<c:forEach var="cp" items="${couponList}">
-									<c:if test="${cp.couponEnd eq 'N'}">
+									<c:if test="${cp.couponEnd eq 'N' and cp.couponAmount!=0}">
 										<option class="text-right" 
 											value="${cp.couponNo}:${cp.event.discount}">
 											<c:out value="${cp.event.eventTitle} : ${cp.couponAmount}개" />
@@ -391,6 +391,62 @@
 			</div>
 		</div>
 	</div>
+	
+	<!-- 모달 -->
+  <div class="modal opacity-0 pointer-events-none fixed w-full h-full top-0 left-0 flex items-center justify-center">
+    <div class="modal-overlay absolute w-full h-full bg-gray-900 opacity-50"></div>
+    
+    <div class="modal-container bg-white w-11/12 md:w-5/12 mx-10 rounded shadow-lg z-50 overflow-y-auto">
+      
+      <div class="modal-close absolute top-0 right-0 cursor-pointer flex flex-col items-center mt-4 mr-4 text-white text-sm z-50">
+        <svg class="fill-current text-white" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18">
+          <path d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z"></path>
+        </svg>
+        <span class="text-sm">(Esc)</span>
+      </div>
+
+      <!-- Add margin if you want to see some of the overlay behind the modal-->
+      <div class="modal-content py-3 text-left px-3">
+        <!--Title-->
+        <div class="flex justify-between items-center pb-3">
+          <p class="text-2xl font-bold">Simple Modal!</p>
+          <div class="modal-close cursor-pointer z-50">
+            <svg class="fill-current text-black" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18">
+              <path d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z"></path>
+            </svg>
+          </div>
+        </div>
+
+        <!--Body-->
+        <table class="w-full border border-solid border-gray-400">
+        	<tr class="border border-solid border-gray-400">
+        		<th class="w-2/12 m-1 text-sm text-center border border-solid border-gray-400">수령자</th>
+        		<th class="w-6/12 m-1 text-sm text-center border border-solid border-gray-400">배송지</th>
+        		<th class="w-2/12 m-1 text-sm text-center border border-solid border-gray-400">관리</th>
+        	</tr>
+        	
+        	<!-- 반복문으로 주소록 조회 -->
+        	<c:forEach var="a" items="${memberInfo.addresses}">
+	        	<tr class="border border-solid border-gray-400">
+	        		<input type="hidden" name="addrNo" value="${a.addrNo}">
+	        		<td class="text-xs m-1 border border-solid border-gray-400"><input type="text" class="focus:outline-none text-center" name="receiverName" value="${memberInfo.memberName}" readonly/></td>
+	        		<td class="text-xs m-1 border border-solid border-gray-400"><input type="text" class="focus:outline-none w-full cursor-pointer text-center hover:underline" name="receiverAddr" value="${a.postNo +=' '+= a.roadAddr +=' '+= a.oldAddr +=' '+= a.detailAddr}" readonly/></td>
+	        		<td class="text-xs m-1 border border-solid border-gray-400"><button class="inline-block w-full text-xs border border-gray-400 border-solid hover:bg-blue-200">수정</button></td>
+	        	</tr>
+        	</c:forEach>
+        </table>
+
+        <!--Footer-->
+        <div class="flex justify-end pt-2">
+          <button class="px-4 bg-transparent p-3 rounded-lg text-indigo-500 hover:bg-gray-100 hover:text-indigo-400 mr-2">Action</button>
+          <button class="modal-close px-4 bg-indigo-500 p-3 rounded-lg text-white hover:bg-indigo-400">Close</button>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+	
+	
 	<form id="successForm" action="${path}/member/memberMypage.do" method="post"/>
 	<form id="failForm" action="${path}/order/orderItems.do" method="post"/>
 </section>
@@ -407,9 +463,12 @@ function requestPay() {
 		alert("구매정보를 확인하고 동의해주세요");
 		return;
 		
-	/* }else if(!$("input[name='payMethodSelected']").is(":checked")){
-		alert("결제방법을 확인해주세요");
-		return; */
+	}else if($("input[name='receiver']").val("")=="" || $("input[name='receiver']").val("")==null 
+			|| $("#postNo").val()=="" || $("#postNo").val()==null 
+			||$("#roadAddrPart1").val()=="" || $("#roadAddrPart1").val()==null 
+			||$("#addrDetail").val()=="" || $("#addrDetail").val()==null 
+			||$("#roadAddrPart2").val()=="" || $("#roadAddrPart2").val()==null){
+    		alert("배송지 정보를 다시 확인해주세요"); return;
 	
 	}else{
 		
@@ -531,10 +590,10 @@ function requestPay() {
 
 
 //hidden 값 (조작방지)
-let realPrice = 100;
+let realPrice = 3000;
 let realValue =$("input[name='cartBookCost']");
 	realValue.each(function(i,v){
-		realPrice+=Number($(v).val())*0.01;
+		realPrice+=Number($(v).val());
 	});	
 
 
@@ -587,7 +646,7 @@ function fn_priceCalc(){
 		let arr = $("select[name='couponData']").val().split(":");
 		let couponNo = arr[0];
 		let discount = arr[1];
-		console.log($("select[name='couponData']"));
+		
 		//쿠폰 사용시
 		if(arr[0]!=0){
 			let disPrice = realPrice*(1-discount);
@@ -640,4 +699,125 @@ function fn_priceCalc(){
 		}
 	});
 	
+	
+	var openmodal = document.querySelectorAll('.modal-open')
+    for (var i = 0; i < openmodal.length; i++) {
+      openmodal[i].addEventListener('change', function(event){
+    	event.preventDefault()
+    	toggleModal()
+      })
+    }
+    
+    const overlay = document.querySelector('.modal-overlay')
+    overlay.addEventListener('click', toggleModal)
+    
+    var closemodal = document.querySelectorAll('.modal-close')
+    for (var i = 0; i < closemodal.length; i++) {
+      closemodal[i].addEventListener('click', toggleModal)
+    }
+    
+    document.onkeydown = function(evt) {
+      evt = evt || window.event
+      var isEscape = false
+      if ("key" in evt) {
+    	isEscape = (evt.key === "Escape" || evt.key === "Esc")
+      } else {
+    	isEscape = (evt.keyCode === 27)
+      }
+      if (isEscape && document.body.classList.contains('modal-active')) {
+    	toggleModal()
+      }
+    };
+    
+    
+    function toggleModal () {
+      const body = document.querySelector('body')
+      const modal = document.querySelector('.modal')
+      modal.classList.toggle('opacity-0')
+      modal.classList.toggle('pointer-events-none')
+      body.classList.toggle('modal-active')
+    }
+	
+    
+    $("input[name='address-type']").change((e)=>{
+    	let type =$(e.target).val();
+    	switch(type){
+    		case "default" : 
+    			$(".add-addr").addClass("hidden");
+    			$.ajax({
+    				url:"${path}/ajax/defaultAddr.do",
+    				success:function(data){
+    					$("input[name='receiver']").val('${memberInfo.memberName}');
+    					$("#postNo").val(data.postNo);
+    	    			$("#roadAddrPart1").val(data.roadAddrPart1);
+    	    			$("#addrDetail").val(data.addrDetail);
+    	    			$("#roadAddrPart2").val(data.roadAddrPart2);		
+    				}
+    			});
+    			break;
+    			
+    		case "recent" : 
+    			$(".add-addr").addClass("hidden");
+    			$.ajax({
+    				url:"${path}/ajax/recentAddr.do",
+    				success:function(data){
+    					$("input[name='receiver']").val('${memberInfo.memberName}');
+    					$("#postNo").val(data.postNo);
+    	    			$("#roadAddrPart1").val(data.roadAddrPart1);
+    	    			$("#addrDetail").val(data.addrDetail);
+    	    			$("#roadAddrPart2").val(data.roadAddrPart2);		
+    				}
+    			});
+    			break;
+    			
+    		case "new" : 
+    			$("#postNo").val("");
+    			$("#roadAddrPart1").val("");
+    			$("#addrDetail").val("");
+    			$("#roadAddrPart2").val("");
+    			$("input[name='receiver']").val("");
+    			$(".add-addr").removeClass("hidden");
+    			break;
+    			
+    		case "list" :
+    			$(".add-addr").addClass("hidden");
+    			break;
+    	}
+    });
+    
+    
+    
+    function add_address(){
+    	
+    	let receiver = $("input[name='receiver']").val("");
+    	let postNo = $("#postNo").val();
+    	let roadAddr = $("#roadAddrPart1").val();
+    	let oldAddr = $("#addrDetail").val();
+    	let detailAddr = $("#roadAddrPart2").val();
+    	
+    	if(receiver=="" || receiver==null || postNo=="" || postNo==null ||roadAddr=="" || roadAddr==null ||oldAddr=="" || oldAddr==null ||detailAddr=="" || detailAddr==null){
+    		alert("배송지 정보를 다시 확인해주세요"); return;
+    	};
+    	
+    	
+    	let param={
+			"receiver" : receiver,
+    		"postNo" : postNo,
+    		"roadAddr" : roadAddr,
+			"oldAddr" : oldAddr,
+			"detailAddr":detailAddr
+    	};
+    	
+    	
+    	$.ajax({
+    		url:"${path}/ajax/insertAddress.do",
+    		data:JSON.stringify(param),
+    		dataType:"json",
+    		method:'post',
+    		contentType:'application/json',
+    		success:function(data){
+    			data?alert("입력되었습니다."):alert("입력에 실패했습니다.")
+    		}
+    	});
+    } 
 </script>

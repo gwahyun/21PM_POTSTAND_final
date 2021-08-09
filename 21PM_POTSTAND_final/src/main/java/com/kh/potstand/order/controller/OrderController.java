@@ -18,7 +18,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.potstand.admin.model.service.AdminService;
+import com.kh.potstand.common.AES256Util;
 import com.kh.potstand.event.model.vo.Coupon;
+import com.kh.potstand.member.model.vo.Address;
 import com.kh.potstand.member.model.vo.Member;
 import com.kh.potstand.order.model.service.OrderService;
 import com.kh.potstand.order.model.vo.Cart;
@@ -37,6 +39,10 @@ public class OrderController {
 	
 	@Autowired
 	private AdminService as;
+	
+	//양방향암호화
+	@Autowired
+	private AES256Util aes;
 	
 	//아임포트 객체
 	private IamportClient api = new IamportClient("8116855594363834", "effe9bdd35fafb13df8ab1920c04852352412f937fcfe5bef763620f5980471146a5019f23622baf");
@@ -228,7 +234,7 @@ public class OrderController {
 	public Map beforOrderPayment(HttpSession session, @RequestBody Map param){
 		try {
 			String memberId = ((Member)(session.getAttribute("loginMember"))).getMemberId();
-			param.put("receiverAddress", ((String)param.get("receiverAddress")).replace(":"," "));
+			param.put("receiverAddress", ((String)param.get("receiverAddress")));
 			param.put("memberId", memberId);
 			param=service.beforOrderPayment(param);
 			//log.debug(param.toString());
@@ -281,4 +287,57 @@ public class OrderController {
 		return result>0?true:false;
 	}
 	
+	
+	//기본주소
+	@RequestMapping("/ajax/defaultAddr.do")
+	@ResponseBody
+	public Map selectDefaultAddr(HttpSession session) throws Exception{
+		String memberId = ((Member)session.getAttribute("loginMember")).getMemberId();
+		Map data = new HashMap();
+		Address addr = service.selectDefaultAddr(memberId);
+		data.put("postNo", aes.decrypt(addr.getPostNo()));
+		data.put("roadAddrPart1", aes.decrypt(addr.getRoadAddr()));
+		data.put("roadAddrPart2", aes.decrypt(addr.getDetailAddr()));
+		data.put("addrDetail", aes.decrypt(addr.getOldAddr()));
+		return data;
+			
+	}
+	
+	
+	//최근주소
+	@RequestMapping("/ajax/recentAddr.do")
+	@ResponseBody
+	public Map selectRecentAddr(HttpSession session){
+		String memberId = ((Member)session.getAttribute("loginMember")).getMemberId();
+		Map data = new HashMap();
+		String[] addr = service.selectRecentAddr(memberId).split(":");
+		data.put("postNo", addr[0]);
+		data.put("roadAddrPart1", addr[1]);
+		data.put("addrDetail", addr[2]);
+		data.put("roadAddrPart2", addr[3]);
+		return data;
+			
+	}
+	
+	//새 주소 등록
+	@RequestMapping("/ajax/insertAddress.do")
+	@ResponseBody
+	public Boolean insertAddress(HttpSession session, @RequestBody Map param) throws Exception{
+		Boolean result=false;
+		String memberId = ((Member)session.getAttribute("loginMember")).getMemberId();
+		System.out.println(param.toString());
+		System.out.println(param.get("postNo"));
+		Address addr = new Address();
+		addr.setMemberId(memberId);
+		addr.setPostNo(aes.encrypt((String)param.get("postNo")));
+		addr.setRoadAddr(aes.encrypt((String)param.get("roadAddr")));
+		addr.setOldAddr(aes.encrypt((String)param.get("oldAddr")));
+		addr.setDetailAddr(aes.encrypt((String)param.get("detailAddr")));
+		int re = service.insertAddress(addr);
+		if(re>0) {
+			result=true;
+		}
+		return result;
+				
+	}
 }

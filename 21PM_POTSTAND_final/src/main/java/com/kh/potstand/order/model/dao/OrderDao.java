@@ -6,6 +6,7 @@ import java.util.Map;
 import org.apache.ibatis.session.SqlSession;
 
 import com.kh.potstand.event.model.vo.Coupon;
+import com.kh.potstand.member.model.vo.Address;
 import com.kh.potstand.order.model.vo.Cart;
 
 public interface OrderDao {
@@ -39,4 +40,9 @@ public interface OrderDao {
 	Coupon couponSelect(SqlSession session, int couponNo);
 	
 	int usedCouponCount(SqlSession session, int couponNo);
+	
+	//주소선택
+	String selectRecentAddr(SqlSession session, String memberId);
+	Address selectDefaultAddr(SqlSession session, String memberId);
+	int insertAddress(SqlSession session, Address addr);
 }

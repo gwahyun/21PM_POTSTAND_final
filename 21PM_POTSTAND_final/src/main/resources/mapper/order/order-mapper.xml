@@ -14,6 +14,17 @@
 		SELECT * FROM SORT WHERE SORT_NO=#{sortNo}
 	</select>
 	
+	<resultMap id="addressMap" type="address">
+		<id column="addr_no" property="addrNo"/>
+		<result column="member_id" property="memberId"/>
+		<result column="post_no" property="postNo"/>
+		<result column="road_addr" property="roadAddr"/>
+		<result column="old_addr" property="oldAddr"/>
+		<result column="detail_addr" property="detailAddr"/>
+		<result column="default_addr" property="defaultAddr"/>
+	</resultMap>	
+	
+	
 	<resultMap type="book" id="bookMap">
 		<id column="BOOK_CODE" property="bookCode"/>
 		<result column="BOOK_TITLE" property="bookTitle"/>
@@ -180,5 +191,17 @@
 	</select>
 	<insert id="insertPoint">
 		INSERT INTO POINT VALUES(SEQ_POINT.NEXTVAL,#{memberId},#{point},#{name},SYSDATE,#{merchant_uid})
+	</insert>
+	
+	<select id="selectRecentAddr" resultType="String">
+		SELECT RECEIVER_ADDR FROM PAYMENT WHERE MEMBER_ID=#{memberId} ORDER BY PAY_DATE DESC
+	</select>
+	
+	<select id="selectDefaultAddr" resultMap="addressMap">
+		SELECT * FROM ADDRESS WHERE MEMBER_ID=#{memberId} AND DEFAULT_ADDR='Y'
+	</select>
+	
+	<insert id="insertAddress">
+		INSERT INTO ADDRESS VALUES(SEQ_ADDRESS.NEXTVAL, #{memberId}, #{postNo}, #{roadAddr}, #{oldAddr}, #{detailAddr}, DEFAULT)
 	</insert>
 </mapper>

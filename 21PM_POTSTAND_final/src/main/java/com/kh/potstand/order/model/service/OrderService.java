@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.kh.potstand.event.model.vo.Coupon;
+import com.kh.potstand.member.model.vo.Address;
 import com.kh.potstand.order.model.vo.Cart;
 
 public interface OrderService {
@@ -36,4 +37,9 @@ public interface OrderService {
 	Coupon couponSelect(int couponNo);
 	//쿠폰 사용한 개수 조회
 	int usedCouponCount(int couponNo);
+	
+	//주소선택
+	String selectRecentAddr(String memberId);
+	Address selectDefaultAddr(String memberId);
+	int insertAddress(Address addr);
 }
