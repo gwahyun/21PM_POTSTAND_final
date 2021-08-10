@@ -422,14 +422,17 @@
         	<tr class="border border-solid border-gray-400">
         		<th class="w-2/12 m-1 text-sm text-center border border-solid border-gray-400">수령자</th>
         		<th class="w-6/12 m-1 text-sm text-center border border-solid border-gray-400">배송지</th>
+        		<th class="w-2/12 m-1 text-sm text-center border border-solid border-gray-400">전화번호</th>
         		<th class="w-2/12 m-1 text-sm text-center border border-solid border-gray-400">관리</th>
         	</tr>
         	
         	<!-- 반복문으로 주소록 조회 -->
-        	<c:forEach var="a" items="${memberInfo.addresses}">
+        	<c:forEach var="a" items="${addressList}">
 	        	<tr class="border border-solid border-gray-400">
+	        		<input type="radio" name="radio-addrList">
 	        		<input type="hidden" name="addrNo" value="${a.addrNo}">
-	        		<td class="text-xs m-1 border border-solid border-gray-400"><input type="text" class="focus:outline-none text-center" name="receiverName" value="${memberInfo.memberName}" readonly/></td>
+	        		<td class="text-xs m-1 border border-solid border-gray-400"><input type="text" class="focus:outline-none text-center" name="receiver" value="${a.receiver_Name}" readonly/></td>
+	        		<td class="text-xs m-1 border border-solid border-gray-400"><input type="text" class="focus:outline-none text-center" name="receiverPhone" value="${memberInfo.memberPhone}" readonly/></td>
 	        		<td class="text-xs m-1 border border-solid border-gray-400"><input type="text" class="focus:outline-none w-full cursor-pointer text-center hover:underline" name="receiverAddr" value="${a.postNo +=' '+= a.roadAddr +=' '+= a.oldAddr +=' '+= a.detailAddr}" readonly/></td>
 	        		<td class="text-xs m-1 border border-solid border-gray-400"><button class="inline-block w-full text-xs border border-gray-400 border-solid hover:bg-blue-200">수정</button></td>
 	        	</tr>
@@ -776,6 +779,9 @@ function fn_priceCalc(){
     			$("#addrDetail").val("");
     			$("#roadAddrPart2").val("");
     			$("input[name='receiver']").val("");
+    			$("input[name='phone1']").val("");
+    			$("input[name='phone2']").val("");
+    			$("input[name='phone3']").val("");
     			$(".add-addr").removeClass("hidden");
     			break;
     			
@@ -789,11 +795,14 @@ function fn_priceCalc(){
     
     function add_address(){
     	
-    	let receiver = $("input[name='receiver']").val("");
+    	let receiver = $("input[name='receiver']").val();
+    	let phone=$("input[name='receiverPhone']").val();
     	let postNo = $("#postNo").val();
     	let roadAddr = $("#roadAddrPart1").val();
     	let oldAddr = $("#addrDetail").val();
     	let detailAddr = $("#roadAddrPart2").val();
+    	
+    	
     	
     	if(receiver=="" || receiver==null || postNo=="" || postNo==null ||roadAddr=="" || roadAddr==null ||oldAddr=="" || oldAddr==null ||detailAddr=="" || detailAddr==null){
     		alert("배송지 정보를 다시 확인해주세요"); return;
@@ -802,6 +811,7 @@ function fn_priceCalc(){
     	
     	let param={
 			"receiver" : receiver,
+			"phone" : phone,
     		"postNo" : postNo,
     		"roadAddr" : roadAddr,
 			"oldAddr" : oldAddr,

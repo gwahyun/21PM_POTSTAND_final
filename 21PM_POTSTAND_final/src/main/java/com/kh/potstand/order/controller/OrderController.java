@@ -195,9 +195,12 @@ public class OrderController {
 			Member memberInfo = (Member)(session.getAttribute("loginMember")); 
 			List<Cart> cartList = service.cartSelectList(cartNo);
 			List<Coupon> couponList = service.paymentCouponSelectList(memberInfo.getMemberId());
+			List<Map> addressList = service.addressListSelect(memberInfo.getMemberId());
+			log.debug(addressList.toString());
 			mv.addObject("cartList", cartList);
 			mv.addObject("couponList", couponList);
 			mv.addObject("memberInfo", memberInfo);
+			mv.addObject("addressList", addressList);
 			mv.setViewName("order/order");
 		}catch(Exception e) {
 			e.printStackTrace();
@@ -326,14 +329,14 @@ public class OrderController {
 		Boolean result=false;
 		String memberId = ((Member)session.getAttribute("loginMember")).getMemberId();
 		System.out.println(param.toString());
-		System.out.println(param.get("postNo"));
-		Address addr = new Address();
-		addr.setMemberId(memberId);
-		addr.setPostNo(aes.encrypt((String)param.get("postNo")));
-		addr.setRoadAddr(aes.encrypt((String)param.get("roadAddr")));
-		addr.setOldAddr(aes.encrypt((String)param.get("oldAddr")));
-		addr.setDetailAddr(aes.encrypt((String)param.get("detailAddr")));
-		int re = service.insertAddress(addr);
+		param.put("memberId",memberId);
+		param.put("receiver",(String)param.get("receiver"));
+		param.put("phone",aes.encrypt((String)param.get("phone")));
+		param.put("postNo",aes.encrypt((String)param.get("postNo")));
+		param.put("readAddr",aes.encrypt((String)param.get("roadAddr")));
+		param.put("oldAddr",aes.encrypt((String)param.get("oldAddr")));
+		param.put("detailAddr",aes.encrypt((String)param.get("detailAddr")));
+		int re = service.insertAddress(param);
 		if(re>0) {
 			result=true;
 		}

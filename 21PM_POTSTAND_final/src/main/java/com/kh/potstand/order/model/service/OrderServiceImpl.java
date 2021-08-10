@@ -121,8 +121,14 @@ public class OrderServiceImpl implements OrderService{
 	}
 
 	@Override
-	public int insertAddress(Address addr) {
-		return dao.insertAddress(session, addr);
+	public int insertAddress(Map param) {
+		return dao.insertAddress(session, param);
+	}
+
+	@Override
+	public List<Map> addressListSelect(String memberId) {
+		return dao.addressListSelect(session, memberId);
+
 	}
 
 	
