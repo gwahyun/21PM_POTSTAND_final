@@ -3,6 +3,7 @@
    <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
    <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
    <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
 <c:set var="path" value="${pageContext.request.contextPath}"/>
 <jsp:include page="/WEB-INF/views/common/header.jsp">
 	<jsp:param value="${loginMember}" name="loginMember"/>
@@ -147,20 +148,20 @@
 	                	<span class="text-gray-600 ml-3">리뷰 ${reviewCount } 건</span>
               		</span>
               		<span class="flex ml-3 pl-3 py-2 border-l-2 border-gray-200 space-x-2s">
-                		<a class="text-gray-500">
+                		<a id="btnFacebook" href="javascript:shareFacebook();" class="text-gray-500">
 							<svg fill="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
 							class="w-5 h-5" viewBox="0 0 24 24">
                     			<path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"></path>
                   			</svg>
                 		</a>
-                		<a class="text-gray-500">
+                		<a id="btnTwitter" href="javascript:shareTwitter();" class="text-gray-500">
                   			<svg fill="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                   			class="w-5 h-5" viewBox="0 0 24 24">
                     			<path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 
                     			13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"></path>
                   			</svg>
                 		</a>
-                		<a class="text-gray-500">
+                		<a id="btnKakao" href="javascript:shareKakao();" class="text-gray-500">
                   			<svg fill="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                   			 class="w-5 h-5" viewBox="0 0 24 24">
                     			<path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 
@@ -642,6 +643,39 @@
 	</div>
 </section>
 <script>
+
+	function shareTwitter() {
+	    var sendText = "${bookInfo.bookTitle}"; // 전달할 텍스트
+	    var sendUrl = window.location.href; // 전달할 URL
+	    window.open("https://twitter.com/intent/tweet?text=" + sendText + "&url=" + sendUrl);
+	}
+	
+	function shareFacebook() {
+		var url = window.location.href;
+	    window.open("http://www.facebook.com/sharer/sharer.php?u=" + url);
+	}
+
+	function shareKakao() {
+	 
+	  // 사용할 앱의 JavaScript 키 설정
+	  Kakao.init('133a2a1d10812758ea0ee482efd795b0');
+	 
+	  // 카카오링크 버튼 생성
+	  Kakao.Link.createDefaultButton({
+	    container: '#btnKakao', // 카카오공유버튼ID
+	    objectType: 'feed',
+	    content: {
+	      title: "${bookInfo.bookTitle}", // 보여질 제목
+	      description: "potstand의 책입니다", // 보여질 설명
+	      imageUrl: "${bookInfo.bookCover}", // 콘텐츠 URL
+	      link: {
+	         mobileWebUrl: "모바일 웹",
+	         webUrl: window.location.href
+	      }
+	    }
+	  });
+	}
+
 	function request(no){
 		if('${loginMember.memberId}'==''){
 			alert('로그인후 이용이 가능합니다.');
