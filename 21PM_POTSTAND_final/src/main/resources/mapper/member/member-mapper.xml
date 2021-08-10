@@ -39,7 +39,7 @@
 	</insert>
 	
 	<select id="memberSearchIdSelect" resultMap="memberMap">
-		SELECT * FROM MEMBER WHERE MEMBER_EMAIL=#{memberEmail}
+		SELECT * FROM MEMBER JOIN ADDRESS USING(MEMBER_ID) WHERE MEMBER_EMAIL=#{memberEmail}
 	</select>
 	
 	<update id="memberResetPwd">
@@ -75,7 +75,11 @@
 		<result column="use_log" property="useLog"/>
 		<result column="use_date" property="useDate"/>
 		<result column="point_no" property="point"/>
+		<association property="payment" column="payment_no" select="selectPaymentByPK"/>
 	</resultMap>
+	<select id="selectPaymentByPK" resultMap="paymentMap">
+		SELECT * FROM PAYMENT WHERE PAYMENT_NO=#{paymentNo}
+	</select>
 	
 	<select id="memberPointSelect" resultMap="pointMap">
 		SELECT * FROM POINT WHERE MEMBER_ID=#{memberId} ORDER BY USE_DATE DESC
