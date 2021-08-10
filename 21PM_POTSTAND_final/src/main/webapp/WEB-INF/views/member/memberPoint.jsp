@@ -69,7 +69,7 @@
 		        					<h4>${p.useDate }</h4>
 			        			</div>
 			        			<div class="w-2/4 border p-2 flex justify-center items-center">
-			        				<h4>${p.useLog }</h4>
+			        				<h4>${p.payment.name} ${p.useLog }</h4>
 			        			</div>
 			        			<div class="w-1/4 border p-2 flex justify-center items-center">
 			        				<c:if test="${fn:contains(p.useLog,'사용') }">

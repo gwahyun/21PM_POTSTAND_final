@@ -63,6 +63,7 @@
 			<exclude-mapping path="/member/memberResetPwd.do"/>
 			<exclude-mapping path="/member/memberCheckId.do"/>
 			<exclude-mapping path="/member/memberCheckEmail.do"/>
+			<exclude-mapping path="/member/naver*"/>
 			<beans:bean class="com.kh.potstand.interceptor.MemberCheckInterceptor"></beans:bean>
 		  </interceptor>
 	</interceptors>

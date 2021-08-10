@@ -122,7 +122,34 @@ public class MemberController {
 	
 	//회원가입 페이지전환
 	@RequestMapping("/member/memberEnroll.do")
-	public String memberEnroll() {
+	public String memberEnroll(@RequestParam Map param, Model m, HttpSession session) throws NoSuchAlgorithmException, 
+		UnsupportedEncodingException, GeneralSecurityException {
+		if(param.get("email")!=null) { //네이버 아이디로 로그인을 눌렀을 경우
+			Member member=service.memberSearchIdSelect(aes.encrypt((String)param.get("email")));
+			if(member!=null) {
+				//암호화한정보 복호화
+				member.setMemberEmail(aes.decrypt(member.getMemberEmail()));
+				member.setMemberPhone(aes.decrypt(member.getMemberPhone()));
+				
+				if(member.getAddresses()!=null) {
+					List<Address> list=new ArrayList<Address>();
+					for(Address a : member.getAddresses()) {
+						a.setPostNo(aes.decrypt(a.getPostNo()));
+						a.setRoadAddr(aes.decrypt(a.getRoadAddr()));
+						a.setOldAddr(aes.decrypt(a.getOldAddr()));
+						a.setDetailAddr(aes.decrypt(a.getDetailAddr()));
+						list.add(a);
+					}
+					member.setAddresses(list);
+				}
+
+				//해당 계정이 잇으면 session생성
+				session.setAttribute("loginMember", member);
+				
+				return "index";
+			}
+		}
+		m.addAttribute("m", param); //네이버로 회원가입할때 정보들
 		return "member/memberEnroll";
 	}
 	//도로명주소 팝업띄우기
@@ -184,7 +211,6 @@ public class MemberController {
 			try {
 				MimeMessage message = mailSender.createMimeMessage();
 				MimeMessageHelper messageHelper = new MimeMessageHelper(message,true, "UTF-8");
-
 				messageHelper.setFrom("audrhkd1220@naver.com"); // 보내는사람 생략하면 정상작동을 안함
 				messageHelper.setTo(aes.decrypt(memberEmail)); // 받는사람 이메일
 				messageHelper.setSubject("PotStand 아이디찾기 결과"); // 메일제목은 생략이 가능하다
@@ -640,5 +666,17 @@ public class MemberController {
 	@ResponseBody
 	public boolean memberOrderListDelete(int paymentNo) {	
 		return service.memberOrderListDelete(paymentNo);
+	}
+	
+	//네아로 테스트
+	@RequestMapping("/member/naverLogin.do")
+	public String naverlogin() {
+		return "member/naverLoginTest";
+	}
+	
+	//네아로 테스트
+	@RequestMapping("/member/naverLoginCallback.do")
+	public String naverloginCallback() {
+		return "member/naverLoginCallback";
 	}
 }
