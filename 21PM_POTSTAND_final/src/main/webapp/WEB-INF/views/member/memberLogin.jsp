@@ -18,6 +18,7 @@
     <script src="${path}/resources/js/jquery-3.6.0.min.js"></script>
     <script type="text/javascript" src="https://static.nid.naver.com/js/naverLogin_implicit-1.0.3.js" charset="utf-8"></script>
   	<script type="text/javascript" src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+   	<script type="text/javascript" src="${path }/resources/js/naveridlogin_js_sdk_2.0.2.js"></script>
    	<style>
 		.modal__background{
 			  background: rgba(0, 0, 0, 0.8);
@@ -75,6 +76,7 @@
                     	Login
                     </button>
                 </div>
+                <div id="naverIdLogin"></div>
                 <p class="flex flex-col items-center justify-center mt-10 text-center text-md text-gray-500">
                     <a href="${path}/" class="text-gray-500 hover:text-red-500 no-underline hover:underline cursor-pointer 
                     transition ease-in duration-300">돌아가기</a>
@@ -135,6 +137,14 @@
 			</div>
         </div>
     </div>
+    <!-- naver로그인 전송 폼 -->
+    <form action="${path}/member/memberEnroll.do" method="post" id="loginForm">
+		<input type="hidden" id="email" name="email"/>
+		<input type="hidden" id="gender" name="gender"/>
+		<input type="hidden" id="name" name="name"/>
+		<input type="hidden" id="phone" name="phone"/>
+		<input type="hidden" id="birthday" name="birthday"/>
+	</form>
 </body>
 <script>
 	//아이디찾기 모달창 이벤트
@@ -152,5 +162,16 @@
 		$("#pwdmodal").fadeOut();
 	});
 	
+	//네이버 아이디로 로그인
+	var naverLogin = new naver.LoginWithNaverId(
+	  		{
+	  			clientId: "gD_WXrEoxr1dx3pASdB4",
+	  			callbackUrl: "http://localhost:8090/potstand/member/naverLoginCallback.do",
+	  			isPopup: true, /* 팝업을 통한 연동처리 여부, true 면 팝업 */
+	  			loginButton: {color: "green", type: 3, height: 47} /* 로그인 버튼의 타입을 지정 */
+	  		}		
+	  );
+
+	  naverLogin.init();
 </script>
 </html>

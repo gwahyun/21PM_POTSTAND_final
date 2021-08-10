@@ -39,7 +39,7 @@
 	</insert>
 	
 	<select id="memberSearchIdSelect" resultMap="memberMap">
-		SELECT * FROM MEMBER WHERE MEMBER_EMAIL=#{memberEmail}
+		SELECT * FROM MEMBER JOIN ADDRESS USING(MEMBER_ID) WHERE MEMBER_EMAIL=#{memberEmail}
 	</select>
 	
 	<update id="memberResetPwd">
