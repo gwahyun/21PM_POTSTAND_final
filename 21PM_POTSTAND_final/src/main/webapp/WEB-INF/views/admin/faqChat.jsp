@@ -184,6 +184,10 @@ body, html {
 	padding-top:10px;
 	padding-bottom:10px;
 }
+.listFeq ul li:hover{
+	background-color:white;
+	transition:2s;
+}
 </style>
 		<section>
 <!-- 모바일에서 디바이스의 해상도가 아닌 디바이스의 실제 크기를 기준으로 너비/높이를 잡는다. -->
