@@ -278,9 +278,9 @@ body, html {
 						var div = $("#secondMessage").clone(false);		
 						var manager = div.children("div:first");
 						var member = div.children("div:first+div");
-						manager.find("div").html(title);
-						member.find("div").html(content);
-						$("#secondMessage").append(manager).append(member);
+						manager.find("div").html(content);
+						member.find("div").html(title);
+						$("#secondMessage").append(member).append(manager);
 						
 			}
 			function memberReplyInput(){
@@ -290,7 +290,7 @@ body, html {
 				var member = div.children("div:first+div");
 				manager.find("div").html("네 알겠습니다");
 				member.find("div").html(val);
-				$("#secondMessage").append(manager).append(member);
+				$("#secondMessage").append(member).append(manager);
 				$("input").val("");
 			}
 			   $("input").on("keyup",function(key){
@@ -301,7 +301,7 @@ body, html {
 						var member = div.children("div:first+div");
 						manager.find("div").html("네 알겠습니다");
 						member.find("div").html(val);
-						$("#secondMessage").append(manager).append(member);
+						$("#secondMessage").append(member).append(manager);
 						$("input").val("");
 			        }
 			    });
