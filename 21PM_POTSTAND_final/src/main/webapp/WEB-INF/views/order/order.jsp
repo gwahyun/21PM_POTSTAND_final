@@ -285,17 +285,17 @@
 					<h3 class="text-base font-bold border-l-4 border-red-400 border-solid mt-2 mx-2 pl-3 focus:outline-none">배송주소</h3>
 					<div class="ml-6">
 						<label class="inline-block text-sm mr-3 w-20">우편번호</label>
-						<input id="postNo" class="text-xs w-3/12 mr-3 border-b border-gray-400 border-solid focus:outline-none" type="text" name="postNo" value="${defAddr.postNo}" readonly>
+						<input id="postNo" class="text-xs w-3/12 mr-3 border-b border-gray-400 border-solid focus:outline-none" type="text" name="postNo" value="${defAddr.postNo}">
 						<button class="find-addr inline-block w-1/12 text-xs border border-gray-400 border-solid" onclick="goPopup();">주소찾기</button>
 					</div>
 					<div class="ml-6">
 						<label class="inline-block text-sm mr-3 w-20">도로명 주소</label>
-						<input id="roadAddrPart1" class="text-xs w-6/12 mr-3 border-b border-gray-400 border-solid focus:outline-none" type="text" name="roadAddr1" value="${defAddr.roadAddr}" readonly>
+						<input id="roadAddrPart1" class="text-xs w-6/12 mr-3 border-b border-gray-400 border-solid focus:outline-none" type="text" name="roadAddr1" value="${defAddr.roadAddr}">
 					</div>
 					<div class="ml-6 b">
 						<label class="inline-block text-sm mr-3 w-20">상세주소</label>
 						<input id="addrDetail" class="text-xs w-3/12 mr-3 border-b border-gray-400 border-solid focus:outline-none" type="text" name="addrDetail" value="${defAddr.oldAddr}">
-						<input id="roadAddrPart2" class="text-xs w-3/12 mr-3 border-b border-gray-400 border-solid focus:outline-none" type="text" name="roadAddr2" value="${defAddr.detailAddr}" readonly>
+						<input id="roadAddrPart2" class="text-xs w-3/12 mr-3 border-b border-gray-400 border-solid focus:outline-none" type="text" name="roadAddr2" value="${defAddr.detailAddr}">
 						<button class="add-addr inline-block ml-3 w-2/12 text-xs border border-gray-400 border-solid hidden" onclick="add_address();">주소록에 추가</button>
 					</div>
 				</div>
@@ -422,16 +422,26 @@
         	<tr class="border border-solid border-gray-400">
         		<th class="w-2/12 m-1 text-sm text-center border border-solid border-gray-400">수령자</th>
         		<th class="w-6/12 m-1 text-sm text-center border border-solid border-gray-400">배송지</th>
+        		<th class="w-2/12 m-1 text-sm text-center border border-solid border-gray-400">전화번호</th>
         		<th class="w-2/12 m-1 text-sm text-center border border-solid border-gray-400">관리</th>
         	</tr>
         	
         	<!-- 반복문으로 주소록 조회 -->
-        	<c:forEach var="a" items="${memberInfo.addresses}">
-	        	<tr class="border border-solid border-gray-400">
-	        		<input type="hidden" name="addrNo" value="${a.addrNo}">
-	        		<td class="text-xs m-1 border border-solid border-gray-400"><input type="text" class="focus:outline-none text-center" name="receiverName" value="${memberInfo.memberName}" readonly/></td>
-	        		<td class="text-xs m-1 border border-solid border-gray-400"><input type="text" class="focus:outline-none w-full cursor-pointer text-center hover:underline" name="receiverAddr" value="${a.postNo +=' '+= a.roadAddr +=' '+= a.oldAddr +=' '+= a.detailAddr}" readonly/></td>
-	        		<td class="text-xs m-1 border border-solid border-gray-400"><button class="inline-block w-full text-xs border border-gray-400 border-solid hover:bg-blue-200">수정</button></td>
+        	<c:forEach var="a" items="${addressList}">
+	        	<tr class="border border-solid border-gray-400 hover:bg-blue-200">
+	        		<td class="text-xs m-1 border border-solid border-gray-400">
+	        			<input type="text" class="focus:outline-none text-center" name="receiverName" value="${a.RECEIVER_NAME}" readonly/>
+	        		</td>
+	        		<td class="text-xs m-1 border border-solid border-gray-400">
+	        			<input type="hidden" name="addrNo" value="${a.ADDR_NO}">
+	        			<input type="text" class="focus:outline-none w-full cursor-pointer text-center hover:underline" name="receiverAddr" value="${a.POST_No +=' '+= a.ROAD_ADDR +=' '+= a.OLD_ADDR +=' '+= a.DETAIL_ADDR}" readonly onclick="select_address(event);"/>
+	        		</td>
+	        		<td class="text-xs m-1 border border-solid border-gray-400">
+	        			<input type="text" class="focus:outline-none text-center" name="receiverPhone" value="${a.PHONE}" readonly/>
+	        		</td>
+	        		<td class="text-xs m-1 border border-solid border-gray-400">
+	        			<button class="inline-block w-full text-xs border border-gray-400 border-solid " onclick="delete_address(event);">삭제</button>
+	        		</td>
 	        	</tr>
         	</c:forEach>
         </table>
@@ -463,11 +473,10 @@ function requestPay() {
 		alert("구매정보를 확인하고 동의해주세요");
 		return;
 		
-	}else if($("input[name='receiver']").val("")=="" || $("input[name='receiver']").val("")==null 
+	}else if($("input[name='receiver']").val()=="" || $("input[name='receiver']").val()==null 
 			|| $("#postNo").val()=="" || $("#postNo").val()==null 
 			||$("#roadAddrPart1").val()=="" || $("#roadAddrPart1").val()==null 
-			||$("#addrDetail").val()=="" || $("#addrDetail").val()==null 
-			||$("#roadAddrPart2").val()=="" || $("#roadAddrPart2").val()==null){
+			||$("#addrDetail").val()=="" || $("#addrDetail").val()==null){
     		alert("배송지 정보를 다시 확인해주세요"); return;
 	
 	}else{
@@ -745,13 +754,16 @@ function fn_priceCalc(){
     		case "default" : 
     			$(".add-addr").addClass("hidden");
     			$.ajax({
-    				url:"${path}/ajax/defaultAddr.do",
+    				url:"${path}/ajax/defaultAddr.do?memberId="+'${memberInfo.memberId}',
     				success:function(data){
     					$("input[name='receiver']").val('${memberInfo.memberName}');
     					$("#postNo").val(data.postNo);
     	    			$("#roadAddrPart1").val(data.roadAddrPart1);
     	    			$("#addrDetail").val(data.addrDetail);
-    	    			$("#roadAddrPart2").val(data.roadAddrPart2);		
+    	    			$("#roadAddrPart2").val(data.roadAddrPart2);
+    	    			$("input[name='phone1']").val("${phone1}");
+    					$("input[name='phone2']").val("${phone2}");
+    					$("input[name='phone3']").val("${phone3}");
     				}
     			});
     			break;
@@ -759,7 +771,7 @@ function fn_priceCalc(){
     		case "recent" : 
     			$(".add-addr").addClass("hidden");
     			$.ajax({
-    				url:"${path}/ajax/recentAddr.do",
+    				url:"${path}/ajax/recentAddr.do?memberId="+'${memberInfo.memberId}',
     				success:function(data){
     					$("input[name='receiver']").val('${memberInfo.memberName}');
     					$("#postNo").val(data.postNo);
@@ -776,6 +788,9 @@ function fn_priceCalc(){
     			$("#addrDetail").val("");
     			$("#roadAddrPart2").val("");
     			$("input[name='receiver']").val("");
+    			$("input[name='phone1']").val("");
+    			$("input[name='phone2']").val("");
+    			$("input[name='phone3']").val("");
     			$(".add-addr").removeClass("hidden");
     			break;
     			
@@ -788,36 +803,88 @@ function fn_priceCalc(){
     
     
     function add_address(){
-    	
-    	let receiver = $("input[name='receiver']").val("");
+    	if($("input[name='receiver']").val()=="" || $("input[name='receiver']").val()==null 
+    			|| $("#postNo").val()=="" || $("#postNo").val()==null 
+    			||$("#roadAddrPart1").val()=="" || $("#roadAddrPart1").val()==null 
+    			||$("#addrDetail").val()=="" || $("#addrDetail").val()==null 
+    			||$("input[name='phone1']").val()=="" || $("input[name='phone1']").val()==null
+    			||$("input[name='phone2']").val()=="" || $("input[name='phone2']").val()==null
+    			||$("input[name='phone3']").val()=="" || $("input[name='phone3']").val()==null){
+        		alert("배송지 정보를 다시 확인해주세요"); return;
+    	}
+    	let receiver = $("input[name='receiver']").val();
+    	let phone=$("input[name='phone1']").val()+""+$("input[name='phone2']").val()+""+$("input[name='phone3']").val();
     	let postNo = $("#postNo").val();
     	let roadAddr = $("#roadAddrPart1").val();
     	let oldAddr = $("#addrDetail").val();
     	let detailAddr = $("#roadAddrPart2").val();
-    	
-    	if(receiver=="" || receiver==null || postNo=="" || postNo==null ||roadAddr=="" || roadAddr==null ||oldAddr=="" || oldAddr==null ||detailAddr=="" || detailAddr==null){
-    		alert("배송지 정보를 다시 확인해주세요"); return;
-    	};
-    	
+    	let memberId = '${memberInfo.memberId}';
     	
     	let param={
 			"receiver" : receiver,
+			"phone" : phone,
     		"postNo" : postNo,
     		"roadAddr" : roadAddr,
 			"oldAddr" : oldAddr,
-			"detailAddr":detailAddr
+			"detailAddr":detailAddr,
+			"memberId" : memberId
     	};
-    	
     	
     	$.ajax({
     		url:"${path}/ajax/insertAddress.do",
     		data:JSON.stringify(param),
     		dataType:"json",
-    		method:'post',
     		contentType:'application/json',
+    		method:'post',
     		success:function(data){
     			data?alert("입력되었습니다."):alert("입력에 실패했습니다.")
+    		},
+    		error:function(data){
+    			console.log(data);
     		}
     	});
     } 
+    
+    const select_address=(e)=>{
+    	const addrNo = $(e.target).siblings("input[name='addrNo']").val();
+    	toggleModal();
+    	$.ajax({
+			url:"${path}/ajax/selectAddrList.do?addrNo="+addrNo,
+			success:function(data){
+				let phone1="";
+				let phone2="";
+				let phone3="";
+				switch(data.PHONE.length){
+					case 11 : 
+						phone1 = data.PHONE.substring(0,3);
+						phone2 = data.PHONE.substring(3,7);
+						phone3 = data.PHONE.substring(7);
+						break;
+					default :
+						phone1 = data.PHONE.substring(0,3);
+						phone2 = data.PHONE.substring(3,6);
+						phone3 = data.PHONE.substring(6);
+					break;
+				}
+				$("#postNo").val(data.POST_NO);
+				$("#roadAddrPart1").val(data.ROAD_ADDR);
+				$("#addrDetail").val(data.OLD_ADDR);
+				$("#roadAddrPart2").val(data.DETAIL_ADDR);
+				$("input[name='receiver']").val(data.RECEIVER_NAME);
+				$("input[name='phone1']").val(phone1);
+				$("input[name='phone2']").val(phone2);
+				$("input[name='phone3']").val(phone3);
+			}
+		});
+    }
+    
+    const delete_address=(e)=>{
+    	const addrNo = $(e.target).parents("td").siblings("td").children("input[name='addrNo']").val();
+    	$.ajax({
+			url:"${path}/ajax/deleteAddrList.do?addrNo="+addrNo,
+			success:function(data){
+				$(e.target).parents("tr").addClass("hidden");
+			}
+		});
+    }
 </script>

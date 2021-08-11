@@ -202,6 +202,15 @@
 	</select>
 	
 	<insert id="insertAddress">
-		INSERT INTO ADDRESS VALUES(SEQ_ADDRESS.NEXTVAL, #{memberId}, #{postNo}, #{roadAddr}, #{oldAddr}, #{detailAddr}, DEFAULT)
+		INSERT INTO ADDRESS_LIST VALUES(SEQ_ADDRESS_LIST.NEXTVAL, #{memberId}, #{receiver}, #{phone}, #{postNo}, #{roadAddr}, #{oldAddr}, #{detailAddr})
 	</insert>
+	<select id="selectAddressList" resultType="HashMap">
+		SELECT * FROM ADDRESS_LIST WHERE MEMBER_ID=#{memberId}
+	</select>
+	<select id="selectAddrListByPK" resultType="HashMap">
+		SELECT * FROM ADDRESS_LIST WHERE ADDR_NO=#{addrNo}
+	</select>
+	<delete id="deleteAddrListByPK">
+		DELETE FROM ADDRESS_LIST WHERE ADDR_NO=#{addrNo}
+	</delete>
 </mapper>

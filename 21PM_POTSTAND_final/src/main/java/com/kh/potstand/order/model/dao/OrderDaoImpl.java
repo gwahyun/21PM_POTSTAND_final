@@ -184,10 +184,25 @@ public class OrderDaoImpl implements OrderDao{
 	}
 
 	@Override
-	public int insertAddress(SqlSession session, Address addr) {
-		return session.insert("order.insertAddress", addr);
+	public int insertAddress(SqlSession session, Map param) {
+		return session.insert("order.insertAddress", param);
 	}
 
+	@Override
+	public List<Map> addressListSelect(SqlSession session, String memberId) {
+		return session.selectList("order.selectAddressList", memberId);
+	}
+
+	@Override
+	public Map selectAddrList(SqlSession session, int addrNo) {
+		return session.selectOne("order.selectAddrListByPK",addrNo);
+	}
+
+	@Override
+	public int deleteAddrList(SqlSession session, int addrNo) {
+		return session.delete("order.deleteAddrListByPK",addrNo);
+	}
+	
 	
 	
 	
