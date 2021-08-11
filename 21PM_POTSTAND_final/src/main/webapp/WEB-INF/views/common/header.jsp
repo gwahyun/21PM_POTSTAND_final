@@ -313,8 +313,8 @@
     </c:if>
     </div>
    </div>
-		<div class="container flex flex-start p-5 mx-auto mt-20">
-	        <nav class="md:mr-auto flex flex-wrap items-center text-base">
+		<div class="container flex flex-start p-5 mx-auto ">
+	        <nav class="md:mr-auto flex flex-wrap items-center text-base mt-20">
 	          <a href="${path}" class="mr-5 hover:text-gray-900">HOME</a>
 	          <a href="${path}/book/booklist.do" class="mr-5 hover:text-gray-900">BOOK</a>
 	          <a href="${path }/event/eventlist.do" class="mr-5 hover:text-gray-900">EVENT</a>

@@ -89,21 +89,40 @@
 	  flex-wrap: wrap;
 	  align-items: center;
 }
+
+.scale-down-center {
+	-webkit-animation: scale-down-center 0.4s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+	        animation: scale-down-center 0.4s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+}
+
+@keyframes scale-down-center {
+  0% {
+    -webkit-transform: scale(1);
+            transform: scale(1);
+  }
+  100% {
+    -webkit-transform: scale(0.7);
+            transform: scale(0.7);
+  }
+}
+
 </style>
 <section class="text-gray-600 body-font overflow-hidden">
 	<!-- 페이지 컨테이너 시작 -->
 	<div class="container px-5 py-10 mx-auto">
 		<!-- 책 상세 상단 시작 -->
         <div class="lg:w-4/5 mx-auto flex flex-wrap">
-			<img alt="ecommerce" class="lg:w-1/2 w-full lg:h-auto h-64 object-cover object-center rounded" 
-          	src=
-          	 <c:if test="${bookInfo.bookCover.contains('http') }">
-	              			<c:out value="${bookInfo.getBookCover()}"/>
-	              		</c:if>
-              			<c:if test="${!bookInfo.bookCover.contains('http') }">
-              				${path }/resources/upload/book/${bookInfo.bookCover }
-	              		</c:if>
-          	/>
+	        <div class="flex justify-center items-center lg:w-1/2">
+				<img alt="ecommerce" class="scale-down-center lg:w-1/2 w-full lg:h-auto h-64 object-cover object-center rounded" 
+	          	src=
+	          	 <c:if test="${bookInfo.bookCover.contains('http') }">
+		              			<c:out value="${bookInfo.getBookCover()}"/>
+		              		</c:if>
+	              			<c:if test="${!bookInfo.bookCover.contains('http') }">
+	              				${path }/resources/upload/book/${bookInfo.bookCover }
+		              		</c:if>
+	          	/>
+        </div>
           	<div class="lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0">
             	<h2 class="text-sm title-font text-gray-500 tracking-widest"><c:out value="${bookInfo.getBookPub()}"/></h2>
             	<h1 class="text-gray-900 text-3xl title-font font-medium mb-1"><c:out value="${bookInfo.getBookTitle()}"/></h1>
