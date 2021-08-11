@@ -43,4 +43,8 @@ public interface OrderService {
 	Address selectDefaultAddr(String memberId);
 	int insertAddress(Map param);
 	List<Map> addressListSelect(String memberId);
+	Map selectAddrList(int addrNo);
+	
+	//주소 삭제
+	int deleteAddrList(int addrNo);
 }

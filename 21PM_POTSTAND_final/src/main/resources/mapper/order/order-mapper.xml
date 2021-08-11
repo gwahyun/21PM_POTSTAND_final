@@ -207,5 +207,10 @@
 	<select id="selectAddressList" resultType="HashMap">
 		SELECT * FROM ADDRESS_LIST WHERE MEMBER_ID=#{memberId}
 	</select>
-	
+	<select id="selectAddrListByPK" resultType="HashMap">
+		SELECT * FROM ADDRESS_LIST WHERE ADDR_NO=#{addrNo}
+	</select>
+	<delete id="deleteAddrListByPK">
+		DELETE FROM ADDRESS_LIST WHERE ADDR_NO=#{addrNo}
+	</delete>
 </mapper>

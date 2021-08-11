@@ -46,4 +46,9 @@ public interface OrderDao {
 	Address selectDefaultAddr(SqlSession session, String memberId);
 	int insertAddress(SqlSession session, Map param);
 	List<Map> addressListSelect(SqlSession session, String memberId);
+	Map selectAddrList(SqlSession session, int addrNo);
+	
+	//주소 삭제
+	
+	int deleteAddrList(SqlSession session, int addrNo);
 }

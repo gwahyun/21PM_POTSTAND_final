@@ -131,6 +131,16 @@ public class OrderServiceImpl implements OrderService{
 
 	}
 
+	@Override
+	public Map selectAddrList(int addrNo) {
+		return dao.selectAddrList(session, addrNo);
+	}
+
+	@Override
+	public int deleteAddrList(int addrNo) {
+		return dao.deleteAddrList(session, addrNo);
+	}
+
 	
 	
 	
