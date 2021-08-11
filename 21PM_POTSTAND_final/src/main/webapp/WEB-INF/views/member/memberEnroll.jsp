@@ -71,12 +71,12 @@
                 <div class="mt-8 content-center">
                     <label class="text-sm font-bold text-gray-700 tracking-wide">이름</label>
                     <input class=" w-full content-center text-base py-2 border-b border-gray-300 focus:outline-none 
-                    focus:border-indigo-500" id="userName" name="memberName" type="text" placeholder="홍길동" required/>
+                    focus:border-indigo-500" id="userName" name="memberName" type="text" placeholder="홍길동" value="${m.name }" required/>
                 </div>
                 <div class="mt-8 content-center">
                     <label class="text-sm font-bold text-gray-700 tracking-wide">이메일</label>
                     <input class=" w-full content-center text-base py-2 border-b border-gray-300 focus:outline-none 
-                    focus:border-indigo-500" id="email" name="memberEmail" type="text" placeholder="Email@gmail.com" required/>
+                    focus:border-indigo-500" id="email" name="memberEmail" type="text" placeholder="Email@gmail.com" value="${m.email }" required/>
                 	<div class="content-center">
                 		<span class="text-red-500"></span>
                 		<span class="text-green-500"></span>
@@ -85,22 +85,22 @@
                 <div class="mt-8 content-center">
                     <label class="text-sm font-bold text-gray-700 tracking-wide">휴대전화</label>
                     <input class="w-full content-center text-base py-2 border-b border-gray-300 focus:outline-none 
-                    focus:border-indigo-500" id="phone" name="memberPhone" type="text" placeholder="01000000000" required/>
+                    focus:border-indigo-500" id="phone" name="memberPhone" type="text" placeholder="01000000000" value="${m.phone }" required/>
                 </div>
                 <div class="mt-8 content-center">
                     <label class="text-sm font-bold text-gray-700 tracking-wide">생년월일</label>
                     <input class="w-full content-center text-base py-2 border-b border-gray-300 focus:outline-none 
-                    focus:border-indigo-500" id="birth" name="memberBirth" type="date" required/>
+                    focus:border-indigo-500" id="birth" name="memberBirth" type="date" value="${m.birthday }" required/>
                 </div>
                 <div class="mt-8 content-center flex justify-between">
                     <label class="text-sm font-bold text-gray-700 tracking-wide">성별</label>
                     <div>
                         <label for="gender-m">남성</label>
                         <input id="gender-m" name="memberGender" type="radio" value="m" class="h-4 w-4 bg-indigo-500 
-                        focus:ring-indigo-400 border-gray-300 rounded" required/>
+                        focus:ring-indigo-400 border-gray-300 rounded" ${m.gender eq 'M'? 'checked':'' } required/>
                         <label for="gender-f">여성</label>
                         <input id="gender-f" name="memberGender" type="radio" value="f" class="h-4 w-4 bg-indigo-500 
-                        focus:ring-indigo-400 border-gray-300 rounded" required/>
+                        focus:ring-indigo-400 border-gray-300 rounded" ${m.gender eq 'F'? 'checked':'' } required/>
                     </div>
                 </div>
                 <div class="content-center flex justify-between">
@@ -304,6 +304,17 @@
     		}
     	}
 
+    	//네이버로 회원가입시 이메일 중복체크
+    	if($("#email").val()!=''){
+    		fn_memberEnroll_memberCheckEmail($("#email"));
+    	}
+    	
+    	//네이버 로그인시
+    	window.addEventListener('load', function () {
+    		if(${not empty m.email}){
+    			alert('네이버 간편가입!');
+    		}
+    	});
     </script>
 </body>
 </html>

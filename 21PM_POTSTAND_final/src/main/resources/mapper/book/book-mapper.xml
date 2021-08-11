@@ -106,7 +106,7 @@
 	</select>
 	
 	<update id="bookReviewUpdate">
-		UPDATE REVIEW SET POINT=#{point}, REVIEW_CONTENT=#{reviewContent} 
+		UPDATE REVIEW SET POINT=#{point}, REVIEW_CONTENT=#{reviewContent}, REVIEW_DATE=SYSDATE
 		WHERE MEMBER_ID=#{memberId} AND BOOK_CODE=#{bookCode}
 	</update>
 	
