@@ -10,10 +10,15 @@
 	crossorigin="anonymous"></script>
 <jsp:include page="/WEB-INF/views/common/header.jsp" />
 <!------------------------------------------------------------------------------------------------------------------------------------------------------------->
-<section class="mx-80">
-	<div>
-		<h1 class="text-4xl font-bold m-5 text-center">장바구니</h1>
-	</div>
+<section class="text-gray-600 body-font">
+	<div class="container p-5 mx-auto">
+		<h1 class="sm:text-3xl
+            text-2xl
+            font-medium
+            title-font
+            mb-2
+            text-gray-900 border-b-4 border-red-500 inline-block mb-10">장바구니</h1>
+	
 
 	<!-- 장바구니 비어있을때 -->
 	<c:if test="${empty cartList}">
@@ -32,27 +37,19 @@
 	<c:if test="${!empty cartList}">
 		<div class="content-container flex">
 			<div
-				class="cart-list w-8/12 mx-4 border border-solid border-gray-400 p-4">
+				class="cart-list w-8/12 p-4 mr-5">
 				<button
-					class="inline-flex items-center 
-                			bg-gray-300 
-                			border border-solid border-gray-400 
-                			p-2
-                			focus:outline-none 
-                			hover:bg-red-200 
-	          				hover:text-white rounded 
-	          				text-base 
-	          				mt-4 md:mt-0"
+					class="inline-flex items-center bg-gray-200 border-0 py-1 px-3 focus:outline-none hover:bg-red-400 
+	          		hover:text-white rounded text-base mt-4 md:mt-0"
 					onclick="fn_allCheck(event);">전체해제</button>
 
 				<!-- 카트 항목 출력 -->
 				<c:forEach var="cart" items="${cartList}" varStatus="i">
 					<div
 						class="cart-obj 
-	                		flex m-1 py-1 
-	                		border-t border-b border-solid border-gray-400 
-	                		items-center">
-						<input type="checkbox" name="cartObj" class="ml-3">
+	                		flex my-5 py-1 
+	                		items-center shadow-md rounded-md">
+						<input type="checkbox" name="cartObj" class="ml-3 h-4 w-4">
 
 
 						<!-- 책 표지 -->
@@ -83,26 +80,12 @@
 									name="bookAmount" value="${cart.bookAmount}">권 <input
 									type="hidden" name="cartNo" value="${cart.cartNo}" />
 								<button
-									class="inline-flex items-center 
-	                			bg-gray-300 
-	                			border border-solid border-gray-400 
-	                			p-1 mb-1 
-	                			focus:outline-none 
-	                			hover:bg-red-200 
-		          				hover:text-white rounded 
-		          				text-sm 
-		          				mt-4 md:mt-0"
+									class="inline-flex items-center bg-gray-200 border-0 py-1 px-3 focus:outline-none hover:bg-red-400 
+	          		hover:text-white rounded text-base mt-4 md:mt-0"
 									onclick="fn_updateBookAmount(event);">변경</button>
 								<button
-									class="inline-flex items-center 
-	                			bg-gray-300 
-	                			border border-solid border-gray-400 
-	                			p-1 mb-1 
-	                			focus:outline-none 
-	                			hover:bg-red-200 
-		          				hover:text-white rounded 
-		          				text-sm 
-		          				mt-4 md:mt-0"
+									class="inline-flex items-center bg-gray-200 border-0 py-1 px-3 focus:outline-none hover:bg-red-400 
+	          		hover:text-white rounded text-base mt-4 md:mt-0"
 									onclick="fn_cartDelete(event);">삭제</button>
 								<input type="hidden" name="cartNo" value="${cart.cartNo}" />
 							</div>
@@ -185,9 +168,9 @@
 
 
 									<c:otherwise>
-										<label class="coupon text-sm font-bold  block mt-1">
+										<label class="coupon text-sm font-bold  block my-2">
 											사용 가능 쿠폰</label>
-										<select name="couponData" class="text-sm">
+										<select name="couponData" class="text-sm mb-2 bg-gray-300 p-2">
 											<option value="${cart.cartNo}:0:0">쿠폰 사용 안함</option>
 											<c:forEach var="cp" items="${cart.coupon}">
 												<c:if test="${cp.couponEnd eq 'N' and cp.couponAmount!=0}">
@@ -211,15 +194,8 @@
 										</select>
 
 										<button
-											class="inline-flex items-center 
-						                			bg-gray-300 
-						                			border border-solid border-gray-400 
-						                			p-1 mb-1 
-						                			focus:outline-none 
-						                			hover:bg-red-200 
-							          				hover:text-white rounded 
-							          				text-sm 
-							          				mt-4 md:mt-0"
+											class=" inline-flex items-center bg-gray-200 border-0 py-1 px-3 focus:outline-none hover:bg-red-400 
+	          										hover:text-white rounded text-base mt-4 md:mt-0" 
 											onclick="fn_discount(event);">쿠폰적용</button>
 									</c:otherwise>
 								</c:choose>
@@ -235,14 +211,14 @@
 
 			<!-- 가격표시창 -->
 			<div
-				class="buy-container w-4/12 border border-solid border-blue-400 items-center sticky relative top-0 h-80">
-				<div class="cart-price mb-8">
+				class="buy-container w-4/12 items-center sticky relative top-0 h-80 shadow-lg p-4">
+				<div class="cart-price mb-5">
 					<div id="sum-price" class="li flex">
 						<h3 class="my-3 text-xl font-semibold mx-3 w-5/12">총 상품 금액</h3>
 						<h3
 							class="money my-3 text-xl font-semibold ml-10 w-5/12 text-right"></h3>
 					</div>
-					<div id="sale-price" class="li flex bg-blue-300">
+					<div id="sale-price" class="li flex border border-2 border-red-500 text-red-500">
 						<h3 class="my-3 text-xl font-semibold mx-3 w-5/12">할인 금액</h3>
 						<h3
 							class="money my-3 text-xl font-semibold ml-10 w-5/12 text-right"></h3>
@@ -252,7 +228,7 @@
 						<h3
 							class="money my-3 text-xl font-semibold ml-10 w-5/12 text-right">₩3,000</h3>
 					</div>
-					<div id="total" class="li flex bg-green-300">
+					<div id="total" class="li flex bg-red-500 text-white">
 						<h3 class="my-3 text-xl font-bold mx-3 w-5/12">합계</h3>
 						<h3 class="money my-3 text-xl font-bold ml-10 w-5/12 text-right"></h3>
 					</div>
@@ -260,45 +236,24 @@
 				<form id="orderItems" action="${path}/order/orderItems.do" method="post" onsubmit="return fn_order();">
 				<button
 					class="buy-button
-                			bg-gray-300 
-                			border border-solid border-gray-400 
-                			py-2 px-2 
-                			w-full
-                			focus:outline-none 
-                			hover:bg-red-200 
-	          				hover:text-white rounded 
-	          				font-bold
-	          				mt-4 md:mt-0"
+                			flex items-center justify-center bg-gray-200 border-0 py-2 w-full focus:outline-none hover:bg-red-400 
+	          		hover:text-white rounded text-base mt-4 md:mt-0"
 	          		>구매하기</button>
 					<input id="arr" type="hidden" name="cartNo" value="">
 				</form>
 			</div>	
 		</div>
 		<div class="button-area m-4">
-			<button
-				class="inline-flex items-center 
-                			bg-gray-300 
-                			border border-solid border-gray-400 
-                			py-2 px-2 m-3
-                			focus:outline-none 
-                			hover:bg-red-200 
-	          				hover:text-white rounded 
-	          				text-base 
-	          				mt-4 md:mt-0"
+			<button class=" inline-flex items-center bg-gray-200 border-0 py-1 px-3 focus:outline-none hover:bg-red-400 
+	          		hover:text-white rounded text-base mt-4 md:mt-0"
 				onclick="fn_cartCheckedDelete()">선택삭제</button>
 			<button
-				class="inline-flex items-center 
-                			bg-gray-300 
-                			border border-solid border-gray-400 
-                			py-2 px-2 m-3
-                			focus:outline-none 
-                			hover:bg-red-200 
-	          				hover:text-white rounded 
-	          				text-base 
-	          				mt-4 md:mt-0"
+				class=" inline-flex items-center bg-gray-200 border-0 py-1 px-3 focus:outline-none hover:bg-red-400 
+	          		hover:text-white rounded text-base mt-4 md:mt-0"
 				onclick="fn_cartAllDelete(event);">전체삭제</button>
 		</div>
 	</c:if>
+	</div>
 </section>
 <!------------------------------------------------------------------------------------------------------------------------------------------------------------->
 <jsp:include page="/WEB-INF/views/common/footer.jsp" />

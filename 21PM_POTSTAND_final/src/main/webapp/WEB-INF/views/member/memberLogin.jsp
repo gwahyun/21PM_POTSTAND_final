@@ -76,7 +76,12 @@
                     	Login
                     </button>
                 </div>
-                <div id="naverIdLogin"></div>
+                <div id="naverIdLogin" style="display:none"></div>
+               <button id="naverLogin" class="w-full flex justify-center bg-green-500 text-gray-100 p-4 rounded-full 
+                    tracking-wide font-semibold focus:outline-none focus:shadow-outline shadow-lg 
+                    cursor-pointer transition ease-in duration-300" style="background-color:rgb(3,199,90)" onclick="fn_memberLogin_login();">
+                    	네이버 아이디로 로그인
+               </button>
                 <p class="flex flex-col items-center justify-center mt-10 text-center text-md text-gray-500">
                     <a href="${path}/" class="text-gray-500 hover:text-red-500 no-underline hover:underline cursor-pointer 
                     transition ease-in duration-300">돌아가기</a>
@@ -173,5 +178,12 @@
 	  );
 
 	  naverLogin.init();
+	  
+	  //네이버 로그인 아이콘 바꾸는 이벤트
+	 $("#naverLogin").click(e=>{
+		  let naverLink = document.getElementById("naverIdLogin").firstChild.firstChild;
+		  console.log(naverLink);
+		  naverLink.click();
+	  });
 </script>
 </html>
