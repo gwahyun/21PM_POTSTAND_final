@@ -794,9 +794,9 @@ function fn_priceCalc(){
     
     
     function add_address(){
-    	
+    	console.log("실행");
     	let receiver = $("input[name='receiver']").val();
-    	let phone=$("input[name='receiverPhone']").val();
+    	let phone=$("input[name='phone1']").val()+""+$("input[name='phone2']").val()+""+$("input[name='phone3']").val();
     	let postNo = $("#postNo").val();
     	let roadAddr = $("#roadAddrPart1").val();
     	let oldAddr = $("#addrDetail").val();
@@ -804,7 +804,7 @@ function fn_priceCalc(){
     	
     	
     	
-    	if(receiver=="" || receiver==null || postNo=="" || postNo==null ||roadAddr=="" || roadAddr==null ||oldAddr=="" || oldAddr==null ||detailAddr=="" || detailAddr==null){
+    	if(receiver=="" || receiver==null || postNo=="" || postNo==null ||roadAddr=="" || roadAddr==null ||oldAddr=="" || oldAddr==null){
     		alert("배송지 정보를 다시 확인해주세요"); return;
     	};
     	
@@ -818,15 +818,19 @@ function fn_priceCalc(){
 			"detailAddr":detailAddr
     	};
     	
-    	
+    	alert('주소연결');
     	$.ajax({
     		url:"${path}/ajax/insertAddress.do",
     		data:JSON.stringify(param),
     		dataType:"json",
-    		method:'post',
     		contentType:'application/json',
+    		method:'post',
+    		async: false,
     		success:function(data){
     			data?alert("입력되었습니다."):alert("입력에 실패했습니다.")
+    		},
+    		error:function(data){
+    			console.log(data);
     		}
     	});
     } 

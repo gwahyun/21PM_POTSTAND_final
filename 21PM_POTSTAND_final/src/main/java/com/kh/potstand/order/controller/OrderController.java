@@ -44,9 +44,6 @@ public class OrderController {
 	@Autowired
 	private AES256Util aes;
 	
-	//아임포트 객체
-	private IamportClient api = new IamportClient("8116855594363834", "effe9bdd35fafb13df8ab1920c04852352412f937fcfe5bef763620f5980471146a5019f23622baf");
-	
 	
 	//장바구니 리스트 호출 / 이동
 	@RequestMapping("/member/cartList.do")
@@ -196,7 +193,6 @@ public class OrderController {
 			List<Cart> cartList = service.cartSelectList(cartNo);
 			List<Coupon> couponList = service.paymentCouponSelectList(memberInfo.getMemberId());
 			List<Map> addressList = service.addressListSelect(memberInfo.getMemberId());
-			log.debug(addressList.toString());
 			mv.addObject("cartList", cartList);
 			mv.addObject("couponList", couponList);
 			mv.addObject("memberInfo", memberInfo);
@@ -232,48 +228,7 @@ public class OrderController {
 	}
 	
 	
-	@RequestMapping("/ajax/beforePayment.do")
-	@ResponseBody
-	public Map beforOrderPayment(HttpSession session, @RequestBody Map param){
-		try {
-			String memberId = ((Member)(session.getAttribute("loginMember"))).getMemberId();
-			param.put("receiverAddress", ((String)param.get("receiverAddress")));
-			param.put("memberId", memberId);
-			param=service.beforOrderPayment(param);
-			//log.debug(param.toString());
-		}catch(Exception e) {
-			e.printStackTrace();
-		}
-		return param;
-	}
 	
-	
-	@RequestMapping("/ajax/paymentCheck.do")
-	@ResponseBody
-	public IamportResponse<Payment> paymentCheck(HttpSession session, @RequestBody Map param) throws IamportResponseException, IOException{
-		String imp_uid = (String)param.get("imp_uid"); 
-		log.debug(imp_uid);
-		return api.paymentByImpUid(imp_uid);
-	}
-	
-	
-	@RequestMapping("/ajax/paymentComplete.do")
-	@ResponseBody
-	public Boolean paymentComplete(HttpSession session, @RequestBody Map param){
-		//성공/실패 확인
-		if((Boolean)param.get("check")) {
-			//cart 삭제 + uid / payMethod update
-			service.paymentSuccess(param);
-			log.debug("success "+param.toString());
-		}else {
-			//uid로 조회해서 payment 삭제
-			service.paymentFail(param);
-			log.debug("fail "+param.toString());
-		}
-		
-		return true;
-			
-	}
 	
 	
 	@RequestMapping("/cartInsert.do")
@@ -328,7 +283,6 @@ public class OrderController {
 	public Boolean insertAddress(HttpSession session, @RequestBody Map param) throws Exception{
 		Boolean result=false;
 		String memberId = ((Member)session.getAttribute("loginMember")).getMemberId();
-		System.out.println(param.toString());
 		param.put("memberId",memberId);
 		param.put("receiver",(String)param.get("receiver"));
 		param.put("phone",aes.encrypt((String)param.get("phone")));

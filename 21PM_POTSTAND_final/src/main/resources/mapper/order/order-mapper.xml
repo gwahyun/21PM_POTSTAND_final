@@ -202,9 +202,9 @@
 	</select>
 	
 	<insert id="insertAddress">
-		INSERT INTO ADDRESS_LIST VALUES(SEQ_ADDRESS_LIST.NEXTVAL, #{memberId}, #{receiverName}, #{phone}, #{postNo}, #{roadAddr}, #{oldAddr}, #{detailAddr}, DEFAULT)
+		INSERT INTO ADDRESS_LIST VALUES(SEQ_ADDRESS_LIST.NEXTVAL, #{memberId}, #{receiver}, #{phone}, #{postNo}, #{roadAddr}, #{oldAddr}, #{detailAddr})
 	</insert>
-	<select id="selectAddressList" resultType="Map">
+	<select id="selectAddressList" resultType="HashMap">
 		SELECT * FROM ADDRESS_LIST WHERE MEMBER_ID=#{memberId}
 	</select>
 	
