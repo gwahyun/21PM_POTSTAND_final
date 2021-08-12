@@ -197,7 +197,7 @@
 		SELECT * FROM COUPON_EVENT WHERE MEMBER_ID=#{memberId} AND TYPE='가격'
 	</select>
 	<insert id="insertPoint">
-		INSERT INTO POINT VALUES(SEQ_POINT.NEXTVAL,#{memberId},#{point},#{name},SYSDATE,#{merchant_uid})
+		INSERT INTO POINT VALUES(SEQ_POINT.NEXTVAL,#{memberId},#{point},'적립',SYSDATE,#{merchant_uid})
 	</insert>
 	
 	<select id="selectRecentAddr" resultType="String">
@@ -221,7 +221,7 @@
 		DELETE FROM ADDRESS_LIST WHERE ADDR_NO=#{addrNo}
 	</delete>
 	<insert id="insertUsingPoint">
-		INSERT INTO POINT VALUES(SEQ_POINT.NEXTVAL,#{memberId},#{point_using},#{name},SYSDATE,#{merchant_uid})
+		INSERT INTO POINT VALUES(SEQ_POINT.NEXTVAL,#{memberId},#{point_using},'사용',SYSDATE,#{merchant_uid})
 	</insert>
 	<select id="selectPointSum" resultType="int">
 		SELECT SUM(POINT) FROM POINT WHERE MEMBER_ID=#{memberId}
