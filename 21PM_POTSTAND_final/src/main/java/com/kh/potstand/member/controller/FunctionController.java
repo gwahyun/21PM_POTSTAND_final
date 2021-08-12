@@ -1,25 +1,24 @@
 package com.kh.potstand.member.controller;
 
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.kh.potstand.admin.model.vo.Notice;
 import com.kh.potstand.admin.model.vo.Qna;
 import com.kh.potstand.common.PageFactory;
 import com.kh.potstand.member.model.service.MemberService;
 import com.kh.potstand.member.model.vo.Member;
-import com.kh.potstand.order.model.vo.Cart;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -44,10 +43,28 @@ public class FunctionController {
 	
 	//공지사항 내용 확인
 	@RequestMapping("/notice/noticeContent.do/{noticeNo}")
-	public ModelAndView noticeSelectOne(ModelAndView mv, @PathVariable int noticeNo){
-		mv.addObject("notice", service.noticeSelectOne(noticeNo));
-		//조회수 올라가는거 처리해줘야됨(cookie 쓰면 될듯)
+	public ModelAndView noticeSelectOne(ModelAndView mv, @PathVariable int noticeNo, HttpServletRequest request, HttpServletResponse response){
+		Notice n = service.noticeSelectOne(noticeNo);
+		//조회수 올라가는거 처리
+		Cookie[] cs = request.getCookies();
+		boolean check = false;
+		//쿠키 돌려서 검사
+		for(Cookie coo : cs) {
+			if(coo.getName().equals("read"+noticeNo)) {
+				check=true;
+			}
+		}
+		//검사했는데 check=false이면 쿠키 추가해주고 view+1
+		if(!check) {
+			n.setNoticeView(n.getNoticeView()+1);
+			service.noticeReadCount(n);
+			Cookie c=new Cookie("read"+noticeNo,""+noticeNo);
+			c.setMaxAge(60*60*24*7);
+			response.addCookie(c);
+		}
+		mv.addObject("notice", n);
 		mv.setViewName("notice/noticeContent");
+		
 		return mv;
 	}
 	

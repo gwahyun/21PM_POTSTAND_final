@@ -278,7 +278,12 @@ public class MemberDaoImpl implements MemberDao{
 		return session.selectOne("function.qnaSelectCount", memberId);
 	}
 
+	@Override
+	public int noticeReadCount(SqlSession session, Notice n) {
+		return session.update("function.noticeReadCount",n);
+	}
 
+	
 
 
 

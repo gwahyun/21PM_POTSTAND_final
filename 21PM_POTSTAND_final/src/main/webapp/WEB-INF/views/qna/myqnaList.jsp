@@ -75,7 +75,7 @@
                     등록일
                 </div>
                 <div class="qna-view border-solid border-gray-400 border w-1/12 text-center">
-                    조회수
+                    답변상태
                 </div>
             </div>
             <div class="qna-list-body">
