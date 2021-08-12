@@ -225,7 +225,7 @@
 		INSERT INTO POINT VALUES(SEQ_POINT.NEXTVAL,#{memberId},#{point_using},'사용',SYSDATE,#{merchant_uid})
 	</insert>
 	<select id="selectPointSum" resultType="int">
-		SELECT SUM(POINT) FROM POINT WHERE MEMBER_ID=#{memberId}
+		SELECT NVL(SUM(POINT),0) FROM POINT WHERE MEMBER_ID=#{memberId}
 	</select>
 	<select id="selectPaymentObjForBook" resultMap="ObjMap">
 		SELECT * FROM PAYMENT_OBJ WHERE PAYMENT_NO=#{merchant_uid}
