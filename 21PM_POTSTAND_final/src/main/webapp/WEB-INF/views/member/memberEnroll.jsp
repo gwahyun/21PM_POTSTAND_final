@@ -46,7 +46,7 @@
                 <div class="relative">
                     <label class="text-sm font-bold text-gray-700 tracking-wide">아이디</label>
                     <input class=" w-full text-base py-2 border-b border-gray-300 focus:outline-none focus:border-indigo-500" 
-                    type="text" id="userId" name="memberId" placeholder="Enter your ID" required/>
+                    type="text" id="userId" name="memberId" placeholder="영소문자로 시작하는 5~20자 ID" required/>
                     <div class="content-center">
                 		<span class="text-red-500"></span>
                 		<span class="text-green-500"></span>
@@ -55,7 +55,7 @@
                 <div class="mt-8 content-center">
                     <label class="text-sm font-bold text-gray-700 tracking-wide">비밀번호</label>
                     <input class="w-full content-center text-base py-2 border-b border-gray-300 focus:outline-none 
-                    focus:border-indigo-500" id="password" name="memberPwd" type="password" placeholder="Enter your password" required/>
+                    focus:border-indigo-500" id="password" name="memberPwd" type="password" placeholder="영문,숫자,특수문자 혼합한 8~20자 PW" required/>
                     <div class="content-center">
                 		<span class="text-red-500"></span>
                 	</div>
@@ -63,7 +63,7 @@
                 <div class="mt-8 content-center">
                     <label class="text-sm font-bold text-gray-700 tracking-wide">비밀번호 확인</label>
                     <input class="w-full content-center text-base py-2 border-b border-gray-300 focus:outline-none 
-                    focus:border-indigo-500" id="checkPw" type="password" placeholder="Enter your password" required/>
+                    focus:border-indigo-500" id="checkPw" type="password" placeholder="비밀번호 확인" required/>
                     <div class="content-center">
                 		<span class="text-red-500"></span>
                 	</div>
@@ -167,7 +167,7 @@
     		let id=userId.val();
     		var idReg = /^[a-z]+[a-z0-9]{4,19}$/g;
             if(!idReg.test(id)) {
-            	userId.next().children().eq(0).text("아이디는 영문자로 시작하는 5~20자 영문자 또는 숫자이어야 합니다.");         	
+            	userId.next().children().eq(0).text("아이디는 영소문자로 시작하는 5~20자야 합니다.");         	
                 return false;
             }else{
             	return true;
@@ -214,6 +214,20 @@
     			return true;
     		}
     	}	
+    	
+    	//이메일 정규표현식으로 체크
+    	function fn_memberEnroll_checkEmail(email){
+    		let e=email.val();
+    		//영문+숫자포함 특수문자(. - _)만 사용가능한 정규표현식
+    		var emailReg = /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/;;
+            if(!emailReg.test(e)) {
+            	email.next().children().eq(0).text("이메일 형식이 올바르지 않습니다.");         	
+                return false;
+            }else{
+            	return true;
+            }
+    	}
+    	
     	//이메일 중복체크
     	function fn_memberEnroll_memberCheckEmail(email){
     		flag=false;
@@ -278,7 +292,11 @@
     	});
     	$("#email").blur(function(e){ //포커싱 아웃되었을때 이메일 중복확인
     		if($(e.target).val().trim()!=""){
-    			emailResult=fn_memberEnroll_memberCheckEmail($(e.target));
+    			if(fn_memberEnroll_checkEmail($(e.target))){
+    				emailResult=fn_memberEnroll_memberCheckEmail($(e.target));
+    			}else{
+    				$(e.target).next().children().eq(1).text("");
+    			}
     		}
     	});
     	
