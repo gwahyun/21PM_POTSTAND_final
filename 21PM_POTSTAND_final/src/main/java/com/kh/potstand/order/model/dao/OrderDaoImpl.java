@@ -106,7 +106,6 @@ public class OrderDaoImpl implements OrderDao{
 		 */
 		int paymentNo = session.insert("order.insertPaymentByParam", param);
 		List<Integer> cartNo = (List<Integer>)param.get("cartNo");
-
 		for(int no : cartNo) {
 			Cart c = session.selectOne("order.selectCartNo",no);
 			Map cParam = new HashMap();
@@ -138,8 +137,8 @@ public class OrderDaoImpl implements OrderDao{
 		result+=session.update("order.updatePayment",param);
 		
 		//사용한 쿠폰 업데이트
-		int usedCoupon = Integer.parseInt((String)param.get("used_coupon_no"));
-		if(usedCoupon!=0) {
+		if(param.get("used_coupon_no")!=null) {
+			int usedCoupon = Integer.parseInt((String)param.get("used_coupon_no"));
 			Coupon uc = session.selectOne("order.selectCouponByPK", usedCoupon);
 			int amount = uc.getCouponAmount();
 			Map updateCoupon = new HashMap();
@@ -147,7 +146,6 @@ public class OrderDaoImpl implements OrderDao{
 			updateCoupon.put("couponAmount", amount-1);
 			session.update("order.couponAmountUpdate",updateCoupon);
 		}
-		
 		//포인트 추가
 		session.insert("order.insertPoint",param);
 		//사용포인트 추가

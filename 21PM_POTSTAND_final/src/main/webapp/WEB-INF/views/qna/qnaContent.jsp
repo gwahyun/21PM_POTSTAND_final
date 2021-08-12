@@ -50,7 +50,7 @@
           font-bold
           w-4/12">
             <div id="qna-nav" >1:1문의하기</div></a>
-            <div id="myqna-nav" class="ttext-center
+            <div id="myqna-nav" class="text-center
           text-lg
           py-1
           px-3
@@ -76,20 +76,6 @@
         </div>
         <c:choose>
 	        <c:when test="${empty qna.answer}">
-		       <div class="myqna-answer flex my-10 bg-gray-200">
-		            <div class="answer-name text-red-500 border border-gray-300 border-solid w-2/12 ">
-		                삭제예정
-		            </div>
-		            <div class="answer-content border border-gray-300 border-solid w-8/12">
-		                안녕하세요 고객님 팟스탠드입니다.<br>
-		                어차피 냄비받침으로 사신건데 평생 냄비 안쓸거 아니면 그냥 잘 쓰시기 바랍니다<br>
-		                감사합니다 :)
-		                
-		            </div>
-		            <div class="answer-date border border-gray-300 border-solid w-2/12">
-		                2021-07-21
-		            </div>
-		        </div>
 		    </c:when>
 	        <c:otherwise>
 		        <div class="myqna-answer flex my-10 h-20">

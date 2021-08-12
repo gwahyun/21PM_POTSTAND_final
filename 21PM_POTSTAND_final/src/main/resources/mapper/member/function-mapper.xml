@@ -57,7 +57,9 @@
 	<insert id="qnaInsert">
 		 INSERT INTO QNA VALUES(SEQ_QNA.NEXTVAL, #{memberId}, #{qnaSort}, #{qnaTitle}, #{qnaContent}, DEFAULT, DEFAULT)
 	</insert>
-	
+	<update id="noticeReadCount">
+		UPDATE NOTICE SET NOTICE_VIEW=#{noticeView} WHERE NOTICE_NO=#{noticeNo}
+	</update>
 	
 	<!-- 임시기능 나중에 삭제 -->
 	<insert id="insertSort">

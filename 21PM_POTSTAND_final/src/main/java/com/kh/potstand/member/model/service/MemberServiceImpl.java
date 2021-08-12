@@ -352,9 +352,12 @@ public class MemberServiceImpl implements MemberService{
 	public int qnaSelectCount(String memberId) {
 		return dao.qnaSelectCount(session, memberId);
 	}
-	
 
-	
+	//notice 조회수
+	@Override
+	public int noticeReadCount(Notice n) {
+		return dao.noticeReadCount(session, n);
+	}
 
 	
 }

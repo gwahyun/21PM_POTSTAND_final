@@ -123,5 +123,8 @@ public interface MemberService {
 	//qna Count (totalData용)
 	int qnaSelectCount(String memberId);
 	
+	//공지사항 조회수처리
+	int noticeReadCount(Notice n);
+	
 	
 }

@@ -85,7 +85,5 @@
     </section>
     <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
 </body>
-<script>
-	alert("조회수 처리했니");
-</script>
+
 </html>

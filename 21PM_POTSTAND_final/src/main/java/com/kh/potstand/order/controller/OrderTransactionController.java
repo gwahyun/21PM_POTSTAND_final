@@ -56,7 +56,6 @@ public class OrderTransactionController {
 	@ResponseBody
 	public IamportResponse<Payment> paymentCheck(HttpSession session, @RequestBody Map param) throws IamportResponseException, IOException{
 		String imp_uid = (String)param.get("imp_uid"); 
-		log.debug(imp_uid);
 		return api.paymentByImpUid(imp_uid);
 	}
 	
@@ -69,6 +68,7 @@ public class OrderTransactionController {
 			//cart 삭제 + uid / payMethod update
 			service.paymentSuccess(param);
 			log.debug("success "+param.toString());
+			
 		}else {
 			//uid로 조회해서 payment 삭제
 			service.paymentFail(param);

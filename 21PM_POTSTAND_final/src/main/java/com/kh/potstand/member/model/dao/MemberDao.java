@@ -145,4 +145,7 @@ public interface MemberDao {
 	//qna Count (totalData용)
 	int qnaSelectCount(SqlSession session, String memberId);
 	
+	//공지사항 조회수
+	int noticeReadCount(SqlSession session, Notice n);
+	
 }
