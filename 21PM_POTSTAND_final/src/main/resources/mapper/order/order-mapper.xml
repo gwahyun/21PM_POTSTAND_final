@@ -33,6 +33,7 @@
 		<result column="BOOK_COST" property="bookCost"/>
 		<result column="BOOK_SHORT" property="bookShort"/>
 		<result column="BOOK_COVER" property="bookCover"/>
+		<result column="BOOK_STOCK" property="bookStock"/>
 		<result column="BOOK_DATE" property="bookDate"/>
 		<result column="BOOK_LINK" property="bookLink"/>
 		<result column="BOOK_INTRO" property="bookIntro"/>
@@ -168,7 +169,7 @@
 		INSERT INTO PAYMENT VALUES(SEQ_PAYMENT.NEXTVAL, 
 									#{memberId, jdbcType=VARCHAR}, #{receiverName, jdbcType=VARCHAR}, #{receiverAddress, jdbcType=VARCHAR}, 
 									#{message, jdbcType=VARCHAR}, #{postMessage, jdbcType=VARCHAR}, #{name, jdbcType=VARCHAR}, #{pay_method, jdbcType=VARCHAR}, 
-									#{merchant_uid, jdbcType=INTEGER}, #{amount, jdbcType=INTEGER}, SYSDATE, DEFAULT, #{used_coupon_no, jdbcType=INTEGER})
+									#{merchant_uid, jdbcType=INTEGER}, #{amount, jdbcType=INTEGER}, SYSDATE, DEFAULT, #{used_coupon_no, jdbcType=VARCHAR})
 	</insert>
 	<insert id="insertPaymentObjByParam">
 		INSERT INTO PAYMENT_OBJ VALUES(SEQ_PAYMENT_OBJ.NEXTVAL, #{bookCode}, #{bookAmount}, #{paymentNo}, #{usedCouponNo, jdbcType=VARCHAR})

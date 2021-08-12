@@ -500,6 +500,8 @@ function requestPay() {
 		let point = $("input[name='point-using']").val();
 		if(arr[0]!=0){
 			realPrice=Math.round(realPrice*(1-discount));
+		}else{
+			couponNo=null;
 		}
 		realPrice-=point;
 		let bookTitle = $(".bookTitle");
@@ -507,7 +509,11 @@ function requestPay() {
 		$("input[name='cartNo']").each(function(i,v){
 			cartNo.push(Number($(v).val()));
 		})
-		
+		if(realPrice<0){
+			alert("결제오류 : 결제금액 에러");
+			document.location.reload(true);
+			return;
+		}
 		var param=JSON.stringify({
 			pg:"html5_inicis",
 		    pay_method: "temp",
@@ -530,7 +536,7 @@ function requestPay() {
 		    point: Number($("#point-stack").text().split(" ")[0]),
 		    point_using:-point
 		});
-		
+
 		//주문 선입력
 		$.ajax({
 	          url: '${path}/ajax/beforePayment.do',
@@ -899,20 +905,29 @@ function fn_priceCalc(){
 		});
     }
     
+    
+    
     $("input[name='point-using']").change((e)=>{
     	const useablePoint = $("input[name='useable-point']").val();
     	let point=0;
+    	let finalPrice=0;
+    	let arr = $("select[name='couponData']").val().split(":");
+		let couponNo = arr[0];
+		let discount = arr[1];
+    		if(arr[0]!=0){
+    			finalPrice = realPrice*(1-discount);
+    		}else{
+    			finalPrice = realPrice;
+    		}
     	try{
 	   		point= Number($(e.target).val());
-   	    	if(point<0||point>useablePoint){
+   	    	if(point<0||point>useablePoint||point>finalPrice){
     			alert("올바른 값을 넣어주세요")
     			$(e.target).val("");
 	   			$(e.target).focus();
 	   			return;
   	    	}else{
-  	    		let arr = $("select[name='couponData']").val().split(":");
-  	  			let couponNo = arr[0];
-  	  			let discount = arr[1];
+  	    		
 	  	  		//쿠폰 사용시
 	  	  		if(arr[0]!=0){
 	  	  			let disPrice = realPrice*(1-discount);
