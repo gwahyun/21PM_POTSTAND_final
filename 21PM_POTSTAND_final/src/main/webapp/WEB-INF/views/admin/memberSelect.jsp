@@ -76,11 +76,11 @@
                                         <th style="width: 1%;">아이디</th>
                                         <th style="width: 1%;">이름</th>
                                         <th style="width: 1%;">이메일</th>
-                                        <th style="width: 1%;">생년월일</th>
-                                        <th style="width: 3%;">주소</th>
+                                        <th style="width: 3%;">생년월일</th>
+                                        <th>주소</th>
                                         <th style="width: 1%;">성별</th>
                                         <th style="width: 1%;">핸드폰 번호</th>
-                                        <th style="width: 1%;">가입일</th>
+                                        <th style="width: 3%;">가입일</th>
                                         <th style="width: 1%;">삭제</th>
                                     </tr>
                                 </thead>

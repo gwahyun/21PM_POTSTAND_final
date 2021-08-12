@@ -238,9 +238,7 @@ body, html {
         	</ul>
         </div>
         <div id="close" class="listFeq" style="display: none">
-        	<ul>
-        		<li><button onclick="closeORopen();">더보기</button></li>
-        	</ul>
+        <button onclick="closeORopen();">더보기</button>
         
         </div>
     </div>

@@ -37,7 +37,7 @@
               <img
                 class="h-40 rounded w-full object-cover object-center mb-6"
                 src="${path }/resources/upload/event/${e.eventThum}"
-                alt="content"
+               
               />
               <h2 class="text-lg text-gray-900 font-medium title-font">
 				<c:out value="${e.eventTitle}"/>
