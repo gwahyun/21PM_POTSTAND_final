@@ -193,6 +193,7 @@ public class OrderController {
 			List<Cart> cartList = service.cartSelectList(cartNo);
 			List<Coupon> couponList = service.paymentCouponSelectList(memberInfo.getMemberId());
 			List<Map> addressList = service.addressListSelect(memberInfo.getMemberId());
+			int useablePoint = service.selectPointSum(memberInfo.getMemberId());
 			for(Map m : addressList) {
 				m.put("PHONE",aes.decrypt((String)m.get("PHONE")));
 				m.put("POST_NO",aes.decrypt((String)m.get("POST_NO")));
@@ -204,6 +205,7 @@ public class OrderController {
 			mv.addObject("couponList", couponList);
 			mv.addObject("memberInfo", memberInfo);
 			mv.addObject("addressList", addressList);
+			mv.addObject("useablePoint", useablePoint);
 			mv.setViewName("order/order");
 		}catch(Exception e) {
 			e.printStackTrace();
@@ -224,6 +226,7 @@ public class OrderController {
 			List<Cart> cartList = service.directPayment(param);
 			List<Coupon> couponList = service.paymentCouponSelectList(memberId);
 			List<Map> addressList = service.addressListSelect(memberId);
+			int useablePoint = service.selectPointSum(memberId);
 			for(Map m : addressList) {
 				m.put("PHONE",aes.decrypt((String)m.get("PHONE")));
 				m.put("POST_NO",aes.decrypt((String)m.get("POST_NO")));
@@ -235,6 +238,7 @@ public class OrderController {
 			mv.addObject("couponList", couponList);
 			mv.addObject("memberInfo", (Member)(session.getAttribute("loginMember")));
 			mv.addObject("addressList", addressList);
+			mv.addObject("useablePoint", useablePoint);
 			mv.setViewName("order/order");
 			
 		}catch(Exception e) {

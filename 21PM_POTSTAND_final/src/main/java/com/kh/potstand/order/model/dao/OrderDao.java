@@ -49,6 +49,8 @@ public interface OrderDao {
 	Map selectAddrList(SqlSession session, int addrNo);
 	
 	//주소 삭제
-	
 	int deleteAddrList(SqlSession session, int addrNo);
+	
+	//누적포인트 조회
+	int selectPointSum(SqlSession session, String memberId);
 }

@@ -141,6 +141,11 @@ public class OrderServiceImpl implements OrderService{
 		return dao.deleteAddrList(session, addrNo);
 	}
 
+	@Override
+	public int selectPointSum(String memberId) {
+		return dao.selectPointSum(session, memberId);
+	}
+
 	
 	
 	

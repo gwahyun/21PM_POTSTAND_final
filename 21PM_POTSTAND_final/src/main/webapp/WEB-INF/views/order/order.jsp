@@ -343,11 +343,20 @@
 			</div>
 			<div class="pay-info w-4/12 mx-1 border border-solid border-gray-400 text-sm">
 				<div class="w-full bg-blue-100 flex pl-4 pr-2 pt-3 pb-3">
-					<span class="inline-block w-4/12 text-blue-600 text-xl font-bold">결제금액</span>
-					<span id="final-price" class="w-8/12 text-red-600 text-xl font-bold text-right pr-9"></span>
+					<span class="inline-block w-4/12 text-blue-600 text-lg font-bold">결제금액</span>
+					<span id="final-price" class="w-8/12 text-red-600 text-lg font-bold text-right pr-9"></span>
+				</div>
+				<div class="w-full bg-blue-100 flex pl-4 pr-2 pt-3 pb-3">
+					<div class="w-4/12 text-blue-600 text-base font-bold">사용가능<br>포인트</div>
+					<div class="pl-6">
+						<span id="final-price" class="block text-blue-600 text-lg font-bold text-right pr-9"><c:out value="${useablePoint}"/></span>
+						<input type="hidden" name="useable-point" value="${useablePoint}">
+						<input type="number" name="point-using" class="w-7/12 text-base font-bold text-right border-b border-solid border-gray-400 focus:outline-none" value="">
+						<button class="inline-block w-4/12 text-xs border border-gray-400 border-solid hover:bg-red-400">전액 사용</button>			
+					</div>
 				</div>
 				<div class="w-full flex pl-4 pr-2 pt-3 pb-3">
-				<span class="inline-block w-4/12 text-lg font-bold">누적 포인트</span>
+					<span class="inline-block w-4/12 text-lg font-bold">적립 포인트</span>
 					<span id="point-stack" class="w-8/12 text-red-600 text-base font-bold text-right pr-9"></span>
 				</div>
 				<div class="w-full flex pl-4 pr-2 pt-3 pb-3">
@@ -488,10 +497,11 @@ function requestPay() {
 		let arr = $("select[name='couponData']").val().split(":");
 		let couponNo = arr[0];
 		let discount = arr[1];
+		let point = $("input[name='point-using']").val();
 		if(arr[0]!=0){
 			realPrice=Math.round(realPrice*(1-discount));
 		}
-		
+		realPrice-=point;
 		let bookTitle = $(".bookTitle");
 		let cartNo=[];
 		$("input[name='cartNo']").each(function(i,v){
@@ -517,7 +527,8 @@ function requestPay() {
 		    digital:false,
 		    cartNo:cartNo,
 		    used_coupon_no:couponNo,
-		    point: Number($("#point-stack").text().split(" ")[0])
+		    point: Number($("#point-stack").text().split(" ")[0]),
+		    point_using:-point
 		});
 		
 		//주문 선입력
@@ -887,4 +898,37 @@ function fn_priceCalc(){
 			}
 		});
     }
+    
+    $("input[name='point-using']").change((e)=>{
+    	const useablePoint = $("input[name='useable-point']").val();
+    	let point=0;
+    	try{
+	   		point= Number($(e.target).val());
+   	    	if(point<0||point>useablePoint){
+    			alert("올바른 값을 넣어주세요")
+    			$(e.target).val("");
+	   			$(e.target).focus();
+	   			return;
+  	    	}else{
+  	    		let arr = $("select[name='couponData']").val().split(":");
+  	  			let couponNo = arr[0];
+  	  			let discount = arr[1];
+	  	  		//쿠폰 사용시
+	  	  		if(arr[0]!=0){
+	  	  			let disPrice = realPrice*(1-discount);
+	  	  			$("#final-price").text((disPrice-point).toLocaleString('ko-KR',{style:'currency',currency:'KRW'}));
+	  	  			$("#final-price").removeClass("text-red-600");
+	  	  			$("#final-price").addClass("text-blue-600");
+	  	  		//쿠폰 사용안함
+	  	  		}else{
+	  	  			$("#final-price").text((realPrice-point).toLocaleString('ko-KR',{style:'currency',currency:'KRW'}));
+	  	  			$("#final-price").addClass("text-red-600");
+	  	  			$("#final-price").removeClass("text-blue-600");
+	  	  		}
+  	  		}
+    	}catch (error){
+    		$(e.target).val("");
+    	}
+    	
+    })
 </script>
