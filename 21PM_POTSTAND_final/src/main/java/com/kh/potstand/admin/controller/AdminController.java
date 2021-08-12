@@ -215,6 +215,7 @@ public class AdminController {
 	public ModelAndView productUpdateEnd(
 			@RequestParam(value="bookGenre",defaultValue="") String bookGenre,
 			@RequestParam(value="bookGenre2",defaultValue="") String bookGenre2,
+			@RequestParam(value="bookGenre3",defaultValue="") String bookGenre3,
 			ModelAndView mv,Book b,
 			HttpServletRequest req,MultipartFile upFile,String oldFile) {
 		
@@ -240,12 +241,16 @@ public class AdminController {
 				}
 				
 			}
-			if(bookGenre.length()==0) {
+			if(bookGenre.length()!=0) {//레벨3 이 없을때
+				b.setSort(service.bookGenreSelectOne(bookGenre));
+			}else if(bookGenre.length()==0&&bookGenre2.length()!=0) {//레벨2가 있을때
 				bookGenre = bookGenre2;
-				b.setSort(service.bookGenreSelectOne(bookGenre));
-			}else {
-				b.setSort(service.bookGenreSelectOne(bookGenre));
+				b.setSort(session.selectOne("admin.bookGenreLv2", bookGenre));
+			}else if(bookGenre.length()==0 && bookGenre2.length()==0){//레벨 1일때
+				bookGenre = bookGenre3;
+				b.setSort(session.selectOne("admin.bookGrenreLv1",bookGenre));
 			}
+			System.out.println(b.getSort());
 		int result = service.productUpdate(b);
 		mv.addObject("loc", "/admin/productSelectList");
 		mv.addObject("msg",result>0?"책 수정에 성공하였습니다!":"수정 실패!");

@@ -561,7 +561,16 @@
   	<!-- 상품 등록 sql문 -->
   	<select id="bookGenreSelectOne" resultMap="sortMap">
   		 select * from sort
-   		 where lv2 = #{bookGenre} or lv3 = #{bookGenre} or lv4 = #{bookGenre}
+   		 where lv3 = #{bookGenre} or lv4 = #{bookGenre}
+  	</select>
+  	<select id="bookGrenreLv1" parameterType="String" resultMap="sortMap">
+  		select * from sort
+  		where lv1 = #{bookGenre} and rownum = 1
+  	</select>
+  	
+  	<select id="bookGenreLv2" parameterType="String" resultMap="sortMap">
+  		select * from sort
+  		where lv2 = #{bookGenre} and rownum = 1
   	</select>
   	
   	<insert id="productInsertEnd"  parameterType="book">

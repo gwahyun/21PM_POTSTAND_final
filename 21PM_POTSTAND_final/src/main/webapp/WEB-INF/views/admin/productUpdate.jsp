@@ -64,6 +64,7 @@
 				</script>
 			</div>
 			<input type="hidden" name="bookCode" value="${b.bookCode }">
+			<input type="hidden" name="bookGenre3" value="${b.sort.lv1 }">
 			<input type="hidden" name="bookGenre2" value="${b.sort.lv2 }">
 			<input type="hidden" name="bookGenre" value="${b.sort.lv3 }" class="input_genre">
 		</div>
