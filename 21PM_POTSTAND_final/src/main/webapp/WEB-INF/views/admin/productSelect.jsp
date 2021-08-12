@@ -96,8 +96,8 @@
 									<th style="width: 5%;">저자</th>
 									<th style="width: 7%;">출판사</th>
 									<th>정가</th>
-									<th style="width: 5%;">출판일</th>
-									<th style="width: 3%;">수정</th>
+									<th >출판일</th>
+									<th >수정</th>
 									<th>삭제</th>
 								</tr>
 							</thead>

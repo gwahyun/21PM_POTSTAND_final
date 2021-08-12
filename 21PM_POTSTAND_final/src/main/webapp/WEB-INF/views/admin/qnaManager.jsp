@@ -34,7 +34,7 @@
                                         <th style="width: 2%;">구분</th>
                                         <th style="width: 20%;">제목</th>
                                         <th style="width: 3%;">작성자</th>
-                                        <th style="width: 3%;">등록일자</th>
+                                        <th>등록일자</th>
                                         <th style="width: 2%;">답변여부</th>
                                         <th style="width: 2%;">답변</th>
                                         <th style="width: 2%;">삭제</th>

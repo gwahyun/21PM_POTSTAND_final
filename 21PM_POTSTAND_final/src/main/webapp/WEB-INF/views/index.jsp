@@ -61,5 +61,5 @@
 		</div>
 		</div>
     </section>
-	<img title="faq입니다!" style="cursor: pointer" onclick="javascript:window.open('${path }/faqChat','','width=500,height=600');" src="${path }/resources/img/images.png" width="100px " class="fix">
+	<img title="faq입니다!" style="cursor: pointer" onclick="javascript:window.open('${path }/faqChat','','width=600,height=600');" src="${path }/resources/img/images.png" width="100px " class="fix">
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
