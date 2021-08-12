@@ -15,9 +15,9 @@
     <link href="${path}/resources/static/tailwind.css" type="text/css" rel="stylesheet"/>
     <script src="${path }/resources/js/jquery-3.6.0.min.js"></script>
 </head>
-<body class="max-w-full">
-    <header class="text-gray-600 body-font">
-		<div class="container mx-auto flex flex-wrap justify-between  p-5 flex-col md:flex-row items-center">
+<body class="max-w-full min-h-full">
+    <header class="text-gray-600 body-font flex justify-center">
+		<div class="container w-full flex flex-wrap justify-between  p-5 flex-col md:flex-row items-center bg-white fixed z-10 top-0">
 			<div class="flex">
           		<a href="${path}" class="flex title-font font-medium items-center text-gray-900 mb-4 md:mb-0">
 	           	<img src="${pageContext.request.contextPath}/resources/img/potstand_logo.svg" alt="" class="fill-current 
@@ -313,8 +313,8 @@
     </c:if>
     </div>
    </div>
-		<div class="container flex flex-start p-5 mx-auto">
-	        <nav class="md:mr-auto flex flex-wrap items-center text-base">
+		<div class="container flex flex-start p-5 mx-auto mt-20">
+	        <nav class="md:mr-auto flex w-full items-center text-base mt-5 pl-3">
 	          <a href="${path}" class="mr-5 hover:text-gray-900">HOME</a>
 	          <a href="${path}/book/booklist.do" class="mr-5 hover:text-gray-900">BOOK</a>
 	          <a href="${path }/event/eventlist.do" class="mr-5 hover:text-gray-900">EVENT</a>

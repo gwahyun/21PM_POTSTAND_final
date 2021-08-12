@@ -54,7 +54,7 @@ public class BookDbTest {
 		// 카테고리 리스트의 길이만큼 반복합니다
 		for (int i = 0; i < cateList.size(); i++) {
 			// 카테고리 리스트의 장르 번호로 100개씩 조회, 필수조건은 목차=1로 고정
-			URL url = new URL("https://openapi.naver.com/v1/search/book_adv.xml?&display=10&start=1&d_catg="
+			URL url = new URL("https://openapi.naver.com/v1/search/book_adv.xml?&display=30&start=1&d_catg="
 					+ cateList.get(i).getSortNo() + "&d_cont=1");
 			HttpURLConnection httpConn = (HttpURLConnection) url.openConnection();
 			httpConn.setRequestMethod("GET");

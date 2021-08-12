@@ -8,7 +8,7 @@
 </jsp:include>
 	<section class="text-grey-600 body-font">
 		<div class="container p-5 mx-auto">
-			<div class="flex flex-wrap w-full mb-20">
+			<div class="flex flex-wrap w-full mb-10">
           		<div class="lg:w-1/2 w-full mb-6 lg:mb-0">
            			 <h1
 			              class="
@@ -18,11 +18,14 @@
 			                title-font
 			                mb-2
 			                text-gray-900
+			                border-b-4
+			                border-red-500
+			                inline-block
+			              
 			              "
 			            >
               			진행중인 이벤트
            			 </h1>
-           			<div class="h-1 w-20 bg-red-500 rounded"></div>
           		</div>
 			</div>
 			 <div class="flex flex-wrap -m-4">
