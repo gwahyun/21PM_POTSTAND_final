@@ -47,4 +47,7 @@ public interface OrderService {
 	
 	//주소 삭제
 	int deleteAddrList(int addrNo);
+	
+	//누적포인트 조회
+	int selectPointSum(String memberId);
 }

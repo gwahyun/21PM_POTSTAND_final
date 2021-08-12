@@ -83,6 +83,13 @@
 		<result column="TYPE" property="type"/>
 		<result column="DISCOUNT" property="discount"/>
 	</resultMap>
+	
+	<resultMap type="paymentObj" id="ObjMap">
+		<id column="OBJ_NO" property="objNo"/>
+		<result column="BOOK_AMOUNT" property="bookAmount"/>
+		<result column="PAYMENT_NO" property="paymentNo"/>
+		<association column="BOOK_CODE" property="book" select="selectBookByPK"/>
+	</resultMap>
 
 	<select id="selectEventByPK" resultMap="eventMap">
 		select * from event where event_no = #{eventNo}
@@ -190,7 +197,7 @@
 		SELECT * FROM COUPON_EVENT WHERE MEMBER_ID=#{memberId} AND TYPE='가격'
 	</select>
 	<insert id="insertPoint">
-		INSERT INTO POINT VALUES(SEQ_POINT.NEXTVAL,#{memberId},#{point},#{name},SYSDATE,#{merchant_uid})
+		INSERT INTO POINT VALUES(SEQ_POINT.NEXTVAL,#{memberId},#{point},'적립',SYSDATE,#{merchant_uid})
 	</insert>
 	
 	<select id="selectRecentAddr" resultType="String">
@@ -213,4 +220,16 @@
 	<delete id="deleteAddrListByPK">
 		DELETE FROM ADDRESS_LIST WHERE ADDR_NO=#{addrNo}
 	</delete>
+	<insert id="insertUsingPoint">
+		INSERT INTO POINT VALUES(SEQ_POINT.NEXTVAL,#{memberId},#{point_using},'사용',SYSDATE,#{merchant_uid})
+	</insert>
+	<select id="selectPointSum" resultType="int">
+		SELECT SUM(POINT) FROM POINT WHERE MEMBER_ID=#{memberId}
+	</select>
+	<select id="selectPaymentObjForBook" resultMap="ObjMap">
+		SELECT * FROM PAYMENT_OBJ WHERE PAYMENT_NO=#{merchant_uid}
+	</select>
+	<update id="updateBookAmount">
+		UPDATE BOOK SET BOOK_STOCK=#{bookStock} WHERE BOOK_CODE=#{bookCode}
+	</update>
 </mapper>
