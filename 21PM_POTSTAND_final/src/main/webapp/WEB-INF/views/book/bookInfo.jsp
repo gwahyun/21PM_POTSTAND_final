@@ -112,8 +112,8 @@
 	<div class="container px-5 py-10 mx-auto">
 		<!-- 책 상세 상단 시작 -->
         <div class="lg:w-4/5 mx-auto flex flex-wrap">
-	        <div class="flex justify-center items-center lg:w-1/2">
-				<img alt="ecommerce" class="scale-down-center lg:w-1/2 w-full lg:h-auto h-64 object-cover object-center rounded" 
+	        <div  class="flex justify-center items-center lg:w-1/2">
+				<img alt="ecommerce"  class="scale-down-center lg:w-1/2 w-full lg:h-auto h-64 object-cover object-center rounded hover:shadow-2xl duration-300 easy-in-out" 
 	          	src=
 	          	 <c:if test="${bookInfo.bookCover.contains('http') }">
 		              			<c:out value="${bookInfo.getBookCover()}"/>

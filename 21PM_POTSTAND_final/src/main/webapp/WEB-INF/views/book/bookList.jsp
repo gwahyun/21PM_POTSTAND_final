@@ -20,8 +20,7 @@
 <section class="text-gray-600 body-font">
 	<div class="container p-5 mx-auto">
 		<div class="container px-5 mx-auto">
-			<h1 class="sm:text-3xl text-2xl font-medium title-font mb-2 text-gray-900">도서보기</h1>
-			<div class="h-1 w-20 bg-red-500 rounded"></div>
+			<h1 class="sm:text-3xl text-2xl font-medium title-font mb-2 text-gray-900 border-b-4 border-red-500 inline-block">도서보기</h1>
 			<!-- 카테고리 분류 -->
 			<div class="flex w-full">
 				<c:forEach items="${lv1}" var="l1">
