@@ -24,6 +24,7 @@ import lombok.extern.slf4j.Slf4j;
 
 
 @Slf4j
+@Transactional
 @Controller
 public class OrderTransactionController {
 	@Autowired
