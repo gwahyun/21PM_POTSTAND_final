@@ -229,4 +229,7 @@
 	<select id="selectPaymentObjForBook" resultMap="ObjMap">
 		SELECT * FROM PAYMENT_OBJ WHERE PAYMENT_NO=#{merchant_uid}
 	</select>
+	<update id="updateBookAmount">
+		UPDATE BOOK SET BOOK_STOCK=#{bookStock} WHERE BOOK_CODE=#{bookCode}
+	</update>
 </mapper>

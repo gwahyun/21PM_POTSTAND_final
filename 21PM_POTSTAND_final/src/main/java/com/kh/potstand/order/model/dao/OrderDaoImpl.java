@@ -157,7 +157,17 @@ public class OrderDaoImpl implements OrderDao{
 		//book 수량 빼줌
 		List<PaymentObj> stackCount = session.selectList("order.selectPaymentObjForBook",param);
 		for(PaymentObj p : stackCount) {
-			session.update(null)
+			int bookAmount = p.getBook().getBookStock();
+			int minus = p.getBookAmount();
+			if(bookAmount-minus<0) {
+				throw new NullPointerException();
+			}else {
+				int newAmount = bookAmount-minus;
+				Map updateBook = new HashMap();
+				updateBook.put("bookStock",newAmount);
+				updateBook.put("bookCode",p.getBook().getBookCode());
+				session.update("order.updateBookAmount",updateBook);
+			}
 		}
 		return result;
 	}
