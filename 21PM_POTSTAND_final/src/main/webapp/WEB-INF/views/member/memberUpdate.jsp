@@ -207,7 +207,7 @@
 		</div>
     </section>
     <script>
-	    let oldPwResult=true;
+	    let oldPwResult=false;
 		let newPwResult=false;
 		let newPw2Result=false;
     
@@ -234,11 +234,12 @@
 	  	//비밀번호체킹 로직
 		$("#oldPw").focus(function(){ //포커싱 되었을때 메세지 지우기
     		$("#oldPw").next().children().text("");
+			oldPwResult=false;
     	});
     	$("#oldPw").blur(function(e){  		
     		if($(e.target).val().trim()<1){
     			$(e.target).next().children().text("");
-    		} else if(fn_memberUpdate_checkPw($(e.target))){
+    		} else {
     			$.ajax({ //현재 비밀번호가일치한지 확인
     				url:"${path}/member/memberUpdateCheckPwd.do",
     				type:"POST",

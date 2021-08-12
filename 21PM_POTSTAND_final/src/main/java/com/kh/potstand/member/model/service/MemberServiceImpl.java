@@ -72,39 +72,16 @@ public class MemberServiceImpl implements MemberService{
 		return dao.memberSearchIdSelect(session, memberEmail);
 	}
 	
+	//아이디,이메일로 아이디찾기
+	@Override
+	public Member memberSearchIdEmailSelect(Member m) {
+		return dao.memberSearchIdEmailSelect(session, m);
+	}
+	
 	//비밀번호 재설정
 	@Override
-	@Transactional
-	public Member memberResetPwd(Member m) throws Exception {
-		try {
-			Member searchM=dao.memberSearchIdSelect(session, m.getMemberEmail());
-			if(searchM!=null && searchM.getMemberId().equals(m.getMemberId())) {
-				//임시비밀번호 발급
-				char[] charSet = new char[] { 
-						'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 
-						'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 
-						'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 
-						'u', 'v', 'w', 'x', 'y', 'z' 
-				};
-				String temporaryPw="!";
-				int index=0;
-				for(int i=0; i<7; i++) {
-					index=(int)(charSet.length*Math.random());
-					temporaryPw+=charSet[index];
-				}
-				searchM.setMemberPwd(pwEncoder.encode(temporaryPw));
-				int result=dao.memberResetPwd(session,searchM);
-				searchM.setMemberPwd(temporaryPw);
-				if(result>0) {
-					return searchM;
-				}
-			}else {
-				throw new Exception("해당 정보로 가입된 아이디가 존재하지 않습니다.");
-			}
-		}catch(RuntimeException e){
-			throw new Exception("비밀번호 재설정에 실패하였습니다. 관리자에게 문의하세요.");
-		}
-		return null;
+	public int memberResetPwd(Member m) {
+		return dao.memberResetPwd(session, m);
 	}
 	
 	//회원탈퇴
@@ -352,6 +329,7 @@ public class MemberServiceImpl implements MemberService{
 	public int qnaSelectCount(String memberId) {
 		return dao.qnaSelectCount(session, memberId);
 	}
+
 
 	//notice 조회수
 	@Override
