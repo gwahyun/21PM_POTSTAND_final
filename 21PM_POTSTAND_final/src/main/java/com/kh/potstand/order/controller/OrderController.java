@@ -44,9 +44,6 @@ public class OrderController {
 	@Autowired
 	private AES256Util aes;
 	
-	//아임포트 객체
-	private IamportClient api = new IamportClient("8116855594363834", "effe9bdd35fafb13df8ab1920c04852352412f937fcfe5bef763620f5980471146a5019f23622baf");
-	
 	
 	//장바구니 리스트 호출 / 이동
 	@RequestMapping("/member/cartList.do")
@@ -195,9 +192,20 @@ public class OrderController {
 			Member memberInfo = (Member)(session.getAttribute("loginMember")); 
 			List<Cart> cartList = service.cartSelectList(cartNo);
 			List<Coupon> couponList = service.paymentCouponSelectList(memberInfo.getMemberId());
+			List<Map> addressList = service.addressListSelect(memberInfo.getMemberId());
+			int useablePoint = service.selectPointSum(memberInfo.getMemberId());
+			for(Map m : addressList) {
+				m.put("PHONE",aes.decrypt((String)m.get("PHONE")));
+				m.put("POST_NO",aes.decrypt((String)m.get("POST_NO")));
+				m.put("ROAD_ADDR",aes.decrypt((String)m.get("ROAD_ADDR")));
+				m.put("OLD_ADDR",aes.decrypt((String)m.get("OLD_ADDR")));
+				m.put("DETAIL_ADDR",aes.decrypt((String)m.get("DETAIL_ADDR")));
+			}
 			mv.addObject("cartList", cartList);
 			mv.addObject("couponList", couponList);
 			mv.addObject("memberInfo", memberInfo);
+			mv.addObject("addressList", addressList);
+			mv.addObject("useablePoint", useablePoint);
 			mv.setViewName("order/order");
 		}catch(Exception e) {
 			e.printStackTrace();
@@ -217,9 +225,20 @@ public class OrderController {
 			param.put("bookAmount", bookAmount);
 			List<Cart> cartList = service.directPayment(param);
 			List<Coupon> couponList = service.paymentCouponSelectList(memberId);
+			List<Map> addressList = service.addressListSelect(memberId);
+			int useablePoint = service.selectPointSum(memberId);
+			for(Map m : addressList) {
+				m.put("PHONE",aes.decrypt((String)m.get("PHONE")));
+				m.put("POST_NO",aes.decrypt((String)m.get("POST_NO")));
+				m.put("ROAD_ADDR",aes.decrypt((String)m.get("ROAD_ADDR")));
+				m.put("OLD_ADDR",aes.decrypt((String)m.get("OLD_ADDR")));
+				m.put("DETAIL_ADDR",aes.decrypt((String)m.get("DETAIL_ADDR")));
+			}
 			mv.addObject("cartList", cartList);
 			mv.addObject("couponList", couponList);
 			mv.addObject("memberInfo", (Member)(session.getAttribute("loginMember")));
+			mv.addObject("addressList", addressList);
+			mv.addObject("useablePoint", useablePoint);
 			mv.setViewName("order/order");
 			
 		}catch(Exception e) {
@@ -229,48 +248,7 @@ public class OrderController {
 	}
 	
 	
-	@RequestMapping("/ajax/beforePayment.do")
-	@ResponseBody
-	public Map beforOrderPayment(HttpSession session, @RequestBody Map param){
-		try {
-			String memberId = ((Member)(session.getAttribute("loginMember"))).getMemberId();
-			param.put("receiverAddress", ((String)param.get("receiverAddress")));
-			param.put("memberId", memberId);
-			param=service.beforOrderPayment(param);
-			//log.debug(param.toString());
-		}catch(Exception e) {
-			e.printStackTrace();
-		}
-		return param;
-	}
 	
-	
-	@RequestMapping("/ajax/paymentCheck.do")
-	@ResponseBody
-	public IamportResponse<Payment> paymentCheck(HttpSession session, @RequestBody Map param) throws IamportResponseException, IOException{
-		String imp_uid = (String)param.get("imp_uid"); 
-		log.debug(imp_uid);
-		return api.paymentByImpUid(imp_uid);
-	}
-	
-	
-	@RequestMapping("/ajax/paymentComplete.do")
-	@ResponseBody
-	public Boolean paymentComplete(HttpSession session, @RequestBody Map param){
-		//성공/실패 확인
-		if((Boolean)param.get("check")) {
-			//cart 삭제 + uid / payMethod update
-			service.paymentSuccess(param);
-			log.debug("success "+param.toString());
-		}else {
-			//uid로 조회해서 payment 삭제
-			service.paymentFail(param);
-			log.debug("fail "+param.toString());
-		}
-		
-		return true;
-			
-	}
 	
 	
 	@RequestMapping("/cartInsert.do")
@@ -291,8 +269,7 @@ public class OrderController {
 	//기본주소
 	@RequestMapping("/ajax/defaultAddr.do")
 	@ResponseBody
-	public Map selectDefaultAddr(HttpSession session) throws Exception{
-		String memberId = ((Member)session.getAttribute("loginMember")).getMemberId();
+	public Map selectDefaultAddr(@RequestParam String memberId) throws Exception{
 		Map data = new HashMap();
 		Address addr = service.selectDefaultAddr(memberId);
 		data.put("postNo", aes.decrypt(addr.getPostNo()));
@@ -307,8 +284,7 @@ public class OrderController {
 	//최근주소
 	@RequestMapping("/ajax/recentAddr.do")
 	@ResponseBody
-	public Map selectRecentAddr(HttpSession session){
-		String memberId = ((Member)session.getAttribute("loginMember")).getMemberId();
+	public Map selectRecentAddr(@RequestParam String memberId){
 		Map data = new HashMap();
 		String[] addr = service.selectRecentAddr(memberId).split(":");
 		data.put("postNo", addr[0]);
@@ -322,22 +298,40 @@ public class OrderController {
 	//새 주소 등록
 	@RequestMapping("/ajax/insertAddress.do")
 	@ResponseBody
-	public Boolean insertAddress(HttpSession session, @RequestBody Map param) throws Exception{
+	public Boolean insertAddress(@RequestBody Map param) throws Exception{
 		Boolean result=false;
-		String memberId = ((Member)session.getAttribute("loginMember")).getMemberId();
-		System.out.println(param.toString());
-		System.out.println(param.get("postNo"));
-		Address addr = new Address();
-		addr.setMemberId(memberId);
-		addr.setPostNo(aes.encrypt((String)param.get("postNo")));
-		addr.setRoadAddr(aes.encrypt((String)param.get("roadAddr")));
-		addr.setOldAddr(aes.encrypt((String)param.get("oldAddr")));
-		addr.setDetailAddr(aes.encrypt((String)param.get("detailAddr")));
-		int re = service.insertAddress(addr);
+		param.put("receiver",(String)param.get("receiver"));
+		param.put("phone",aes.encrypt((String)param.get("phone")));
+		param.put("postNo",aes.encrypt((String)param.get("postNo")));
+		param.put("roadAddr",aes.encrypt((String)param.get("roadAddr")));
+		param.put("oldAddr",aes.encrypt((String)param.get("oldAddr")));
+		param.put("detailAddr",aes.encrypt((String)param.get("detailAddr")));
+		int re = service.insertAddress(param);
 		if(re>0) {
 			result=true;
 		}
 		return result;
 				
+	}
+	
+	//주소 선택
+	@RequestMapping("/ajax/selectAddrList.do")
+	@ResponseBody
+	public Map selectAddrList(@RequestParam int addrNo) throws Exception{
+		Map addr = service.selectAddrList(addrNo);
+		addr.put("PHONE",aes.decrypt((String)addr.get("PHONE")));
+		addr.put("POST_NO",aes.decrypt((String)addr.get("POST_NO")));
+		addr.put("ROAD_ADDR",aes.decrypt((String)addr.get("ROAD_ADDR")));
+		addr.put("OLD_ADDR",aes.decrypt((String)addr.get("OLD_ADDR")));
+		addr.put("DETAIL_ADDR",aes.decrypt((String)addr.get("DETAIL_ADDR")));
+		return addr;			
+	}
+	//주소 삭제
+	@RequestMapping("/ajax/deleteAddrList.do")
+	@ResponseBody
+	public boolean deleteAddrList(@RequestParam int addrNo) throws Exception{
+		int check = service.deleteAddrList(addrNo);
+		boolean result = check>0?true:false;
+		return result;			
 	}
 }

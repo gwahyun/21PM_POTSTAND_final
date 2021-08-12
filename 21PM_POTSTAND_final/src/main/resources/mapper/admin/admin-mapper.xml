@@ -112,6 +112,12 @@
  		<result property="faqTitle" column="faq_title"/>
  		<result property="faqContent" column="faq_content"/>
  	</resultMap>
+ 	<select id="faqSelectList" resultMap="faqMap">
+		select * from faq 	
+ 	</select>
+ 	<select id="faqAjaxSelect" resultType="String">
+ 		select faq_content from faq
+ 	</select>
  	
  	<insert id="faqInsert">
  		insert into faq values(seq_faq.nextval,#{faqTitle},#{faqContent})

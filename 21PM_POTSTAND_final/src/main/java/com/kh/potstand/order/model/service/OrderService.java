@@ -41,5 +41,13 @@ public interface OrderService {
 	//주소선택
 	String selectRecentAddr(String memberId);
 	Address selectDefaultAddr(String memberId);
-	int insertAddress(Address addr);
+	int insertAddress(Map param);
+	List<Map> addressListSelect(String memberId);
+	Map selectAddrList(int addrNo);
+	
+	//주소 삭제
+	int deleteAddrList(int addrNo);
+	
+	//누적포인트 조회
+	int selectPointSum(String memberId);
 }

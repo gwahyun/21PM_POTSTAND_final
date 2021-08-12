@@ -6,13 +6,12 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.kh.potstand.common.AES256Util;
 import com.kh.potstand.event.model.vo.Coupon;
 import com.kh.potstand.member.model.vo.Address;
 import com.kh.potstand.order.model.vo.Cart;
+import com.kh.potstand.order.model.vo.PaymentObj;
 
 import lombok.extern.slf4j.Slf4j;
 @Slf4j
@@ -148,9 +147,28 @@ public class OrderDaoImpl implements OrderDao{
 			updateCoupon.put("couponAmount", amount-1);
 			session.update("order.couponAmountUpdate",updateCoupon);
 		}
+		
 		//포인트 추가
 		session.insert("order.insertPoint",param);
-		
+		//사용포인트 추가
+		if(param.get("point_using")!=null) {
+			session.insert("order.insertUsingPoint",param);
+		}
+		//book 수량 빼줌
+		List<PaymentObj> stackCount = session.selectList("order.selectPaymentObjForBook",param);
+		for(PaymentObj p : stackCount) {
+			int bookAmount = p.getBook().getBookStock();
+			int minus = p.getBookAmount();
+			if(bookAmount-minus<0) {
+				throw new NullPointerException();
+			}else {
+				int newAmount = bookAmount-minus;
+				Map updateBook = new HashMap();
+				updateBook.put("bookStock",newAmount);
+				updateBook.put("bookCode",p.getBook().getBookCode());
+				session.update("order.updateBookAmount",updateBook);
+			}
+		}
 		return result;
 	}
 
@@ -184,10 +202,30 @@ public class OrderDaoImpl implements OrderDao{
 	}
 
 	@Override
-	public int insertAddress(SqlSession session, Address addr) {
-		return session.insert("order.insertAddress", addr);
+	public int insertAddress(SqlSession session, Map param) {
+		return session.insert("order.insertAddress", param);
 	}
 
+	@Override
+	public List<Map> addressListSelect(SqlSession session, String memberId) {
+		return session.selectList("order.selectAddressList", memberId);
+	}
+
+	@Override
+	public Map selectAddrList(SqlSession session, int addrNo) {
+		return session.selectOne("order.selectAddrListByPK",addrNo);
+	}
+
+	@Override
+	public int deleteAddrList(SqlSession session, int addrNo) {
+		return session.delete("order.deleteAddrListByPK",addrNo);
+	}
+
+	@Override
+	public int selectPointSum(SqlSession session, String memberId) {
+		return session.selectOne("order.selectPointSum",memberId);
+	}
+	
 	
 	
 	

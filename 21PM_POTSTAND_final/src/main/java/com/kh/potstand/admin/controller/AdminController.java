@@ -929,7 +929,16 @@ public class AdminController {
 		}
 		return result;
 	}
+	
+	@RequestMapping("/faqChat")
+	public ModelAndView kakaoChat(ModelAndView mv) {
+		List<Faq> list = session.selectList("admin.faqSelectList");
+		mv.addObject("list", list);
+		mv.setViewName("admin/faqChat");
+		return mv;
+	}
 
+	
 	
 	
 	
