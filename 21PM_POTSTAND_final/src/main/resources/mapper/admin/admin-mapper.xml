@@ -15,7 +15,7 @@
  	<select id="memberSelect" resultMap="memberMap">
  		select * from member m
 		    join address a on m.member_id = a.member_id 
-		    where member_sort = 'N' 
+		   
 		    <if test="searchType != null and searchKeyword != null and searchKeyword != ''">
  				and m.${searchType} like '%'||#{searchKeyword}||'%' 
  			</if>
@@ -60,13 +60,7 @@
 	<!-- 관리자,회원관리 -->
  	<update id="memberSortUpdate" >
  		update member 
- 			set member_sort =  
-	 		<if test='memberSort != null and memberSort != "" and memberSort == "Y"'>
-	 			'N'
-	 		</if>
-	 		<if test='memberSort != null and memberSort != "" and memberSort == "N"'>
-	 			'Y'
-	 		</if>
+ 			set member_sort = #{memberSort}
  		where member_id = #{memberId}
  	</update>
  	<!-- 주소관리 -->

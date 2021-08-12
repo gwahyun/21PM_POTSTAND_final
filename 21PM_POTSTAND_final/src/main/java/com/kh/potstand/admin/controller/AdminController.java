@@ -939,9 +939,9 @@ public class AdminController {
 	
 	@RequestMapping("/admin/memberSortUpdate")
 	@ResponseBody
-	public boolean memberSortUpdate(@RequestParam Map param) {
+	public boolean memberSortUpdate(@RequestParam Map param
+			) {
 		int result = service.memberSortUpdate(param);
-		System.out.println(result);
 		return result>0?true:false;
 	}
 	
