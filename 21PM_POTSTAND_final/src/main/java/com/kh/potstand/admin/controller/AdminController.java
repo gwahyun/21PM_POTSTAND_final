@@ -41,7 +41,6 @@ import com.kh.potstand.event.model.vo.Event;
 import com.kh.potstand.member.model.vo.Address;
 import com.kh.potstand.member.model.vo.Member;
 import com.kh.potstand.order.model.vo.Payment;
-import com.kh.potstand.order.model.vo.PaymentObj;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -937,7 +936,14 @@ public class AdminController {
 		mv.setViewName("admin/faqChat");
 		return mv;
 	}
-
+	
+	@RequestMapping("/admin/memberSortUpdate")
+	@ResponseBody
+	public boolean memberSortUpdate(@RequestParam Map param) {
+		int result = service.memberSortUpdate(param);
+		System.out.println(result);
+		return result>0?true:false;
+	}
 	
 	
 	

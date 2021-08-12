@@ -473,6 +473,12 @@ public class AdminServiceImpl implements AdminService {
 		// TODO Auto-generated method stub
 		return dao.bookRequest(session,param);
 	}
+
+	@Override
+	public int memberSortUpdate(Map param) {
+		// TODO Auto-generated method stub
+		return dao.memberSortUpdate(session,param);
+	}
 	
 	
 	

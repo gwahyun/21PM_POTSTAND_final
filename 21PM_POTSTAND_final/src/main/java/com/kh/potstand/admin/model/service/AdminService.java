@@ -167,6 +167,8 @@ public interface AdminService {
 
 	int requestCount();
 
+	int memberSortUpdate(Map param);
+
 
 
 

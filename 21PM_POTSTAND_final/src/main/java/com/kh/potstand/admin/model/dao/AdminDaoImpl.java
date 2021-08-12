@@ -506,6 +506,12 @@ public class AdminDaoImpl implements AdminDao {
 		// TODO Auto-generated method stub
 		return session.insert("admin.bookRequest", param);
 	}
+
+	@Override
+	public int memberSortUpdate(SqlSessionTemplate session, Map param) {
+		// TODO Auto-generated method stub
+		return session.update("admin.memberSortUpdate", param);
+	}
 	
 	
 	

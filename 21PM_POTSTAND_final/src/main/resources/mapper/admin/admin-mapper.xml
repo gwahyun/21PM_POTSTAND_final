@@ -56,7 +56,19 @@
  	<delete id="memberDelete">
  		delete from member where member_id = #{memberId}
  	</delete>
- 	
+	
+	<!-- 관리자,회원관리 -->
+ 	<update id="memberSortUpdate" >
+ 		update member 
+ 			set member_sort =  
+	 		<if test='memberSort != null and memberSort != "" and memberSort == "Y"'>
+	 			'N'
+	 		</if>
+	 		<if test='memberSort != null and memberSort != "" and memberSort == "N"'>
+	 			'Y'
+	 		</if>
+ 		where member_id = #{memberId}
+ 	</update>
  	<!-- 주소관리 -->
  	<select id="memberAddressList" resultMap="addressMap">
  		select * from address 
@@ -833,4 +845,5 @@
  		insert into request values(seq_request.nextval,#{memberId},#{no},'N',default,null)
  	</insert>
  
+ 	
 </mapper>
