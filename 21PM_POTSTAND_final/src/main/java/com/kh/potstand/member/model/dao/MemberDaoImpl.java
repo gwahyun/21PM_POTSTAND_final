@@ -50,6 +50,12 @@ public class MemberDaoImpl implements MemberDao{
 		return session.selectOne("member.memberSearchIdSelect", memberEmail);
 	}
 	
+	//아이디,이메일로 아이디찾기
+	@Override
+	public Member memberSearchIdEmailSelect(SqlSession session, Member m) {
+		return session.selectOne("member.memberSearchIdEmailSelect", m);
+	}
+	
 	//비밀번호재설정
 	@Override
 	public int memberResetPwd(SqlSession session, Member m) {
@@ -278,6 +284,7 @@ public class MemberDaoImpl implements MemberDao{
 		return session.selectOne("function.qnaSelectCount", memberId);
 	}
 
+	
 
 
 

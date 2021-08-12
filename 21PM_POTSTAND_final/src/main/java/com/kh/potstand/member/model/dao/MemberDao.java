@@ -32,6 +32,9 @@ public interface MemberDao {
 	//이메일로 아이디찾기
 	Member memberSearchIdSelect(SqlSession session,String memberEmail);
 	
+	//아이디,이메일로 아이디찾기
+	Member memberSearchIdEmailSelect(SqlSession session,Member m);
+	
 	//비밀번호 재설정
 	int memberResetPwd(SqlSession session, Member m);
 	

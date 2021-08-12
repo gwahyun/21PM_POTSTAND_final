@@ -26,8 +26,11 @@ public interface MemberService {
 	//이메일로 아이디찾기
 	Member memberSearchIdSelect(String memberEmail);
 	
+	//아이디,이메일로 아이디찾기
+	Member memberSearchIdEmailSelect(Member m);
+	
 	//비밀번호 재설정
-	Member memberResetPwd(Member m) throws Exception;
+	int memberResetPwd(Member m);
 	
 	//회원탈퇴
 	int memberDelete(@RequestParam Map param) throws Exception;
