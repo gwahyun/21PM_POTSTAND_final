@@ -133,12 +133,11 @@
 					}
 			}
 				function memberSortUpdate(e,memberSort,memberId){
-					alert($(e.target).html());
 					if($(e.target).html()!='관리자'){
 						if(confirm('관리자로 변경하시겠습니까?')){
 							$.get("${path}/admin/memberSortUpdate?memberId="+memberId+"&memberSort="+memberSort,data=>{
 								if(data){
-									alert("성공!");
+									alert("관리자 모드로 변경되었습니다.");
 									$(e.target).html("관리자");
 								}else{
 									alert("실패!");
@@ -149,7 +148,7 @@
 						if(confirm('일반회원으로 변경하시겠습니까?')){
 							$.get("${path}/admin/memberSortUpdate?memberId="+memberId+"&memberSort="+memberSort,data=>{
 								if(data){
-									alert("성공!");
+									alert("일반회원 모드로로 변경되었습니다.");
 									$(e.target).html("일반회원");
 								}else{
 									alert("실패!");
