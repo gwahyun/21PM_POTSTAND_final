@@ -127,15 +127,15 @@
 		                <input class="content-center text-base py-2 border-b border-gray-300 focus:outline-none 
 	                    focus:border-indigo-500" type="text" id="addrDetail" name="oldAddr" value="" style="width: 49%;" required> <!-- 상세주소 -->
 	                    <input class="content-center text-base py-2 border-b border-gray-300 focus:outline-none 
-	                    focus:border-indigo-500" type="text" id="roadAddrPart2" name="detailAddr" value="" style="width: 49%;" required> <!-- 상세주소2 -->
+	                    focus:border-indigo-500" type="text" id="roadAddrPart2" name="detailAddr" value="" style="width: 49%;"> <!-- 상세주소2 -->
                     </div>
                 </div>
                 <div class="flex items-center">
-                    <input id="agree1" name="agree" type="checkbox" class="h-4 w-4 bg-indigo-500 
-                    focus:ring-indigo-400 border-gray-300 rounded"/>
+                	<input id="agree1" name="agree" type="checkbox" class="h-4 w-4 bg-indigo-500 
+                   	focus:ring-indigo-400 border-gray-300 rounded"/>
                     <label for="remember_me" class="ml-2 block text-sm text-gray-900">
-                        이용약관 동의<span class="text-red-500">(필수)</span>
-                    </label>
+                       	이용약관 동의<span class="text-red-500">(필수)</span>
+                    </label>              	
                 </div>
                 <div class="flex items-center">
                     <input id="agree2" name="agree" type="checkbox" class="h-4 w-4 bg-indigo-500 
