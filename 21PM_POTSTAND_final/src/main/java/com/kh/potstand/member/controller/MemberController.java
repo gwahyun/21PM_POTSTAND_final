@@ -238,50 +238,49 @@ public class MemberController {
 	
 	//비밀번호 재설정
 	@RequestMapping("/member/memberResetPwd.do")
-	@Transactional
+	@Transactional(rollbackFor= {Exception.class})
 	public ModelAndView memberResetPwd(Member m, ModelAndView mv) throws NoSuchAlgorithmException, 
 	UnsupportedEncodingException, GeneralSecurityException {
 		m.setMemberEmail(aes.encrypt(m.getMemberEmail()));	
 		String msg="";
 		Member searchM=service.memberSearchIdEmailSelect(m);
-		
-		if(searchM!=null) { //해당아이디가있고 임시비밀번호로 변경했을경우		
-			if(searchM!=null && searchM.getMemberId().equals(m.getMemberId())) {
-				//임시비밀번호 발급
-				char[] charSet = new char[] { 
-						'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 
-						'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 
-						'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 
-						'u', 'v', 'w', 'x', 'y', 'z' 
-				};
-				String temporaryPw="!";
-				int index=0;
-				for(int i=0; i<7; i++) {
-					index=(int)(charSet.length*Math.random());
-					temporaryPw+=charSet[index];
-				}
-				m.setMemberPwd(pwEncoder.encode(temporaryPw));
-				int result=service.memberResetPwd(m);
-				if(result>0) { //임시비밀번호로 변경에 성공했을경우
-					//임시비밀번호 메일로 보내기
-					try {
-						MimeMessage message = mailSender.createMimeMessage();
-						MimeMessageHelper messageHelper = new MimeMessageHelper(message,true, "UTF-8");
-
-						messageHelper.setFrom("audrhkd1220@naver.com"); // 보내는사람 생략하면 정상작동을 안함
-						messageHelper.setTo(aes.decrypt(searchM.getMemberEmail())); // 받는사람 이메일
-						messageHelper.setSubject("PotStand 비밀번호 재설정"); // 메일제목은 생략이 가능하다
-						messageHelper.setText("임시비밀번호입니다. 로그인 후 변경해주세요. \n"+m.getMemberPwd()); // 메일 내용
-						mailSender.send(message);
-						msg="가입하신 이메일로 임시비밀번호가 발급되었습니다.";
-					} catch (Exception e) {
-						//service.restorePwd(resultM)
-						msg="비밀번호를 재설정하는데 에러가 발생했습니다. 관리자에게 문의하세요.";
-					}	
-				}
-			}else {
-				msg="해당 정보로 가입된 아이디가 존재하지 않습니다.";
+		if(searchM!=null && searchM.getMemberId().equals(m.getMemberId())) { //해당아이디가있고 조회한 아이디와 같을경우					
+			//임시비밀번호 발급
+			char[] charSet = new char[] { 
+					'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 
+					'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 
+					'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 
+					'u', 'v', 'w', 'x', 'y', 'z' 
+			};
+			String temporaryPw="!";
+			int index=0;
+			for(int i=0; i<7; i++) {
+				index=(int)(charSet.length*Math.random());
+				temporaryPw+=charSet[index];
 			}
+			m.setMemberPwd(pwEncoder.encode(temporaryPw));
+			int result=service.memberResetPwd(m);
+			if(result>0) { //임시비밀번호로 변경에 성공했을경우
+				//임시비밀번호 메일로 보내기
+				try {
+					MimeMessage message = mailSender.createMimeMessage();
+					MimeMessageHelper messageHelper = new MimeMessageHelper(message,true, "UTF-8");
+
+					messageHelper.setFrom("audrhkd1220@naver.com"); // 보내는사람 생략하면 정상작동을 안함
+					messageHelper.setTo(aes.decrypt(m.getMemberEmail())); // 받는사람 이메일
+					messageHelper.setSubject("PotStand 비밀번호 재설정"); // 메일제목은 생략이 가능하다
+					messageHelper.setText("임시비밀번호입니다. 로그인 후 변경해주세요. \n"+temporaryPw); // 메일 내용
+					log.debug("{}",temporaryPw);
+					mailSender.send(message);
+					
+					msg="가입하신 이메일로 임시비밀번호가 발급되었습니다.";
+				} catch (Exception e) {
+					service.memberRestorePwd(searchM); //원래비밀번호로되돌리기
+					msg="비밀번호를 재설정하는데 에러가 발생했습니다. 관리자에게 문의하세요.";
+				}	
+			}
+		}else {
+			msg="해당 정보로 가입된 아이디가 존재하지 않습니다.";
 		}
 		
 		mv.addObject("msg", msg);

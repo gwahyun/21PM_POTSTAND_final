@@ -32,6 +32,9 @@ public interface MemberService {
 	//비밀번호 재설정
 	int memberResetPwd(Member m);
 	
+	//비밀번호 복구
+	int memberRestorePwd(Member m);
+	
 	//회원탈퇴
 	int memberDelete(@RequestParam Map param) throws Exception;
 	
