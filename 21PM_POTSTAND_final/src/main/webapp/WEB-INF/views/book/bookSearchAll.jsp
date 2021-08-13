@@ -20,7 +20,14 @@
 		 				<a href="${path }/book/bookinfo.do?no=${t.getBookCode()}">
 		            	<div class="bg-gray-100 p-6 rounded-lg">
 		              		<img class="h-45 rounded w-full object-contain object-center mb-6" 
-		              		src=<c:out value="${t.getBookCover()}"/> alt="content"/>
+		              		src= <c:if test="${t.bookCover.contains('http') }">
+		              			<c:out value="${t.getBookCover()}"/>
+		              		</c:if>
+	              			<c:if test="${!t.bookCover.contains('http') }">
+	              				${path }/resources/upload/book/${t.bookCover }
+		              		</c:if>
+		              		
+		              		 alt="content"/>
 		              		<h3 class="tracking-widest text-red-500 text-sm font-medium title-font">
 		              			<c:out value="${t.getBookPub()}" escapeXml="false"/>
 		              		</h3>
@@ -55,7 +62,14 @@
 				 			<a href="${path }/book/bookinfo.do?no=${w.getBookCode()}">
 				            	<div class="bg-gray-100 p-6 rounded-lg">
 				              		<img class="h-45 rounded w-full object-contain object-center mb-6" 
-				              		src=<c:out value="${w.getBookCover()}"/> alt="content"/>
+				              		src=
+									<c:if test="${w.bookCover.contains('http') }">
+				              			<c:out value="${w.getBookCover()}"/>
+				              		</c:if>
+			              			<c:if test="${!w.bookCover.contains('http') }">
+			              				${path }/resources/upload/book/${w.bookCover }
+				              		</c:if>
+		              		 alt="content"/>
 				              		<h3 class="tracking-widest text-red-500 text-sm font-medium title-font">
 				              			<c:out value="${w.getBookPub()}" escapeXml="false"/>
 				              		</h3>
@@ -90,7 +104,14 @@
 		 			<a href="${path }/book/bookinfo.do?no=${p.getBookCode()}">
 		            	<div class="bg-gray-100 p-6 rounded-lg">
 		              		<img class="h-45 rounded w-full object-contain object-center mb-6" 
-		              		src=<c:out value="${p.getBookCover()}"/> alt="content"/>
+		              		src=
+							 <c:if test="${p.bookCover.contains('http') }">
+		              			<c:out value="${p.getBookCover()}"/>
+		              		</c:if>
+	              			<c:if test="${!p.bookCover.contains('http') }">
+	              				${path }/resources/upload/book/${p.bookCover }
+		              		</c:if>
+							 alt="content"/>
 		              		<h3 class="tracking-widest text-red-500 text-sm font-medium title-font">
 		              			<c:out value="${p.getBookPub()}" escapeXml="false"/>
 		              		</h3>

@@ -82,6 +82,7 @@
                                         <th style="width: 1%;">핸드폰 번호</th>
                                         <th style="width: 3%;">가입일</th>
                                         <th style="width: 1%;">삭제</th>
+                                        <th style="width: 1%;">회원</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -107,6 +108,18 @@
                                         <td>${l.memberPhone }</td>
                                         <td><fmt:formatDate value="${l.enrollDate }" pattern="yyyy년 MM월 dd일"/></td>
                                         <td><button class="update-btn"style="background-color: #FF5A5A;" onclick="memberDelete('${l.memberId}')">삭제</button></td>
+                                        <td>
+                                        <button class="update-btn" style="background-color:gray" onclick="memberSortUpdate(event,'${l.memberId}')">
+                                        <c:choose>
+                                        	<c:when test="${l.memberSort =='Y'}">
+                                        		관리자	
+                                        	</c:when>
+                                        	<c:otherwise>
+                                        		일반회원
+                                        	</c:otherwise>
+                                        </c:choose>
+                                        </button>
+                                        </td>
                                     </tr>
                                 </c:forEach>
                                   
@@ -122,6 +135,32 @@
 						location.assign('${path}/admin/memberDelete?memberId='+memberId);
 					}
 			}
+				function memberSortUpdate(e,memberId){
+					var sort = $(e.target).text();
+					if(sort.indexOf('관리자')==-1){
+						if(confirm('관리자로 변경하시겠습니까?')){
+							$.get("${path}/admin/memberSortUpdate?memberId="+memberId+"&memberSort=Y",data=>{
+								if(data){
+									alert("관리자 모드로 변경되었습니다.");
+									$(e.target).html("관리자");
+								}else{
+									alert("실패!");
+								}
+							})
+						}
+					}else{
+						if(confirm('일반회원으로 변경하시겠습니까?')){
+							$.get("${path}/admin/memberSortUpdate?memberId="+memberId+"&memberSort=N",data=>{
+								if(data){
+									alert("일반회원 모드로 변경되었습니다.");
+									$(e.target).html("일반회원");
+								}else{
+									alert("실패!");
+								}
+							})
+						}
+					}
+				}
 		</script>
                     
                     <!-- 페이지 네비게이션 자리 -->

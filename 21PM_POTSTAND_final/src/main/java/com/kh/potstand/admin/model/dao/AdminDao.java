@@ -168,4 +168,6 @@ public interface AdminDao {
 	int bookRequest(SqlSessionTemplate session, Map param);
 
 	int requestCount(SqlSessionTemplate session);
+
+	int memberSortUpdate(SqlSessionTemplate session, Map param);
 }
