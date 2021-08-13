@@ -19,7 +19,6 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -239,7 +238,7 @@ public class MemberController {
 	
 	//비밀번호 재설정
 	@RequestMapping("/member/memberResetPwd.do")
-	//@Transactional(rollbackFor= {Exception.class})
+	@Transactional(rollbackFor= {Exception.class})
 	public ModelAndView memberResetPwd(Member m, ModelAndView mv) throws NoSuchAlgorithmException, 
 	UnsupportedEncodingException, GeneralSecurityException {
 		m.setMemberEmail(aes.encrypt(m.getMemberEmail()));	
@@ -271,13 +270,12 @@ public class MemberController {
 					messageHelper.setTo(aes.decrypt(m.getMemberEmail())); // 받는사람 이메일
 					messageHelper.setSubject("PotStand 비밀번호 재설정"); // 메일제목은 생략이 가능하다
 					messageHelper.setText("임시비밀번호입니다. 로그인 후 변경해주세요. \n"+temporaryPw); // 메일 내용
-					log.debug(temporaryPw);
+					log.debug("{}",temporaryPw);
 					mailSender.send(message);
 					
 					msg="가입하신 이메일로 임시비밀번호가 발급되었습니다.";
 				} catch (Exception e) {
-					//service.restorePwd(searchM);
-					TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+					service.memberRestorePwd(searchM); //원래비밀번호로되돌리기
 					msg="비밀번호를 재설정하는데 에러가 발생했습니다. 관리자에게 문의하세요.";
 				}	
 			}

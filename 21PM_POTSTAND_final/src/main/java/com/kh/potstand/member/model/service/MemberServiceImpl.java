@@ -5,7 +5,6 @@ import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,10 +32,6 @@ public class MemberServiceImpl implements MemberService{
 	
 	@Autowired
 	private SqlSession session;
-	
-	//단방향암호화
-	@Autowired
-	private BCryptPasswordEncoder pwEncoder;
 	
 	//로그인 -> 멤버찾기
 	@Override
@@ -83,6 +78,13 @@ public class MemberServiceImpl implements MemberService{
 	public int memberResetPwd(Member m) {
 		return dao.memberResetPwd(session, m);
 	}
+	
+	//비밀번호 복구
+	@Override
+	public int memberRestorePwd(Member m) {
+		return dao.memberRestorePwd(session,m);
+	}
+
 	
 	//회원탈퇴
 	@Override
@@ -330,12 +332,12 @@ public class MemberServiceImpl implements MemberService{
 		return dao.qnaSelectCount(session, memberId);
 	}
 
-
 	//notice 조회수
 	@Override
 	public int noticeReadCount(Notice n) {
 		return dao.noticeReadCount(session, n);
 	}
 
+	
 	
 }

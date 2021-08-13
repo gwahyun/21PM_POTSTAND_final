@@ -218,7 +218,6 @@
     	//이메일 정규표현식으로 체크
     	function fn_memberEnroll_checkEmail(email){
     		let e=email.val();
-    		//영문+숫자포함 특수문자(. - _)만 사용가능한 정규표현식
     		var emailReg = /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/;;
             if(!emailReg.test(e)) {
             	email.next().children().eq(0).text("이메일 형식이 올바르지 않습니다.");         	

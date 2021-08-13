@@ -38,6 +38,9 @@ public interface MemberDao {
 	//비밀번호 재설정
 	int memberResetPwd(SqlSession session, Member m);
 	
+	//비밀번호 복구
+	int memberRestorePwd(SqlSession session, Member m);
+	
 	//회원 주소삭제
 	int memberAddrDelete(SqlSession session, @RequestParam Map param);
 	

@@ -62,6 +62,12 @@ public class MemberDaoImpl implements MemberDao{
 		return session.update("member.memberResetPwd", m);
 	}
 	
+	//비밀번호 복구
+	@Override
+	public int memberRestorePwd(SqlSession session, Member m) {
+		return session.update("member.memberRestorePwd", m);
+	}
+	
 	//회원주소 삭제
 	@Override
 	public int memberAddrDelete(SqlSession session, Map param) {
@@ -289,6 +295,8 @@ public class MemberDaoImpl implements MemberDao{
 	public int noticeReadCount(SqlSession session, Notice n) {
 		return session.update("function.noticeReadCount",n);
 	}
+
+	
 
 
 	
