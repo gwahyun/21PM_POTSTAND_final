@@ -256,6 +256,7 @@ public class OrderController {
 	public boolean cartInsert(@RequestParam Map param, HttpSession session, String bookCode	) {
 		int result = 0;
 		param.put("memberId", ((Member)session.getAttribute("loginMember")).getMemberId());
+		log.debug(((Member)session.getAttribute("loginMember")).getMemberId());
 		Cart c = as.cartSelectDistinct(param);
 		if(c==null) {
 			result = as.cartInsert(param);
