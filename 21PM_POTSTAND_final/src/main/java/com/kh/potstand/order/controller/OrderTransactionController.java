@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.kh.potstand.admin.model.service.AdminService;
+import com.kh.potstand.member.model.service.MemberService;
 import com.kh.potstand.member.model.vo.Member;
 import com.kh.potstand.order.model.service.OrderService;
 import com.siot.IamportRestClient.IamportClient;
@@ -29,6 +30,9 @@ import lombok.extern.slf4j.Slf4j;
 public class OrderTransactionController {
 	@Autowired
 	private OrderService service;
+	
+	@Autowired
+	private MemberService mService;
 	
 	@Autowired
 	private AdminService as;
@@ -78,4 +82,12 @@ public class OrderTransactionController {
 		return true;
 			
 	}
+	
+	//마이페이지 -주문목록/배송조회 결제취소
+	@RequestMapping("/member/memberOrderListDelete.do")
+	@ResponseBody
+	public boolean memberOrderListDelete(int paymentNo) {
+		return service.memberOrderListDelete(paymentNo);
+	}
+	
 }

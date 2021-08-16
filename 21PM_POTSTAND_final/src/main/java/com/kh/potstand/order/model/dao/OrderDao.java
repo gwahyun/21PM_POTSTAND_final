@@ -8,6 +8,8 @@ import org.apache.ibatis.session.SqlSession;
 import com.kh.potstand.event.model.vo.Coupon;
 import com.kh.potstand.member.model.vo.Address;
 import com.kh.potstand.order.model.vo.Cart;
+import com.kh.potstand.order.model.vo.Payment;
+import com.kh.potstand.order.model.vo.PaymentObj;
 
 public interface OrderDao {
 
@@ -53,4 +55,17 @@ public interface OrderDao {
 	
 	//누적포인트 조회
 	int selectPointSum(SqlSession session, String memberId);
+	
+	
+	//결제취소할 payment있는지 확인
+	Payment memberOrderSelect(SqlSession session,int paymentNo);
+	
+	//결제취소 - payment적용된 coupon 되돌리기
+	int paymentCouponUpdate(SqlSession session,int couponNo);
+	
+	//결제취소 - 책재고 원상태로 복귀
+	int bookStockUpdate(SqlSession session,PaymentObj po);
+
+	//결제취소 - payment state '결제취소'로 변경
+	int orderStateUpdate(SqlSession session,int paymentNo);
 }

@@ -50,4 +50,7 @@ public interface OrderService {
 	
 	//누적포인트 조회
 	int selectPointSum(String memberId);
+
+	//마이페이지 - 주문목록/배송조회 결제취소
+	boolean memberOrderListDelete(int paymentNo);
 }
