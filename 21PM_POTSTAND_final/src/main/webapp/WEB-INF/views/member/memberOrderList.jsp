@@ -167,22 +167,27 @@
     	function fn_memberOrderList_orderCancel(e){
     		if(confirm('정말로 결제를 취소하시겠습니까?')){
     			console.log($(e.target).next().val());
-    			$.ajax({
-    				type:"post",
-    				url:"${path}/member/memberOrderListDelete.do",
-    				data:{
-    					"paymentNo":$(e.target).next().val()
-    				},
-    				success:data=>{
-    					if(data){
-    						alert('결제가 취소되었습니다.');
-    						location.reload();
-    					}else{
-    						alert('결제를 취소하지 못했습니다. 관리자에게 문의하세요.');
-    					}
-    				}
-    			});
+    			jQuery.ajax({
+    		   	      "url": "${path}/member/memberOrderListDelete.do", // 예: http://www.myservice.com/payments/cancel
+    		   	      "type": "POST",
+    		   	      "contentType": "application/json",
+    		   	      "data": JSON.stringify({
+    		   	        "merchant_uid": $(e.target).next().val(), // 예: ORD20180131-0000011
+    		   	        "cancel_request_amount": 2000, // 환불금액
+    		   	        "reason": "테스트 결제 환불" // 환불사유
+    		   	        "refund_holder": "홍길동", // [가상계좌 환불시 필수입력] 환불 수령계좌 예금주
+    		   	        "refund_bank": "88" // [가상계좌 환불시 필수입력] 환불 수령계좌 은행코드(예: KG이니시스의 경우 신한은행은 88번)
+    		   	        "refund_account": "56211105948400" // [가상계좌 환불시 필수입력] 환불 수령계좌 번호
+    		   	      }),
+    		   	      "dataType": "json"
+    		   	    });
+    			
     		}
     	}
+    	
+    	
+
+    	
+    	
     </script>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
