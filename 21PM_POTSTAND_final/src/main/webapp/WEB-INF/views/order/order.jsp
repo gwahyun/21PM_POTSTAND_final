@@ -559,6 +559,9 @@ function requestPay() {
 	      // jQuery로 HTTP 요청
 	      param.pay_method=rsp.pay_method;
 	      param.cAmount=rsp.paid_amount;
+	      param.imp_uid=rsp.imp_uid;
+	      param.merchant_uid=rsp.rsp.merchant_uid;
+	      
 	      $.ajax({
 	          url: "${path}/ajax/paymentCheck.do", // 가맹점 서버
 	          method: "POST",
@@ -605,7 +608,7 @@ function requestPay() {
 		          contentType:'application/json',
 		          data: JSON.stringify(param),
 		          success:function(data){
-		        	  $("#failForm").submit();
+		        	  //$("#failForm").submit();
 				  }
 		   });
 	}
