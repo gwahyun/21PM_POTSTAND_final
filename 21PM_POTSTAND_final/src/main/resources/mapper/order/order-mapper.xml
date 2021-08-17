@@ -233,4 +233,33 @@
 	<update id="updateBookAmount">
 		UPDATE BOOK SET BOOK_STOCK=#{bookStock} WHERE BOOK_CODE=#{bookCode}
 	</update>
+	
+	<resultMap type="payment" id="paymentMap">
+		<id column="payment_no" property="paymentNo"/>
+		<result column="member_id" property="memberId"/>
+		<result column="receiver_name" property="receiverName"/>
+		<result column="receiver_addr" property="receiverAddr"/>
+		<result column="message" property="message"/>
+		<result column="post_message" property="postMessage"/>
+		<result column="name" property="name"/>
+		<result column="pay_method" property="payMethod"/>
+		<result column="merchant_uid" property="merchantUid"/>	
+		<result column="amount" property="amount"/>	
+		<result column="pay_date" property="payDate"/>	
+		<result column="order_state" property="orderState"/>	
+		<result column="user_coupon_no" property="usedCouponNo"/>
+		<result column="imp_uid" property="impUid"/>	
+		<collection property="paymentObj" resultMap="paymentObjMap"/>
+	</resultMap>
+	<resultMap type="paymentObj" id="paymentObjMap">
+		<id column="obj_no" property="objNo"/>
+		<result column="book_amount" property="bookAmount"/>
+		<result column="payment_no" property="paymentNo"/>
+		<association property="book" column="book_code" select="selectBookByPK"/>
+		<association property="coupon" column="used_coupon_no" select="selectCouponByPK"/>
+	</resultMap>
+	
+	<select id="paymentSelectByPK" resultMap="paymentMap">
+		SELECT * FROM PAYMENT JOIN PAYMENT_OBJ USING(PAYMENT_NO) WHERE PAYMENT_NO=#{paymentNo}
+	</select>
 </mapper>

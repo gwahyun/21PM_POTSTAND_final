@@ -68,4 +68,6 @@ public interface OrderDao {
 
 	//결제취소 - payment state '결제취소'로 변경
 	int orderStateUpdate(SqlSession session,int paymentNo);
+	
+	Payment paymentSelect(SqlSession session, int paymentNo);
 }

@@ -251,6 +251,11 @@ public class OrderDaoImpl implements OrderDao{
 		return session.update("member.orderStateUpdate", paymentNo);
 	}
 
+	@Override
+	public Payment paymentSelect(SqlSession session, int paymentNo) {
+		return session.selectOne("order.paymentSelectByPK", paymentNo);
+	}
+
 	
 	
 	
