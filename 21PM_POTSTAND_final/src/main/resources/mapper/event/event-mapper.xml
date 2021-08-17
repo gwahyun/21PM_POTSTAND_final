@@ -18,7 +18,8 @@
 	<!-- 이벤트 페이지 -->
 	
 	<select id="selectEventList" resultMap="eventMap">
-		SELECT * FROM EVENT
+			select * from event
+		order by event_no desc
 	</select>
 	<select id="selectEventPost" resultMap="eventMap">
 		select * from event where event_no = #{no}

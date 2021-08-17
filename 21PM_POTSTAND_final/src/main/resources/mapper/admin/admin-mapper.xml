@@ -244,7 +244,7 @@
  	
  	<select id="eventSelect" resultMap="eventMap">
  		select * from event
- 		order by end_check asc
+		order by event_no desc
  	</select>
  	
  	<select id="eventSelectCount" resultType="_int">

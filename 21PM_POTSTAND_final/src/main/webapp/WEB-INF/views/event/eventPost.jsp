@@ -26,7 +26,8 @@
           		</div>
           		 <div class="text-red-500">${event.eventStart} ~ ${event.eventEnd}</div>
 			</div>
-			 <div class="text-xl leading-relaxed mb-10">
+			 <div class="text-xl leading-relaxed mb-10" style="justify-content: center;
+    display: flex;">
 				<div id="viewer" > 
 				</div>
 			 </div>
