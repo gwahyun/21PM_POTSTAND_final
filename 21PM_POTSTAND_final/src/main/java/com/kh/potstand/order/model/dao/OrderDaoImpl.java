@@ -112,7 +112,7 @@ public class OrderDaoImpl implements OrderDao{
 			Map cParam = new HashMap();
 			cParam.put("bookCode", c.getBook().getBookCode());
 			cParam.put("bookAmount",c.getBookAmount());
-			cParam.put("paymentNo",param.get("merchant_uid"));
+			cParam.put("paymentNo",param.get("paymentNo"));
 			
 			if(c.getUsedCouponNo()!=0) {
 				cParam.put("usedCouponNo",c.getUsedCouponNo());
