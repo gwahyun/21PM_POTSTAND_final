@@ -70,8 +70,7 @@
                <h3 class="text-base w-1/12 "><c:out value="${qna.memberId}"/></h3>
                <h3 class="text-base w-1/12 "><fmt:formatDate pattern="yy/MM/dd" value="${qna.qnaDate}"/></h3>
             </div>
-            <div class="myqna-content border-solid border-b  border-gray-300 my-5 h-2/5 leading-relaxed">
-                <c:out value="${qna.qnaContent}"/> 
+            <div id="viewer" class="myqna-content border-solid border-b  border-gray-300 my-5 leading-relaxed">
             </div>
         </div>
         <c:choose>
@@ -101,6 +100,15 @@
           	</button>
           	</div>
     </section>
+    	<script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
+    <script>
+    const viewer = toastui.Editor.factory({
+        el: document.querySelector("#viewer"),
+        viewer: true,
+        height: "500px",
+      });
+        viewer.setMarkdown('${qna.qnaContent}');
+    </script>
     <!------------------------------------------------------------------------------------------------------------------------------------------------------------->
     <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
 </body>
