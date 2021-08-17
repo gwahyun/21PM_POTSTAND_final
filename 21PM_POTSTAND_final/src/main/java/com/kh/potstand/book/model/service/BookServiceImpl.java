@@ -136,7 +136,7 @@ public class BookServiceImpl implements BookService {
 	public List<Book> searchMoreInfo (Map map, int cPage, int numPerpage) {
 		return dao.searchBookInfoMore(session, map, cPage, numPerpage);
 	}
-
+	//검색한 책의 갯수 반환
 	@Override
 	public int searchBookCount(Map map) {
 		return dao.searchBookCount(session, map);
