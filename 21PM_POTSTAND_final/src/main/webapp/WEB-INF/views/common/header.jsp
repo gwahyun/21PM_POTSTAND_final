@@ -322,9 +322,7 @@
       	</div>
 	</header>
 	    <script>
-      document.querySelector("#member-menu").addEventListener("click", () => {
-        document
-          .querySelector("#member-menu-content")
-          .classList.toggle("hidden");
+      document.querySelector("#member-menu").addEventListener("click", (e) => {
+        document.querySelector("#member-menu-content").classList.toggle("hidden");
       });
     </script>
