@@ -153,6 +153,7 @@ public class OrderDaoImpl implements OrderDao{
 		if(param.get("point_using")!=null) {
 			session.insert("order.insertUsingPoint",param);
 		}
+		
 		//book 수량 빼줌
 		List<PaymentObj> stackCount = session.selectList("order.selectPaymentObjForBook",param);
 		for(PaymentObj p : stackCount) {
