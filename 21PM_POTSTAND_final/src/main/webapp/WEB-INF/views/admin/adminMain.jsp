@@ -49,6 +49,7 @@
 		</div>
         </section>
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        
         <script>
         
         window.addEventListener("load",function(){
@@ -103,7 +104,7 @@
             }
         });
         const labels = [
-			${c}            
+			${c}           
             ];
         const data = {
           labels: labels,
@@ -168,8 +169,6 @@
                 config
               );
     
-        
-        
         </script>
     
 </body>

@@ -1,6 +1,5 @@
 package com.kh.potstand.order.controller;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -24,10 +23,7 @@ import com.kh.potstand.member.model.vo.Address;
 import com.kh.potstand.member.model.vo.Member;
 import com.kh.potstand.order.model.service.OrderService;
 import com.kh.potstand.order.model.vo.Cart;
-import com.siot.IamportRestClient.IamportClient;
-import com.siot.IamportRestClient.exception.IamportResponseException;
-import com.siot.IamportRestClient.response.IamportResponse;
-import com.siot.IamportRestClient.response.Payment;
+import com.kh.potstand.order.model.vo.Payment;
 
 import lombok.extern.slf4j.Slf4j;
 @Slf4j
@@ -256,6 +252,7 @@ public class OrderController {
 	public boolean cartInsert(@RequestParam Map param, HttpSession session, String bookCode	) {
 		int result = 0;
 		param.put("memberId", ((Member)session.getAttribute("loginMember")).getMemberId());
+		log.debug(((Member)session.getAttribute("loginMember")).getMemberId());
 		Cart c = as.cartSelectDistinct(param);
 		if(c==null) {
 			result = as.cartInsert(param);
@@ -333,5 +330,12 @@ public class OrderController {
 		int check = service.deleteAddrList(addrNo);
 		boolean result = check>0?true:false;
 		return result;			
+	}
+	
+	//결제 취소를 위해 payment 정보 리턴
+	@RequestMapping("/order/paymentSelect.do")
+	@ResponseBody
+	public Payment paymentSelect(int paymentNo) {
+		return service.paymentSelect(paymentNo);
 	}
 }

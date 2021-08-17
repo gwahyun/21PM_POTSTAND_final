@@ -402,7 +402,7 @@
 	</div>
 	
 	<!-- 모달 -->
-  <div class="modal opacity-0 pointer-events-none fixed w-full h-full top-0 left-0 flex items-center justify-center">
+  <div class="modal opacity-0 pointer-events-none fixed w-full h-full top-0 left-0 flex items-center justify-center z-30">
     <div class="modal-overlay absolute w-full h-full bg-gray-900 opacity-50"></div>
     
     <div class="modal-container bg-white w-11/12 md:w-5/12 mx-10 rounded shadow-lg z-50 overflow-y-auto">
@@ -559,6 +559,9 @@ function requestPay() {
 	      // jQuery로 HTTP 요청
 	      param.pay_method=rsp.pay_method;
 	      param.cAmount=rsp.paid_amount;
+	      param.imp_uid=rsp.imp_uid;
+	      param.merchant_uid=rsp.merchant_uid;
+	      
 	      $.ajax({
 	          url: "${path}/ajax/paymentCheck.do", // 가맹점 서버
 	          method: "POST",
@@ -605,7 +608,7 @@ function requestPay() {
 		          contentType:'application/json',
 		          data: JSON.stringify(param),
 		          success:function(data){
-		        	  $("#failForm").submit();
+		        	  //$("#failForm").submit();
 				  }
 		   });
 	}

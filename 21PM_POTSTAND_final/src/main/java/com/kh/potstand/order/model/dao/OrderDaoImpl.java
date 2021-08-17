@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import com.kh.potstand.event.model.vo.Coupon;
 import com.kh.potstand.member.model.vo.Address;
 import com.kh.potstand.order.model.vo.Cart;
+import com.kh.potstand.order.model.vo.Payment;
 import com.kh.potstand.order.model.vo.PaymentObj;
 
 import lombok.extern.slf4j.Slf4j;
@@ -111,7 +112,7 @@ public class OrderDaoImpl implements OrderDao{
 			Map cParam = new HashMap();
 			cParam.put("bookCode", c.getBook().getBookCode());
 			cParam.put("bookAmount",c.getBookAmount());
-			cParam.put("paymentNo",param.get("merchant_uid"));
+			cParam.put("paymentNo",param.get("paymentNo"));
 			
 			if(c.getUsedCouponNo()!=0) {
 				cParam.put("usedCouponNo",c.getUsedCouponNo());
@@ -152,6 +153,7 @@ public class OrderDaoImpl implements OrderDao{
 		if(param.get("point_using")!=null) {
 			session.insert("order.insertUsingPoint",param);
 		}
+		
 		//book 수량 빼줌
 		List<PaymentObj> stackCount = session.selectList("order.selectPaymentObjForBook",param);
 		for(PaymentObj p : stackCount) {
@@ -226,8 +228,34 @@ public class OrderDaoImpl implements OrderDao{
 	
 	
 	
+	//결제취소할 payment있는지 확인
+	@Override
+	public Payment memberOrderSelect(SqlSession session, int paymentNo) {
+		return session.selectOne("member.memberOrderSelect", paymentNo);
+	}
 	
+	//결제취소 - payment적용된 coupon 되돌리기
+	@Override
+	public int paymentCouponUpdate(SqlSession session, int couponNo) {
+		return session.update("member.paymentCouponUpdate",couponNo);
+	}
 	
+	//결제취소 - 책재고 원상태로 복귀
+	@Override
+	public int bookStockUpdate(SqlSession session, PaymentObj po) {
+		return session.update("member.bookStockUpdate", po);
+	}
+	
+	//결제취소 - payment state '결제취소'로 변경
+	@Override
+	public int orderStateUpdate(SqlSession session, int paymentNo) {
+		return session.update("member.orderStateUpdate", paymentNo);
+	}
+
+	@Override
+	public Payment paymentSelect(SqlSession session, int paymentNo) {
+		return session.selectOne("order.paymentSelectByPK", paymentNo);
+	}
 
 	
 	

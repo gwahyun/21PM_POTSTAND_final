@@ -169,20 +169,34 @@
     			console.log($(e.target).next().val());
     			$.ajax({
     				type:"post",
-    				url:"${path}/member/memberOrderListDelete.do",
+    				url:"${path}/order/paymentSelect.do",
     				data:{
     					"paymentNo":$(e.target).next().val()
     				},
-    				success:data=>{
-    					if(data){
-    						alert('결제가 취소되었습니다.');
-    						location.reload();
-    					}else{
-    						alert('결제를 취소하지 못했습니다. 관리자에게 문의하세요.');
-    					}
+    				success:function(data){
+    					$.ajax({
+    						url:"${path}/ajax/paymentCancle.do",
+    						data:JSON.stringify(data),
+    						type:"post",
+    						dataType: "json",
+    						contentType:'application/json',
+    					}).done(function(result){ // 환불 성공시 로직 
+    						$.ajax({
+								url:"${path}/member/memberOrderListDelete.do",
+								data:{
+			    					"paymentNo":$(e.target).next().val()
+			    				},
+			    				success:function(data){
+			    					alert("결제가 취소되었습니다.");
+			    					document.location.reload(true);
+			    				}
+    						});
+    					}).fail(function(error) { // 환불 실패시 로직
+    					      alert("환불 실패 : "+error);
+    					});
     				}
     			});
-    		}
+    		};
     	}
     </script>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
