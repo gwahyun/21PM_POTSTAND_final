@@ -103,6 +103,7 @@ public class AdminController {
 		  mv.addObject("count2",count.get("count2"));
 		  mv.addObject("count3",count.get("count3"));
 		  mv.addObject("count4",count.get("count4"));
+		  mv.addObject("count5",count.get("count5"));
 		 
 		return mv;
 	}

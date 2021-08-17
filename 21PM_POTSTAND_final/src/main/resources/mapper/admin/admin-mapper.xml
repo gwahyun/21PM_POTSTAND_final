@@ -498,7 +498,9 @@
  	<!-- request -->
  	
  	<select id="requsetCount" resultType="int">
- 		select count(*) from request where status = 'N'
+ 		select count(*) from request r
+    	join book b on r.book_code = b.book_code
+    	where status = 'N'
  	</select>
  	
  	<resultMap id="requestMap" type="request">
@@ -737,13 +739,13 @@
   	</resultMap> -->
 	
 	<select id="priceDateList" resultType="int">
-		select nvl(sum(amount),0) from payment where to_date(pay_date,'YY-MM-DD') = #{str}
+		select nvl(sum(amount),0) from payment where to_date(pay_date,'YY-MM-DD') = #{str} and order_state != '결제취소'
 	</select>
 	
 	<select id="amountDateList" resultType="int">
 		 select nvl(sum(book_amount),0) from payment_obj 
 	         join payment using(payment_no)        
-	    	where to_date(pay_date,'YY-MM-DD') = #{str}
+	    	where to_date(pay_date,'YY-MM-DD') = #{str} and order_state != '결제취소'
 	</select>
 	
 	 <select id="orderCountMap1" resultType="int">
@@ -766,6 +768,12 @@
   			  where order_state = '배송완료' and pay_date >= sysdate-6
 	</select> 
 	
+		<select id="orderCountMap5" resultType="int">
+		  select count(*) count4 from payment
+  			  where order_state = '결제취소' and pay_date >= sysdate-6
+	</select> 
+	
+	
 	<select id="creditDateList" resultMap="paymentMap">
 			select * from payment 
 			join payment_obj using(payment_no)
@@ -774,6 +782,7 @@
 			<if test="endDate != null and endDate != '' and startDate != '' and startDate != null">
 	  			and to_date(pay_date,'YY-MM-DD') <![CDATA[<=]]> #{endDate} and to_date(pay_date,'YY-MM-DD') >= #{startDate}
 			</if>
+			order_state != '결제취소'
 	</select>
 	
 	
@@ -784,6 +793,7 @@
 		<if test="endDate != null and endDate != '' and startDate != '' and startDate != null">
   			and to_date(pay_date,'YY-MM-DD') <![CDATA[<=]]> #{endDate} and to_date(pay_date,'YY-MM-DD') >= #{startDate}
 		</if>
+			and order_state != '결제취소'
 		
 		
 		 <!-- where to_date(pay_date,'YY-MM-DD') >=  -->
