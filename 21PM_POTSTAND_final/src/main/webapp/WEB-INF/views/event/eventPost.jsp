@@ -27,9 +27,22 @@
           		 <div class="text-red-500">${event.eventStart} ~ ${event.eventEnd}</div>
 			</div>
 			 <div class="text-xl leading-relaxed mb-10">
-			 ${event.eventInfo}
+				<div id="viewer" > 
+				</div>
 			 </div>
 			     <div class="w-min-full flex justify-center">
+			      <script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
+			      <script>
+			      
+			      console.log('${event.eventInfo}');
+			      const viewer = toastui.Editor.factory({
+			          el: document.querySelector("#viewer"),
+			          viewer: true,
+			          height: "500px",
+			        });
+			    	  
+			          viewer.setMarkdown('${event.eventInfo}');
+			      </script>
       <button
         class="
           inline-flex
