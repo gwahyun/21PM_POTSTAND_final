@@ -163,13 +163,13 @@
 		 */
 	 -->
 	<insert id="insertPaymentByParam">
-		<selectKey keyProperty="merchant_uid" resultType="int" order="AFTER">
+		<selectKey keyProperty="paymentNo" resultType="int" order="AFTER">
 			SELECT SEQ_PAYMENT.CURRVAL FROM DUAL 
 		</selectKey>
 		INSERT INTO PAYMENT VALUES(SEQ_PAYMENT.NEXTVAL, 
 									#{memberId, jdbcType=VARCHAR}, #{receiverName, jdbcType=VARCHAR}, #{receiverAddress, jdbcType=VARCHAR}, 
 									#{message, jdbcType=VARCHAR}, #{postMessage, jdbcType=VARCHAR}, #{name, jdbcType=VARCHAR}, #{pay_method, jdbcType=VARCHAR}, 
-									#{merchant_uid, jdbcType=INTEGER}, #{amount, jdbcType=INTEGER}, SYSDATE, DEFAULT, #{used_coupon_no, jdbcType=VARCHAR})
+									#{merchant_uid, jdbcType=VARCHAR}, #{amount, jdbcType=INTEGER}, SYSDATE, DEFAULT, #{imp_uid, jdbcType=VARCHAR}, #{used_coupon_no, jdbcType=VARCHAR})
 	</insert>
 	<insert id="insertPaymentObjByParam">
 		INSERT INTO PAYMENT_OBJ VALUES(SEQ_PAYMENT_OBJ.NEXTVAL, #{bookCode}, #{bookAmount}, #{paymentNo}, #{usedCouponNo, jdbcType=VARCHAR})
@@ -180,11 +180,11 @@
 	</delete>
 	
 	<delete id="deletePaymentByPK">
-		DELETE FROM PAYMENT WHERE PAYMENT_NO=#{merchant_uid}
+		DELETE FROM PAYMENT WHERE PAYMENT_NO=#{paymentNo}
 	</delete>
 	
 	<update id="updatePayment">
-		UPDATE PAYMENT SET MERCHANT_UID=#{merchant_uid}, PAY_METHOD=#{pay_method} WHERE PAYMENT_NO=#{merchant_uid}
+		UPDATE PAYMENT SET MERCHANT_UID=#{merchant_uid}, PAY_METHOD=#{pay_method}, IMP_UID = #{imp_uid} WHERE PAYMENT_NO=#{paymentNo}
 	</update>
 	
 	<insert id="insertCart">
@@ -198,7 +198,7 @@
 		SELECT * FROM COUPON_EVENT WHERE MEMBER_ID=#{memberId} AND TYPE='가격'
 	</select>
 	<insert id="insertPoint">
-		INSERT INTO POINT VALUES(SEQ_POINT.NEXTVAL,#{memberId},#{point},'적립',SYSDATE,#{merchant_uid})
+		INSERT INTO POINT VALUES(SEQ_POINT.NEXTVAL,#{memberId},#{point},'적립',SYSDATE,#{paymentNo})
 	</insert>
 	
 	<select id="selectRecentAddr" resultType="String">
@@ -222,15 +222,44 @@
 		DELETE FROM ADDRESS_LIST WHERE ADDR_NO=#{addrNo}
 	</delete>
 	<insert id="insertUsingPoint">
-		INSERT INTO POINT VALUES(SEQ_POINT.NEXTVAL,#{memberId},#{point_using},'사용',SYSDATE,#{merchant_uid})
+		INSERT INTO POINT VALUES(SEQ_POINT.NEXTVAL,#{memberId},#{point_using},'사용',SYSDATE,#{paymentNo})
 	</insert>
 	<select id="selectPointSum" resultType="int">
 		SELECT NVL(SUM(POINT),0) FROM POINT WHERE MEMBER_ID=#{memberId}
 	</select>
 	<select id="selectPaymentObjForBook" resultMap="ObjMap">
-		SELECT * FROM PAYMENT_OBJ WHERE PAYMENT_NO=#{merchant_uid}
+		SELECT * FROM PAYMENT_OBJ WHERE PAYMENT_NO=#{paymentNo}
 	</select>
 	<update id="updateBookAmount">
 		UPDATE BOOK SET BOOK_STOCK=#{bookStock} WHERE BOOK_CODE=#{bookCode}
 	</update>
+	
+	<resultMap type="payment" id="paymentMap">
+		<id column="payment_no" property="paymentNo"/>
+		<result column="member_id" property="memberId"/>
+		<result column="receiver_name" property="receiverName"/>
+		<result column="receiver_addr" property="receiverAddr"/>
+		<result column="message" property="message"/>
+		<result column="post_message" property="postMessage"/>
+		<result column="name" property="name"/>
+		<result column="pay_method" property="payMethod"/>
+		<result column="merchant_uid" property="merchantUid"/>	
+		<result column="amount" property="amount"/>	
+		<result column="pay_date" property="payDate"/>	
+		<result column="order_state" property="orderState"/>	
+		<result column="user_coupon_no" property="usedCouponNo"/>
+		<result column="imp_uid" property="impUid"/>	
+		<collection property="paymentObj" resultMap="paymentObjMap"/>
+	</resultMap>
+	<resultMap type="paymentObj" id="paymentObjMap">
+		<id column="obj_no" property="objNo"/>
+		<result column="book_amount" property="bookAmount"/>
+		<result column="payment_no" property="paymentNo"/>
+		<association property="book" column="book_code" select="selectBookByPK"/>
+		<association property="coupon" column="used_coupon_no" select="selectCouponByPK"/>
+	</resultMap>
+	
+	<select id="paymentSelectByPK" resultMap="paymentMap">
+		SELECT * FROM PAYMENT JOIN PAYMENT_OBJ USING(PAYMENT_NO) WHERE PAYMENT_NO=#{paymentNo}
+	</select>
 </mapper>

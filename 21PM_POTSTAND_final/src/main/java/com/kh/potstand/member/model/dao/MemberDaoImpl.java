@@ -212,29 +212,6 @@ public class MemberDaoImpl implements MemberDao{
 		return session.selectOne("member.memberOrderListCount", memberId);
 	}
 	
-	//결제취소할 payment있는지 확인
-	@Override
-	public Payment memberOrderSelect(SqlSession session, int paymentNo) {
-		return session.selectOne("member.memberOrderSelect", paymentNo);
-	}
-	
-	//결제취소 - payment적용된 coupon 되돌리기
-	@Override
-	public int paymentCouponUpdate(SqlSession session, int couponNo) {
-		return session.update("member.paymentCouponUpdate",couponNo);
-	}
-	
-	//결제취소 - 책재고 원상태로 복귀
-	@Override
-	public int bookStockUpdate(SqlSession session, PaymentObj po) {
-		return session.update("member.bookStockUpdate", po);
-	}
-	
-	//결제취소 - payment state '결제취소'로 변경
-	@Override
-	public int orderStateUpdate(SqlSession session, int paymentNo) {
-		return session.update("member.orderStateUpdate", paymentNo);
-	}
 	
 	//마이페이지 - 모든 결제리스트 조회
 	@Override

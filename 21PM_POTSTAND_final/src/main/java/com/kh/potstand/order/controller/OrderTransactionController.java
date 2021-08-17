@@ -1,6 +1,7 @@
 package com.kh.potstand.order.controller;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
@@ -15,8 +16,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.kh.potstand.admin.model.service.AdminService;
 import com.kh.potstand.member.model.vo.Member;
 import com.kh.potstand.order.model.service.OrderService;
+import com.kh.potstand.order.model.vo.Payments;
 import com.siot.IamportRestClient.IamportClient;
 import com.siot.IamportRestClient.exception.IamportResponseException;
+import com.siot.IamportRestClient.request.CancelData;
 import com.siot.IamportRestClient.response.IamportResponse;
 import com.siot.IamportRestClient.response.Payment;
 
@@ -29,6 +32,7 @@ import lombok.extern.slf4j.Slf4j;
 public class OrderTransactionController {
 	@Autowired
 	private OrderService service;
+	
 	
 	@Autowired
 	private AdminService as;
@@ -77,5 +81,38 @@ public class OrderTransactionController {
 		
 		return true;
 			
+	}
+	
+	//마이페이지 -주문목록/배송조회 결제취소
+	@RequestMapping("/member/memberOrderListDelete.do")
+	@ResponseBody
+	public boolean memberOrderListDelete(int paymentNo) {
+		return service.memberOrderListDelete(paymentNo);
+	}
+	
+	@RequestMapping("/ajax/paymentCancle.do")
+	@ResponseBody
+	public IamportResponse<Payment> paymentCancle(HttpSession session, @RequestBody Payments param) throws IamportResponseException, IOException{
+		CancelData cancel_data = new CancelData(param.getImpUid(), true);
+		cancel_data.setChecksum(BigDecimal.valueOf(param.getAmount()));
+		IamportResponse<Payment> payment_response=null;
+		try {
+			payment_response = api.cancelPaymentByImpUid(cancel_data);
+		} catch (IamportResponseException e) {
+			switch(e.getHttpStatusCode()) {
+				case 401 :
+					//TODO
+					break;
+				case 500 :
+					//TODO
+					break;
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			return payment_response;
+		}
+		
 	}
 }

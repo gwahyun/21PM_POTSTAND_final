@@ -247,41 +247,6 @@ public class MemberServiceImpl implements MemberService{
 		return dao.memberOrderListCount(session,memberId);
 	}
 	
-	//마이페이지 -주문목록/배송조회 결제취소
-	@Override
-	@Transactional
-	public boolean memberOrderListDelete(int paymentNo) {
-		try {
-			int result=1;
-			Payment p=dao.memberOrderSelect(session,paymentNo);
-			if(p!=null) {
-				//payment지우기, paymentObj들 지우기, payment/paymentObj coupon개수늘리기, bookCode로 book재고 다시 bookAmount만큼 늘리기
-				if(p.getCoupon()!=null) { //payment에 쿠폰을 사용햇을경우
-					//payment에적용된 쿠폰 사용일 지우기, 쿠폰 개수 +1, coupon_end N
-					result=dao.paymentCouponUpdate(session,p.getCoupon().getCouponNo());
-				}
-				if(result>0) {
-					for(PaymentObj po : p.getPaymentObj()) {
-						if(po.getCoupon()!=null) { //paymentObj에 쿠폰을 사용했을경우
-							//paymentObj에적용된 쿠폰 사용일 지우기, 쿠폰 개수 +1, coupon_end N
-							result=dao.paymentCouponUpdate(session,po.getCoupon().getCouponNo());
-						}
-						if(result>0) {
-							//bookCode로 책 재고 늘려주는 로직 자리
-							result=dao.bookStockUpdate(session,po);
-						}else return false;
-					}
-					if(result>0) {
-						//payment state '결제취소'로 변경
-						if(dao.orderStateUpdate(session,p.getPaymentNo())>0) return true;
-						else return false;
-					}else return false;
-				}else return false;
-			}else return false;
-		}catch(RuntimeException e) {
-			return false;
-		}
-	}
 	
 	//마이페이지 - 모든 결제리스트 조회
 	@Override

@@ -6,6 +6,7 @@ import java.util.Map;
 import com.kh.potstand.event.model.vo.Coupon;
 import com.kh.potstand.member.model.vo.Address;
 import com.kh.potstand.order.model.vo.Cart;
+import com.kh.potstand.order.model.vo.Payment;
 
 public interface OrderService {
 	
@@ -50,4 +51,9 @@ public interface OrderService {
 	
 	//누적포인트 조회
 	int selectPointSum(String memberId);
+
+	//마이페이지 - 주문목록/배송조회 결제취소
+	boolean memberOrderListDelete(int paymentNo);
+	
+	Payment paymentSelect(int paymentNo);
 }
