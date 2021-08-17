@@ -54,6 +54,8 @@ public interface BookService {
 	
 	//책 검색
 	public Map<String, List> searchBookInfo(Map map);
+	//검색한 결과 수 보여주는 메소드
 	public int searchBookCount(Map map);
+	//책 카테고리 검색
 	public List<Book> searchMoreInfo(Map map, int cPage, int numPerpage);
 }

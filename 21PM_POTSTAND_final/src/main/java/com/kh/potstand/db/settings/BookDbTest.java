@@ -72,12 +72,10 @@ public class BookDbTest {
 			factory.setNamespaceAware(true);
 			DocumentBuilder builder = null;
 
-			response.replace("<b>", "").replace("</b>", "");
-
 			try {
 				// api의 response를 String result로 가져옵니다
-			String result = response.replace("<hr>", "").replace("<b>", "").replace("</b>", "");
-				InputSource is = new InputSource(new StringReader(result));
+			
+				InputSource is = new InputSource(new StringReader(response));
 
 				// xml형식을 읽을 수 있게 문서를 빌드합니다
 				builder = factory.newDocumentBuilder();
