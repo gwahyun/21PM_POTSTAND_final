@@ -37,7 +37,11 @@ public class EventController {
 	
 	//회원에게 쿠폰 발급하는 메소드
 	@RequestMapping("event/getcoupon.do")
-	public String getCoupon(@RequestParam(value="no") int no, @RequestParam(value="start") String start, @RequestParam (value="end") String end, Model m, HttpSession session) {
+	public String getCoupon(@RequestParam(value="no") int no, 
+							@RequestParam(value="start") String start,
+							@RequestParam (value="end") String end, 
+							Model m, 
+							HttpSession session) {
 		
 		//로그인 확인
 		if(session.getAttribute("loginMember")==null) {

@@ -152,6 +152,7 @@ public class BookController {
 		return service.bookReviewDelete(param);
 	}
 	
+	//책 통합검색
 	@RequestMapping("/search/bookinfo.do")
 	public ModelAndView searchBookInfo(
 			@RequestParam(value="search") String search,
@@ -168,6 +169,7 @@ public class BookController {
 		return mv;
 	}
 	
+	//책 카테고리 검색
 	@RequestMapping("/search/bookinfomore.do")
 	public ModelAndView searchBookInfoMore(
 			@RequestParam(value="search") String search,
