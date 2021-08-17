@@ -20,10 +20,11 @@ public class Payment {
 	private String postMessage;
 	private String name;
 	private String payMethod;
-	private int merchantUid;
+	private String merchantUid;
 	private int amount;
 	private Date payDate; 
 	private String orderState;
 	private Coupon coupon;
+	private String impUid;
 	private List<PaymentObj> paymentObj = new ArrayList<PaymentObj>();
 }

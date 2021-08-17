@@ -560,7 +560,7 @@ function requestPay() {
 	      param.pay_method=rsp.pay_method;
 	      param.cAmount=rsp.paid_amount;
 	      param.imp_uid=rsp.imp_uid;
-	      param.merchant_uid=rsp.rsp.merchant_uid;
+	      param.merchant_uid=rsp.merchant_uid;
 	      
 	      $.ajax({
 	          url: "${path}/ajax/paymentCheck.do", // 가맹점 서버
