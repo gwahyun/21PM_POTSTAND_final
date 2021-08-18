@@ -101,8 +101,8 @@
             transform: scale(1);
   }
   100% {
-    -webkit-transform: scale(0.7);
-            transform: scale(0.7);
+    -webkit-transform: scale(2);
+            transform: scale(2);
   }
 }
 
@@ -112,18 +112,18 @@
 	<div class="container px-5 py-10 mx-auto">
 		<!-- 책 상세 상단 시작 -->
         <div class="lg:w-4/5 mx-auto flex flex-wrap">
-	        <div  class="flex justify-center items-center lg:w-1/2">
+	        <div  class="flex justify-center items-center lg:w-1/4 ">
 				<img alt="ecommerce"  class="scale-down-center lg:w-1/2 w-full lg:h-auto h-64 object-cover object-center rounded hover:shadow-2xl duration-300 easy-in-out" 
-	          	src=
+	          	src="
 	          	 <c:if test="${bookInfo.bookCover.contains('http') }">
 		              			<c:out value="${bookInfo.getBookCover()}"/>
 		              		</c:if>
 	              			<c:if test="${!bookInfo.bookCover.contains('http') }">
 	              				${path }/resources/upload/book/${bookInfo.bookCover }
 		              		</c:if>
-	          	/>
+	          	"/>
         </div>
-          	<div class="lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0">
+          	<div class="lg:w-3/4 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0">
             	<h2 class="text-sm title-font text-gray-500 tracking-widest"><c:out value="${bookInfo.getBookPub()}"/></h2>
             	<h1 class="text-gray-900 text-3xl title-font font-medium mb-1"><c:out value="${bookInfo.getBookTitle()}"/></h1>
             	<div class="flex mb-4">
@@ -234,13 +234,14 @@
                 		</div>
               		</div>
             	</div>
-				<div class="flex items-center justify-evenly">
+				<div class="flex items-center justify-between">
               		<div class="flex justify-center items-center">
 		                <span class="mr-3 align-middle">총액</span>
 		                <span id="sumPrice" class="title-font font-medium text-2xl text-gray-900"></span>원
 					            
               		</div>
-              		<button class=" flex text-white bg-gray-300 border-0 py-4 px-4 focus:outline-none rounded"
+              		<div class="flex justify-evenly">
+              		<button class=" flex text-white bg-gray-300 border-0 py-4 px-4 focus:outline-none rounded mr-2"
               		onclick="fn_book_bookHeart(event)">
                 		<svg fill="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-10 
                 		h-10 fill-current <c:if test="${heartCheck!=null }">text-red-500</c:if>" viewBox="0 0 24 24" id="heartBtn">
@@ -248,7 +249,7 @@
                   			1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"></path>
                 		</svg>
               		</button>
-              		<button onclick="goCart();" class="flex text-white bg-gray-300 border-0 py-4 px-4 focus:outline-none rounded">
+              		<button onclick="goCart();" class="flex text-white bg-gray-300 border-0 py-4 px-4 focus:outline-none rounded mr-2">
                 		<svg  class="fill-current text-white w-10" viewBox="0 -31 512.00033 512" 
                 		xmlns="http://www.w3.org/2000/svg">
                   			<g stroke>
@@ -273,6 +274,7 @@
            				<button onclick="request(${bookInfo.bookCode})" class=" flex text-white bg-gray-300 border-0 py-5 px-10 focus:outline-none rounded hover:bg-blue-600 
 	              		rounded text-xl">입고요청</button>
               		</c:if>
+              		</div>
             	</div>
           	</div>
 		</div>
