@@ -62,11 +62,10 @@
 					class="inline-block text-xl font-bold pl-2 border-l-4 border-blue-400 border-solid my-3 ">
 					상품확인 : ${fn:length(cartList)} 건</h3>
 				<span class="inline-block text-xs ml-4">상품정보 변경을 원하시면 →</span>
-				<button class="bg-gray-300 
-                			border border-solid border-gray-400 
+				<button class="bg-red-500 text-gray-100 tracking-wide font-semibold 
                 			py-1 px-1 
                 			focus:outline-none 
-                			hover:bg-red-200 
+                			hover:bg-red-400 
 	          				hover:text-white rounded 
 	          				font-bold text-xs
 	          				mt-4 md:mt-0"
@@ -286,7 +285,7 @@
 					<div class="ml-6">
 						<label class="inline-block text-sm mr-3 w-20">우편번호</label>
 						<input id="postNo" class="text-xs w-3/12 mr-3 border-b border-gray-400 border-solid focus:outline-none" type="text" name="postNo" value="${defAddr.postNo}">
-						<button class="find-addr inline-block w-1/12 text-xs border border-gray-400 border-solid" onclick="goPopup();">주소찾기</button>
+						<button class="find-addr inline-block w-1/12 text-xs bg-red-500 text-gray-100 rounded tracking-wide font-semibold hover:bg-red-400" onclick="goPopup();">주소찾기</button>
 					</div>
 					<div class="ml-6">
 						<label class="inline-block text-sm mr-3 w-20">도로명 주소</label>
@@ -296,7 +295,7 @@
 						<label class="inline-block text-sm mr-3 w-20">상세주소</label>
 						<input id="addrDetail" class="text-xs w-3/12 mr-3 border-b border-gray-400 border-solid focus:outline-none" type="text" name="addrDetail" value="${defAddr.oldAddr}">
 						<input id="roadAddrPart2" class="text-xs w-3/12 mr-3 border-b border-gray-400 border-solid focus:outline-none" type="text" name="roadAddr2" value="${defAddr.detailAddr}">
-						<button class="add-addr inline-block ml-3 w-2/12 text-xs border border-gray-400 border-solid hidden" onclick="add_address();">주소록에 추가</button>
+						<button class="add-addr inline-block ml-3 w-2/12 text-xs bg-red-500 text-gray-100 rounded tracking-wide font-semibold hover:bg-red-400 hidden" onclick="add_address();">주소록에 추가</button>
 					</div>
 				</div>
 				<div class="phone">
@@ -352,7 +351,7 @@
 						<span id="final-price" class="block text-blue-600 text-lg font-bold text-right pr-9"><c:out value="${useablePoint}"/></span>
 						<input type="hidden" name="useable-point" value="${useablePoint}">
 						<input type="number" name="point-using" class="w-7/12 text-base font-bold text-right border-b border-solid border-gray-400 focus:outline-none" value="">
-						<button class="inline-block w-4/12 text-xs border border-gray-400 border-solid hover:bg-red-400" onclick="fn_allPoint();">전액 사용</button>			
+						<button class="inline-block w-4/12 text-xs bg-red-500 text-gray-100 rounded tracking-wide font-semibold hover:bg-red-400" onclick="fn_allPoint();">전액 사용</button>			
 					</div>
 				</div>
 				<div class="w-full flex pl-4 pr-2 pt-3 pb-3">
@@ -395,7 +394,7 @@
  					</label>
 				</div>
 				<div class="w-full flex justify-center align-middle h-1/4 ">		
-					<button id="pay-button" class="border border-solid border-gray-400 w-3/12 bg-green-200" onclick="requestPay()">결제하기</button>
+					<button id="pay-button" class="bg-red-500 text-gray-100 rounded tracking-wide font-semibold w-3/12 hover:bg-red-400" onclick="requestPay()">결제하기</button>
 				</div>
 			</div>
 		</div>
@@ -457,7 +456,7 @@
 		        			<input type="text" class="focus:outline-none text-center" name="receiverPhone" value="${a.PHONE}" readonly/>
 		        		</td>
 		        		<td class="text-xs m-1 border border-solid border-gray-400">
-		        			<button class="inline-block w-full text-xs border border-gray-400 border-solid " onclick="delete_address(event);">삭제</button>
+		        			<button class="inline-block w-full text-xs bg-red-500 text-gray-100 rounded tracking-wide font-semibold border-solid hover:bg-red-400" onclick="delete_address(event);">삭제</button>
 		        		</td>
 		        	</tr>
 	        	</c:forEach>

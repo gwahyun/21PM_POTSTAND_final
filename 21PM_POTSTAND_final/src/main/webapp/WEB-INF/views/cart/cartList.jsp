@@ -39,7 +39,7 @@
 			<div
 				class="cart-list w-8/12 p-4 mr-5">
 				<button
-					class="inline-flex items-center bg-red-500 text-gray-100 rounded-full tracking-wide font-semibold py-1 px-3 focus:outline-none hover:bg-blue-400 
+					class="inline-flex items-center bg-red-500 text-gray-100 rounded-full tracking-wide font-semibold py-1 px-3 focus:outline-none hover:bg-red-400  
 	          		hover:text-white rounded text-base mt-4 md:mt-0"
 					onclick="fn_allCheck(event);">전체해제</button>
 
@@ -80,7 +80,7 @@
 									name="bookAmount" value="${cart.bookAmount}">권 <input
 									type="hidden" name="cartNo" value="${cart.cartNo}" />
 								<button
-									class="inline-flex items-center bg-red-500 text-gray-100 rounded-full tracking-wide font-semibold py-1 px-3 focus:outline-none hover:bg-blue-400 
+									class="inline-flex items-center bg-red-500 text-gray-100 rounded-full tracking-wide font-semibold py-1 px-3 focus:outline-none hover:bg-red-400  
 	          		hover:text-white rounded text-base mt-4 md:mt-0 "
 									onclick="fn_cartDelete(event);">삭제</button>
 								<input type="hidden" name="cartNo" value="${cart.cartNo}" />
@@ -190,7 +190,7 @@
 										</select>
 
 										<button
-											class=" inline-flex items-center bg-red-500 text-gray-100 rounded-full tracking-wide font-semibold py-1 px-3 focus:outline-none hover:bg-blue-400 
+											class=" inline-flex items-center bg-red-500 text-gray-100 rounded-full tracking-wide font-semibold py-1 px-3 focus:outline-none hover:bg-red-400  
 	          										hover:text-white rounded text-base mt-4 md:mt-0" 
 											onclick="fn_discount(event);">쿠폰적용</button>
 									</c:otherwise>
@@ -232,7 +232,7 @@
 				<form id="orderItems" action="${path}/order/orderItems.do" method="post" onsubmit="return fn_order();">
 				<button
 					class="buy-button
-                			flex items-center justify-center bg-red-500 text-gray-100 rounded-full tracking-wide font-semibold py-2 w-full focus:outline-none hover:bg-blue-400 
+                			flex items-center justify-center bg-red-500 text-gray-100 rounded-full tracking-wide font-semibold py-2 w-full focus:outline-none hover:bg-red-400  
 	          		hover:text-white rounded text-base mt-4 md:mt-0"
 	          		>구매하기</button>
 					<input id="arr" type="hidden" name="cartNo" value="">
@@ -240,11 +240,11 @@
 			</div>	
 		</div>
 		<div class="button-area m-4">
-			<button class=" inline-flex items-center bg-red-500 text-gray-100 rounded-full tracking-wide font-semibold py-1 px-3 focus:outline-none hover:bg-blue-400 
+			<button class=" inline-flex items-center bg-red-500 text-gray-100 rounded-full tracking-wide font-semibold py-1 px-3 focus:outline-none hover:bg-red-400  
 	          		hover:text-white rounded text-base mt-4 md:mt-0"
 				onclick="fn_cartCheckedDelete()">선택삭제</button>
 			<button
-				class=" inline-flex items-center bg-red-500 text-gray-100 rounded-full tracking-wide font-semibold py-1 px-3 focus:outline-none hover:bg-blue-400 
+				class=" inline-flex items-center bg-red-500 text-gray-100 rounded-full tracking-wide font-semibold py-1 px-3 focus:outline-none hover:bg-red-400  
 	          		hover:text-white rounded text-base mt-4 md:mt-0"
 				onclick="fn_cartAllDelete(event);">전체삭제</button>
 		</div>
