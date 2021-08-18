@@ -129,5 +129,14 @@ public interface MemberService {
 	//공지사항 조회수처리
 	int noticeReadCount(Notice n);
 	
+	//message count 조회
+	int getMessageCount(String memberId);
 	
+	//message List 조회
+	List<Map> getMessageList(String memeberId);
+	
+	//message 갱신
+	int updateMessageAndGetBookCode(Map param);
+	
+	int updateMessage(Map param);
 }

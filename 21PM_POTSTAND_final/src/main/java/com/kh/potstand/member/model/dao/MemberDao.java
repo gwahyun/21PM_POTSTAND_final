@@ -142,4 +142,15 @@ public interface MemberDao {
 	//공지사항 조회수
 	int noticeReadCount(SqlSession session, Notice n);
 	
+	//message count 조회
+	int getMessageCount(SqlSession session, String memberId);
+	
+	//message List 조회
+	List<Map> getMessageList(SqlSession session, String memberId);
+	
+	//message 갱신
+	int updateMessageAndGetBookCode(SqlSession session, Map param);
+	
+	int updateMessage(SqlSession session, Map param);
+	
 }
