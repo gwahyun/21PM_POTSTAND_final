@@ -2,22 +2,6 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="path" value="${pageContext.request.contextPath }"/>
-<style>
-	.fix{
-		position: fixed;
-		right: 3em;
-		bottom:3em;
-		background:  center center / 50% no-repeat;
-	    animation: target_image 1.2s; 
- 		animation-iteration-count: infinite;
-		transform-origin: 50% 100%;
-	}
-	@keyframes target_image {
-		0% { transform: rotate(-5deg); }
-		50% { transform: rotate(10deg) }
-		100% { transform: rotate(-5deg); }
-}
-</style>
 <jsp:include page="/WEB-INF/views/common/header.jsp"/>
 <style>
 .tracking-in-expand {
@@ -77,7 +61,6 @@ opacity:1;
   		</div>
 	</div>
     </section>
-	<img title="faq입니다!" style="cursor: pointer" onclick="javascript:window.open('${path }/faqChat','','width=600,height=600');" src="${path }/resources/img/images.png" width="100px " class="fix">
 <script>
  const SHOWING = "showing";
  const firstSlide = document.querySelector(".cell:first-child");
