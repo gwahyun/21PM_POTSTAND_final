@@ -70,10 +70,15 @@ public class BookServiceImpl implements BookService {
 	public int selectSortBookCount(String sortNo) {
 		return dao.selectSortBookCount(session,sortNo);
 	}
-
+	//리뷰전체
 	@Override
 	public List<Review> selectBookReview(int no) {
 		return dao.selectBookReview(session, no);
+	}
+	//리뷰 페이지바
+	@Override
+	public List<Review> selectBookReview(int no, int cPage, int numPerpage) {
+		return dao.selectBookReview(session,no,cPage,numPerpage);
 	}
 	//리뷰 총 개수
 	@Override
@@ -141,5 +146,7 @@ public class BookServiceImpl implements BookService {
 	public int searchBookCount(Map map) {
 		return dao.searchBookCount(session, map);
 	}
+
+	
 
 }

@@ -65,12 +65,16 @@ public class BookDaoImpl implements BookDao {
 	public Book selectBookInfo(SqlSession session, int no) {
 		return session.selectOne("book.selectBookInfo", no);
 	}
-
+	//전체리뷰
 	@Override
 	public List<Review> selectBookReview(SqlSession session, int no) {
 		return session.selectList("book.selectBookReview", no);
 	}
-
+	//리뷰 페이지바
+	@Override
+	public List<Review> selectBookReview(SqlSession session, int no, int cPage, int numPerpage) {
+		return session.selectList("book.selectBookReview", no, new RowBounds((cPage-1)*numPerpage, numPerpage));
+	}
 	//리뷰 총 개수
 	@Override
 	public int selectBookReviewCount(SqlSession session, int no) {
@@ -147,6 +151,8 @@ public class BookDaoImpl implements BookDao {
 	public int searchBookCount(SqlSession session, Map map) {
 		return session.selectOne("book.searchBookCount", map);
 	}
+
+
 	
 	
 	

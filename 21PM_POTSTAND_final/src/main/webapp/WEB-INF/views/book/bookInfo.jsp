@@ -655,7 +655,8 @@
 			          			${r.reviewContent }
 			          		</div>
 		          		</div>
-	          		</c:forEach>	          		
+	          		</c:forEach>	 
+	          		${pageBar }         		
 	          	</c:if>    
           	</div>	
         </div>
