@@ -721,15 +721,13 @@ function fn_priceCalc(){
 			$(e.target).parents("label").addClass("border-solid");
 		}		
 	});
-
+//동의시 배경화면 색상 변경
 	$("input[name='trade-agree']").click((e)=>{
 		if($(e.target).is(":checked")){
-			$(e.target).parents("label").addClass("bg-green-200");
-			$(e.target).parents("label").addClass("text-green-800");
+		 	$(e.target).parents("label").addClass("bg-gray-300");
 		}else{
-			$(e.target).parents("label").removeClass("bg-green-300");
-			$(e.target).parents("label").removeClass("text-green-800");
-		}
+			$(e.target).parents("label").removeClass("bg-gray-300");
+		} 
 	});
 	
 	
