@@ -45,12 +45,6 @@
                         <li><a href="${path }/admin/noticeSelect">NOTICE 조회/관리</a></li>
                     </ul>
                 </li>
-                <li class="admin-aside-top_menu"><span class="admin-aside-top_text">FAQ</span>
-                    <ul class="admin-aside-side_menus">
-                        <li><a href="${path }/admin/faqInsert">FAQ 등록</a></li>
-                        <li><a href="${path }/admin/faqSelect">FAQ 조회/관리</a></li>
-                    </ul>
-                </li>
                 <li class="admin-aside-top_menu"><span class="admin-aside-top_text">EVENT</span>
                     <ul class="admin-aside-side_menus">
                         <li><a href="${path }/admin/eventInsert">EVENT 등록</a></li>

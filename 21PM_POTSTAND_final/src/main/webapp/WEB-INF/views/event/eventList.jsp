@@ -34,11 +34,22 @@
           <div class="xl:w-1/4 md:w-1/2 p-4">
           <a href="${path}/event/eventpost.do?no=${e.eventNo}">
             <div class="bg-gray-100 p-6 rounded-lg">
-              <img
-                class="h-40 rounded w-full object-cover object-center mb-6"
-                src="${path }/resources/upload/event/${e.eventThum}"
-               
-              />
+            <c:choose>
+            	<c:when test="${e.eventThum == 'thumb.jpg'}">
+	              <img
+	                class="h-40 rounded w-full object-cover object-center mb-6"
+	                src="${path }/resources/img/thumb.jpg"
+	               
+	              />
+            	</c:when>
+            	<c:otherwise>
+	              <img
+	                class="h-40 rounded w-full object-cover object-center mb-6"
+	                src="${path }/resources/upload/event/${e.eventThum}"
+	               
+	              />
+	              </c:otherwise>
+              </c:choose>
               <h2 class="text-lg text-gray-900 font-medium title-font">
 				<c:out value="${e.eventTitle}"/>
               </h2>
