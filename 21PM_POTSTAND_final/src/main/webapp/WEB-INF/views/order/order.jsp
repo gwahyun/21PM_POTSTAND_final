@@ -352,7 +352,7 @@
 						<span id="final-price" class="block text-blue-600 text-lg font-bold text-right pr-9"><c:out value="${useablePoint}"/></span>
 						<input type="hidden" name="useable-point" value="${useablePoint}">
 						<input type="number" name="point-using" class="w-7/12 text-base font-bold text-right border-b border-solid border-gray-400 focus:outline-none" value="">
-						<button class="inline-block w-4/12 text-xs border border-gray-400 border-solid hover:bg-red-400">전액 사용</button>			
+						<button class="inline-block w-4/12 text-xs border border-gray-400 border-solid hover:bg-red-400" onclick="fn_allPoint();">전액 사용</button>			
 					</div>
 				</div>
 				<div class="w-full flex pl-4 pr-2 pt-3 pb-3">
@@ -948,5 +948,27 @@ function fn_priceCalc(){
     		$(e.target).val("");
     	}
     	
-    })
+    });
+    
+    
+    //포인트 전부사용
+    const fn_allPoint=()=>{
+    	const useablePoint = $("input[name='useable-point']").val();
+    	let arr = $("select[name='couponData']").val().split(":");
+		let couponNo = arr[0];
+		let discount = arr[1];
+    		if(arr[0]!=0){
+    			finalPrice = realPrice*(1-discount);
+    		}else{
+    			finalPrice = realPrice;
+    		}
+    	if(useablePoint>finalPrice){
+    		$("input[name='point-using']").val(finalPrice);
+    		$("input[name='point-using']").trigger("change");
+    	}else{
+    		$("input[name='point-using']").val(useablePoint);
+    		$("input[name='point-using']").trigger("change");
+    	}
+    }
+    
 </script>
