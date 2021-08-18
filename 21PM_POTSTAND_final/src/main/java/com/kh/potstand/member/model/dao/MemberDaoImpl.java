@@ -273,9 +273,31 @@ public class MemberDaoImpl implements MemberDao{
 		return session.update("function.noticeReadCount",n);
 	}
 
+	@Override
+	public int getMessageCount(SqlSession session, String memberId) {
+		return session.selectOne("function.getMessageCount",memberId);
+	}
+
+	@Override
+	public List<Map> getMessageList(SqlSession session, String memberId) {
+		return session.selectList("function.getMessageList", memberId);
+	}
+
+	@Override
+	public int updateMessageAndGetBookCode(SqlSession session, Map param) {
+		int bookCode = session.selectOne("function.updateMessageAndGetBookCode", param);
+		session.update("function.updateMessage", param);
+		return bookCode;
+	}
+
+	@Override
+	public int updateMessage(SqlSession session, Map param) {
+		return session.update("function.updateMessage", param);
+	}
+
 	
 
-
+	
 	
 
 

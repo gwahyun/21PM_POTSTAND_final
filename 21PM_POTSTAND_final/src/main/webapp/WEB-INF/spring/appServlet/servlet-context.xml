@@ -66,6 +66,11 @@
 			<exclude-mapping path="/member/naver*"/>
 			<beans:bean class="com.kh.potstand.interceptor.MemberCheckInterceptor"></beans:bean>
 		  </interceptor>
+		  <interceptor>
+			<mapping path="/**/*.do"/>
+			<mapping path="/"/>
+			<beans:bean class="com.kh.potstand.interceptor.MessageAlarmInterceptor"></beans:bean>
+		  </interceptor>
 	</interceptors>
 	
 </beans:beans>

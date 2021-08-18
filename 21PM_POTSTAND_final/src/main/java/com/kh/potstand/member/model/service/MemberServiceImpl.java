@@ -19,7 +19,6 @@ import com.kh.potstand.member.model.vo.Member;
 import com.kh.potstand.member.model.vo.Point;
 import com.kh.potstand.order.model.vo.Cart;
 import com.kh.potstand.order.model.vo.Payment;
-import com.kh.potstand.order.model.vo.PaymentObj;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -301,6 +300,27 @@ public class MemberServiceImpl implements MemberService{
 	@Override
 	public int noticeReadCount(Notice n) {
 		return dao.noticeReadCount(session, n);
+	}
+	
+	//message count 조회
+	@Override
+	public int getMessageCount(String memberId) {
+		return dao.getMessageCount(session, memberId);
+	}
+
+	@Override
+	public List<Map> getMessageList(String memeberId) {
+		return dao.getMessageList(session, memeberId);
+	}
+
+	@Override
+	public int updateMessageAndGetBookCode(Map param) {
+		return dao.updateMessageAndGetBookCode(session, param);
+	}
+
+	@Override
+	public int updateMessage(Map param) {
+		return dao.updateMessage(session, param);
 	}
 
 	

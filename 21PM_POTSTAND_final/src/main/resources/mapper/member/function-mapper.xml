@@ -65,4 +65,18 @@
 	<insert id="insertSort">
 		INSERT INTO SORT VALUES(#{sortNo}, #{lv1}, #{lv2}, #{lv3}, #{lv4})
 	</insert>
+	
+	<select id="getMessageCount" resultType="int">
+		SELECT COUNT(*) FROM MESSAGE WHERE MEMBER_ID=#{memberId} AND MESSAGE_CHECK='N'
+	</select>
+	
+	<select id="getMessageList" resultType="HashMap">
+		SELECT * FROM MESSAGE WHERE MEMBER_ID=#{memberId} AND MESSAGE_CHECK='N' ORDER BY MESSAGE_NO DESC
+	</select>
+	<select id="updateMessageAndGetBookCode" resultType="int">
+		SELECT BOOK_CODE FROM REQUEST WHERE REQUEST_NO=#{tableNo}
+	</select>
+	<update id="updateMessage">
+		UPDATE MESSAGE SET MESSAGE_CHECK='Y' WHERE MESSAGE_NO=#{messageNo}
+	</update>
 </mapper>
