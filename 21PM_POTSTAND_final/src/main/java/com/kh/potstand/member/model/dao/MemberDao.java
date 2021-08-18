@@ -113,18 +113,6 @@ public interface MemberDao {
 	//마이페이지 - 주문확인리스트 총개수
 	int memberOrderListCount(SqlSession session,String memberId);
 	
-	//결제취소할 payment있는지 확인
-	Payment memberOrderSelect(SqlSession session,int paymentNo);
-	
-	//결제취소 - payment적용된 coupon 되돌리기
-	int paymentCouponUpdate(SqlSession session,int couponNo);
-	
-	//결제취소 - 책재고 원상태로 복귀
-	int bookStockUpdate(SqlSession session,PaymentObj po);
-
-	//결제취소 - payment state '결제취소'로 변경
-	int orderStateUpdate(SqlSession session,int paymentNo);
-	
 	//마이페이지 - 모든 결제리스트 조회
 	List<Payment> memberOrderListAllSelect(SqlSession session,String memberId);
 	

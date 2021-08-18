@@ -11,7 +11,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-public class Payment {
+public class Payments {
 	private int paymentNo;
 	private String memberId;
 	private String receiverName;

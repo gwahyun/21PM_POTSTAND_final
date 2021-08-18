@@ -15,7 +15,8 @@ public interface BookDao {
 	public List<Book> selectBookList(SqlSession session, int cPage, int numPerpage);
 	public int selectBookCount(SqlSession session);
 	public Book selectBookInfo(SqlSession session, int no);
-	public List<Review> selectBookReview(SqlSession session, int no);
+	List<Review> selectBookReview(SqlSession session, int no);
+	List<Review> selectBookReview(SqlSession session, int no,int cPage,int numPerpage);
 	
 	//sort LV1~LV4
 	List<Sort> selectSortLv1List(SqlSession session);

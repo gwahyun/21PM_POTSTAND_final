@@ -16,6 +16,7 @@
                     <div><span>결제완료</span><a href="${path }/admin/orderSelectList?startDate=${startDate }&amp;endDate=${endDate }&type=전체&keyword=&dType=결제완료">${count2 } 건</a></div>
                     <div><span>배송중</span><a href="${path }/admin/orderSelectList?startDate=${startDate }&amp;endDate=${endDate }&type=전체&keyword=&dType=배송중">${count3 } 건</a></div>
                     <div><span>배송완료</span><a href="${path }/admin/orderSelectList?startDate=${startDate }&amp;endDate=${endDate }&type=전체&keyword=&dType=배송완료">${count4 } 건</a></div>
+                    <div><span>결제취소</span><a href="${path }/admin/orderSelectList?startDate=${startDate }&amp;endDate=${endDate }&type=전체&keyword=&dType=결제취소">${count5 } 건</a></div>
                     </div>
                 </div>
                 <div class="admin-home_content">
@@ -48,6 +49,7 @@
 		</div>
         </section>
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        
         <script>
         
         window.addEventListener("load",function(){
@@ -102,7 +104,7 @@
             }
         });
         const labels = [
-			${c}            
+			${c}           
             ];
         const data = {
           labels: labels,
@@ -167,8 +169,6 @@
                 config
               );
     
-        
-        
         </script>
     
 </body>

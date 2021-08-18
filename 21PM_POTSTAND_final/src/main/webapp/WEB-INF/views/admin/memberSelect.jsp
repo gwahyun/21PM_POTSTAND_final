@@ -82,7 +82,7 @@
                                         <th style="width: 1%;">핸드폰 번호</th>
                                         <th style="width: 3%;">가입일</th>
                                         <th style="width: 1%;">삭제</th>
-                                        <th style="width: 1%;">회원</th>
+                                        <th style="width: 2%;">회원</th>
                                     </tr>
                                 </thead>
                                 <tbody>

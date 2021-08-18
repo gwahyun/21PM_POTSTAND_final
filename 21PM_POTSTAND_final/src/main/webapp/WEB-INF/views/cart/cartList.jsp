@@ -39,7 +39,7 @@
 			<div
 				class="cart-list w-8/12 p-4 mr-5">
 				<button
-					class="inline-flex items-center bg-gray-200 border-0 py-1 px-3 focus:outline-none hover:bg-red-400 
+					class="inline-flex items-center bg-red-500 text-gray-100 rounded-full tracking-wide font-semibold py-1 px-3 focus:outline-none hover:bg-red-400  
 	          		hover:text-white rounded text-base mt-4 md:mt-0"
 					onclick="fn_allCheck(event);">전체해제</button>
 
@@ -80,12 +80,8 @@
 									name="bookAmount" value="${cart.bookAmount}">권 <input
 									type="hidden" name="cartNo" value="${cart.cartNo}" />
 								<button
-									class="inline-flex items-center bg-gray-200 border-0 py-1 px-3 focus:outline-none hover:bg-red-400 
-	          		hover:text-white rounded text-base mt-4 md:mt-0"
-									onclick="fn_updateBookAmount(event);">변경</button>
-								<button
-									class="inline-flex items-center bg-gray-200 border-0 py-1 px-3 focus:outline-none hover:bg-red-400 
-	          		hover:text-white rounded text-base mt-4 md:mt-0"
+									class="inline-flex items-center bg-red-500 text-gray-100 rounded-full tracking-wide font-semibold py-1 px-3 focus:outline-none hover:bg-red-400  
+	          		hover:text-white rounded text-base mt-4 md:mt-0 "
 									onclick="fn_cartDelete(event);">삭제</button>
 								<input type="hidden" name="cartNo" value="${cart.cartNo}" />
 							</div>
@@ -170,7 +166,7 @@
 									<c:otherwise>
 										<label class="coupon text-sm font-bold  block my-2">
 											사용 가능 쿠폰</label>
-										<select name="couponData" class="text-sm mb-2 bg-gray-300 p-2">
+										<select name="couponData" class="text-sm text-white mb-2 bg-red-500 p-2">
 											<option value="${cart.cartNo}:0:0">쿠폰 사용 안함</option>
 											<c:forEach var="cp" items="${cart.coupon}">
 												<c:if test="${cp.couponEnd eq 'N' and cp.couponAmount!=0}">
@@ -194,7 +190,7 @@
 										</select>
 
 										<button
-											class=" inline-flex items-center bg-gray-200 border-0 py-1 px-3 focus:outline-none hover:bg-red-400 
+											class=" inline-flex items-center bg-red-500 text-gray-100 rounded-full tracking-wide font-semibold py-1 px-3 focus:outline-none hover:bg-red-400  
 	          										hover:text-white rounded text-base mt-4 md:mt-0" 
 											onclick="fn_discount(event);">쿠폰적용</button>
 									</c:otherwise>
@@ -236,7 +232,7 @@
 				<form id="orderItems" action="${path}/order/orderItems.do" method="post" onsubmit="return fn_order();">
 				<button
 					class="buy-button
-                			flex items-center justify-center bg-gray-200 border-0 py-2 w-full focus:outline-none hover:bg-red-400 
+                			flex items-center justify-center bg-red-500 text-gray-100 rounded-full tracking-wide font-semibold py-2 w-full focus:outline-none hover:bg-red-400  
 	          		hover:text-white rounded text-base mt-4 md:mt-0"
 	          		>구매하기</button>
 					<input id="arr" type="hidden" name="cartNo" value="">
@@ -244,11 +240,11 @@
 			</div>	
 		</div>
 		<div class="button-area m-4">
-			<button class=" inline-flex items-center bg-gray-200 border-0 py-1 px-3 focus:outline-none hover:bg-red-400 
+			<button class=" inline-flex items-center bg-red-500 text-gray-100 rounded-full tracking-wide font-semibold py-1 px-3 focus:outline-none hover:bg-red-400  
 	          		hover:text-white rounded text-base mt-4 md:mt-0"
 				onclick="fn_cartCheckedDelete()">선택삭제</button>
 			<button
-				class=" inline-flex items-center bg-gray-200 border-0 py-1 px-3 focus:outline-none hover:bg-red-400 
+				class=" inline-flex items-center bg-red-500 text-gray-100 rounded-full tracking-wide font-semibold py-1 px-3 focus:outline-none hover:bg-red-400  
 	          		hover:text-white rounded text-base mt-4 md:mt-0"
 				onclick="fn_cartAllDelete(event);">전체삭제</button>
 		</div>
@@ -323,68 +319,73 @@
 	
 	//개별삭제
 	const fn_cartDelete=(e)=>{
-		let cartNo = $(e.target).siblings("input[name='cartNo']").attr("value");
-		$.ajax({
-			url:'${path}/ajax/cartObjDelete.do/'+cartNo,
-			type:'post',
-			success:function(data){
-				if(data.result!=0){
-					document.location.reload(true);
+		if(confirm("삭제하시겠습니까?")){
+			let cartNo = $(e.target).siblings("input[name='cartNo']").attr("value");
+			$.ajax({
+				url:'${path}/ajax/cartObjDelete.do/'+cartNo,
+				type:'post',
+				success:function(data){
+					if(data.result!=0){
+						document.location.reload(true);
+					}
 				}
-			}
-		})
+			})
+		}
 	}
 	
 	//전체삭제
 	const fn_cartAllDelete=(e)=>{
-		$.ajax({
-			url:'${path}/ajax/cartObjAllDelete.do',
-			type:'post',
-			success:function(data){
-				if(data.result!=0){
-					document.location.reload(true);
+		if(confirm("전체 항목을 삭제하시겠습니까?")){
+			$.ajax({
+				url:'${path}/ajax/cartObjAllDelete.do',
+				type:'post',
+				success:function(data){
+					if(data.result!=0){
+						document.location.reload(true);
+					}
 				}
-			}
-		})
+			})
+		}
 	}
 	
 	//선택삭제
 	const fn_cartCheckedDelete=()=>{
-		let list = $("input[name='cartObj']");
-		let arr=[];
-		list.each(function(i,v){
-			if($(v).prop("checked")){
-				arr.push($(v).siblings(".obj-info").children("div").children("input[name='cartNo']").attr("value"));
-			}
-		});
-
-		let params={
-				"arr":arr
-		}		
-
-		$.ajax({
-			url:'${path}/ajax/cartObjCheckedDelete.do',
-			type:'post',
-			dataType:'json',
-			data:params,
-			success:function(data){
-				if(data.result!=0){
-					alert(arr.length+"개 항목 삭제");
-					document.location.reload(true);
+		if(confirm("선택된 항목을 삭제하시겠습니까?")){
+			let list = $("input[name='cartObj']");
+			let arr=[];
+			list.each(function(i,v){
+				if($(v).prop("checked")){
+					arr.push($(v).siblings(".obj-info").children("div").children("input[name='cartNo']").attr("value"));
 				}
-			}
-		})
+			});
+	
+			let params={
+					"arr":arr
+			}		
+	
+			$.ajax({
+				url:'${path}/ajax/cartObjCheckedDelete.do',
+				type:'post',
+				dataType:'json',
+				data:params,
+				success:function(data){
+					if(data.result!=0){
+						alert(arr.length+"개 항목 삭제");
+						document.location.reload(true);
+					}
+				}
+			})
+		}
 	}
 	
 	
 	//책 수량 update
-	const fn_updateBookAmount=(e)=>{
-		let orivalue=$(e.target).siblings("input[name='bookAmount']").attr("value");
-		let bookAmount = $(e.target).siblings("input[name='bookAmount']").val();
-		
+	$("input[name='bookAmount']").change((e)=>{
+		let orivalue=$(e.target).attr("value");
+		let bookAmount = $(e.target).val();
 		if(bookAmount<=0){
 			alert("0또는 음수로 변경할 수 없습니다.");
-			$(e.target).siblings("input[name='bookAmount']").val(orivalue);
+			$(e.target).val(orivalue);
 			return;
 		}
 		let cartNo = $(e.target).siblings("input[name='cartNo']").val();
@@ -403,7 +404,7 @@
 				}
 			}
 		})
-	}
+	});
 	
 	//쿠폰 할인 적용
 	const fn_discount=(e)=>{

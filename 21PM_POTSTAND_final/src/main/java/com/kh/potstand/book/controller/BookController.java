@@ -46,6 +46,8 @@ public class BookController {
 	
 	@RequestMapping("/book/bookinfo.do")
 	public ModelAndView selectBookInfo(
+			@RequestParam(value ="cPage",defaultValue="1") int cPage,
+			@RequestParam(value="numPerpage",defaultValue="5") int numPerpage,
 			@RequestParam(value="no") int no, ModelAndView mv, HttpSession session) {
 		int reviewCount=service.selectBookReviewCount(no); //리뷰 총 개수
 		List<Review> reviewList=service.selectBookReview(no); //리뷰 리스트
@@ -93,7 +95,9 @@ public class BookController {
 		mv.addObject("bookInfo", service.selectBookInfo(no));
 		mv.addObject("reviewCount", reviewCount);
 		mv.addObject("reviewAvg", reviewAvg);
-		mv.addObject("review", reviewList);
+		//mv.addObject("review", reviewList);
+		mv.addObject("review", service.selectBookReview(no,cPage,numPerpage));
+		mv.addObject("pageBar", PageFactory.getPageBar(reviewCount, cPage, numPerpage, 5, "bookinfo.do","no="+no));
 		mv.setViewName("book/bookInfo");
 		
 		return mv;

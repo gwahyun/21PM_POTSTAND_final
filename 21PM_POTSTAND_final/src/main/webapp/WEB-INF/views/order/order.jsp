@@ -281,7 +281,7 @@
 					<div class="ml-6">
 						<label class="inline-block text-sm mr-3 w-20">우편번호</label>
 						<input id="postNo" class="text-xs w-3/12 mr-3 border-b border-gray-400 border-solid focus:outline-none" type="text" name="postNo" value="${defAddr.postNo}">
-						<button class="find-addr inline-block w-1/12 text-xs border border-gray-400 border-solid" onclick="goPopup();">주소찾기</button>
+						<button class="find-addr inline-block w-1/12 text-xs bg-red-500 text-gray-100 rounded tracking-wide font-semibold hover:bg-red-400" onclick="goPopup();">주소찾기</button>
 					</div>
 					<div class="ml-6">
 						<label class="inline-block text-sm mr-3 w-20">도로명 주소</label>
@@ -291,7 +291,7 @@
 						<label class="inline-block text-sm mr-3 w-20">상세주소</label>
 						<input id="addrDetail" class="text-xs w-3/12 mr-3 border-b border-gray-400 border-solid focus:outline-none" type="text" name="addrDetail" value="${defAddr.oldAddr}">
 						<input id="roadAddrPart2" class="text-xs w-3/12 mr-3 border-b border-gray-400 border-solid focus:outline-none" type="text" name="roadAddr2" value="${defAddr.detailAddr}">
-						<button class="add-addr inline-block ml-3 w-2/12 text-xs border border-gray-400 border-solid hidden" onclick="add_address();">주소록에 추가</button>
+						<button class="add-addr inline-block ml-3 w-2/12 text-xs bg-red-500 text-gray-100 rounded tracking-wide font-semibold hover:bg-red-400 hidden" onclick="add_address();">주소록에 추가</button>
 					</div>
 				</div>
 				<div class="phone">
@@ -347,7 +347,7 @@
 						<span id="final-price" class="block text-blue-600 text-lg font-bold text-right pr-9"><c:out value="${useablePoint}"/></span>
 						<input type="hidden" name="useable-point" value="${useablePoint}">
 						<input type="number" name="point-using" class="w-7/12 text-base font-bold text-right border-b border-solid border-gray-400 focus:outline-none" value="">
-						<button class="inline-block w-4/12 text-xs border border-gray-400 border-solid hover:bg-red-400">전액 사용</button>			
+						<button class="inline-block w-4/12 text-xs bg-red-500 text-gray-100 rounded tracking-wide font-semibold hover:bg-red-400" onclick="fn_allPoint();">전액 사용</button>			
 					</div>
 				</div>
 				<div class="w-full flex pl-4 pr-2 pt-3 pb-3">
@@ -398,7 +398,7 @@
 	</div>
 	
 	<!-- 모달 -->
-  <div class="modal opacity-0 pointer-events-none fixed w-full h-full top-0 left-0 flex items-center justify-center">
+  <div class="modal opacity-0 pointer-events-none fixed w-full h-full top-0 left-0 flex items-center justify-center z-30">
     <div class="modal-overlay absolute w-full h-full bg-gray-900 opacity-50"></div>
     
     <div class="modal-container bg-white w-11/12 md:w-5/12 mx-10 rounded shadow-lg z-50 overflow-y-auto">
@@ -414,7 +414,7 @@
       <div class="modal-content py-3 text-left px-3">
         <!--Title-->
         <div class="flex justify-between items-center pb-3">
-          <p class="text-2xl font-bold">Simple Modal!</p>
+          <p class="text-2xl font-bold">주소록</p>
           <div class="modal-close cursor-pointer z-50">
             <svg class="fill-current text-black" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18">
               <path d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z"></path>
@@ -430,31 +430,39 @@
         		<th class="w-2/12 m-1 text-sm text-center border border-solid border-gray-400">전화번호</th>
         		<th class="w-2/12 m-1 text-sm text-center border border-solid border-gray-400">관리</th>
         	</tr>
+        	<c:if test="${empty addressList}">
+        		<tr class="border border-solid border-gray-400">
+		        		<td class="text-base m-1 p-3 border border-solid border-gray-400 text-center" colspan="4">
+		        			등록된 주소가 없습니다.
+		        		</td>
+        		</tr>
+        	</c:if>
         	
-        	<!-- 반복문으로 주소록 조회 -->
-        	<c:forEach var="a" items="${addressList}">
-	        	<tr class="border border-solid border-gray-400 hover:bg-blue-200">
-	        		<td class="text-xs m-1 border border-solid border-gray-400">
-	        			<input type="text" class="focus:outline-none text-center" name="receiverName" value="${a.RECEIVER_NAME}" readonly/>
-	        		</td>
-	        		<td class="text-xs m-1 border border-solid border-gray-400">
-	        			<input type="hidden" name="addrNo" value="${a.ADDR_NO}">
-	        			<input type="text" class="focus:outline-none w-full cursor-pointer text-center hover:underline" name="receiverAddr" value="${a.POST_No +=' '+= a.ROAD_ADDR +=' '+= a.OLD_ADDR +=' '+= a.DETAIL_ADDR}" readonly onclick="select_address(event);"/>
-	        		</td>
-	        		<td class="text-xs m-1 border border-solid border-gray-400">
-	        			<input type="text" class="focus:outline-none text-center" name="receiverPhone" value="${a.PHONE}" readonly/>
-	        		</td>
-	        		<td class="text-xs m-1 border border-solid border-gray-400">
-	        			<button class="inline-block w-full text-xs border border-gray-400 border-solid " onclick="delete_address(event);">삭제</button>
-	        		</td>
-	        	</tr>
-        	</c:forEach>
+        	<c:if test="${!empty addressList}">
+	        	<!-- 반복문으로 주소록 조회 -->
+	        	<c:forEach var="a" items="${addressList}">
+		        	<tr class="border border-solid border-gray-400 hover:bg-blue-200">
+		        		<td class="text-xs m-1 border border-solid border-gray-400">
+		        			<input type="text" class="focus:outline-none text-center" name="receiverName" value="${a.RECEIVER_NAME}" readonly/>
+		        		</td>
+		        		<td class="text-xs m-1 border border-solid border-gray-400">
+		        			<input type="hidden" name="addrNo" value="${a.ADDR_NO}">
+		        			<input type="text" class="focus:outline-none w-full cursor-pointer text-center hover:underline" name="receiverAddr" value="${a.POST_No +=' '+= a.ROAD_ADDR +=' '+= a.OLD_ADDR +=' '+= a.DETAIL_ADDR}" readonly onclick="select_address(event);"/>
+		        		</td>
+		        		<td class="text-xs m-1 border border-solid border-gray-400">
+		        			<input type="text" class="focus:outline-none text-center" name="receiverPhone" value="${a.PHONE}" readonly/>
+		        		</td>
+		        		<td class="text-xs m-1 border border-solid border-gray-400">
+		        			<button class="inline-block w-full text-xs bg-red-500 text-gray-100 rounded tracking-wide font-semibold border-solid hover:bg-red-400" onclick="delete_address(event);">삭제</button>
+		        		</td>
+		        	</tr>
+	        	</c:forEach>
+        	</c:if>
         </table>
 
         <!--Footer-->
-        <div class="flex justify-end pt-2">
-          <button class="px-4 bg-transparent p-3 rounded-lg text-indigo-500 hover:bg-gray-100 hover:text-indigo-400 mr-2">Action</button>
-          <button class="modal-close px-4 bg-indigo-500 p-3 rounded-lg text-white hover:bg-indigo-400">Close</button>
+        <div class="flex justify-end pt-2 h-10">
+          
         </div>
         
       </div>
@@ -555,6 +563,9 @@ function requestPay() {
 	      // jQuery로 HTTP 요청
 	      param.pay_method=rsp.pay_method;
 	      param.cAmount=rsp.paid_amount;
+	      param.imp_uid=rsp.imp_uid;
+	      param.merchant_uid=rsp.merchant_uid;
+	      
 	      $.ajax({
 	          url: "${path}/ajax/paymentCheck.do", // 가맹점 서버
 	          method: "POST",
@@ -601,7 +612,7 @@ function requestPay() {
 		          contentType:'application/json',
 		          data: JSON.stringify(param),
 		          success:function(data){
-		        	  $("#failForm").submit();
+		        	  //$("#failForm").submit();
 				  }
 		   });
 	}
@@ -786,11 +797,16 @@ function fn_priceCalc(){
     			$.ajax({
     				url:"${path}/ajax/recentAddr.do?memberId="+'${memberInfo.memberId}',
     				success:function(data){
-    					$("input[name='receiver']").val('${memberInfo.memberName}');
-    					$("#postNo").val(data.postNo);
-    	    			$("#roadAddrPart1").val(data.roadAddrPart1);
-    	    			$("#addrDetail").val(data.addrDetail);
-    	    			$("#roadAddrPart2").val(data.roadAddrPart2);		
+    					if(data.postNo!=null && data.postNo!=""){
+	    					$("input[name='receiver']").val('${memberInfo.memberName}');
+	    					$("#postNo").val(data.postNo);
+	    	    			$("#roadAddrPart1").val(data.roadAddrPart1);
+	    	    			$("#addrDetail").val(data.addrDetail);
+	    	    			$("#roadAddrPart2").val(data.roadAddrPart2);
+    					}else{
+    						alert("주문정보가 없습니다.");
+    						
+    					}
     				}
     			});
     			break;
@@ -941,5 +957,27 @@ function fn_priceCalc(){
     		$(e.target).val("");
     	}
     	
-    })
+    });
+    
+    
+    //포인트 전부사용
+    const fn_allPoint=()=>{
+    	const useablePoint = $("input[name='useable-point']").val();
+    	let arr = $("select[name='couponData']").val().split(":");
+		let couponNo = arr[0];
+		let discount = arr[1];
+    		if(arr[0]!=0){
+    			finalPrice = realPrice*(1-discount);
+    		}else{
+    			finalPrice = realPrice;
+    		}
+    	if(useablePoint>finalPrice){
+    		$("input[name='point-using']").val(finalPrice);
+    		$("input[name='point-using']").trigger("change");
+    	}else{
+    		$("input[name='point-using']").val(useablePoint);
+    		$("input[name='point-using']").trigger("change");
+    	}
+    }
+    
 </script>

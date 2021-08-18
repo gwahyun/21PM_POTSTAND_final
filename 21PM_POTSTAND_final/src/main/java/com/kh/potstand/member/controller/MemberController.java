@@ -682,12 +682,7 @@ public class MemberController {
 		return mv;
 	}
 	
-	//마이페이지 -주문목록/배송조회 결제취소
-	@RequestMapping("/member/memberOrderListDelete.do")
-	@ResponseBody
-	public boolean memberOrderListDelete(int paymentNo) {	
-		return service.memberOrderListDelete(paymentNo);
-	}
+	
 	
 	//네아로 테스트
 	@RequestMapping("/member/naverLogin.do")

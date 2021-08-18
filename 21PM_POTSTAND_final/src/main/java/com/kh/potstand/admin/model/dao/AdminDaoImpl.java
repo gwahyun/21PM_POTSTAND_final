@@ -492,6 +492,7 @@ public class AdminDaoImpl implements AdminDao {
 		map.put("count2",session.selectOne("admin.orderCountMap2"));
 		map.put("count3",session.selectOne("admin.orderCountMap3"));
 		map.put("count4",session.selectOne("admin.orderCountMap4"));
+		map.put("count5",session.selectOne("admin.orderCountMap5"));
 		return map;
 	}
 

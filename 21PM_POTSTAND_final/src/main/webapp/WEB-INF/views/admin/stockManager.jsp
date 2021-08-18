@@ -86,7 +86,7 @@
 									<td><a href="${path }/book/bookinfo.do?no=${l.bookCode}">${l.bookTitle }</a></td>
 									<td>${l.bookWriter }</td>
 									<td>${l.bookPub }</td>
-									<td style="	text-align: center;">${l.bookCost }</td>
+									<td style="	text-align: center;"><fmt:formatNumber value="${l.bookCost }" type="currency"/></td>
 									<td style="	text-align: center;"><fmt:formatDate value="${l.bookDate  }" pattern="yyyy년MM월dd일"></fmt:formatDate></td>
 									<td style="	text-align: center;">${l.bookStock }권</td>
 									<td style="	text-align: center;"><button style="background-color: #FF5A5A;" class="update-btn" onclick="stockInsert(${l.bookCode});">충전</button></td>
