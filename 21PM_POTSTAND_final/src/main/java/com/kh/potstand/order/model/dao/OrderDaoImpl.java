@@ -193,7 +193,11 @@ public class OrderDaoImpl implements OrderDao{
 	@Override
 	public String selectRecentAddr(SqlSession session, String memberId) {
 		List<String> list = session.selectList("order.selectRecentAddr", memberId);
-		return list.get(0);
+		if(list.size()>0) {
+			return list.get(0);
+		}else {
+			return null;
+		}
 	}
 
 	@Override

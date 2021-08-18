@@ -283,12 +283,18 @@ public class OrderController {
 	@ResponseBody
 	public Map selectRecentAddr(@RequestParam String memberId){
 		Map data = new HashMap();
-		String[] addr = service.selectRecentAddr(memberId).split(":");
-		data.put("postNo", addr[0]);
-		data.put("roadAddrPart1", addr[1]);
-		data.put("addrDetail", addr[2]);
-		data.put("roadAddrPart2", addr[3]);
-		return data;
+		String addr = service.selectRecentAddr(memberId);
+		if(addr!=null) {
+			String[] value = addr.split(":");
+			data.put("postNo", value[0]);
+			data.put("roadAddrPart1", value[1]);
+			data.put("addrDetail", value[2]);
+			data.put("roadAddrPart2", value[3]);
+			return data;
+		}else {
+			return null;
+		}
+		
 			
 	}
 	
