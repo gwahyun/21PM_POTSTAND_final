@@ -432,60 +432,6 @@ public class AdminController {
 		mv.setViewName("common/msg");
 		return mv;
 	}
-	@RequestMapping("/admin/faqInsert")
-	public ModelAndView faqInsert(ModelAndView mv) {
-		
-		mv.setViewName("admin/faqInsert");
-		return mv;
-	}
-	
-	@RequestMapping("/admin/faqInsertEnd")
-	public ModelAndView faqInsertEnd(ModelAndView mv,@RequestParam Map param) {
-		int result = service.faqInsert(param);
-		mv.addObject("msg", result>0?"등록 되었습니다!":"등록 실패하였습니다!");
-		mv.addObject("loc","/admin/faqSelect");
-		mv.setViewName("common/msg");
-		return mv;
-	}
-	
-	@RequestMapping("/admin/faqSelect")
-	public ModelAndView faqSelect(
-			@RequestParam(value ="cPage",defaultValue="1") int cPage,
-			@RequestParam(value="numPerpage",defaultValue="10") int numPerpage,
-			ModelAndView mv) {
-		int totalData = service.faqSelectCount();
-		List<Faq> list = service.faqSelect(cPage,numPerpage);
-		mv.addObject("pageBar", PageFactory.getPageBar(totalData, cPage, numPerpage,5,"faqSelect"));
-		mv.addObject("list", list);
-		mv.setViewName("admin/faqSelect");
-		return mv;
-	}
-	
-	@RequestMapping("/admin/faqUpdate")
-	public ModelAndView faqUpdate(ModelAndView mv,int no) {
-		Faq f = service.faqUpdate(no);
-		mv.addObject("f", f);
-		mv.setViewName("admin/faqUpdate");
-		return mv;
-	}
-	
-	@RequestMapping("/admin/faqUpdateEnd")
-	public ModelAndView faqUpdateEnd(ModelAndView mv,@RequestParam Map param) {
-		int result = service.faqUpdateEnd(param);
-		mv.addObject("msg", result>0?"수정 되었습니다!":"수정 실패하였습니다!");
-		mv.addObject("loc","/admin/faqSelect");
-		mv.setViewName("common/msg");
-		return mv;
-	}
-	
-	@RequestMapping("/admin/faqDelete")
-	public ModelAndView faqDelete(ModelAndView mv,int no) {
-		int result = service.faqDelete(no);
-		mv.addObject("msg", result>0?"삭제 되었습니다!":"삭제 실패하였습니다!");
-		mv.addObject("loc","/admin/faqSelect");
-		mv.setViewName("common/msg");
-		return mv;
-	}
 	
 	@RequestMapping("/admin/eventInsert")
 	public ModelAndView eventInsert(ModelAndView mv) {
@@ -933,14 +879,6 @@ public class AdminController {
 			result ="이미 회원님은 입고요청을 하셨습니다.";
 		}
 		return result;
-	}
-	
-	@RequestMapping("/faqChat")
-	public ModelAndView kakaoChat(ModelAndView mv) {
-		List<Faq> list = session.selectList("admin.faqSelectList");
-		mv.addObject("list", list);
-		mv.setViewName("admin/faqChat");
-		return mv;
 	}
 	
 	@RequestMapping("/admin/memberSortUpdate")
