@@ -6,7 +6,8 @@
  
  	<!-- 회원관리  -->
  	<select id="memberSelectCount" resultType="int">
- 		select count(*) from member where member_sort = 'N'
+ 		select count(*) from member 
+ 		where 1=1
  		<if test="searchType != null and searchKeyword != null and searchKeyword != ''">
  			and ${searchType} like '%'||#{searchKeyword}||'%' 
  		</if>
