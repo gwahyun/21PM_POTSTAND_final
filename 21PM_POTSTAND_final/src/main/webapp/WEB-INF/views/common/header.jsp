@@ -446,37 +446,24 @@
     	const messageNo = $(e.target).siblings("input[name='messageNo']").val();
     	const tableName = $(e.target).siblings("input[name='tableName']").val();
     	const tableNo = $(e.target).siblings("input[name='tableNo']").val();
-    	let bookCode = 0;
-    	if(tableName=='REQUEST'){
-    		$.ajax({
-    			url:"${path}/ajax/updateMessage.do?messageNo="+messageNo+"&tableName="+tableName+"&tableNo="+tableNo,
-    			success:function(data){
-    				bookCode=data;
-    	    		var newForm = $('<form></form>'); 
-    	    		//set attribute (form) 
-    	    		newForm.attr("name","newForm"); 
-    	    		newForm.attr("method","post"); 
-    	    		newForm.attr("action","${path}/book/bookinfo.do?no="+bookCode); 
-    	    		// append form (to body) 
-    	    		newForm.appendTo('body'); // submit form 
-    	    		newForm.submit();
-    			}
-    		});
-    	}else{
-    		$.ajax({
-    			url:"${path}/ajax/updateMessage.do?messageNo="+messageNo+"&tableName="+tableName+"&tableNo="+tableNo,
-    			success:function(data){
-    				bookCode=data;
-    			}
-    		});
-    		var newForm = $('<form></form>'); 
-    		//set attribute (form) 
-    		newForm.attr("name","newForm"); 
-    		newForm.attr("method","post"); 
-    		newForm.attr("action","${path}/qna/qnaContent.do/"+tableNo); 
-    		// append form (to body) 
-    		newForm.appendTo('body'); // submit form 
-    		newForm.submit();
-    	}
+    	let bookCode = 0;    	
+   		$.ajax({
+   			url:"${path}/ajax/updateMessage.do?messageNo="+messageNo+"&tableName="+tableName+"&tableNo="+tableNo,
+   			success:function(data){
+   				bookCode=data;
+   	    		var newForm = $('<form></form>'); 
+   	    		//set attribute (form) 
+   	    		newForm.attr("name","newForm"); 
+   	    		newForm.attr("method","post"); 
+   	    		if(tableName=='REQUEST'){
+   	    			newForm.attr("action","${path}/book/bookinfo.do?no="+bookCode);
+   	    		}else{
+   	    			newForm.attr("action","${path}/qna/qnaContent.do?qnaNo="+tableNo); 
+   	    		}
+   	    		// append form (to body) 
+   	    		newForm.appendTo('body'); // submit form 
+   	    		newForm.submit();
+   			}
+   		});
     }
     </script>
