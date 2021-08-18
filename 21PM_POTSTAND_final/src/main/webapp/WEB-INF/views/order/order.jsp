@@ -49,35 +49,31 @@
 	</script>
 <jsp:include page="/WEB-INF/views/common/header.jsp" />
 <!------------------------------------------------------------------------------------------------------------------------------------------------------------->
-<section class="mx-80">
-	<div>
-		<h1 class="text-4xl font-bold m-5 text-center">상품 구매</h1>
-	</div>
-
+<section class="text-gray-600 body-font">
+	<div class="container p-5 mx-auto">
+		<h1 class="sm:text-3xl
+            text-2xl
+            font-medium
+            title-font
+            mb-2
+            text-gray-900 border-b-4 border-red-500 inline-block mb-10">상품구매</h1>
 
 	<c:if test="${!empty cartList}">
 		<div class="content-container">
-			<div class="cart-list w-full border border-solid border-gray-400 p-4">
+			<div class="cart-list w-full p-4">
 				<h3
-					class="inline-block text-xl font-bold pl-2 border-l-4 border-blue-400 border-solid my-3 ">
+					class="inline-block text-xl font-bold pl-2 border-l-4 border-red-500 border-solid my-3 ">
 					상품확인 : ${fn:length(cartList)} 건</h3>
 				<span class="inline-block text-xs ml-4">상품정보 변경을 원하시면 →</span>
-				<button class="bg-gray-300 
-                			border border-solid border-gray-400 
-                			py-1 px-1 
-                			focus:outline-none 
-                			hover:bg-red-200 
-	          				hover:text-white rounded 
-	          				font-bold text-xs
-	          				mt-4 md:mt-0"
+				<button class="inline-flex items-center bg-gray-200 border-0 py-1 px-3 focus:outline-none hover:bg-red-400 
+	          		hover:text-white rounded text-base mt-4 md:mt-0"
 	          			onclick="location.assign('${path}/member/cartList.do')">장바구니로</button>
 				<!-- 카트 항목 출력 -->
 				<c:forEach var="cart" items="${cartList}" varStatus="i">
 					<div
 						class="cart-obj 
-	                		flex m-1 py-1 
-	                		border-t border-b border-solid border-gray-400 
-	                		items-center">
+	                		flex my-5 py-1 
+	                		items-center shadow-md rounded-md">
 
 
 						<!-- 책 표지 -->
@@ -219,70 +215,69 @@
 
 			<!-- 가격표시창 -->
 			<div
-				class="buy-container w-full border border-solid border-blue-400 items-center my-5 h-24 flex">
+				class="buy-container w-full shadow-md rounded-lg items-center my-5 h-24 flex">
 				<div class="cart-price w-full flex">
 					<div id="sum-price" class="li w-3/12 text-center align-middle">
 						<h3 class="my-3 text-xl font-semibold">총 상품 금액</h3>
 						<h3 class="money my-3 text-xl font-semibold text-center"></h3>
 					</div>
 					<div id="sale-price"
-						class="li bg-blue-300 w-3/12 text-center align-middle">
-						<h3 class="my-3 text-xl font-semibold">할인 금액</h3>
-						<h3 class="money my-3 text-xl font-semibold text-center"></h3>
+						class="li w-3/12 text-center align-middle border-4 border-red-500">
+						<h3 class="my-3 text-xl text-red-500 font-semibold ">할인 금액</h3>
+						<h3 class="money my-3 text-xl font-semibold text-center text-red-500"></h3>
 					</div>
 					<div id="send-cost" class="li w-3/12 text-center align-middle">
 						<h3 class="my-3 text-xl font-semibold">배송비</h3>
 						<h3 class="money my-3 text-xl font-semibold text-center">₩3,000</h3>
 					</div>
 					<div id="total"
-						class="li bg-green-300 w-3/12 text-center align-middle">
-						<h3 class="my-3 text-xl font-bold">합계</h3>
-						<h3 class="money my-3 text-xl font-bold text-center"></h3>
+						class="li bg-red-500 w-3/12 text-center align-middle">
+						<h3 class="my-3 text-xl font-bold text-white">합계</h3>
+						<h3 class="money my-3 text-xl font-bold text-center text-white"></h3>
 					</div>
 				</div>
 			</div>
 		</div>
 	</c:if>
-	<div
-		class="member-container w-full border border-solid border-gray-400 p-4">
+	<div class="member-container w-full p-4 shadow-md rounded-lg">
 		<div class="flex">
-			<h3	class="text-xl font-bold pl-2 border-l-4 border-blue-400 border-solid my-3 w-4/12">주문고객</h3>
-			<h3	class="text-xl font-bold pl-2 border-l-4 border-blue-400 border-solid my-3 w-8/12">배송지정보</h3>
+			<h3	class="text-xl font-bold pl-2 my-3 w-4/12">주문고객</h3>
+			<h3	class="text-xl font-bold pl-2 my-3 w-8/12">배송지정보</h3>
 		</div>
 		<div class="flex">
 			<div
-				class="member-info w-4/12 mr-2 border border-solid border-gray-400 pl-1">
+				class="member-info w-4/12 mr-2 border-r-4 border-red-500 pl-1">
 				<div class="memberName my-3">
-					<span class="inline-block w-3/12 text-base font-bold border-l-4 border-red-400 border-solid m-2 pl-3">이름</span>
+					<span class="inline-block w-3/12 text-base font-bold m-2 pl-3">이름</span>
 					<input type="text" name="memberName"
 						value="<c:out value='${memberInfo.memberName}'/>">
 				</div>
 				<div class="memberPhone my-3">
-					<span class="inline-block w-3/12 text-base font-bold border-l-4 border-red-400 border-solid m-2 pl-3">휴대폰</span>
+					<span class="inline-block w-3/12 text-base font-bold m-2 pl-3">휴대폰</span>
 					<input type="text" name="memberPhone"
 						value="<c:out value='${memberInfo.memberPhone}'/>">
 				</div>
 				<div class="memberEmail my-3">
-					<span class="inline-block w-3/12 text-base font-bold border-l-4 border-red-400 border-solid m-2 pl-3">이메일</span>
+					<span class="inline-block w-3/12 text-base font-bold m-2 pl-3">이메일</span>
 					<input type="text" name="memberEmail"
 						value="<c:out value='${memberInfo.memberEmail}'/>">
 				</div>
 			</div>		
 			<div
-				class="member-addr w-8/12 ml-2 border border-solid border-gray-400 p-1">
+				class="member-addr w-8/12 ml-2 p-1">
 				<div class="address-radio mb-1">
-					<span class="text-base font-bold border-l-4 border-red-400 border-solid m-2 pl-3">배송지</span>
+					<span class="text-base font-bold  m-2 pl-3">배송지</span>
 					<label class="text-sm"><input class="pl-2 mx-3 my-2" type="radio" name="address-type" value="default" checked>기본배송지</label> 
 					<label class="text-sm"><input class="pl-2 mx-3 my-2" type="radio" name="address-type" value="recent">최근배송지</label> 
 					<label class="text-sm"><input class="modal-open pl-2 mx-3 my-2" type="radio" name="address-type" value="list">주소록</label>
 					<label class="text-sm"><input class="pl-2 mx-3 my-2" type="radio" name="address-type" value="new">새로입력</label>
 				</div>
 				<div class="receiver">
-					<span class="text-base font-bold border-l-4 border-red-400 border-solid m-2 pl-3">받는사람</span>
+					<span class="text-base font-bold  m-2 pl-3">받는사람</span>
 					<input class="border-b border-gray-400 border-solid focus:outline-none" type="text" name="receiver" value="${memberInfo.memberName}">
 				</div>
 				<div class="address-info">
-					<h3 class="text-base font-bold border-l-4 border-red-400 border-solid mt-2 mx-2 pl-3 focus:outline-none">배송주소</h3>
+					<h3 class="text-base font-bold mt-2 mx-2 pl-3 focus:outline-none">배송주소</h3>
 					<div class="ml-6">
 						<label class="inline-block text-sm mr-3 w-20">우편번호</label>
 						<input id="postNo" class="text-xs w-3/12 mr-3 border-b border-gray-400 border-solid focus:outline-none" type="text" name="postNo" value="${defAddr.postNo}">
@@ -300,8 +295,8 @@
 					</div>
 				</div>
 				<div class="phone">
-				<h3 class="text-base font-bold border-l-4 border-red-400 border-solid m-2 pl-3">연락처</h3>
-					<div class="ml-6 border border-gray-400 border-solid">
+				<h3 class="text-base font-bold m-2 pl-3">연락처</h3>
+					<div class="ml-6 ">
 						<label class="inline-block text-sm mr-3 w-20">휴대폰</label>
 						<input class="text-xs w-1/12 border border-gray-400 border-solid" type="text" name="phone1" value="${phone1}">
 						-
@@ -315,12 +310,12 @@
 		
 	</div>
 	<div
-		class="pay-container my-5 w-full border border-solid border-gray-400 p-4">
+		class="pay-container my-5 w-full shadow-lg rounded-lg p-4">
 		<div class="w-full flex">
-			<h3	class="text-xl font-bold pl-2 border-l-4 border-blue-400 border-solid my-3 w-4/12">추가 및 확인사항</h3>
+			<h3	class="text-xl font-bold pl-2 my-3 w-4/12">추가 및 확인사항</h3>
 		</div>
 		<div class="flex">
-			<div class="payMethodSelect w-4/12 mx-1 border border-solid border-gray-400 text-sm ">
+			<div class="payMethodSelect w-4/12 mx-1 border-4 border-solid border-gray-400 text-sm ">
 				<div class="w-full mt-2 mb-4 pl-4 pr-2">
 					<span class="inline-block w-3/12">영수증</span>
 					<label class="inline-block w-4/12">
@@ -341,13 +336,13 @@
 					<input class="w-9/12 border-b border-solid border-gray-400" type="text" name="post-message" value="">
 				</div>
 			</div>
-			<div class="pay-info w-4/12 mx-1 border border-solid border-gray-400 text-sm">
-				<div class="w-full bg-blue-100 flex pl-4 pr-2 pt-3 pb-3">
-					<span class="inline-block w-4/12 text-blue-600 text-lg font-bold">결제금액</span>
-					<span id="final-price" class="w-8/12 text-red-600 text-lg font-bold text-right pr-9"></span>
+			<div class="pay-info w-4/12 mx-1 text-sm border-4 border-red-500 ">
+				<div class="w-full bg-red-500 flex pl-4 pr-2 pt-3 pb-3">
+					<span class="inline-block w-4/12 text-white text-lg font-bold">결제금액</span>
+					<span id="final-price" class="w-8/12 text-white text-lg font-bold text-right pr-9"></span>
 				</div>
-				<div class="w-full bg-blue-100 flex pl-4 pr-2 pt-3 pb-3">
-					<div class="w-4/12 text-blue-600 text-base font-bold">사용가능<br>포인트</div>
+				<div class="w-full flex pl-4 pr-2 pt-3 pb-3">
+					<div class="w-4/12 text-red-500 text-base font-bold">사용가능<br>포인트</div>
 					<div class="pl-6">
 						<span id="final-price" class="block text-blue-600 text-lg font-bold text-right pr-9"><c:out value="${useablePoint}"/></span>
 						<input type="hidden" name="useable-point" value="${useablePoint}">
@@ -357,7 +352,7 @@
 				</div>
 				<div class="w-full flex pl-4 pr-2 pt-3 pb-3">
 					<span class="inline-block w-4/12 text-lg font-bold">적립 포인트</span>
-					<span id="point-stack" class="w-8/12 text-red-600 text-base font-bold text-right pr-9"></span>
+					<span id="point-stack" class="w-8/12 text-red-500 text-base font-bold text-right pr-9"></span>
 				</div>
 				<div class="w-full flex pl-4 pr-2 pt-3 pb-3">
 					<span class="inline-block w-5/12 text-lg font-bold">적용가능 쿠폰</span>
@@ -388,14 +383,15 @@
 			</div>
 			<div class="pay-info w-4/12 mx-1 border border-solid border-gray-400 text-sm">
 				<div class="w-full">
-					<span class="inline-block p-5 bg-red-200 w-full text-center text-sm font-bold">주문하실 상품, 가격, 배송정보, 할인정보 등을 <br>확인하였으며, 구매에 동의하시겠습니까?</span>
- 					<label class="flex px-5 py-2 w-full text-xs font-bold justify-center">
+					<span class="inline-block p-5 w-full text-center text-lg font-bold">주문하실 상품, 가격, 배송정보, 할인정보 등을 <br>확인하였으며, 구매에 동의하시겠습니까?</span>
+ 					<label class="flex px-5 py-2 w-full text-sm font-bold justify-center">
  					<input type="checkbox" name="trade-agree">
  						&nbsp&nbsp동의합니다. (전자상거래법 제 8조 제2항)
  					</label>
 				</div>
-				<div class="w-full flex justify-center align-middle h-1/4 ">		
-					<button id="pay-button" class="border border-solid border-gray-400 w-3/12 bg-green-200" onclick="requestPay()">결제하기</button>
+				<div class="w-full flex justify-center items-end h-1/4 ">		
+					<button id="pay-button" class="w-3/12 inline-flex items-center justify-center bg-red-500 text-white py-1 px-3 
+	          		rounded text-base mt-4 md:mt-0 text-lg" onclick="requestPay()">결제하기</button>
 				</div>
 			</div>
 		</div>
@@ -464,7 +460,7 @@
       </div>
     </div>
   </div>
-	
+	</div>
 	
 	<form id="successForm" action="${path}/member/memberMypage.do" method="post"/>
 	<form id="failForm" action="${path}/order/orderItems.do" method="post"/>
