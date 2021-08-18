@@ -782,7 +782,7 @@
 			<if test="endDate != null and endDate != '' and startDate != '' and startDate != null">
 	  			and to_date(pay_date,'YY-MM-DD') <![CDATA[<=]]> #{endDate} and to_date(pay_date,'YY-MM-DD') >= #{startDate}
 			</if>
-			order_state != '결제취소'
+			and order_state != '결제취소'
 	</select>
 	
 	
