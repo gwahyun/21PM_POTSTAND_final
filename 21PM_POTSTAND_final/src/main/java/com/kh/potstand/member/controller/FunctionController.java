@@ -90,8 +90,8 @@ public class FunctionController {
 	}
 	
 	//qna 내용 확인
-	@RequestMapping("/qna/qnaContent.do/{qnaNo}")
-	public ModelAndView qnaSelectOne(ModelAndView mv, @PathVariable int qnaNo){
+	@RequestMapping("/qna/qnaContent.do")
+	public ModelAndView qnaSelectOne(ModelAndView mv, @RequestParam int qnaNo){
 		Qna q = service.qnaSelectOne(qnaNo);
 		//Status N이면 답변없는데 가져온거니까 그냥 null 넣어줌
 		if(q.getQnaStatus().equals("N")) {

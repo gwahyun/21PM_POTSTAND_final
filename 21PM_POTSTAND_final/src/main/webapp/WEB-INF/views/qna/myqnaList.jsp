@@ -111,7 +111,7 @@
                   flex
                   justify-center
                   content-center">
-                    	<a href="${path}/qna/qnaContent.do/${q.qnaNo}" class=""><c:out value="${q.qnaTitle}"/></a>
+                    	<a href="${path}/qna/qnaContent.do?qnaNo=${q.qnaNo}" class=""><c:out value="${q.qnaTitle}"/></a>
                     </div>
                   <div class="qna-date border-solid border
                   w-2/12
