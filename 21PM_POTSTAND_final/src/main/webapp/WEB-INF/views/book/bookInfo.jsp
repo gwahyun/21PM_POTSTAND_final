@@ -609,7 +609,7 @@
 	          	</c:if>
 	          	<c:if test="${not empty review }">
 	          		<c:forEach items="${review }" var="r">
-	          			<div class="flex h-50 w-full border-b-2">
+	          			<div class="flex h-50 w-full border-b-2 mb-2">
 		          			<div class="w-1/4 my-4">
 			          			<div class="flex">
 			          				<c:if test="${r.point==1 }">
