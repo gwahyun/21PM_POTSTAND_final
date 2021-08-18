@@ -418,7 +418,7 @@
       <div class="modal-content py-3 text-left px-3">
         <!--Title-->
         <div class="flex justify-between items-center pb-3">
-          <p class="text-2xl font-bold">Simple Modal!</p>
+          <p class="text-2xl font-bold">주소록</p>
           <div class="modal-close cursor-pointer z-50">
             <svg class="fill-current text-black" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18">
               <path d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z"></path>
@@ -434,31 +434,39 @@
         		<th class="w-2/12 m-1 text-sm text-center border border-solid border-gray-400">전화번호</th>
         		<th class="w-2/12 m-1 text-sm text-center border border-solid border-gray-400">관리</th>
         	</tr>
+        	<c:if test="${empty addressList}">
+        		<tr class="border border-solid border-gray-400">
+		        		<td class="text-base m-1 p-3 border border-solid border-gray-400 text-center" colspan="4">
+		        			등록된 주소가 없습니다.
+		        		</td>
+        		</tr>
+        	</c:if>
         	
-        	<!-- 반복문으로 주소록 조회 -->
-        	<c:forEach var="a" items="${addressList}">
-	        	<tr class="border border-solid border-gray-400 hover:bg-blue-200">
-	        		<td class="text-xs m-1 border border-solid border-gray-400">
-	        			<input type="text" class="focus:outline-none text-center" name="receiverName" value="${a.RECEIVER_NAME}" readonly/>
-	        		</td>
-	        		<td class="text-xs m-1 border border-solid border-gray-400">
-	        			<input type="hidden" name="addrNo" value="${a.ADDR_NO}">
-	        			<input type="text" class="focus:outline-none w-full cursor-pointer text-center hover:underline" name="receiverAddr" value="${a.POST_No +=' '+= a.ROAD_ADDR +=' '+= a.OLD_ADDR +=' '+= a.DETAIL_ADDR}" readonly onclick="select_address(event);"/>
-	        		</td>
-	        		<td class="text-xs m-1 border border-solid border-gray-400">
-	        			<input type="text" class="focus:outline-none text-center" name="receiverPhone" value="${a.PHONE}" readonly/>
-	        		</td>
-	        		<td class="text-xs m-1 border border-solid border-gray-400">
-	        			<button class="inline-block w-full text-xs border border-gray-400 border-solid " onclick="delete_address(event);">삭제</button>
-	        		</td>
-	        	</tr>
-        	</c:forEach>
+        	<c:if test="${!empty addressList}">
+	        	<!-- 반복문으로 주소록 조회 -->
+	        	<c:forEach var="a" items="${addressList}">
+		        	<tr class="border border-solid border-gray-400 hover:bg-blue-200">
+		        		<td class="text-xs m-1 border border-solid border-gray-400">
+		        			<input type="text" class="focus:outline-none text-center" name="receiverName" value="${a.RECEIVER_NAME}" readonly/>
+		        		</td>
+		        		<td class="text-xs m-1 border border-solid border-gray-400">
+		        			<input type="hidden" name="addrNo" value="${a.ADDR_NO}">
+		        			<input type="text" class="focus:outline-none w-full cursor-pointer text-center hover:underline" name="receiverAddr" value="${a.POST_No +=' '+= a.ROAD_ADDR +=' '+= a.OLD_ADDR +=' '+= a.DETAIL_ADDR}" readonly onclick="select_address(event);"/>
+		        		</td>
+		        		<td class="text-xs m-1 border border-solid border-gray-400">
+		        			<input type="text" class="focus:outline-none text-center" name="receiverPhone" value="${a.PHONE}" readonly/>
+		        		</td>
+		        		<td class="text-xs m-1 border border-solid border-gray-400">
+		        			<button class="inline-block w-full text-xs border border-gray-400 border-solid " onclick="delete_address(event);">삭제</button>
+		        		</td>
+		        	</tr>
+	        	</c:forEach>
+        	</c:if>
         </table>
 
         <!--Footer-->
-        <div class="flex justify-end pt-2">
-          <button class="px-4 bg-transparent p-3 rounded-lg text-indigo-500 hover:bg-gray-100 hover:text-indigo-400 mr-2">Action</button>
-          <button class="modal-close px-4 bg-indigo-500 p-3 rounded-lg text-white hover:bg-indigo-400">Close</button>
+        <div class="flex justify-end pt-2 h-10">
+          
         </div>
         
       </div>
@@ -793,11 +801,16 @@ function fn_priceCalc(){
     			$.ajax({
     				url:"${path}/ajax/recentAddr.do?memberId="+'${memberInfo.memberId}',
     				success:function(data){
-    					$("input[name='receiver']").val('${memberInfo.memberName}');
-    					$("#postNo").val(data.postNo);
-    	    			$("#roadAddrPart1").val(data.roadAddrPart1);
-    	    			$("#addrDetail").val(data.addrDetail);
-    	    			$("#roadAddrPart2").val(data.roadAddrPart2);		
+    					if(data.postNo!=null && data.postNo!=""){
+	    					$("input[name='receiver']").val('${memberInfo.memberName}');
+	    					$("#postNo").val(data.postNo);
+	    	    			$("#roadAddrPart1").val(data.roadAddrPart1);
+	    	    			$("#addrDetail").val(data.addrDetail);
+	    	    			$("#roadAddrPart2").val(data.roadAddrPart2);
+    					}else{
+    						alert("주문정보가 없습니다.");
+    						
+    					}
     				}
     			});
     			break;
