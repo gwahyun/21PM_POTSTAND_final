@@ -53,12 +53,12 @@ opacity:1;
 
 </style>
 <section class="text-gray-600 body-font min-h-screen">
-	<div class="container px-5 py-10 mx-auto">
 	 	<div class="slide flex justify-center w-full">
 			<img class="cell w-screen" src="${pageContext.request.contextPath}/resources/img/grandOpen1.png" alt=""/>
 			<img class="cell w-screen" src="${pageContext.request.contextPath}/resources/img/event1.png" alt=""/>
 			<img class="cell w-screen" src="${pageContext.request.contextPath}/resources/img/event2.png" alt=""/>
   		</div>
+	<div class="container px-5 py-10 mx-auto">
 	</div>
     </section>
 <script>
