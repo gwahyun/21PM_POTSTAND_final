@@ -276,7 +276,7 @@
 	</select>
 		
 	<select id="memberOrderListSelect" resultMap="paymentMap">
-		SELECT * FROM  PAYMENT JOIN PAYMENT_OBJ USING(PAYMENT_NO) WHERE MEMBER_ID=#{memberId}
+		SELECT * FROM  PAYMENT JOIN PAYMENT_OBJ USING(PAYMENT_NO) WHERE MEMBER_ID=#{memberId} ORDER BY PAYMENT_NO DESC
 	</select>
 	
 	<select id="memberOrderListCount" resultType="_int">
@@ -300,7 +300,7 @@
 	</update>
 	
 	<select id="memberOrderListAllSelect" resultMap="paymentMap">
-		SELECT * FROM PAYMENT WHERE MEMBER_ID=#{memberId}
+		SELECT * FROM PAYMENT WHERE MEMBER_ID=#{memberId} 
 	</select>
 	
 </mapper>

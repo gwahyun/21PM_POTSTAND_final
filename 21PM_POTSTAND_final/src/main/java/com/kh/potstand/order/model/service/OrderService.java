@@ -56,4 +56,6 @@ public interface OrderService {
 	boolean memberOrderListDelete(int paymentNo);
 	
 	Payment paymentSelect(int paymentNo);
+	
+	int getPaymentNo(Map param);
 }
