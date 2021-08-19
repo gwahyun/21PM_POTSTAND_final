@@ -189,6 +189,11 @@ public class OrderServiceImpl implements OrderService{
 	public Payment paymentSelect(int paymentNo) {
 		return dao.paymentSelect(session, paymentNo);
 	}
+
+	@Override
+	public int getPaymentNo(Map param) {
+		return dao.getPaymentNo(session, param);
+	}
 	
 
 	

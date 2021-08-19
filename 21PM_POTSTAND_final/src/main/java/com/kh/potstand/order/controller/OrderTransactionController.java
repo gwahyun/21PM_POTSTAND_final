@@ -40,33 +40,35 @@ public class OrderTransactionController {
 	//아임포트 객체
 	private IamportClient api = new IamportClient("8116855594363834", "effe9bdd35fafb13df8ab1920c04852352412f937fcfe5bef763620f5980471146a5019f23622baf");
 	
-	@RequestMapping("/ajax/beforePayment.do")
-	@ResponseBody
-	public Map beforOrderPayment(HttpSession session, @RequestBody Map param){
-		try {
-			String memberId = ((Member)(session.getAttribute("loginMember"))).getMemberId();
-			param.put("receiverAddress", ((String)param.get("receiverAddress")));
-			param.put("memberId", memberId);
-			param=service.beforOrderPayment(param);
-			//log.debug(param.toString());
-		}catch(Exception e) {
-			e.printStackTrace();
-		}
-		return param;
-	}
 	
 	
 	@RequestMapping("/ajax/paymentCheck.do")
 	@ResponseBody
 	public IamportResponse<Payment> paymentCheck(HttpSession session, @RequestBody Map param) throws IamportResponseException, IOException{
-		String imp_uid = (String)param.get("imp_uid"); 
-		return api.paymentByImpUid(imp_uid);
+	//db 선입력	
+		try {
+			String memberId = ((Member)(session.getAttribute("loginMember"))).getMemberId();
+			param.put("receiverAddress", ((String)param.get("receiverAddress")));
+			param.put("memberId", memberId);
+			param=service.beforOrderPayment(param);
+			//입력한걸로 체크
+			String imp_uid = (String)param.get("imp_uid");
+			return api.paymentByImpUid(imp_uid);
+		}catch(Exception e) {
+			e.printStackTrace();
+			return api.paymentByImpUid("fail");
+		}
+		
 	}
 	
 	
 	@RequestMapping("/ajax/paymentComplete.do")
 	@ResponseBody
 	public Boolean paymentComplete(HttpSession session, @RequestBody Map param){
+		String memberId = ((Member)(session.getAttribute("loginMember"))).getMemberId();
+		param.put("memberId", memberId);
+		int paymentNo = service.getPaymentNo(param);
+		param.put("paymentNo", paymentNo);
 		//성공/실패 확인
 		if((Boolean)param.get("check")) {
 			//cart 삭제 + uid / payMethod update
