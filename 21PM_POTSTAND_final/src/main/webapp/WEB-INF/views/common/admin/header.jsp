@@ -68,7 +68,7 @@
                     </ul>
                    
                 </li>
-                 <li class="admin-aside-top_menu"><span class="admin-aside-top_text">재고</span>
+                 <li class="admin-aside-top_menu"><span class="admin-aside-top_text">입고</span>
                     <ul class="admin-aside-side_menus">
                         <li><a href="${path }/admin/requestSelect">입고요청</a></li>
                     </ul>
