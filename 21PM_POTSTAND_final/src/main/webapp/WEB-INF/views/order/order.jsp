@@ -482,6 +482,7 @@ IMP.init("imp89075565"); // "imp00000000" 대신 발급받은 "가맹점 식별�
 // IMP.request_pay(param, callback) 호출
 //주문번호(merchant_uid) 생성하기
 function requestPay() {
+	
 	if(!$("input[name='trade-agree']").is(":checked")){
 		alert("구매정보를 확인하고 동의해주세요");
 		return;
@@ -502,22 +503,26 @@ function requestPay() {
 		let couponNo = arr[0];
 		let discount = arr[1];
 		let point = $("input[name='point-using']").val();
+		
 		if(arr[0]!=0){
 			realPrice=Math.round(realPrice*(1-discount));
 		}else{
 			couponNo=null;
 		}
+		
 		realPrice-=point;
 		let bookTitle = $(".bookTitle");
 		let cartNo=[];
 		$("input[name='cartNo']").each(function(i,v){
 			cartNo.push(Number($(v).val()));
-		})
+		});
+		
 		if(realPrice<0){
 			alert("결제오류 : 결제금액 에러");
 			document.location.reload(true);
 			return;
 		}
+		
 		var param=JSON.stringify({
 			pg:"html5_inicis",
 		    pay_method: "temp",
@@ -540,83 +545,68 @@ function requestPay() {
 		    point: Number($("#point-stack").text().split(" ")[0]),
 		    point_using:-point
 		});
-
-		//주문 선입력
-		$.ajax({
-	          url: '${path}/ajax/beforePayment.do',
-	          method:'post',
-	          contentType:'application/json',
-	          dataType :'json',
-	          data: param,
-	          success:function(data){
-	        	  param=data;
-	          }
-	      });
-		
-	}
-	
-  // IMP.request_pay(param, callback) 호출
-   param=JSON.parse(param);
-   IMP.request_pay(param,
-	function (rsp) { // callback
-	  if (rsp.success) { // 결제 성공 시: 결제 승인 또는 가상계좌 발급에 성공한 경우
-	      // jQuery로 HTTP 요청
-	      param.pay_method=rsp.pay_method;
-	      param.cAmount=rsp.paid_amount;
-	      param.imp_uid=rsp.imp_uid;
-	      param.merchant_uid=rsp.merchant_uid;
-	      
-	      $.ajax({
-	          url: "${path}/ajax/paymentCheck.do", // 가맹점 서버
-	          method: "POST",
-	          dataType : "json",
-	          contentType:'application/json',
-	          data: JSON.stringify({
-	              imp_uid: rsp.imp_uid,
-	              merchant_uid: rsp.merchant_uid
-			  })
-	      }).done(function (data) {
-	    		if(param.amount == param.cAmount){
-	    			param.check=true;
-	    			$.ajax({
-	    		          url: "${path}/ajax/paymentComplete.do",
-	    		          method: "POST",
-	    		          dataType : "json",
-	    		          contentType:'application/json',
-	    		          data: JSON.stringify(param),
-	    		          success:function(data){
-	    		        	  $("#successForm").submit();
-	    					}
-	    		      });
-	    		}else{
-	    			param.check=false;
-	    			$.ajax({
-	    		          url: "${path}/ajax/paymentComplete.do",
-	    		          method: "POST",
-	    		          dataType : "json",
-	    		          contentType:'application/json',
-	    		          data: JSON.stringify(param),
-	    		          success:function(data){
-	    						$("#failForm").submit();
-	    				  }
-	    		      });
-	    		}
-	      })
-	} else {
-	      alert("결제에 실패하였습니다. 에러 내용: " +  rsp.error_msg);
-	      param.check=false;
-			$.ajax({
-		          url: "${path}/ajax/paymentComplete.do",
+		console.log(param);
+		// IMP.request_pay(param, callback) 호출
+		param=JSON.parse(param);
+		IMP.request_pay(param,
+		function (rsp) { // callback
+		  if (rsp.success) { // 결제 성공 시: 결제 승인 또는 가상계좌 발급에 성공한 경우
+		      // jQuery로 HTTP 요청
+		      param.pay_method=rsp.pay_method;
+		      param.cAmount=rsp.paid_amount;
+		      param.imp_uid=rsp.imp_uid;
+		      param.merchant_uid=rsp.merchant_uid;
+		      
+		      $.ajax({
+		          url: "${path}/ajax/paymentCheck.do", // 가맹점 서버
 		          method: "POST",
 		          dataType : "json",
 		          contentType:'application/json',
-		          data: JSON.stringify(param),
-		          success:function(data){
-		        	  //$("#failForm").submit();
-				  }
-		   });
+		          data: JSON.stringify(param)
+		      }).done(function (data) {
+		    		if(param.amount == param.cAmount){
+		    			param.check=true;
+		    			$.ajax({
+		    		          url: "${path}/ajax/paymentComplete.do",
+		    		          method: "POST",
+		    		          dataType : "json",
+		    		          contentType:'application/json',
+		    		          data: JSON.stringify(param),
+		    		          success:function(data){
+		    		        	  $("#successForm").submit();
+		    				  }
+		    		      });
+		    		}else{
+		    			param.check=false;
+		    			$.ajax({
+		    		          url: "${path}/ajax/paymentComplete.do",
+		    		          method: "POST",
+		    		          dataType : "json",
+		    		          contentType:'application/json',
+		    		          data: JSON.stringify(param),
+		    		          success:function(data){
+		    						$("#failForm").submit();
+		    				  }
+		    		      });
+		    		}
+		      });
+		      
+			} else {
+		      alert("결제에 실패하였습니다. 에러 내용: " +  rsp.error_msg);
+		      param.check=false;
+				$.ajax({
+			          url: "${path}/ajax/paymentComplete.do",
+			          method: "POST",
+			          dataType : "json",
+			          contentType:'application/json',
+			          data: JSON.stringify(param),
+			          success:function(data){
+			        	  //$("#failForm").submit();
+					  }
+			   });
+			}
+		});
 	}
-  }); 
 }
 
 
@@ -684,13 +674,13 @@ function fn_priceCalc(){
 		if(arr[0]!=0){
 			let disPrice = realPrice*(1-discount);
 			$("#final-price").text(disPrice.toLocaleString('ko-KR',{style:'currency',currency:'KRW'}));
-			$("#final-price").removeClass("text-red-600");
-			$("#final-price").addClass("text-blue-600");
+			$("#final-price").removeClass("text-white");
+			$("#final-price").addClass("text-blue-200");
 		//쿠폰 사용안함
 		}else{
 			$("#final-price").text(realPrice.toLocaleString('ko-KR',{style:'currency',currency:'KRW'}));
-			$("#final-price").addClass("text-red-600");
-			$("#final-price").removeClass("text-blue-600");
+			$("#final-price").addClass("text-white");
+			$("#final-price").removeClass("text-blue-200");
 		}
 	}); 
 		
@@ -721,6 +711,10 @@ function fn_priceCalc(){
 			$(e.target).parents("label").addClass("border-solid");
 		}		
 	});
+	
+	
+	 
+	
 //동의시 배경화면 색상 변경
 	$("input[name='trade-agree']").click((e)=>{
 		if($(e.target).is(":checked")){
@@ -739,7 +733,7 @@ function fn_priceCalc(){
       })
     }
     
-    const overlay = document.querySelector('.modal-overlay')
+    const overlay2 = document.querySelector('.modal-overlay')
     overlay.addEventListener('click', toggleModal)
     
     var closemodal = document.querySelectorAll('.modal-close')
@@ -942,12 +936,12 @@ function fn_priceCalc(){
 	  	  		if(arr[0]!=0){
 	  	  			let disPrice = realPrice*(1-discount);
 	  	  			$("#final-price").text((disPrice-point).toLocaleString('ko-KR',{style:'currency',currency:'KRW'}));
-	  	  			$("#final-price").removeClass("text-red-600");
+	  	  			$("#final-price").removeClass("text-white");
 	  	  			$("#final-price").addClass("text-blue-600");
 	  	  		//쿠폰 사용안함
 	  	  		}else{
 	  	  			$("#final-price").text((realPrice-point).toLocaleString('ko-KR',{style:'currency',currency:'KRW'}));
-	  	  			$("#final-price").addClass("text-red-600");
+	  	  			$("#final-price").addClass("text-white");
 	  	  			$("#final-price").removeClass("text-blue-600");
 	  	  		}
   	  		}

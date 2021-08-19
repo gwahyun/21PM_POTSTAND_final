@@ -70,4 +70,6 @@ public interface OrderDao {
 	int orderStateUpdate(SqlSession session,int paymentNo);
 	
 	Payment paymentSelect(SqlSession session, int paymentNo);
+	
+	int getPaymentNo(SqlSession session, Map param);
 }
