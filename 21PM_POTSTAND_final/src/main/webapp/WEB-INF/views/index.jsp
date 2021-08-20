@@ -64,20 +64,12 @@ opacity:1;
 
 
 </style>
-<<<<<<< HEAD
-<section class="text-gray-600 body-font min-h-screen">
-	<div class="container px-5 py-10 mx-auto">
-	 	<div class="slide flex justify-center w-full">
-			<img class="cell w-screen" src="${pageContext.request.contextPath}/resources/img/grandopen1.png" alt=""/>
-			<img class="cell w-screen" src="${pageContext.request.contextPath}/resources/img/event1.png" alt=""/>
-			<img class="cell w-screen" src="${pageContext.request.contextPath}/resources/img/event2.png" alt=""/>
-=======
+
 <section class="text-gray-600 body-font">
 	 	<div class="slide flex justify-center w-full h-96">
 			<img class="cell object-cover" src="${pageContext.request.contextPath}/resources/img/grandopen1.png" alt=""/>
 			<img class="cell object-cover" src="${pageContext.request.contextPath}/resources/img/event1.png" alt=""/>
 			<img class="cell object-cover" src="${pageContext.request.contextPath}/resources/img/event2.png" alt=""/>
->>>>>>> refs/remotes/origin/gwahyun
   		</div>
     	
     </section>
