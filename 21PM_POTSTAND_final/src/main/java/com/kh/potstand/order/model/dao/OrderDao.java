@@ -63,6 +63,9 @@ public interface OrderDao {
 	//결제취소 - payment적용된 coupon 되돌리기
 	int paymentCouponUpdate(SqlSession session,int couponNo);
 	
+	//결제취소 - 포인트 적립내역 삭제
+	int pointDelete(SqlSession session,int paymentNo);
+	
 	//결제취소 - 책재고 원상태로 복귀
 	int bookStockUpdate(SqlSession session,PaymentObj po);
 
@@ -72,4 +75,5 @@ public interface OrderDao {
 	Payment paymentSelect(SqlSession session, int paymentNo);
 	
 	int getPaymentNo(SqlSession session, Map param);
+	
 }

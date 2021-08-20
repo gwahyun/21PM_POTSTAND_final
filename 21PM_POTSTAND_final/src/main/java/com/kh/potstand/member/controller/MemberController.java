@@ -116,9 +116,12 @@ public class MemberController {
 	
 	//로그아웃
 	@RequestMapping("/member/memberLogout.do")
-	public String memberLogout(HttpSession session) {
+	public ModelAndView memberLogout(HttpSession session,ModelAndView mv) {
 		session.invalidate();
-		return "index";
+		mv.addObject("msg", "로그아웃 하였습니다.");
+		mv.addObject("loc", "/");
+		mv.setViewName("common/msg");
+		return mv;
 	}
 	
 	//회원가입 페이지전환

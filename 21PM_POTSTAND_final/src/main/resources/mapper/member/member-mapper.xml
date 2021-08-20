@@ -82,7 +82,6 @@
 		<result column="point" property="point"/>
 		<result column="use_log" property="useLog"/>
 		<result column="use_date" property="useDate"/>
-		<result column="point_no" property="point"/>
 		<association property="payment" column="payment_no" select="selectPaymentByPK"/>
 	</resultMap>
 	<select id="selectPaymentByPK" resultMap="paymentMap">
@@ -302,5 +301,9 @@
 	<select id="memberOrderListAllSelect" resultMap="paymentMap">
 		SELECT * FROM PAYMENT WHERE MEMBER_ID=#{memberId} 
 	</select>
+	
+	<delete id="pointDelete">
+		DELETE FROM POINT WHERE PAYMENT_NO=#{paymentNo}
+	</delete>
 	
 </mapper>

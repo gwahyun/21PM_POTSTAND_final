@@ -64,22 +64,24 @@
 		        			</div>
 	        			</div>
 	        			<c:forEach items="${list }" var="p">
-		        			<div class="flex">
-		        				<div class="w-1/4 border p-2 flex justify-center items-center">
-		        					<h4>${p.useDate }</h4>
+	        				<c:if test="${p.point!=0 }">
+			        			<div class="flex">
+			        				<div class="w-1/4 border p-2 flex justify-center items-center">
+			        					<h4>${p.useDate }</h4>
+				        			</div>
+				        			<div class="w-2/4 border p-2 flex justify-center items-center">
+				        				<h4>${p.payment.name} ${p.useLog }</h4>
+				        			</div>
+				        			<div class="w-1/4 border p-2 flex justify-center items-center">
+				        				<c:if test="${fn:contains(p.useLog,'사용') }">
+				        					<h4>-${p.point }</h4>		
+				        				</c:if>
+			        					<c:if test="${fn:contains(p.useLog,'적립') }">
+				        					<h4>+${p.point }</h4>
+				        				</c:if>
+				        			</div>
 			        			</div>
-			        			<div class="w-2/4 border p-2 flex justify-center items-center">
-			        				<h4>${p.payment.name} ${p.useLog }</h4>
-			        			</div>
-			        			<div class="w-1/4 border p-2 flex justify-center items-center">
-			        				<c:if test="${fn:contains(p.useLog,'사용') }">
-			        					<h4>-${p.point }</h4>		
-			        				</c:if>
-		        					<c:if test="${fn:contains(p.useLog,'적립') }">
-			        					<h4>+${p.point }</h4>
-			        				</c:if>
-			        			</div>
-		        			</div>
+		        			</c:if>
 	        			</c:forEach>
 	        		</div>     	
         			<div class="pageBar flex my-5">${pageBar}</div>

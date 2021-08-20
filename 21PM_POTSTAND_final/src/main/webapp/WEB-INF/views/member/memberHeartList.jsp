@@ -90,7 +90,7 @@
 	        						</c:if>
 	        					</div>      					
 		        			</div>
-		        			<div class="w-5/12 border-t-2 p-2 flex-col content-between">
+		        			<div class="w-5/12 border-t-2 p-2 flex flex-col content-between">
 		        				<div>
 		        					<a href="${path }/book/bookinfo.do?no=${h.book.bookCode}">
 		        						<h3 class="text-2xl font-bold pb-4 pt-4">${h.book.bookTitle }</h3>

@@ -163,20 +163,24 @@ public class OrderServiceImpl implements OrderService{
 					result=dao.paymentCouponUpdate(session,p.getCoupon().getCouponNo());
 				}
 				if(result>0) {
-					for(PaymentObj po : p.getPaymentObj()) {
-						if(po.getCoupon()!=null) { //paymentObj에 쿠폰을 사용했을경우
-							//paymentObj에적용된 쿠폰 사용일 지우기, 쿠폰 개수 +1, coupon_end N
-							result=dao.paymentCouponUpdate(session,po.getCoupon().getCouponNo());
+					//포인트 적립내역 삭제
+					result=dao.pointDelete(session,paymentNo);
+					if(result>0) {
+						for(PaymentObj po : p.getPaymentObj()) {
+							if(po.getCoupon()!=null) { //paymentObj에 쿠폰을 사용했을경우
+								//paymentObj에적용된 쿠폰 사용일 지우기, 쿠폰 개수 +1, coupon_end N
+								result=dao.paymentCouponUpdate(session,po.getCoupon().getCouponNo());
+							}
+							if(result>0) {
+								//bookCode로 책 재고 늘려주는 로직 자리
+								result=dao.bookStockUpdate(session,po);
+							}else return false;
 						}
 						if(result>0) {
-							//bookCode로 책 재고 늘려주는 로직 자리
-							result=dao.bookStockUpdate(session,po);
+							//payment state '결제취소'로 변경
+							if(dao.orderStateUpdate(session,p.getPaymentNo())>0) return true;
+							else return false;
 						}else return false;
-					}
-					if(result>0) {
-						//payment state '결제취소'로 변경
-						if(dao.orderStateUpdate(session,p.getPaymentNo())>0) return true;
-						else return false;
 					}else return false;
 				}else return false;
 			}else return false;

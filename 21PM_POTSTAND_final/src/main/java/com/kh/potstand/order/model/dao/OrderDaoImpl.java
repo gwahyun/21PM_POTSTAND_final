@@ -244,6 +244,12 @@ public class OrderDaoImpl implements OrderDao{
 		return session.update("member.paymentCouponUpdate",couponNo);
 	}
 	
+	//결제취소 - 포인트 적립내역 삭제
+	@Override
+	public int pointDelete(SqlSession session, int paymentNo) {
+		return session.delete("member.pointDelete", paymentNo);
+	}
+	
 	//결제취소 - 책재고 원상태로 복귀
 	@Override
 	public int bookStockUpdate(SqlSession session, PaymentObj po) {
@@ -265,11 +271,6 @@ public class OrderDaoImpl implements OrderDao{
 	public int getPaymentNo(SqlSession session, Map param) {
 		return session.selectOne("order.getPaymentNo",param);
 	}
-
-	
-	
-	
-	
 
 	
 	
