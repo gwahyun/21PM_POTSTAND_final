@@ -90,14 +90,14 @@
 	        						</c:if>
 	        					</div>      					
 		        			</div>
-		        			<div class="w-5/12 border-t-2 h-52 p-2 flex-col content-between">
-		        				<div class="h-1/3">
+		        			<div class="w-5/12 border-t-2 p-2 flex-col content-between">
+		        				<div>
 		        					<a href="${path }/book/bookinfo.do?no=${h.book.bookCode}">
 		        						<h3 class="text-2xl font-bold pb-4 pt-4">${h.book.bookTitle }</h3>
 		        					</a>
 		        					<h4 class="text-xl">${h.book.bookWriter }</h4>
 		        				</div>
-		        				<div class="h-2/3 flex items-end pb-8">
+		        				<div class="flex items-end my-2">
 		        					<button class="bg-red-500 text-gray-100 rounded-full tracking-wide font-semibold 
 				        			focus:outline-none focus:shadow-outline hover:bg-red-600 cursor-pointer 
 				        			transition ease-in duration-300 w-36 h-8 mr-4" type="button"
@@ -108,7 +108,7 @@
 				        			onclick="fn_heartList_cartDelete(event);">삭제</button>
 		        				</div>		
 		        			</div>
-		        			<div class="w-4/12 border-t-2 h-52 p-2 flex flex-col justify-center text-right pr-8">
+		        			<div class="w-4/12 border-t-2 p-2 flex flex-col justify-center text-right pr-8">
 		        				<h3 class="text-2xl"><fmt:formatNumber value="${h.book.bookCost }" type="currency"/></h3>
 		        			</div>
 	        			</div>
