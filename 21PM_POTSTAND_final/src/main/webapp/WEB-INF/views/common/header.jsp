@@ -336,7 +336,7 @@
       	
    <!-- Message 모달 -->
   <div class="modal opacity-0 pointer-events-none fixed w-full h-full top-0 left-0 flex items-center justify-center z-30">
-    <div class="modal-overlay absolute w-full h-full bg-gray-900 opacity-0"></div>
+    <div class="modal-overlay2 absolute w-full h-full bg-gray-900 opacity-0"></div>
     
     <div class="modal-container absolute -right-5 top-16 md:w-3/12 mx-10 rounded shadow-xl z-50 overflow-y-auto">
      
@@ -411,8 +411,8 @@
       })
     }
     
-    const overlay = document.querySelector('.modal-overlay')
-    overlay.addEventListener('click', toggleModal)
+    const overlay2 = document.querySelector('.modal-overlay2')
+    overlay2.addEventListener('click', toggleModal)
     
     var closemodal = document.querySelectorAll('.modal-close')
     for (var i = 0; i < closemodal.length; i++) {
