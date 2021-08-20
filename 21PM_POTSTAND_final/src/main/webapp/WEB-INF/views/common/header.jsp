@@ -326,10 +326,10 @@
     </c:if>
     </div>
    </div>
-		<div class="container flex flex-start p-5 mx-auto mt-20">
+		<div class="container flex flex-start p-5 mx-auto mt-24">
 	        <nav class="md:mr-auto flex w-full items-center text-base mt-5 pl-3">
 	          <a href="${path}" class="mr-5 hover:text-gray-900">HOME</a>
-	          <a href="${path}/book/booklist.do" class="mr-5 hover:text-gray-900">BOOK</a>
+	          <a href="${path}/book/sortBookList.do?sortNo=120" class="mr-5 hover:text-gray-900">BOOK</a>
 	          <a href="${path }/event/eventlist.do" class="mr-5 hover:text-gray-900">EVENT</a>
 	        </nav>
       	</div>
