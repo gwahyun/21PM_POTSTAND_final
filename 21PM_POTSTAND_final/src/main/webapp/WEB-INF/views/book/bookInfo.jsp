@@ -123,7 +123,7 @@
 		              		</c:if>
 	          	"/>
         </div>
-          	<div class="lg:w-3/4 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0">
+          	<div class="lg:w-3/4 w-full lg:pl-16 lg:py-6 mt-6 lg:mt-0">
             	<h2 class="text-sm title-font text-gray-500 tracking-widest"><c:out value="${bookInfo.getBookPub()}"/></h2>
             	<h1 class="text-gray-900 text-3xl title-font font-medium mb-1"><c:out value="${bookInfo.getBookTitle()}"/></h1>
             	<div class="flex mb-4">

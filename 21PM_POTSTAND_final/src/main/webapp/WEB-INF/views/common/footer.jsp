@@ -1,8 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>            
+    <c:set var="path" value="${pageContext.request.contextPath }"/>
     <footer class="text-gray-600 body-font">
-		<div class=" container px-5 py-24 mx-auto flex md:items-center lg:items-start md:flex-row md:flex-nowrap 
-		flex-wrap flex-col">
+		<div class=" container px-5 py-5 mx-auto flex md:items-center lg:items-start md:flex-row md:flex-nowrap 
+		flex-wrap flex-col justify-between">
 	        <div class="w-64 flex-shrink-0 md:mx-0 mx-auto text-center md:text-left">
 	           <button class=" inline-flex items-center bg-gray-100 border-0 py-1 px-3 focus:outline-none hover:bg-red-400 
 	          		hover:text-white rounded text-base mt-4 md:mt-0" onclick="location.assign('${pageContext.request.contextPath}/notice/noticeSelectList.do');">
@@ -12,80 +14,31 @@
 	              			<path d="M5 12h14M12 5l7 7-7 7"></path>
 	            		</svg>
           		</button>
-			</div>
-	        <div class="flex-grow flex flex-wrap md:pl-20 -mb-10 md:mt-0 mt-10 md:text-left text-center">
-	          	<div class="lg:w-1/4 md:w-1/2 w-full px-4">
+          	</div>
+	        <div class="md:pl-20 -mb-10 md:mt-0 mt-10 md:text-left flex justify-between">
+	          	<div class="lg:w-1/4 md:w-1/2 w-full px-4 mr-10">
 	            	<h2 class="title-font font-medium text-gray-900 tracking-widest text-sm mb-3">CATEGORIES</h2>
-	            	<nav class="list-none mb-10">
+	            </div>
+	            	<nav class="list-none mb-10 flex">
 		              	<li>
-		                	<a class="text-gray-600 hover:text-gray-800">First Link</a>
+		                	<a href="${path}" class="text-gray-600 hover:text-gray-800 mr-5">HOME</a>
 		              	</li>
 		              	<li>
-		                	<a class="text-gray-600 hover:text-gray-800">Second Link</a>
+		                	<a href="${path}/book/booklist.do"  class="text-gray-600 hover:text-gray-800 mr-5">BOOK</a>
 		              	</li>
 		              	<li>
-		                	<a class="text-gray-600 hover:text-gray-800">Third Link</a>
+		                	<a href="${path}/event/eventlist.do" class="text-gray-600 hover:text-gray-800 mr-5">EVENT</a>
 		              	</li>
 		              	<li>
-		                	<a class="text-gray-600 hover:text-gray-800">Fourth Link</a>
-		              	</li>
-	            	</nav>
-	          	</div>
-	          	<div class="lg:w-1/4 md:w-1/2 w-full px-4">
-	            	<h2 class=" title-font font-medium text-gray-900 tracking-widest text-sm mb-3">CATEGORIES</h2>
-	            	<nav class="list-none mb-10">
-		              	<li>
-		                	<a class="text-gray-600 hover:text-gray-800">First Link</a>
-		              	</li>
-		              	<li>
-		               	 	<a class="text-gray-600 hover:text-gray-800">Second Link</a>
-		              	</li>
-		              	<li>
-		                	<a class="text-gray-600 hover:text-gray-800">Third Link</a>
-		              	</li>
-		              	<li>
-		                	<a class="text-gray-600 hover:text-gray-800">Fourth Link</a>
-		              	</li>
-		            </nav>
-	          	</div>
-	          	<div class="lg:w-1/4 md:w-1/2 w-full px-4">
-	            	<h2 class="title-font font-medium text-gray-900 tracking-widest text-sm mb-3">CATEGORIES</h2>
-		            <nav class="list-none mb-10">
-		              	<li>
-		                	<a class="text-gray-600 hover:text-gray-800">First Link</a>
-		              	</li>
-		             	<li>
-		                	<a class="text-gray-600 hover:text-gray-800">Second Link</a>
-		              	</li>
-		              	<li>
-		                	<a class="text-gray-600 hover:text-gray-800">Third Link</a>
-		              	</li>
-		              	<li>
-		               	 	<a class="text-gray-600 hover:text-gray-800">Fourth Link</a>
-		              	</li>
-		            </nav>
-	          	</div>
-	          	<div class="lg:w-1/4 md:w-1/2 w-full px-4">
-	            	<h2 class=" title-font font-medium text-gray-900 tracking-widest text-sm mb-3">CATEGORIES</h2>
-	            	<nav class="list-none mb-10">
-		              	<li>
-		                	<a class="text-gray-600 hover:text-gray-800">First Link</a>
-		              	</li>
-		              	<li>
-		                	<a class="text-gray-600 hover:text-gray-800">Second Link</a>
-		              	</li>
-		              	<li>
-		                	<a class="text-gray-600 hover:text-gray-800">Third Link</a>
-		              	</li>
-		              	<li>
-		                	<a class="text-gray-600 hover:text-gray-800">Fourth Link</a>
+		                	<a href="${path}/member/memberLogin.do" class="text-gray-600 hover:text-gray-800 mr-5">SIGN IN</a>
 		              	</li>
 	            	</nav>
 	          	</div>
 			</div>
 		</div>
-      	<div class="bg-gray-100">
-        	<div class=" container mx-auto py-4 px-5 flex flex-wrap flex-col sm:flex-row">
+	</div>
+      	<div class="bg-gray-100 block">
+        	<div class=" container w-full py-4 px-5 flex flex-wrap flex-col sm:flex-row">
           		<p class="text-gray-500 text-sm text-center sm:text-left">
             		© 2021 getJob()—
             		<a href="https://twitter.com/knyttneve" rel="noopener noreferrer" class="text-gray-600 ml-1" 
@@ -122,7 +75,6 @@
             		</a>
           		</span>
         	</div>
-		</div>
 	</footer>
 </body>
 </html>
