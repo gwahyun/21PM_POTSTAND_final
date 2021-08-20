@@ -407,16 +407,16 @@
     for (var i = 0; i < openmodal2.length; i++) {
       openmodal2[i].addEventListener('click', function(event){
     	event.preventDefault()
-    	toggleModal()
+    	toggleModal2()
       })
     }
     
     const overlay2 = document.querySelector('.modal-overlay2')
-    overlay2.addEventListener('click', toggleModal)
+    overlay2.addEventListener('click', toggleModal2)
     
     var closemodal2 = document.querySelectorAll('.modal-close2')
     for (var i = 0; i < closemodal2.length; i++) {
-      closemodal2[i].addEventListener('click', toggleModal)
+      closemodal2[i].addEventListener('click', toggleModal2)
     }
     
     document.onkeydown = function(evt) {
@@ -428,12 +428,12 @@
     	isEscape = (evt.keyCode === 27)
       }
       if (isEscape && document.body.classList.contains('modal-active2')) {
-    	toggleModal()
+    	toggleModal2()
       }
     };
     
     
-    function toggleModal () {
+    function toggleModal2 () {
       const body = document.querySelector('body')
       const modal2 = document.querySelector('.modal2')
       modal2.classList.toggle('opacity-0')
