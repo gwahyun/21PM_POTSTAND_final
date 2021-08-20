@@ -733,7 +733,7 @@ function fn_priceCalc(){
       })
     }
     
-    const overlay2 = document.querySelector('.modal-overlay')
+    const overlay = document.querySelector('.modal-overlay')
     overlay.addEventListener('click', toggleModal)
     
     var closemodal = document.querySelectorAll('.modal-close')

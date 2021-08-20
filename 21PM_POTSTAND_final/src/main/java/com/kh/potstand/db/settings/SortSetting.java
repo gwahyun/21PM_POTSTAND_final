@@ -56,11 +56,9 @@ public class SortSetting {
 			switch(arr[0].length()) {
 				case 3: lv1.put(arr[0], arr[1]); 
 						break;
-				case 6: arr[0]=arr[0].substring(0,6);
-						lv2.put(arr[0], arr[1]); 
+				case 6: lv2.put(arr[0], arr[1]); 
 						break;
-				case 9: arr[0]=arr[0].substring(0,9);
-						lv3.put(arr[0], arr[1]); 
+				case 9: lv3.put(arr[0], arr[1]); 
 						break;
 				case 12: lv4.put(arr[0], arr[1]); 
 						 break;
