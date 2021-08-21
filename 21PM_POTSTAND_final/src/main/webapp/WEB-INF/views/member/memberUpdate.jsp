@@ -150,10 +150,10 @@
 	        					<h3 class="text-lg font-bold">성별</h3>
 		        			</div>
 		        			<div class="w-full border p-2 px-3 flex content-center">
-		        				<c:if test="${loginMember.memberGender eq 'm' }">
+		        				<c:if test="${loginMember.memberGender eq 'M' }">
 		                            	<c:set value="checked" var="mChecked"/>
 		                        </c:if>
-		                        <c:if test="${loginMember.memberGender eq 'f' }">
+		                        <c:if test="${loginMember.memberGender eq 'F' }">
 		                            	<c:set value="checked" var="fChecked"/>
 		                        </c:if>
 		                        <div>
