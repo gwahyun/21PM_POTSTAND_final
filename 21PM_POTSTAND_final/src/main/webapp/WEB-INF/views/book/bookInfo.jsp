@@ -325,7 +325,12 @@
           		<div id="review__star" class="flex flex-col text-center mr-5">
           			<h4 class="text-lg">구매자 별점</h4>
           			<div class="text-center text-4xl text-black font-bold m-2"><h2>${reviewAvg }</h2></div>
-          			<div class="flex m-2">
+          			<div class="flex justify-center m-2">
+          				<c:if test="${reviewAvg==0 }">
+		        			<c:forEach begin="0" end="4">
+		        				<img src="${path}/resources/img/star_off.png" alt="" class="w-4 h-4 mr-1">
+		        			</c:forEach>
+		        		</c:if>
           				<c:if test="${reviewAvg==1 }">
 		        			<img src="${path}/resources/img/star_on.png" alt="" class="w-4 h-4 mr-1">
 		        			<c:forEach begin="0" end="3">
