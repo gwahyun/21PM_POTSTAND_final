@@ -150,7 +150,7 @@ public class OrderDaoImpl implements OrderDao{
 		//포인트 추가
 		session.insert("order.insertPoint",param);
 		//사용포인트 추가
-		if(param.get("point_using")!=null) {
+		if(param.get("point_using")!=null&&Integer.parseInt((String)param.get("point_using"))!=0) {
 			session.insert("order.insertUsingPoint",param);
 		}
 		
